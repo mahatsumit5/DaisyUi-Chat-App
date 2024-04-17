@@ -1,9 +1,15 @@
+import ChatMenu from "./components/ChatMenu";
+import Chatbox from "./components/Chatbox";
+import Sidebar from "./components/Sidebar";
+
 export default function App() {
   return (
-    <div className="h-screen bg-slate-600">
-      <button className="inline-block cursor-pointer rounded-md bg-gray-800 px-4 py-3 text-center text-sm font-semibold uppercase text-white transition duration-200 ease-in-out hover:bg-gray-900">
-        Button
-      </button>
+    <div className="h-screen bg-slate-900 flex justify-center items-center py-10">
+      <div className="bg-slate-200 w-[80%] h-full rounded-md flex p-5 gap-2">
+        <Sidebar />
+        <ChatMenu />
+        <Chatbox />
+      </div>
     </div>
   );
 }
