@@ -1,7 +1,21 @@
-import React from "react";
+import { PiTelegramLogoFill } from "react-icons/pi";
 import { CiSearch } from "react-icons/ci";
 import { IoIosMore } from "react-icons/io";
+import { useEffect, useState } from "react";
+import { socket } from "../socket";
+import { useAppSelector } from "../hook";
 function Chatbox() {
+  const { _id } = useAppSelector((store) => store.currentRoom);
+  const [test, settest] = useState("");
+  const [message, setMessage] = useState<string>("");
+  useEffect(() => {
+    socket.on("connect", () => settest("your id is  " + socket.id));
+    socket.on("send_message_client", (message) => settest(message));
+  }, []);
+  function handleSend() {
+    socket.emit("send_message", message, _id);
+    setMessage("");
+  }
   return (
     <div className="flex flex-col gap-2 w-full">
       <header className="bg-white w-full rounded-xl p-3 flex justify-between">
@@ -28,6 +42,24 @@ function Chatbox() {
           </button>
         </div>
       </header>
+      <section className="bg-white h-full rounded-xl p-4 flex flex-col gap-5 overflow-y-auto">
+        {_id}
+        {test}
+      </section>
+      <section className=" h-11   flex  gap-2 ">
+        <input
+          className="w-full h-full p-3 rounded-xl bg-white"
+          placeholder="Write your message "
+          onChange={(e) => setMessage(e.target.value)}
+          value={message}
+        />
+        <button
+          className="bg-red-600  flex justify-center items-center rounded-xl w-14"
+          onClick={handleSend}
+        >
+          <PiTelegramLogoFill color="white" size={20} />
+        </button>
+      </section>
     </div>
   );
 }

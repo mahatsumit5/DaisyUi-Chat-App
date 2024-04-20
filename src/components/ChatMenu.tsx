@@ -1,12 +1,20 @@
-import React from "react";
+import { user } from "../dummy_data";
+import { useAppDispatch } from "../hook";
+import { joinRoom } from "../redux-slice/JoinRoom";
+import { socket } from "../socket";
 
 function ChatMenu() {
+  const dispatch = useAppDispatch();
+  function handleClick(_id: string) {
+    socket.emit("join-room", _id);
+    dispatch(joinRoom(_id));
+  }
   return (
     <div className="flex flex-col gap-2 w-[35%] ">
       <header className="flex bg-white rounded-xl gap-2 justify-between p-4 items-center">
         <h1 className="text-2xl text-black font-bold">Chat</h1>
         <div>
-          <label className="input  flex items-center gap-2">
+          <label className="input input-ghost   flex items-center gap-2">
             <input type="text" className="" placeholder="Search" />
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -22,7 +30,7 @@ function ChatMenu() {
             </svg>
           </label>
         </div>
-        <button className="btn btn-circle btn-outline">
+        <button className="btn btn-circle btn-ghost">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
@@ -39,7 +47,36 @@ function ChatMenu() {
           </svg>
         </button>{" "}
       </header>
-      <section className="bg-white h-full rounded-xl p-4">asdf</section>
+      <section className="bg-white h-full rounded-xl p-4 flex flex-col gap-5 overflow-y-auto">
+        {user.map((item) => (
+          <div
+            className="flex justify-between border-b p-2 hover:bg-slate-200"
+            onClick={() => {
+              handleClick(item._id);
+            }}
+          >
+            <div className="flex gap-3">
+              <div className="avatar offline">
+                <div className="w-10 rounded-full">
+                  <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                </div>
+              </div>
+              <div className="flex flex-col ">
+                <p className="text-black font-bold text-sm">
+                  {item.fName}&nbsp;
+                  {item.lName}
+                </p>
+                <p className="text-sm">Hellow, How are ya?</p>
+              </div>
+            </div>
+            {/* Date and notification */}
+            <div className="flex flex-col items-end">
+              <p>10:27 AM</p>
+              {/* <span className="rounded-full bg-red-900 w-5 text-white">1</span> */}
+            </div>
+          </div>
+        ))}
+      </section>
     </div>
   );
 }
