@@ -1,20 +1,20 @@
 import { Route, Routes } from "react-router-dom";
-import ChatMenu from "./components/ChatMenu";
-import Chatbox from "./components/Chatbox";
-import Sidebar from "./components/Sidebar";
+
+import { SignIn } from "./pages/Sign-in";
+import { SignUp } from "./pages/SignUp";
+import ChatPage from "./pages/ChatPage";
+import ForgotPassword from "./pages/ForgotPassword";
 
 export default function App() {
   return (
     <>
-      <Routes>
-        <Route path="/" element={<p>Signin</p>} />
-      </Routes>
-      <div className="h-screen bg-slate-900 flex justify-center items-center py-10">
-        <div className="bg-slate-200 w-[80%] h-full rounded-md flex p-5 gap-2">
-          <Sidebar />
-          <ChatMenu />
-          <Chatbox />
-        </div>
+      <div className=" bg-slate-900 flex justify-center items-center ">
+        <Routes>
+          <Route path="/" element={<SignIn />} />
+          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/chat" element={<ChatPage />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+        </Routes>
       </div>
     </>
   );
