@@ -1,9 +1,13 @@
 import { FormEvent, useState } from "react";
 import { FaArrowUp, FaFacebookSquare } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../hook";
+import { loginAction } from "../action/user.action";
 
 export function SignIn() {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [form, setform] = useState<{ email: string; password: string }>({
     email: "",
     password: "",
@@ -15,7 +19,7 @@ export function SignIn() {
   }
   function onSubmit(e: FormEvent) {
     e.preventDefault();
-    console.log(form);
+    dispatch(loginAction(form, navigate));
   }
   return (
     <div className=" w-full  flex sm:flex-row flex-col">
@@ -62,7 +66,7 @@ export function SignIn() {
             </button>
           </form>
         </div>
-        <span className=" w-full flex justify-center">
+        <span className=" w-full flex justify-center sm:hidden ">
           <FaArrowUp className="animate-bounce text-center" size={30} />
         </span>
       </div>
