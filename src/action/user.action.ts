@@ -25,3 +25,10 @@ export const signUpAction = async (form: object) => {
   const { status } = await signUpUser(form);
   return status;
 };
+
+export const autoLogin = () => async (dispatch: AppDispatch) => {
+  const token = sessionStorage.getItem("accessJWT");
+  if (token) {
+    dispatch(getUserAction());
+  }
+};

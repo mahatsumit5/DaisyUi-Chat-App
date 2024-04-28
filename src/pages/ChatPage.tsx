@@ -4,10 +4,13 @@ import Chatbox from "../components/Chatbox";
 
 function ChatPage() {
   return (
-    <div className="bg-slate-200 w-[80%] h-full rounded-md flex p-5 gap-2">
+    <div className="bg-slate-200 w-full lg:w-[80%] h-[100vh] rounded-md flex px-5 py-5 gap-2">
+      {" "}
       <Sidebar />
       <ChatMenu />
-      <Chatbox />
+      <div className="hidden lg:block w-full">
+        <Chatbox />
+      </div>
     </div>
   );
 }

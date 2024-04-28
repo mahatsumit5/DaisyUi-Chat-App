@@ -5,7 +5,7 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { RiDeleteBin5Line } from "react-icons/ri";
 function Sidebar() {
   return (
-    <div className="bg-slate-900 p-5 rounded-2xl text-white flex flex-col justify-between w-24 items-center">
+    <div className="bg-slate-900 p-5 rounded-2xl text-white sm:flex flex-col justify-between w-24 items-center hidden ">
       <div>
         <PiStarFourFill size={35} color="red" />
       </div>

@@ -17,7 +17,7 @@ function Chatbox() {
     setMessage("");
   }
   return (
-    <div className="flex flex-col gap-2 w-full">
+    <div className="flex flex-col gap-2 w-full h-full">
       <header className="bg-white w-full rounded-xl p-3 flex justify-between">
         <div className="flex gap-3">
           <div className="avatar online">
@@ -42,7 +42,7 @@ function Chatbox() {
           </button>
         </div>
       </header>
-      <section className="bg-white h-full rounded-xl p-4 flex flex-col gap-5 overflow-y-auto">
+      <section className="bg-white  rounded-xl p-4 flex flex-col gap-5 overflow-y-auto flex-1">
         {_id}
         {test}
       </section>
