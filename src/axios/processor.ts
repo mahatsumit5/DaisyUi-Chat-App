@@ -1,6 +1,6 @@
 import axios from "axios";
 export const rootApi = !import.meta.env.PROD
-  ? "http://localhost:8080"
+  ? "http://192.168.20.13:8080"
   : "your server domain";
 
 type config = {

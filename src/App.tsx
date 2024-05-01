@@ -7,7 +7,8 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Privatelayout from "./components/Privatelayout";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "./hook";
-import { autoLogin } from "./action/user.action";
+import { autoLogin, getAllUsersAction } from "./action/user.action";
+import Friends from "./pages/Friends";
 
 export default function App() {
   const { user } = useAppSelector((store) => store.user);
@@ -15,6 +16,7 @@ export default function App() {
   useEffect(() => {
     if (user.id) return;
     dispatch(autoLogin());
+    dispatch(getAllUsersAction());
   }, [dispatch, user]);
   return (
     <>
@@ -27,6 +29,14 @@ export default function App() {
             element={
               <Privatelayout>
                 <ChatPage />
+              </Privatelayout>
+            }
+          />
+          <Route
+            path="/friends"
+            element={
+              <Privatelayout>
+                <Friends />
               </Privatelayout>
             }
           />

@@ -25,3 +25,11 @@ export const signUpUser = async (form: object) => {
     url: `${url}/sign-up`,
   });
 };
+
+export const getAllUsers = async () => {
+  return axiosProcessor({
+    method: "get",
+    isPrivate: true,
+    url: `${url}/all-users`,
+  });
+};

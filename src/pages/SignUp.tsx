@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { signUpAction } from "../action/user.action";
@@ -10,6 +10,7 @@ export function SignUp() {
     email: "",
     password: "",
     ConfirmPassword: "",
+    lName: "",
   });
   function onChange(e: FormEvent<HTMLInputElement>) {
     const { name, value } = e.currentTarget;

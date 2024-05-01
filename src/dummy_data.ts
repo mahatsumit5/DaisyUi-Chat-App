@@ -60,3 +60,66 @@ export const user = [
     email: "liamwilson@example.com",
   },
 ];
+
+export const users = [
+  {
+    email: "john.doe@example.com",
+    password: "password123",
+    fName: "John",
+    lName: "Doe",
+  },
+  {
+    email: "jane.smith@example.com",
+    password: "abc123",
+    fName: "Jane",
+    lName: "Smith",
+  },
+  {
+    email: "michael.jackson@example.com",
+    password: "smoothcriminal",
+    fName: "Michael",
+    lName: "Jackson",
+  },
+  {
+    email: "sarah.connor@example.com",
+    password: "terminator",
+    fName: "Sarah",
+    lName: "Connor",
+  },
+  {
+    email: "elon.musk@example.com",
+    password: "spacex123",
+    fName: "Elon",
+    lName: "Musk",
+  },
+  {
+    email: "ada.lovelace@example.com",
+    password: "programming101",
+    fName: "Ada",
+    lName: "Lovelace",
+  },
+  {
+    email: "albert.einstein@example.com",
+    password: "e=mc2",
+    fName: "Albert",
+    lName: "Einstein",
+  },
+  {
+    email: "marie.curie@example.com",
+    password: "radium",
+    fName: "Marie",
+    lName: "Curie",
+  },
+  {
+    email: "leonardo.davinci@example.com",
+    password: "renaissance",
+    fName: "Leonardo",
+    lName: "da Vinci",
+  },
+  {
+    email: "cleopatra@example.com",
+    password: "pharaoh",
+    fName: "Cleopatra",
+    lName: "VII",
+  },
+];

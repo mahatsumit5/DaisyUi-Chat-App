@@ -3,6 +3,7 @@ import { user } from "../dummy_data";
 import { useAppDispatch } from "../hook";
 import { joinRoom } from "../redux-slice/JoinRoom";
 import { socket } from "../socket";
+import MobileDrawer from "./MobileDrawer";
 
 function ChatMenu() {
   const dispatch = useAppDispatch();
@@ -14,9 +15,8 @@ function ChatMenu() {
     <div className="flex flex-col gap-2 lg:w-[35%] w-full ">
       <header className="flex bg-white rounded-xl  justify-between p-4 items-center overflow-hidden">
         <div className="flex gap-5">
-          <button className="block sm:hidden">
-            <FaHamburger size={25} color="blue" />
-          </button>
+          <MobileDrawer />
+
           <h1 className="text-2xl text-black font-bold">Chat</h1>
         </div>
 

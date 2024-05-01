@@ -1,7 +1,13 @@
 import { NavigateFunction } from "react-router-dom";
-import { getUser, loginUser, signUpUser } from "../axios/user.axios";
+import {
+  getAllUsers,
+  getUser,
+  loginUser,
+  signUpUser,
+} from "../axios/user.axios";
 import { setUser } from "../redux-slice/user.slice";
 import { AppDispatch } from "../store";
+import { setAllUsers } from "../redux-slice/AllUsers.slice";
 
 export const loginAction =
   (form: { email: string; password: string }, navigate: NavigateFunction) =>
@@ -21,7 +27,12 @@ export const getUserAction = () => async (dispatch: AppDispatch) => {
   dispatch(setUser(data));
 };
 
-export const signUpAction = async (form: object) => {
+export const signUpAction = async (form: {
+  email: string;
+  password: string;
+  fName: string;
+  lName: string;
+}) => {
   const { status } = await signUpUser(form);
   return status;
 };
@@ -31,4 +42,10 @@ export const autoLogin = () => async (dispatch: AppDispatch) => {
   if (token) {
     dispatch(getUserAction());
   }
+};
+
+export const getAllUsersAction = () => async (dispatch: AppDispatch) => {
+  const { status, data } = await getAllUsers();
+  console.log(status);
+  dispatch(setAllUsers(data));
 };
