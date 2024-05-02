@@ -8,7 +8,7 @@ import MobileDrawer from "./MobileDrawer";
 function ChatMenu() {
   const dispatch = useAppDispatch();
   function handleClick(_id: string) {
-    socket.emit("join-room", _id);
+    // socket.emit("join-room", _id);
     dispatch(joinRoom(_id));
   }
   return (

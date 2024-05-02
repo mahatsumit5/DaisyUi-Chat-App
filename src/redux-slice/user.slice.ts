@@ -6,7 +6,7 @@ interface initialState {
 }
 
 const initialState: initialState = {
-  user: { fName: "", id: "", lName: "" },
+  user: { fName: "", id: "", lName: "", email: "", profile: "" },
 };
 export const userSlice = createSlice({
   name: "user",

@@ -9,14 +9,24 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "./hook";
 import { autoLogin, getAllUsersAction } from "./action/user.action";
 import Friends from "./pages/Friends";
+import { socket } from "./socket";
+import {
+  getFriendReqAction,
+  getSentFriendReqAction,
+} from "./action/friendReq.actions";
 
 export default function App() {
+  useEffect(() => {
+    socket.on("connect", () => {});
+  }, []);
   const { user } = useAppSelector((store) => store.user);
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (user.id) return;
     dispatch(autoLogin());
     dispatch(getAllUsersAction());
+    dispatch(getFriendReqAction());
+    dispatch(getSentFriendReqAction());
   }, [dispatch, user]);
   return (
     <>

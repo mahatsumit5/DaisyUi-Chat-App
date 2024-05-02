@@ -2,11 +2,13 @@ import { configureStore } from "@reduxjs/toolkit";
 import roomReducer from "./redux-slice/JoinRoom";
 import userInfoReducer from "./redux-slice/user.slice";
 import allUsersreducer from "./redux-slice/AllUsers.slice";
+import friendReqReducer from "./redux-slice/friendReq.slice";
 export const store = configureStore({
   reducer: {
     currentRoom: roomReducer,
     user: userInfoReducer,
     allUsers: allUsersreducer,
+    friendRequest: friendReqReducer,
   },
 });
 

@@ -1,19 +1,12 @@
 import { PiTelegramLogoFill } from "react-icons/pi";
 import { CiSearch } from "react-icons/ci";
 import { IoIosMore } from "react-icons/io";
-import { useEffect, useState } from "react";
-import { socket } from "../socket";
-import { useAppSelector } from "../hook";
+import { useState } from "react";
 function Chatbox() {
-  const { _id } = useAppSelector((store) => store.currentRoom);
-  const [test, settest] = useState("");
+  // const { _id } = useAppSelector((store) => store.currentRoom);
   const [message, setMessage] = useState<string>("");
-  useEffect(() => {
-    socket.on("connect", () => settest("your id is  " + socket.id));
-    socket.on("send_message_client", (message) => settest(message));
-  }, []);
+
   function handleSend() {
-    socket.emit("send_message", message, _id);
     setMessage("");
   }
   return (
@@ -42,10 +35,7 @@ function Chatbox() {
           </button>
         </div>
       </header>
-      <section className="bg-white  rounded-xl p-4 flex flex-col gap-5 overflow-y-auto flex-1">
-        {_id}
-        {test}
-      </section>
+      <section className="bg-white  rounded-xl p-4 flex flex-col gap-5 overflow-y-auto flex-1"></section>
       <section className=" h-11   flex  gap-2 ">
         <input
           className="w-full h-full p-3 rounded-xl bg-white"

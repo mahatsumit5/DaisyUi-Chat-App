@@ -46,6 +46,5 @@ export const autoLogin = () => async (dispatch: AppDispatch) => {
 
 export const getAllUsersAction = () => async (dispatch: AppDispatch) => {
   const { status, data } = await getAllUsers();
-  console.log(status);
   dispatch(setAllUsers(data));
 };
