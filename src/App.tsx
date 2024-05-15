@@ -14,6 +14,8 @@ import {
   getFriendReqAction,
   getSentFriendReqAction,
 } from "./action/friendReq.actions";
+import { getChatRoomAction } from "./action/chatRoom.action";
+import Login from "./pages/Login";
 
 export default function App() {
   useEffect(() => {
@@ -27,12 +29,14 @@ export default function App() {
     dispatch(getAllUsersAction());
     dispatch(getFriendReqAction());
     dispatch(getSentFriendReqAction());
+    dispatch(getChatRoomAction(user.id));
   }, [dispatch, user]);
   return (
     <>
       <div className=" bg-slate-900 flex justify-center items-center ">
         <Routes>
           <Route path="/" element={<SignIn />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route
             path="/chat"

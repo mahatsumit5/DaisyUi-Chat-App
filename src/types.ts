@@ -4,6 +4,7 @@ export interface IUser {
   lName: string;
   profile: string | null;
   email: string;
+  isActive: boolean;
 }
 
 export interface ISentReq {
@@ -25,4 +26,9 @@ export interface IFriendReq {
     email: string;
     id: string;
   };
+}
+
+export interface IChatRoom {
+  id: string;
+  user: IUser[];
 }

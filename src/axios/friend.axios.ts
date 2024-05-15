@@ -30,3 +30,11 @@ export const deleteSentRequest = (fromId: string, toId: string) => {
     url: `${rootApi}/api/v1/friend/${fromId}/${toId}`,
   });
 };
+export const acceptFriendReq = (fromId: string, toId: string) => {
+  return axiosProcessor({
+    method: "patch",
+    isPrivate: true,
+    url: `${rootApi}/api/v1/friend`,
+    obj: { fromId, toId },
+  });
+};

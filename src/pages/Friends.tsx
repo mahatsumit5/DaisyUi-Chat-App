@@ -1,14 +1,15 @@
 import { useState } from "react";
 import AllPeoples from "../components/Friends/AllPeoples";
 import FriendReq from "../components/Friends/FriendReq";
+import YourFriends from "../components/Friends/Friends";
 
 function Friends() {
   const [display, setDisplay] = useState<"people" | "friends" | "Request">(
-    "people"
+    "friends"
   );
   const displayComponent = {
     people: <AllPeoples />,
-    friends: <p>Your Frinds</p>,
+    friends: <YourFriends />,
     Request: <FriendReq />,
   };
   return (

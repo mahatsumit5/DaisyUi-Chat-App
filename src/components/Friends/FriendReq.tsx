@@ -1,12 +1,22 @@
 import { TiDelete, TiTick } from "react-icons/ti";
-import { useAppSelector } from "../../hook";
+import { useAppDispatch, useAppSelector } from "../../hook";
+import {
+  acceptFriendReqAction,
+  deleteFriendReqAction,
+} from "../../action/friendReq.actions";
 
 function FriendReq() {
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector((store) => store.user);
   const { friendReq } = useAppSelector((store) => store.friendRequest);
 
-  async function acceptFriendReq() {}
+  async function acceptFriendReq(from: string) {
+    dispatch(acceptFriendReqAction(from, user.id));
+  }
 
-  async function rejectFriendReq() {}
+  async function rejectFriendReq(from: string) {
+    dispatch(deleteFriendReqAction(from, user.id));
+  }
   return (
     <>
       {friendReq.map((item, index) => (
@@ -35,10 +45,20 @@ function FriendReq() {
             </span>
           </div>
           <div className="flex items-center gap-5">
-            <button className="bg-slate-300 text-blue-700  rounded-lg hover:bg-slate-500 hover:text-white transition-all">
+            <button
+              className="bg-slate-300 text-blue-700  rounded-lg hover:bg-slate-500 hover:text-white transition-all"
+              onClick={() => {
+                acceptFriendReq(item.from.id);
+              }}
+            >
               <TiTick size={35} />
             </button>
-            <button className=" text-red-700 rounded-lg bg-slate-300 hover:bg-slate-500 hover:text-white transition-all">
+            <button
+              className=" text-red-700 rounded-lg bg-slate-300 hover:bg-slate-500 hover:text-white transition-all"
+              onClick={() => {
+                rejectFriendReq(item.from.id);
+              }}
+            >
               <TiDelete size={35} />
             </button>
           </div>

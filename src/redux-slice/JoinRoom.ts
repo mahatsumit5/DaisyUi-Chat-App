@@ -1,28 +1,34 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { IChatRoom, IUser } from "../types";
 
 interface currentRoomid {
   _id: string;
+  chatRoom: IChatRoom[];
+  friends: IUser[];
 }
 
 const initialState: currentRoomid = {
   _id: "",
+  chatRoom: [],
+  friends: [],
 };
 
 export const roomSlice = createSlice({
   name: "counter",
-  // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
     joinRoom: (state, { payload }: PayloadAction<string>) => {
-      console.log(payload);
       state._id = payload;
+    },
+    setAvailableRooms: (state, { payload }: PayloadAction<IChatRoom[]>) => {
+      state.chatRoom = payload;
+    },
+    setFriends: (state, { payload }: PayloadAction<IUser[]>) => {
+      state.friends = payload;
     },
   },
 });
 
-export const { joinRoom } = roomSlice.actions;
-
-// Other code such as selectors can use the imported `RootState` type
-
+export const { joinRoom, setAvailableRooms, setFriends } = roomSlice.actions;
 export default roomSlice.reducer;
