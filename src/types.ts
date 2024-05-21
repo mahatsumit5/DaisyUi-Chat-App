@@ -6,7 +6,17 @@ export interface IUser {
   email: string;
   isActive: boolean;
 }
-
+export interface Imessage {
+  id: string;
+  content: string;
+  createdAt: Date;
+  isSeen: boolean;
+  chatRoomId: string;
+  author: string;
+}
+export interface room extends IUser {
+  messages: Imessage[];
+}
 export interface ISentReq {
   status: string;
   to: {
@@ -30,5 +40,9 @@ export interface IFriendReq {
 
 export interface IChatRoom {
   id: string;
-  user: IUser[];
+  fName: string;
+  lName: string;
+  profile: string | null;
+  email: string;
+  isActive: boolean;
 }

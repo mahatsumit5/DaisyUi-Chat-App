@@ -3,10 +3,8 @@ import { TiMessages } from "react-icons/ti";
 import { CgMail } from "react-icons/cg";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { BsPeople } from "react-icons/bs";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 function Sidebar() {
-  const location = useLocation();
-  console.log(location.pathname);
   return (
     <div className="bg-slate-900 p-5 rounded-2xl text-white sm:flex flex-col justify-between w-24 items-center hidden ">
       <div>

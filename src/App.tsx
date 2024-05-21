@@ -9,7 +9,6 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "./hook";
 import { autoLogin, getAllUsersAction } from "./action/user.action";
 import Friends from "./pages/Friends";
-import { socket } from "./socket";
 import {
   getFriendReqAction,
   getSentFriendReqAction,
@@ -18,18 +17,15 @@ import { getChatRoomAction } from "./action/chatRoom.action";
 import Login from "./pages/Login";
 
 export default function App() {
-  useEffect(() => {
-    socket.on("connect", () => {});
-  }, []);
   const { user } = useAppSelector((store) => store.user);
   const dispatch = useAppDispatch();
   useEffect(() => {
-    if (user.id) return;
+    if (user?.id) return;
     dispatch(autoLogin());
     dispatch(getAllUsersAction());
     dispatch(getFriendReqAction());
     dispatch(getSentFriendReqAction());
-    dispatch(getChatRoomAction(user.id));
+    dispatch(getChatRoomAction());
   }, [dispatch, user]);
   return (
     <>

@@ -1,18 +1,26 @@
-import { FaHamburger } from "react-icons/fa";
-import { user } from "../dummy_data";
-import { useAppDispatch } from "../hook";
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../hook";
 import { joinRoom } from "../redux-slice/JoinRoom";
-import { socket } from "../socket";
+import { IUser } from "../types";
+import { socket } from "../utils/socket";
+
 import MobileDrawer from "./MobileDrawer";
 
 function ChatMenu() {
+  const { chatRoom } = useAppSelector((store) => store.currentRoom);
   const dispatch = useAppDispatch();
-  function handleClick(_id: string) {
-    // socket.emit("join-room", _id);
-    dispatch(joinRoom(_id));
+  const [message, setMessage] = useState({ message: "", id: "" });
+  function handleClick(friend: IUser) {
+    dispatch(joinRoom(friend));
   }
+
+  useEffect(() => {
+    const roomId = chatRoom.map((item) => item.id);
+    socket.emit("join-room", roomId);
+  }, [chatRoom]);
+
   return (
-    <div className="flex flex-col gap-2 lg:w-[35%] w-full ">
+    <>
       <header className="flex bg-white rounded-xl  justify-between p-4 items-center overflow-hidden">
         <div className="flex gap-5">
           <MobileDrawer />
@@ -61,11 +69,12 @@ function ChatMenu() {
         </div>
       </header>
       <section className="bg-white h-full rounded-xl p-4 flex flex-col gap-5 overflow-y-auto">
-        {user.map((item) => (
+        {chatRoom.map((item) => (
           <div
+            key={item.id}
             className="flex justify-between border-b p-2 hover:bg-slate-200"
             onClick={() => {
-              handleClick(item._id);
+              handleClick(item);
             }}
           >
             <div className="flex gap-3">
@@ -79,18 +88,27 @@ function ChatMenu() {
                   {item.fName}&nbsp;
                   {item.lName}
                 </p>
-                <p className="text-sm">Hellow, How are ya?</p>
+
+                {item.id === message.id ? (
+                  <p className="font-semibold text-black">{message.message}</p>
+                ) : (
+                  <p className="text-sm">asdfasf</p>
+                )}
               </div>
             </div>
             {/* Date and notification */}
             <div className="flex flex-col items-end">
-              <p>10:27 AM</p>
-              {/* <span className="rounded-full bg-red-900 w-5 text-white">1</span> */}
+              <p className="flex-1">10:27 AM</p>
+              {item.id === message.id && (
+                <span className="rounded-full  bg-red-400 text-sm  flex justify-center text-white w-6">
+                  1
+                </span>
+              )}
             </div>
           </div>
         ))}
       </section>
-    </div>
+    </>
   );
 }
 

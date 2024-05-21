@@ -2,11 +2,11 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IUser } from "../types";
 
 interface initialState {
-  user: IUser;
+  user: IUser | undefined;
 }
 
 const initialState: initialState = {
-  user: { fName: "", id: "", lName: "", email: "", profile: "" },
+  user: undefined,
 };
 export const userSlice = createSlice({
   name: "user",

@@ -1,34 +1,45 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { IChatRoom, IUser } from "../types";
+import { IChatRoom, IUser, Imessage, room } from "../types";
 
-interface currentRoomid {
-  _id: string;
+interface currentRoom {
+  currentRoom: room;
   chatRoom: IChatRoom[];
-  friends: IUser[];
 }
 
-const initialState: currentRoomid = {
-  _id: "",
+const initialState: currentRoom = {
+  currentRoom: {
+    id: "",
+    email: "",
+    fName: "",
+    isActive: false,
+    lName: "",
+    profile: "",
+    messages: [],
+  },
   chatRoom: [],
-  friends: [],
 };
 
 export const roomSlice = createSlice({
   name: "counter",
   initialState,
   reducers: {
-    joinRoom: (state, { payload }: PayloadAction<string>) => {
-      state._id = payload;
+    joinRoom: (state, { payload }: PayloadAction<IUser>) => {
+      state.currentRoom.id = payload.id;
+      state.currentRoom.email = payload.email;
+      state.currentRoom.fName = payload.fName;
+      state.currentRoom.isActive = payload.isActive;
+      state.currentRoom.lName = payload.lName;
+      state.currentRoom.profile = payload.profile;
     },
     setAvailableRooms: (state, { payload }: PayloadAction<IChatRoom[]>) => {
       state.chatRoom = payload;
     },
-    setFriends: (state, { payload }: PayloadAction<IUser[]>) => {
-      state.friends = payload;
+    setMessages: (state, { payload }: PayloadAction<Imessage[]>) => {
+      state.currentRoom.messages = payload;
     },
   },
 });
 
-export const { joinRoom, setAvailableRooms, setFriends } = roomSlice.actions;
+export const { joinRoom, setAvailableRooms, setMessages } = roomSlice.actions;
 export default roomSlice.reducer;

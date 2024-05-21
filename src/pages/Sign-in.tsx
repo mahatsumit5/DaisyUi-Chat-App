@@ -20,6 +20,7 @@ export function SignIn() {
   function onSubmit(e: FormEvent) {
     e.preventDefault();
     dispatch(loginAction(form, navigate));
+    navigate("/chat");
   }
   return (
     <div className=" w-full  flex sm:flex-row flex-col">

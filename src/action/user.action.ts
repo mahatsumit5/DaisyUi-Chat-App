@@ -23,7 +23,6 @@ export const loginAction =
 
 export const getUserAction = () => async (dispatch: AppDispatch) => {
   const { data } = await getUser();
-  console.log(data);
   dispatch(setUser(data));
 };
 
@@ -45,6 +44,6 @@ export const autoLogin = () => async (dispatch: AppDispatch) => {
 };
 
 export const getAllUsersAction = () => async (dispatch: AppDispatch) => {
-  const { status, data } = await getAllUsers();
+  const { data } = await getAllUsers();
   dispatch(setAllUsers(data));
 };
