@@ -3,9 +3,7 @@ import { socket } from "./socket";
 
 const useSocketSetup = () => {
   useEffect(() => {
-    socket.on("connect", () => {
-      console.log("connected");
-    });
+    socket.on("connect", () => {});
     socket.on("connect_error", (err) => {
       console.log(err.message);
     });

@@ -9,7 +9,7 @@ import { IoIosPersonAdd } from "react-icons/io";
 function AllPeoples() {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((store) => store.user);
-  const friends = useAppSelector((state) => state.allUsers);
+  const { allUsers } = useAppSelector((state) => state.allUsers);
   const { sentReq } = useAppSelector((state) => state.friendRequest);
 
   async function handleAddFriend(id: string) {
@@ -25,12 +25,12 @@ function AllPeoples() {
   }
 
   async function handleCancelReq(to: string) {
-    dispatch(deleteFriendReqAction(user.id!, to));
+    dispatch(deleteFriendReqAction(user?.id || "", to));
   }
 
   return (
     <>
-      {friends.map((user) => (
+      {allUsers.map((user) => (
         <div
           className="flex border-b-black p-3 bg-white rounded-lg justify-between"
           key={user.id}

@@ -1,4 +1,3 @@
-import { NavigateFunction } from "react-router-dom";
 import {
   getAllUsers,
   getUser,
@@ -10,15 +9,17 @@ import { AppDispatch } from "../store";
 import { setAllUsers } from "../redux-slice/AllUsers.slice";
 
 export const loginAction =
-  (form: { email: string; password: string }, navigate: NavigateFunction) =>
+  (form: { email: string; password: string }) =>
   async (dispatch: AppDispatch) => {
     const { status, token } = await loginUser(form);
     if (status === "success") {
       sessionStorage.setItem("accessJWT", token.accessJWT); ///active for 5mins
       localStorage.setItem("refreshJWT", token.refreshJWT); //active for 30days
       dispatch(getUserAction());
-      navigate("/chat");
+
+      return true;
     }
+    return false;
   };
 
 export const getUserAction = () => async (dispatch: AppDispatch) => {

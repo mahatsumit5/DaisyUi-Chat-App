@@ -17,6 +17,7 @@ function ChatMenu() {
   useEffect(() => {
     const roomId = chatRoom.map((item) => item.id);
     socket.emit("join-room", roomId);
+    setMessage({ id: "", message: "" });
   }, [chatRoom]);
 
   return (

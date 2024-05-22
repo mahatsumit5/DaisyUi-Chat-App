@@ -11,11 +11,11 @@ function FriendReq() {
   const { friendReq } = useAppSelector((store) => store.friendRequest);
 
   async function acceptFriendReq(from: string) {
-    dispatch(acceptFriendReqAction(from, user.id));
+    dispatch(acceptFriendReqAction(from, user?.id || ""));
   }
 
   async function rejectFriendReq(from: string) {
-    dispatch(deleteFriendReqAction(from, user.id));
+    dispatch(deleteFriendReqAction(from, user?.id || ""));
   }
   return (
     <>

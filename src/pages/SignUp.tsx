@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { signUpAction } from "../action/user.action";
@@ -37,7 +37,7 @@ export function SignUp() {
         <h1 className=" font-bold text-3xl pt-6">Sign Up</h1>
         <span className="text-gray-500">
           Already a member?&nbsp;
-          <Link to={"/sign-in"} className="underline text-blue-300">
+          <Link to={"/"} className="underline text-blue-300">
             Log In Now
           </Link>
           <form

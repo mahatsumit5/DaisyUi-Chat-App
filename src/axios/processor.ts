@@ -1,4 +1,5 @@
 import axios from "axios";
+import { AxiosError } from "axios";
 export const rootApi = !import.meta.env.PROD
   ? "http://localhost:8080"
   : "your server domain";
@@ -31,7 +32,8 @@ export async function axiosProcessor(config: config) {
       headers,
     });
     return data;
-  } catch (error) {
-    return error?.response.data;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: AxiosError | any) {
+    return error.response.data;
   }
 }

@@ -1,12 +1,12 @@
 import { useAppSelector } from "../../hook";
 
 function YourFriends() {
-  const { friends } = useAppSelector((store) => store.currentRoom);
+  const { chatRoom } = useAppSelector((store) => store.currentRoom);
   return (
     <div className="flex flex-col gap-2">
-      {friends.length ? (
+      {chatRoom.length ? (
         <>
-          {friends.map((user) => (
+          {chatRoom.map((user) => (
             <div
               className="flex border-b-black p-3 bg-white rounded-lg justify-between"
               key={user?.id}

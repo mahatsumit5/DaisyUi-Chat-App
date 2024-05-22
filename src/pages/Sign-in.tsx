@@ -1,11 +1,12 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { FaArrowUp, FaFacebookSquare } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../hook";
+import { useAppDispatch, useAppSelector } from "../hook";
 import { loginAction } from "../action/user.action";
 
 export function SignIn() {
+  const { user } = useAppSelector((store) => store.user);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [form, setform] = useState<{ email: string; password: string }>({
@@ -17,11 +18,15 @@ export function SignIn() {
 
     setform({ ...form, [name]: value });
   }
-  function onSubmit(e: FormEvent) {
+  async function onSubmit(e: FormEvent) {
     e.preventDefault();
-    dispatch(loginAction(form, navigate));
-    navigate("/chat");
+    const status = await dispatch(loginAction(form));
+    status && navigate("/chat");
   }
+
+  useEffect(() => {
+    if (user) navigate("/chat");
+  }, [navigate, user]);
   return (
     <div className=" w-full  flex sm:flex-row flex-col">
       <div className="sm:w-1/2 flex flex-col p-4 h-[100vh]">
@@ -39,6 +44,7 @@ export function SignIn() {
             <span className="border h-0 flex-1" />
             <p className="font-serif">or</p>
             <span className="border h-0 flex-1" />
+            <Link to={"/chat"}>chat</Link>
           </div>
           <form onSubmit={onSubmit} className="flex flex-col gap-5 w-full">
             <input
