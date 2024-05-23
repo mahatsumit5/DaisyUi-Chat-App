@@ -11,7 +11,6 @@ export const createRoomAction =
 export const getChatRoomAction = () => async (dispatch: AppDispatch) => {
   const { status, data } = await getChatRoom();
   if (status) {
-    console.log(data);
     dispatch(setAvailableRooms(data));
   }
 };

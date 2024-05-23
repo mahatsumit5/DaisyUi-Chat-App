@@ -13,13 +13,18 @@ function Chatbox() {
     if (!currentRoom.id) {
       return;
     }
-    dispatch(getMessageAction(currentRoom.id));
+    dispatch(getMessageAction(currentRoom.id, 15));
   }, [currentRoom.id, dispatch]);
 
   return (
     <div className="flex flex-col gap-2 w-full h-full">
       <MessageHeader currentRoom={currentRoom} />
-      <MessageBox messages={currentRoom.messages} userId={user?.id || ""} />
+      <MessageBox
+        messages={currentRoom.messages}
+        userId={user?.id || ""}
+        count={currentRoom.count}
+        roomId={currentRoom.id}
+      />
       <MessageInput id={currentRoom.id} userId={user?.id as string} />
     </div>
   );

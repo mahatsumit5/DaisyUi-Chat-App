@@ -5,6 +5,7 @@ import {
 } from "../../action/friendReq.actions";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import { IoIosPersonAdd } from "react-icons/io";
+import defaultImg from "../../assets/images/default-profile.jpg";
 
 function AllPeoples() {
   const dispatch = useAppDispatch();
@@ -40,7 +41,7 @@ function AllPeoples() {
             <div className="avatar">
               <div className="w-12">
                 <img
-                  src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                  src={user.profile || defaultImg}
                   className="rounded-full"
                 />
               </div>

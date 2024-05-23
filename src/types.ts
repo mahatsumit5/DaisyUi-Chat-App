@@ -16,6 +16,7 @@ export interface Imessage {
 }
 export interface room extends IUser {
   messages: Imessage[];
+  count: number;
 }
 export interface ISentReq {
   status: string;
@@ -45,4 +46,5 @@ export interface IChatRoom {
   profile: string | null;
   email: string;
   isActive: boolean;
+  lastMessage: string;
 }

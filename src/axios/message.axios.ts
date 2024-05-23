@@ -14,10 +14,17 @@ export const sendMessage = (data: {
   });
 };
 
-export const getMessageByuser = (roomid: string) => {
+export const getMessageByuser = (roomid: string, num: number) => {
   return axiosProcessor({
     isPrivate: true,
     method: "get",
-    url: url + "/" + roomid,
+    url: `${url}/${roomid}?num=${num}`,
+  });
+};
+export const getlastMessage = (roomid: string) => {
+  return axiosProcessor({
+    isPrivate: true,
+    method: "get",
+    url: url + "/last-message/" + roomid,
   });
 };

@@ -3,11 +3,15 @@ import { setMessages } from "../redux-slice/JoinRoom";
 import { AppDispatch } from "../store";
 
 export const getMessageAction =
-  (id: string) => async (dispatch: AppDispatch) => {
-    const { status, message, result } = await getMessageByuser(id);
-    console.log(status, message, result.messages);
+  (RoomId: string, num: number) => async (dispatch: AppDispatch) => {
+    const { status, result } = await getMessageByuser(RoomId, num);
     if (status) {
-      dispatch(setMessages(result.messages));
+      dispatch(
+        setMessages({
+          message: result.messages,
+          _count: result._count.messages,
+        })
+      );
     }
   };
 
@@ -28,6 +32,6 @@ export const postMessageAction =
       author,
     });
     if (status) {
-      dispatch(getMessageAction(roomId));
+      dispatch(getMessageAction(roomId, 15));
     }
   };

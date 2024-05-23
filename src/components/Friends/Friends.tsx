@@ -1,4 +1,5 @@
 import { useAppSelector } from "../../hook";
+import defaultImg from "../../assets/images/default-profile.jpg";
 
 function YourFriends() {
   const { chatRoom } = useAppSelector((store) => store.currentRoom);
@@ -16,7 +17,7 @@ function YourFriends() {
                 <div className="avatar">
                   <div className="w-12">
                     <img
-                      src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                      src={user.profile || defaultImg}
                       className="rounded-full"
                     />
                   </div>

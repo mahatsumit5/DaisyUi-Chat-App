@@ -16,6 +16,7 @@ const initialState: currentRoom = {
     lName: "",
     profile: "",
     messages: [],
+    count: 0,
   },
   chatRoom: [],
 };
@@ -35,8 +36,12 @@ export const roomSlice = createSlice({
     setAvailableRooms: (state, { payload }: PayloadAction<IChatRoom[]>) => {
       state.chatRoom = payload;
     },
-    setMessages: (state, { payload }: PayloadAction<Imessage[]>) => {
-      state.currentRoom.messages = payload;
+    setMessages: (
+      state,
+      { payload }: PayloadAction<{ message: Imessage[]; _count: number }>
+    ) => {
+      state.currentRoom.messages = payload.message;
+      state.currentRoom.count = payload._count;
     },
   },
 });

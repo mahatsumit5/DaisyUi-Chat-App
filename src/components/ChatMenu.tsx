@@ -1,15 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../hook";
 import { joinRoom } from "../redux-slice/JoinRoom";
 import { IUser } from "../types";
 import { socket } from "../utils/socket";
 
 import MobileDrawer from "./MobileDrawer";
-
+import defaultImg from "../assets/images/default-profile.jpg";
 function ChatMenu() {
   const { chatRoom } = useAppSelector((store) => store.currentRoom);
   const dispatch = useAppDispatch();
-  const [message, setMessage] = useState({ message: "", id: "" });
   function handleClick(friend: IUser) {
     dispatch(joinRoom(friend));
   }
@@ -17,7 +16,6 @@ function ChatMenu() {
   useEffect(() => {
     const roomId = chatRoom.map((item) => item.id);
     socket.emit("join-room", roomId);
-    setMessage({ id: "", message: "" });
   }, [chatRoom]);
 
   return (
@@ -81,7 +79,7 @@ function ChatMenu() {
             <div className="flex gap-3">
               <div className="avatar offline">
                 <div className="w-10 rounded-full">
-                  <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                  <img src={item.profile || defaultImg} />
                 </div>
               </div>
               <div className="flex flex-col ">
@@ -90,21 +88,15 @@ function ChatMenu() {
                   {item.lName}
                 </p>
 
-                {item.id === message.id ? (
-                  <p className="font-semibold text-black">{message.message}</p>
-                ) : (
-                  <p className="text-sm">asdfasf</p>
-                )}
+                <p className="font-semibold text-black">{item.lastMessage}</p>
               </div>
             </div>
             {/* Date and notification */}
             <div className="flex flex-col items-end">
               <p className="flex-1">10:27 AM</p>
-              {item.id === message.id && (
-                <span className="rounded-full  bg-red-400 text-sm  flex justify-center text-white w-6">
-                  1
-                </span>
-              )}
+              <span className="rounded-full  bg-red-400 text-sm  flex justify-center text-white w-6">
+                1
+              </span>
             </div>
           </div>
         ))}

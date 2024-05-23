@@ -1,4 +1,5 @@
 import axios from "axios";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { AxiosError } from "axios";
 export const rootApi = !import.meta.env.PROD
   ? "http://localhost:8080"

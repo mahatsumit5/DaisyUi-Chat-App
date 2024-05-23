@@ -14,7 +14,7 @@ import {
   getSentFriendReqAction,
 } from "./action/friendReq.actions";
 import { getChatRoomAction } from "./action/chatRoom.action";
-import Login from "./pages/Login";
+import Notification from "./pages/Notification";
 
 export default function App() {
   const { user } = useAppSelector((store) => store.user);
@@ -32,7 +32,6 @@ export default function App() {
       <div className=" bg-slate-900 flex justify-center items-center ">
         <Routes>
           <Route path="/" element={<SignIn />} />
-          <Route path="/login" element={<Login />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route
             path="/chat"
@@ -47,6 +46,14 @@ export default function App() {
             element={
               <Privatelayout>
                 <Friends />
+              </Privatelayout>
+            }
+          />
+          <Route
+            path="/notification"
+            element={
+              <Privatelayout>
+                <Notification />
               </Privatelayout>
             }
           />

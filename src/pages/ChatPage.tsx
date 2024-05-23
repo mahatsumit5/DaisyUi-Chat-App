@@ -9,8 +9,9 @@ function ChatPage() {
   const dispatch = useAppDispatch();
   const { currentRoom } = useAppSelector((store) => store.currentRoom);
   useEffect(() => {
-    socket.on("send_message_client", () => {
-      dispatch(getMessageAction(currentRoom.id));
+    socket.on("send_message_client", (data, id) => {
+      console.log(data, id);
+      dispatch(getMessageAction(id, 15));
     });
   }, [currentRoom.id, dispatch]);
   return (
