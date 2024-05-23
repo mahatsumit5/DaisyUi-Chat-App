@@ -1,34 +1,49 @@
-import { CiSearch } from "react-icons/ci";
 import { IoIosMore } from "react-icons/io";
-import { room } from "../../types";
+import { Iroom } from "../../types";
+import { Dispatch, SetStateAction } from "react";
 
-function MessageHeader({ currentRoom }: { currentRoom: room }) {
+function MessageHeader({
+  currentRoom,
+  setComponent,
+}: {
+  currentRoom: Iroom;
+  setComponent: Dispatch<SetStateAction<"profile" | "message">>;
+}) {
   return (
     <header className="bg-white w-full rounded-xl p-3 flex justify-between">
       <div className="flex gap-3">
         <button>Back</button>
         <div className="avatar online">
           <div className="w-14 rounded-full">
-            <img src={currentRoom.profile || ""} />
+            <img
+              src={
+                currentRoom.profile ||
+                "https://gratisography.com/wp-content/uploads/2024/01/gratisography-cyber-kitty-800x525.jpg"
+              }
+            />
           </div>
         </div>
-        <div className="flex flex-col">
-          <p className="text-black font-bold text-sm">
-            {currentRoom.fName}
+        <div className="flex flex-col items-center justify-center">
+          <p className="text-black font-bold ">
+            {currentRoom.fName}&nbsp;
             {currentRoom.lName}
           </p>
-          <p className="text-sm">Online</p>
+          {/* <p className="text-sm">Online</p> */}
         </div>
       </div>
-      <div className="flex gap-2 justify-between items-center">
-        <button className="btn  rounded-full btn-sm">Profile</button>
-        <button className="btn btn-neutral rounded-full btn-sm">Call</button>
-        <div className="divider divider-horizontal" />
-        <button className="">
-          <CiSearch />
+      <div className="flex gap-2 justify-between items-center pr-5">
+        <button
+          className="btn btn-ghost btn-sm text-white bg-blue-400 rounded-full "
+          onClick={() => {
+            setComponent("profile");
+          }}
+        >
+          Profile
         </button>
+        <div className="divider divider-horizontal" />
+
         <button>
-          <IoIosMore />
+          <IoIosMore size={30} />
         </button>
       </div>
     </header>

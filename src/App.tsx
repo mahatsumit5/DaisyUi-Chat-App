@@ -15,6 +15,7 @@ import {
 } from "./action/friendReq.actions";
 import { getChatRoomAction } from "./action/chatRoom.action";
 import Notification from "./pages/Notification";
+import Dialog from "./components/modal/Dialog";
 
 export default function App() {
   const { user } = useAppSelector((store) => store.user);
@@ -59,6 +60,7 @@ export default function App() {
           />
           <Route path="/forgot-password" element={<ForgotPassword />} />
         </Routes>
+        <Dialog />
       </div>
     </>
   );

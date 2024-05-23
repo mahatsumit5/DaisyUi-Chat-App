@@ -1,16 +1,20 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../hook";
-import { joinRoom } from "../redux-slice/JoinRoom";
-import { IUser } from "../types";
+import { IChatRoom } from "../types";
 import { socket } from "../utils/socket";
 
 import MobileDrawer from "./MobileDrawer";
 import defaultImg from "../assets/images/default-profile.jpg";
+import { getMessageAction } from "../action/message.action";
+import { messageSeenStatus } from "../axios/message.axios";
+import { replaceLastMessageInSpecificRoom } from "../redux-slice/room.slice";
 function ChatMenu() {
-  const { chatRoom } = useAppSelector((store) => store.currentRoom);
+  const { chatRoom } = useAppSelector((store) => store.rooms);
+  const { user } = useAppSelector((store) => store.user);
   const dispatch = useAppDispatch();
-  function handleClick(friend: IUser) {
-    dispatch(joinRoom(friend));
+  function handleClick(room: IChatRoom) {
+    dispatch(getMessageAction(room, 15));
+    messageSeenStatus({ author: user?.id || "", roomid: room.id });
   }
 
   useEffect(() => {
@@ -18,6 +22,11 @@ function ChatMenu() {
     socket.emit("join-room", roomId);
   }, [chatRoom]);
 
+  useEffect(() => {
+    socket.on("send_message_client", (data, id) => {
+      dispatch(replaceLastMessageInSpecificRoom({ message: data, roomId: id }));
+    });
+  }, [dispatch]);
   return (
     <>
       <header className="flex bg-white rounded-xl  justify-between p-4 items-center overflow-hidden">
@@ -88,15 +97,30 @@ function ChatMenu() {
                   {item.lName}
                 </p>
 
-                <p className="font-semibold text-black">{item.lastMessage}</p>
+                <p
+                  className={`${
+                    item.isLastMessageSeen
+                      ? ``
+                      : `${
+                          item.lastmessageAuthor !== user?.id
+                            ? "text-black font-semibold"
+                            : ""
+                        }`
+                  }  line-clamp-1`}
+                >
+                  {item.lastMessage}
+                </p>
               </div>
             </div>
             {/* Date and notification */}
             <div className="flex flex-col items-end">
               <p className="flex-1">10:27 AM</p>
-              <span className="rounded-full  bg-red-400 text-sm  flex justify-center text-white w-6">
-                1
-              </span>
+              {!item.isLastMessageSeen &&
+                item.lastmessageAuthor !== user?.id && (
+                  <span className="rounded-full  bg-red-400 text-sm  flex justify-center text-white w-6">
+                    {item.unSeenMessageCount !== 0 && item.unSeenMessageCount}
+                  </span>
+                )}
             </div>
           </div>
         ))}

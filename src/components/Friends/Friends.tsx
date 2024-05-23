@@ -1,8 +1,17 @@
-import { useAppSelector } from "../../hook";
+import { useAppDispatch, useAppSelector } from "../../hook";
 import defaultImg from "../../assets/images/default-profile.jpg";
+import { AiFillMessage } from "react-icons/ai";
+import { IChatRoom } from "../../types";
+import { getMessageAction } from "../../action/message.action";
+import { Link } from "react-router-dom";
 
 function YourFriends() {
-  const { chatRoom } = useAppSelector((store) => store.currentRoom);
+  const dispatch = useAppDispatch();
+
+  function handleClick(room: IChatRoom) {
+    dispatch(getMessageAction(room, 15));
+  }
+  const { chatRoom } = useAppSelector((store) => store.rooms);
   return (
     <div className="flex flex-col gap-2">
       {chatRoom.length ? (
@@ -34,7 +43,17 @@ function YourFriends() {
               </div>
               {/* buttonss */}
               <div className="flex">
-                <button>Message</button>
+                <Link to={"/chat"}>
+                  <button
+                    className="btn  btn-ghost"
+                    onClick={() => {
+                      handleClick(user);
+                    }}
+                  >
+                    <AiFillMessage size={30} color="pink" />
+                    Message
+                  </button>
+                </Link>
               </div>
             </div>
           ))}

@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import { FaArrowUp, FaFacebookSquare } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hook";
 import { loginAction } from "../action/user.action";
 
@@ -9,6 +9,7 @@ export function SignIn() {
   const { user } = useAppSelector((store) => store.user);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const location = useLocation();
   const [form, setform] = useState<{ email: string; password: string }>({
     email: "",
     password: "",
@@ -25,8 +26,8 @@ export function SignIn() {
   }
 
   useEffect(() => {
-    if (user) navigate("/chat");
-  }, [navigate, user]);
+    if (user) navigate(location.state.from.location.pathname);
+  }, [navigate, user, location]);
   return (
     <div className=" w-full  flex sm:flex-row flex-col">
       <div className="sm:w-1/2 flex flex-col p-4 h-[100vh]">

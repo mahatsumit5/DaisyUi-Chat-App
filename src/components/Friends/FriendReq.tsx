@@ -4,8 +4,13 @@ import {
   acceptFriendReqAction,
   deleteFriendReqAction,
 } from "../../action/friendReq.actions";
+import { Dispatch, SetStateAction } from "react";
 
-function FriendReq() {
+function FriendReq({
+  setDisplay,
+}: {
+  setDisplay: Dispatch<SetStateAction<"people" | "friends" | "Request">>;
+}) {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((store) => store.user);
   const { friendReq } = useAppSelector((store) => store.friendRequest);
@@ -17,7 +22,7 @@ function FriendReq() {
   async function rejectFriendReq(from: string) {
     dispatch(deleteFriendReqAction(from, user?.id || ""));
   }
-  return (
+  return friendReq.length ? (
     <>
       {friendReq.map((item, index) => (
         <div
@@ -65,6 +70,20 @@ function FriendReq() {
         </div>
       ))}
     </>
+  ) : (
+    <div className="flex items-center justify-center flex-col gap-5">
+      <p className="text-2xl  font-serif font-bold text-black">
+        You do not have any friend request.
+      </p>
+      <button
+        className="btn btn-primary text-white"
+        onClick={() => {
+          setDisplay("people");
+        }}
+      >
+        Find People
+      </button>
+    </div>
   );
 }
 

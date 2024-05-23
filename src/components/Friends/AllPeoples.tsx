@@ -1,4 +1,3 @@
-import { MdOutlineDeleteForever } from "react-icons/md";
 import {
   deleteFriendReqAction,
   sendFriendReqAction,
@@ -6,6 +5,10 @@ import {
 import { useAppDispatch, useAppSelector } from "../../hook";
 import { IoIosPersonAdd } from "react-icons/io";
 import defaultImg from "../../assets/images/default-profile.jpg";
+import { AiFillDelete } from "react-icons/ai";
+import { IUser } from "../../types";
+import { setCurrentUser } from "../../redux-slice/room.slice";
+import { toggleDialog } from "../../redux-slice/dialog.slice";
 
 function AllPeoples() {
   const dispatch = useAppDispatch();
@@ -28,7 +31,10 @@ function AllPeoples() {
   async function handleCancelReq(to: string) {
     dispatch(deleteFriendReqAction(user?.id || "", to));
   }
-
+  function handleClick(user: IUser) {
+    dispatch(setCurrentUser(user));
+    dispatch(toggleDialog());
+  }
   return (
     <>
       {allUsers.map((user) => (
@@ -37,7 +43,7 @@ function AllPeoples() {
           key={user.id}
         >
           {/* Avatar and name */}
-          <div className="flex gap-4">
+          <div className="flex gap-4" onClick={() => handleClick(user)}>
             <div className="avatar">
               <div className="w-12">
                 <img
@@ -56,21 +62,21 @@ function AllPeoples() {
           <div className="flex">
             {sentReqCheck(user.email) ? (
               <button
-                className="flex font-bold bg-red-400 hover:bg-red-600 w-24 justify-between items-center px-2 rounded-lg text-white"
+                className="btn btn-sm btn-ghost"
                 onClick={() => {
                   handleCancelReq(user.id);
                 }}
               >
-                Cancel <MdOutlineDeleteForever size={30} color="white" />
+                <AiFillDelete size={30} color="red" />
               </button>
             ) : (
               <button
-                className="flex justify-between px-2 w-24 font-bold bg-blue-400 hover:bg-blue-600 rounded-lg text-white items-center"
+                className="  btn btn-sm btn-ghost"
                 onClick={() => {
                   handleAddFriend(user.id);
                 }}
               >
-                Add <IoIosPersonAdd size={30} color="white" />
+                <IoIosPersonAdd size={30} color="skyblue" />
               </button>
             )}
           </div>

@@ -21,10 +21,11 @@ export const getMessageByuser = (roomid: string, num: number) => {
     url: `${url}/${roomid}?num=${num}`,
   });
 };
-export const getlastMessage = (roomid: string) => {
+export const messageSeenStatus = (data: { roomid: string; author: string }) => {
   return axiosProcessor({
     isPrivate: true,
-    method: "get",
-    url: url + "/last-message/" + roomid,
+    method: "put",
+    url: url,
+    obj: data,
   });
 };

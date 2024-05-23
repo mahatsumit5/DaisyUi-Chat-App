@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Imessage } from "../../types";
 import { useAppDispatch } from "../../hook";
 import { getMessageAction } from "../../action/message.action";
-import { FaArrowUp } from "react-icons/fa";
+import { FaArrowUp, FaCheckCircle } from "react-icons/fa";
 
 function getTime(time: Date) {
   return new Date(time).toTimeString();
@@ -18,7 +18,6 @@ function MessageBox({
   userId: string;
   roomId: string;
 }) {
-  console.log(messages.length);
   const dispatch = useAppDispatch();
   const sectionRef = useRef<HTMLDivElement>(null);
   const [skip, setSkip] = useState(15);
@@ -27,7 +26,7 @@ function MessageBox({
     if (sectionRef.current && height) {
       sectionRef.current.scrollTop = height;
     }
-  }, []);
+  }, [messages]);
   // useEffect(() => {
   //   if (sectionRef.current) {
   //     sectionRef.current.onscroll = () => {
@@ -62,7 +61,7 @@ function MessageBox({
           <FaArrowUp />
         </button>
       )}
-      {messages.map(({ author, content, createdAt, id }) => {
+      {messages.map(({ author, content, createdAt, id, isSeen }) => {
         return (
           <div
             key={id}
@@ -81,15 +80,21 @@ function MessageBox({
                 author === userId
                   ? "bg-blue-500 text-slate-200"
                   : "bg-gray-200 text-black"
-              } p-2  rounded-lg  w-fit text-justify max-w-80`}
+              } p-2  rounded-lg  text-justify max-w-80 min-w-24`}
             >
               <span>{content}</span>
               <p
                 className={`${
                   author === userId ? "text-gray-300" : "text-gray-400"
-                } text-xs  text-right`}
+                } text-xs  text-right flex justify-end gap-5`}
               >
                 {getTime(createdAt).slice(0, 5)}
+                {author === userId && (
+                  <FaCheckCircle
+                    className="mt-1"
+                    color={isSeen ? "blue" : "white"}
+                  />
+                )}
               </p>
             </div>
           </div>

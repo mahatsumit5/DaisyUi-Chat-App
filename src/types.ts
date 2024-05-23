@@ -14,9 +14,10 @@ export interface Imessage {
   chatRoomId: string;
   author: string;
 }
-export interface room extends IUser {
+export interface Iroom extends IUser {
   messages: Imessage[];
-  count: number;
+  _count: number;
+  userId: string;
 }
 export interface ISentReq {
   status: string;
@@ -41,10 +42,14 @@ export interface IFriendReq {
 
 export interface IChatRoom {
   id: string;
+  userId: string;
   fName: string;
   lName: string;
   profile: string | null;
   email: string;
   isActive: boolean;
   lastMessage: string;
+  isLastMessageSeen: boolean;
+  lastmessageAuthor: string;
+  unSeenMessageCount: number;
 }

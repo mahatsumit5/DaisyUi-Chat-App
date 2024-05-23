@@ -1,46 +1,35 @@
-import { useEffect } from "react";
 import ChatMenu from "../components/ChatMenu";
 import Chatbox from "../components/Chatbox";
-import { useAppDispatch, useAppSelector } from "../hook";
-import { socket } from "../utils/socket";
-import { getMessageAction } from "../action/message.action";
+import { useAppSelector } from "../hook";
 
 function ChatPage() {
-  const dispatch = useAppDispatch();
-  const { currentRoom } = useAppSelector((store) => store.currentRoom);
-  useEffect(() => {
-    socket.on("send_message_client", (data, id) => {
-      console.log(data, id);
-      dispatch(getMessageAction(id, 15));
-    });
-  }, [currentRoom.id, dispatch]);
+  const { currentRoom } = useAppSelector((store) => store.rooms);
+  // useEffect(() => {
+  //   socket.on("send_message_client", (data, id) => {
+  //     console.log(data, id);
+  //     dispatch(getMessageAction(id, 15));
+  //   });
+  // }, [currentRoom.id, dispatch]);
   return (
     <>
       <div
         className={` flex-col gap-2   ${
-          currentRoom.id
-            ? "hidden md:flex w-[300px]"
-            : "flex w-full sm:w-[300px] "
+          currentRoom.id ? "hidden md:flex w-[300px]" : "flex w-full  "
         } `}
       >
         <ChatMenu />
       </div>
       {currentRoom.id ? (
         <div
-          className={`${
+          className={`  ${
             currentRoom.id ? "md:block" : "hidden"
           }hidden md:block w-full `}
         >
           <Chatbox />
         </div>
       ) : (
-        <div
-          className={`$
-          {
-            currentRoom.id ? "flex" : "hidden md:flex"
-          } items-center justify-center`}
-        >
-          Select room to chat with the user
+        <div className={`${currentRoom.id ? "" : ""} hidden md:block w-full`}>
+          Select a room to chat with the user
         </div>
       )}
     </>

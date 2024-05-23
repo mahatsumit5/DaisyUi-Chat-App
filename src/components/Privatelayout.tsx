@@ -9,7 +9,9 @@ function Privatelayout({ children }: { children: React.ReactNode }) {
   useSocketSetup();
   return user?.id ? (
     <div className="bg-slate-200 w-full lg:w-[80%] h-[100vh] rounded-md flex px-5 py-5 gap-2">
-      <Sidebar />
+      <div className="h-full hidden sm:flex bg-slate-900 p-4 text-white  flex-col justify-between  items-center  min-h-full rounded-lg">
+        <Sidebar />
+      </div>
       <>{children}</>
     </div>
   ) : (

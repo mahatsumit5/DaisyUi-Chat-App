@@ -1,5 +1,5 @@
 import { createRoom, getChatRoom } from "../axios/chatRoom";
-import { setAvailableRooms } from "../redux-slice/JoinRoom";
+import { setAvailableRooms } from "../redux-slice/room.slice";
 import { AppDispatch } from "../store";
 
 export const createRoomAction =

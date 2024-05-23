@@ -2,6 +2,9 @@ import { useState } from "react";
 import AllPeoples from "../components/Friends/AllPeoples";
 import FriendReq from "../components/Friends/FriendReq";
 import YourFriends from "../components/Friends/Friends";
+import { IoPeopleCircle } from "react-icons/io5";
+import { TiUserAddOutline } from "react-icons/ti";
+import { TbUserSearch } from "react-icons/tb";
 
 function Friends() {
   const [display, setDisplay] = useState<"people" | "friends" | "Request">(
@@ -10,7 +13,7 @@ function Friends() {
   const displayComponent = {
     people: <AllPeoples />,
     friends: <YourFriends />,
-    Request: <FriendReq />,
+    Request: <FriendReq setDisplay={setDisplay} />,
   };
   return (
     <div className="flex flex-col gap-3 w-full">
@@ -24,22 +27,22 @@ function Friends() {
       </div>
       <div className="w-full flex justify-between gap-1">
         <button
-          className="w-full bg-gray-400 text-white rounded-lg p-2 text-lg font-semibold"
+          className="btn btn-primary text-white "
           onClick={() => setDisplay("friends")}
         >
-          Your Friends
+          <IoPeopleCircle size={25} /> Friends
         </button>
         <button
-          className="w-full bg-gray-400 text-white rounded-lg p-2 text-lg font-semibold"
+          className="btn btn-primary text-white "
           onClick={() => setDisplay("people")}
         >
-          Find New Friends
+          <TbUserSearch size={25} /> Find New Friends
         </button>
         <button
-          className="w-full bg-gray-400 text-white rounded-lg p-2 text-lg font-semibold"
+          className="btn btn-primary text-white "
           onClick={() => setDisplay("Request")}
         >
-          Friend Request
+          <TiUserAddOutline size={25} /> Friend Request
         </button>
       </div>
 

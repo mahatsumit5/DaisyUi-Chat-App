@@ -1,14 +1,25 @@
 import { getMessageByuser, sendMessage } from "../axios/message.axios";
-import { setMessages } from "../redux-slice/JoinRoom";
+import { setCurrentRoom, setMessages } from "../redux-slice/room.slice";
 import { AppDispatch } from "../store";
+import { IChatRoom } from "../types";
 
 export const getMessageAction =
-  (RoomId: string, num: number) => async (dispatch: AppDispatch) => {
-    const { status, result } = await getMessageByuser(RoomId, num);
-    if (status) {
+  (room: IChatRoom | string, num: number) => async (dispatch: AppDispatch) => {
+    const roomId = typeof room === "string" ? room : room.id;
+
+    const { status, result } = await getMessageByuser(roomId, num);
+    if (status && typeof room !== "string") {
+      dispatch(
+        setCurrentRoom({
+          ...room,
+          messages: result.messages,
+          _count: result._count.messages,
+        })
+      );
+    } else {
       dispatch(
         setMessages({
-          message: result.messages,
+          messages: result.messages,
           _count: result._count.messages,
         })
       );

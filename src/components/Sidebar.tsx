@@ -6,7 +6,7 @@ import { BsPeople } from "react-icons/bs";
 import { Link } from "react-router-dom";
 function Sidebar() {
   return (
-    <div className="bg-slate-900 p-5 rounded-2xl text-white sm:flex flex-col justify-between w-24 items-center hidden ">
+    <>
       <div>
         <PiStarFourFill size={35} color="red" />
       </div>
@@ -33,9 +33,15 @@ function Sidebar() {
         </Link>
       </div>
       <div>
-        <div>avatar</div>
+        <Link to={"/profile"}>
+          <div className="avatar">
+            <div className="w-12 rounded-full">
+              <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+            </div>
+          </div>
+        </Link>
       </div>
-    </div>
+    </>
   );
 }
 
