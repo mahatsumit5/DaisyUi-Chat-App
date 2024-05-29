@@ -40,11 +40,11 @@ export default function Profile({
       </div>
       {/* information */}
       <h1 className="text-4xl font-bold text-black font-serif">
-        {user.fName}&nbsp;
-        {user.lName}
+        {user?.fName}&nbsp;
+        {user?.lName}
       </h1>
       <h1 className="text-xl font-bold text-gray-400 font-serif">
-        {user.email}
+        {user?.email}
       </h1>
       <p className="max-w-80 text-justify">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis
