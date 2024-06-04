@@ -8,19 +8,22 @@ import defaultImg from "../assets/images/default-profile.jpg";
 import { getMessageAction } from "../action/message.action";
 import { messageSeenStatus } from "../axios/message.axios";
 import { replaceLastMessageInSpecificRoom } from "../redux-slice/room.slice";
+import { useGetAllChatRoomQuery } from "../redux-slice/services";
 function ChatMenu() {
-  const { chatRoom } = useAppSelector((store) => store.rooms);
+  const { data, error, isLoading } = useGetAllChatRoomQuery(null);
   const { user } = useAppSelector((store) => store.user);
   const dispatch = useAppDispatch();
+
   function handleClick(room: IChatRoom) {
     dispatch(getMessageAction(room, 15));
     messageSeenStatus({ author: user?.id || "", roomid: room.id });
   }
 
   useEffect(() => {
-    const roomId = chatRoom.map((item) => item.id);
+    if (!data) return;
+    const roomId = data.data.map((item: IChatRoom) => item.id);
     socket.emit("join-room", roomId);
-  }, [chatRoom]);
+  }, [data]);
 
   useEffect(() => {
     socket.on("send_message_client", (data, id) => {
@@ -76,55 +79,64 @@ function ChatMenu() {
           </button>
         </div>
       </header>
-      <section className="bg-white h-full rounded-xl p-4 flex flex-col gap-5 overflow-y-auto">
-        {chatRoom.map((item) => (
-          <div
-            key={item.id}
-            className="flex justify-between border-b p-2 hover:bg-slate-200"
-            onClick={() => {
-              handleClick(item);
-            }}
-          >
-            <div className="flex gap-3">
-              <div className="avatar offline">
-                <div className="w-10 rounded-full">
-                  <img src={item.profile || defaultImg} />
+      {error ? (
+        <>Oh no, there was an error</>
+      ) : isLoading ? (
+        <section className="bg-slate-300 h-full rounded-xl p-4 flex flex-col gap-5 overflow-y-auto animate-pulse" />
+      ) : data ? (
+        <>
+          <section className="bg-white h-full rounded-xl p-4 flex flex-col gap-5 overflow-y-auto">
+            {data.data.map((item: IChatRoom) => (
+              <div
+                key={item.id}
+                className="flex justify-between border-b p-2 hover:bg-slate-200"
+                onClick={() => {
+                  handleClick(item);
+                }}
+              >
+                <div className="flex gap-3">
+                  <div className="avatar offline">
+                    <div className="w-10 rounded-full">
+                      <img src={item.profile || defaultImg} />
+                    </div>
+                  </div>
+                  <div className="flex flex-col ">
+                    <p className="text-black font-bold text-sm">
+                      {item.fName}&nbsp;
+                      {item.lName}
+                    </p>
+
+                    <p
+                      className={`${
+                        item.isLastMessageSeen
+                          ? ``
+                          : `${
+                              item.lastmessageAuthor !== user?.id
+                                ? "text-black font-semibold"
+                                : ""
+                            }`
+                      }  line-clamp-1`}
+                    >
+                      {item.lastMessage}
+                    </p>
+                  </div>
+                </div>
+                {/* Date and notification */}
+                <div className="flex flex-col items-end">
+                  <p className="flex-1">10:27 AM</p>
+                  {!item.isLastMessageSeen &&
+                    item.lastmessageAuthor !== user?.id && (
+                      <span className="rounded-full  bg-red-400 text-sm  flex justify-center text-white w-6">
+                        {item.unSeenMessageCount !== 0 &&
+                          item.unSeenMessageCount}
+                      </span>
+                    )}
                 </div>
               </div>
-              <div className="flex flex-col ">
-                <p className="text-black font-bold text-sm">
-                  {item.fName}&nbsp;
-                  {item.lName}
-                </p>
-
-                <p
-                  className={`${
-                    item.isLastMessageSeen
-                      ? ``
-                      : `${
-                          item.lastmessageAuthor !== user?.id
-                            ? "text-black font-semibold"
-                            : ""
-                        }`
-                  }  line-clamp-1`}
-                >
-                  {item.lastMessage}
-                </p>
-              </div>
-            </div>
-            {/* Date and notification */}
-            <div className="flex flex-col items-end">
-              <p className="flex-1">10:27 AM</p>
-              {!item.isLastMessageSeen &&
-                item.lastmessageAuthor !== user?.id && (
-                  <span className="rounded-full  bg-red-400 text-sm  flex justify-center text-white w-6">
-                    {item.unSeenMessageCount !== 0 && item.unSeenMessageCount}
-                  </span>
-                )}
-            </div>
-          </div>
-        ))}
-      </section>
+            ))}
+          </section>
+        </>
+      ) : null}
     </>
   );
 }

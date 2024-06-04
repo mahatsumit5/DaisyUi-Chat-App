@@ -16,7 +16,7 @@ function Friends() {
     Request: <FriendReq setDisplay={setDisplay} />,
   };
   return (
-    <div className="flex flex-col gap-3 w-full">
+    <div className="flex flex-col gap-3 w-full px-5">
       <div className="flex w-full justify-between">
         <h1 className="text-lg text-black font-bold">Find new Friends</h1>
         <input
@@ -25,7 +25,7 @@ function Friends() {
           placeholder="Search"
         />
       </div>
-      <div className="w-full flex justify-between gap-1">
+      <div className="w-full flex justify-start gap-5">
         <button
           className="btn btn-primary text-white "
           onClick={() => setDisplay("friends")}
@@ -46,7 +46,7 @@ function Friends() {
         </button>
       </div>
 
-      <div className="flex-1 flex flex-col gap-5 overflow-y-auto mt-5">
+      <div className="flex-1 flex flex-col gap-5 overflow-y-auto mt-5 ">
         {displayComponent[display]}
       </div>
     </div>

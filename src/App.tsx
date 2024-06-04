@@ -7,15 +7,12 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Privatelayout from "./components/Privatelayout";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "./hook";
-import { autoLogin, getAllUsersAction } from "./action/user.action";
+import { autoLogin } from "./action/user.action";
 import Friends from "./pages/Friends";
-import {
-  getFriendReqAction,
-  getSentFriendReqAction,
-} from "./action/friendReq.actions";
-import { getChatRoomAction } from "./action/chatRoom.action";
+
 import Notification from "./pages/Notification";
 import Dialog from "./components/modal/Dialog";
+import ProfilePage from "./pages/Profile";
 
 export default function App() {
   const { user } = useAppSelector((store) => store.user);
@@ -23,10 +20,6 @@ export default function App() {
   useEffect(() => {
     if (user?.id) return;
     dispatch(autoLogin());
-    dispatch(getAllUsersAction());
-    dispatch(getFriendReqAction());
-    dispatch(getSentFriendReqAction());
-    dispatch(getChatRoomAction());
   }, [dispatch, user]);
   return (
     <>
@@ -55,6 +48,14 @@ export default function App() {
             element={
               <Privatelayout>
                 <Notification />
+              </Privatelayout>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <Privatelayout>
+                <ProfilePage />
               </Privatelayout>
             }
           />

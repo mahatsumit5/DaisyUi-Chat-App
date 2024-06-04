@@ -1,36 +1,49 @@
 import { PiStarFourFill } from "react-icons/pi";
 import { TiMessages } from "react-icons/ti";
-import { CgMail } from "react-icons/cg";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { BsPeople } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+
+const links = [
+  {
+    id: 1,
+    text: "Messages",
+    link: "/chat",
+    icon: <TiMessages size={30} />,
+  },
+  {
+    id: 2,
+    text: "Notification",
+    link: "/notification",
+    icon: <IoMdNotificationsOutline size={30} />,
+  },
+  {
+    id: 3,
+    text: "Peoples",
+    link: "/friends",
+    icon: <BsPeople size={30} />,
+  },
+];
 function Sidebar() {
+  const { pathname } = useLocation();
+  console.log(pathname);
   return (
     <>
       <div>
         <PiStarFourFill size={35} color="red" />
       </div>
       <div className=" h-44 flex flex-col gap-10 flex-1 justify-center  w-full items-center">
-        <button>
-          <CgMail size={30} />
-        </button>
-        <Link to={"/chat"}>
-          <button>
-            <TiMessages size={30} color="red" />
-          </button>
-        </Link>
-
-        <Link to={"/notification"}>
-          <button>
-            <IoMdNotificationsOutline size={30} />
-          </button>
-        </Link>
-
-        <Link to={"/friends"}>
-          <button>
-            <BsPeople size={30} />
-          </button>
-        </Link>
+        {links.map((link) => (
+          <Link to={link.link} key={link.id}>
+            <button
+              className={`${
+                pathname === link.link ? "text-red-500 " : "text-slate-300"
+              }`}
+            >
+              {link.icon}
+            </button>
+          </Link>
+        ))}
       </div>
       <div>
         <Link to={"/profile"}>

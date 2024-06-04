@@ -4,6 +4,7 @@ import userInfoReducer from "./redux-slice/user.slice";
 import allUsersreducer from "./redux-slice/AllUsers.slice";
 import friendReqReducer from "./redux-slice/friendReq.slice";
 import dialogReducer from "./redux-slice/dialog.slice";
+import { serverApi } from "./redux-slice/services";
 export const store = configureStore({
   reducer: {
     rooms: roomReducer,
@@ -11,7 +12,10 @@ export const store = configureStore({
     allUsers: allUsersreducer,
     friendRequest: friendReqReducer,
     dialog: dialogReducer,
+    [serverApi.reducerPath]: serverApi.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(serverApi.middleware),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

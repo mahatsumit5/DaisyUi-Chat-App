@@ -4,12 +4,6 @@ import { useAppSelector } from "../hook";
 
 function ChatPage() {
   const { currentRoom } = useAppSelector((store) => store.rooms);
-  // useEffect(() => {
-  //   socket.on("send_message_client", (data, id) => {
-  //     console.log(data, id);
-  //     dispatch(getMessageAction(id, 15));
-  //   });
-  // }, [currentRoom.id, dispatch]);
   return (
     <>
       <div

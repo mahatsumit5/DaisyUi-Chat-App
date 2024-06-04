@@ -53,3 +53,8 @@ export interface IChatRoom {
   lastmessageAuthor: string;
   unSeenMessageCount: number;
 }
+
+export interface IResponse {
+  status: boolean;
+  data: IFriendReq[] | IUser[];
+}
