@@ -1,7 +1,14 @@
+import { Link } from "react-router-dom";
+
 function Notification() {
   return (
-    <div className="flex items-center justify-center w-full">
-      <p className="text-2xl font-bold">Comming Soon.......</p>
+    <div className="flex  justify-start w-full flex-col ">
+      <Link to={"/chat"} className="flex-1">
+        Go back
+      </Link>
+      <p className="text-2xl font-bold flex-1  flex justify-center">
+        Comming Soon.......
+      </p>
     </div>
   );
 }

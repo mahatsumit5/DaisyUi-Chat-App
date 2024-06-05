@@ -1,6 +1,9 @@
 import { IoIosMore } from "react-icons/io";
 import { IChatRoom } from "../../types";
 import { Dispatch, SetStateAction } from "react";
+import { useAppDispatch } from "../../hook";
+import { setCurrentRoom } from "../../redux/reducer/room.slice";
+import { IoChevronBackSharp } from "react-icons/io5";
 
 function MessageHeader({
   currentRoom,
@@ -9,12 +12,20 @@ function MessageHeader({
   currentRoom: IChatRoom;
   setComponent: Dispatch<SetStateAction<"profile" | "message">>;
 }) {
+  const dispatch = useAppDispatch();
   return (
     <header className="bg-white w-full rounded-xl p-3 flex justify-between">
-      <div className="flex gap-3">
-        <button>Back</button>
+      <div className="flex gap-5">
+        <button
+          onClick={() => {
+            dispatch(setCurrentRoom(null));
+          }}
+          className="md:hidden"
+        >
+          <IoChevronBackSharp size={24} />
+        </button>
         <div className="avatar online">
-          <div className="w-14 rounded-full">
+          <div className="w-10 rounded-full">
             <img
               src={
                 currentRoom.profile ||

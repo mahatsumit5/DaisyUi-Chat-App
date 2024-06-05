@@ -9,19 +9,19 @@ const links = [
     id: 1,
     text: "Messages",
     link: "/chat",
-    icon: <TiMessages size={30} />,
+    icon: <TiMessages size={35} />,
   },
   {
     id: 2,
     text: "Notification",
     link: "/notification",
-    icon: <IoMdNotificationsOutline size={30} />,
+    icon: <IoMdNotificationsOutline size={35} />,
   },
   {
     id: 3,
     text: "Peoples",
     link: "/friends",
-    icon: <BsPeople size={30} />,
+    icon: <BsPeople size={35} />,
   },
 ];
 function Sidebar() {
@@ -37,9 +37,9 @@ function Sidebar() {
             <button
               className={`${
                 pathname === link.link ? "text-red-500 " : "text-slate-300"
-              }`}
+              } flex gap-2 items-center font-semibold`}
             >
-              {link.icon}
+              {link.icon} <p className="block sm:hidden"> {link.text}</p>
             </button>
           </Link>
         ))}

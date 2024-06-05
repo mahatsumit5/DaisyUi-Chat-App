@@ -22,7 +22,7 @@ export const roomSlice = createSlice({
       state.chatRoom = payload;
     },
 
-    setCurrentRoom: (state, { payload }: PayloadAction<IChatRoom>) => {
+    setCurrentRoom: (state, { payload }: PayloadAction<IChatRoom | null>) => {
       state.currentRoom = payload;
     },
     replaceLastMessageInSpecificRoom: (

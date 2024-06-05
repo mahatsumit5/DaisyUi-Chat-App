@@ -30,11 +30,11 @@ const FriendCard = ({
     request: <FriendReq user={user as IUser} />,
   };
   return (
-    <div className="bg-white p-2 w-[250px] rounded-xl flex flex-col shadow-lg items-center justify-center gap-5">
+    <div className="bg-white p-2 w-full sm:w-[250px] rounded-xl flex flex-col shadow-lg items-center justify-center gap-5">
       {/* Avatar and name */}
       <div className="flex gap-4">
         <div className="avatar">
-          <div className="w-48">
+          <div className="w-40">
             <img
               src={user.profile || defaultImg}
               className="rounded-full shadow-xl"

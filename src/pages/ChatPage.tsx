@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import ChatMenu from "../components/ChatMenu";
 import Chatbox from "../components/Chatbox";
 import { useAppSelector } from "../hook";
@@ -24,8 +25,16 @@ function ChatPage() {
           <Chatbox />
         </div>
       ) : (
-        <div className={`${currentRoom?.id ? "" : ""} hidden md:block w-full`}>
-          Select a room to chat with the user
+        <div
+          className={` hidden md:flex w-full flex-col justify-center items-center gap-5`}
+        >
+          <p className="text-2xl">Select a Room</p>
+          <p>or</p>
+          <Link to={"/friends"}>
+            <button className="btn btn-primary text-white">
+              Find New People
+            </button>
+          </Link>
         </div>
       )}
     </>

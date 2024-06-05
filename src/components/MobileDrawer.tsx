@@ -16,7 +16,7 @@ function MobileDrawer() {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className=" py-8 w-40 min-h-full   bg-slate-900 flex flex-col justify-between items-center">
+        <ul className=" py-8 w-56 min-h-full   bg-slate-900 flex flex-col justify-between items-center">
           <Sidebar />
         </ul>
       </div>
