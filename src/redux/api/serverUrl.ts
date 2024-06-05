@@ -1,6 +1,7 @@
-export const rootApi = !import.meta.env.PROD
+export const rootApi = import.meta.env.PROD
   ? "http://localhost:8080"
-  : "your server domain";
+  : "https://messenger-j2bf.onrender.com";
+console.log(rootApi);
 export const userApiUrl = rootApi + "/api/v1/user";
 export const friendApiUrl = rootApi + "/api/v1/friend";
 export const roomApiUrl = rootApi + "/api/v1/room";
