@@ -1,25 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { IChatRoom, IUser, Imessage, Iroom } from "../../types";
+import { IChatRoom, IUser } from "../../types";
 
 interface rooms {
-  currentRoom: Iroom;
+  currentRoom: IChatRoom | null;
   chatRoom: IChatRoom[];
   currentUser: IUser | null;
 }
 
 const initialState: rooms = {
-  currentRoom: {
-    id: "",
-    email: "",
-    fName: "",
-    isActive: false,
-    lName: "",
-    profile: "",
-    messages: [],
-    _count: 0,
-    userId: "",
-  },
+  currentRoom: null,
   chatRoom: [],
   currentUser: null,
 };
@@ -31,14 +21,8 @@ export const roomSlice = createSlice({
     setAvailableRooms: (state, { payload }: PayloadAction<IChatRoom[]>) => {
       state.chatRoom = payload;
     },
-    setMessages: (
-      state,
-      { payload }: PayloadAction<{ messages: Imessage[]; _count: number }>
-    ) => {
-      state.currentRoom.messages = payload.messages;
-      state.currentRoom._count = payload._count;
-    },
-    setCurrentRoom: (state, { payload }: PayloadAction<Iroom>) => {
+
+    setCurrentRoom: (state, { payload }: PayloadAction<IChatRoom>) => {
       state.currentRoom = payload;
     },
     replaceLastMessageInSpecificRoom: (
@@ -67,7 +51,7 @@ export const roomSlice = createSlice({
 
 export const {
   setAvailableRooms,
-  setMessages,
+
   setCurrentRoom,
   replaceLastMessageInSpecificRoom,
   setCurrentUser,

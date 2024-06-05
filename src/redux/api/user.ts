@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { userApiUrl } from "../serverUrl";
+import { userApiUrl } from "./serverUrl";
 import { ILogin, IResponse, ISignUpParams, IUser } from "../../types";
 
 const userApi = createApi({

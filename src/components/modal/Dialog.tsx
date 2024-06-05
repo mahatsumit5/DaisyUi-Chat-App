@@ -1,7 +1,7 @@
 import { RxCross1 } from "react-icons/rx";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import Profile from "../messages/Profile";
-import { toggleDialog } from "../../redux/reducer/dialog.slice";
+import { toggleDialog } from "../../redux/dialog.slice";
 import { motion, AnimatePresence } from "framer-motion";
 const variants = {
   open: { opacity: 1, scale: 1 },

@@ -1,21 +1,22 @@
 import { PiTelegramLogoFill } from "react-icons/pi";
 import { socket } from "../../utils/socket";
 import { useEffect, useState } from "react";
-import { useAppDispatch } from "../../hook";
-import { postMessageAction } from "../../action/message.action";
 import { LuPaperclip } from "react-icons/lu";
+import { useGetMessagesQuery, useSendMessageMutation } from "../../redux";
 
 function MessageInput(props: { id: string; userId: string }) {
-  const dispatch = useAppDispatch();
   const [message, setMessage] = useState<string>("");
-
+  const [sendMessage] = useSendMessageMutation();
+  const { refetch } = useGetMessagesQuery({ roomId: props.id, num: 10 });
   async function handleSend() {
     if (!message) return;
     socket.emit("send_message", message, props.id);
-
-    dispatch(
-      postMessageAction({ message, roomId: props.id, author: props.userId })
-    );
+    await sendMessage({
+      author: props.userId,
+      content: message,
+      roomId: props.id,
+    }).unwrap();
+    refetch();
     setMessage("");
   }
 

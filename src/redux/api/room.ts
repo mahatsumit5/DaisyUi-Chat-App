@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { roomApiUrl } from "../serverUrl";
+import { roomApiUrl } from "./serverUrl";
 import { IChatRoom } from "../../types";
 
 type chatroomReturnType = {

@@ -5,9 +5,10 @@ import { socket } from "../utils/socket";
 
 import MobileDrawer from "./MobileDrawer";
 import defaultImg from "../assets/images/default-profile.jpg";
-import { getMessageAction } from "../action/message.action";
-import { messageSeenStatus } from "../axios/message.axios";
-import { replaceLastMessageInSpecificRoom } from "../redux/reducer/room.slice";
+import {
+  replaceLastMessageInSpecificRoom,
+  setCurrentRoom,
+} from "../redux/reducer/room.slice";
 import { useGetAllChatRoomQuery } from "../redux";
 function ChatMenu() {
   const { data, error, isLoading } = useGetAllChatRoomQuery();
@@ -15,8 +16,7 @@ function ChatMenu() {
   const dispatch = useAppDispatch();
 
   function handleClick(room: IChatRoom) {
-    dispatch(getMessageAction(room, 15));
-    messageSeenStatus({ author: user?.id || "", roomid: room.id });
+    dispatch(setCurrentRoom(room));
   }
 
   useEffect(() => {

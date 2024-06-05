@@ -3,7 +3,6 @@ import { IChatRoom, ISentReq, IUser } from "../../types";
 import { AiFillDelete, AiFillMessage } from "react-icons/ai";
 import defaultImg from "../../assets/images/default-profile.jpg";
 import { useAppDispatch, useAppSelector } from "../../hook";
-import { getMessageAction } from "../../action/message.action";
 import { useState } from "react";
 import { IoIosPersonAdd } from "react-icons/io";
 import {
@@ -14,6 +13,7 @@ import {
   useSendFriendRequestMutation,
 } from "../../redux";
 import { TiDelete, TiTick } from "react-icons/ti";
+import { setCurrentRoom } from "../../redux/reducer/room.slice";
 type keys = "peoples" | "friends" | "request";
 
 const FriendCard = ({
@@ -56,7 +56,7 @@ const Friends = ({ user }: { user: IChatRoom }) => {
   const dispatch = useAppDispatch();
 
   function handleClick(room: IChatRoom) {
-    dispatch(getMessageAction(room, 15));
+    dispatch(setCurrentRoom(room));
   }
   return (
     <Link to={"/chat"}>

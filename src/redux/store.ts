@@ -3,8 +3,8 @@ import roomReducer from "./reducer/room.slice";
 import userInfoReducer from "./reducer/user.slice";
 import allUsersreducer from "./reducer/AllUsers.slice";
 import friendReqReducer from "./reducer/friendReq.slice";
-import dialogReducer from "./reducer/dialog.slice";
-import { friendApi, userApi, roomApi } from "./index";
+import dialogReducer from "./dialog.slice";
+import { friendApi, userApi, roomApi, messageApi } from "./index";
 import { setupListeners } from "@reduxjs/toolkit/query";
 export const store = configureStore({
   reducer: {
@@ -16,12 +16,14 @@ export const store = configureStore({
     [friendApi.reducerPath]: friendApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
     [roomApi.reducerPath]: roomApi.reducer,
+    [messageApi.reducerPath]: messageApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([
       friendApi.middleware,
       userApi.middleware,
       roomApi.middleware,
+      messageApi.middleware,
     ]),
 });
 

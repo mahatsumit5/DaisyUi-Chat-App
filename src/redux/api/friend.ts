@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IFriendReq, IResponse, ISentReq } from "../../types";
-import { friendApiUrl } from "../serverUrl";
+import { friendApiUrl } from "./serverUrl";
 
 export const friendApi = createApi({
   reducerPath: "FriendApi",

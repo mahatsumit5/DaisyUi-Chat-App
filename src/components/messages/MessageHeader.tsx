@@ -1,12 +1,12 @@
 import { IoIosMore } from "react-icons/io";
-import { Iroom } from "../../types";
+import { IChatRoom } from "../../types";
 import { Dispatch, SetStateAction } from "react";
 
 function MessageHeader({
   currentRoom,
   setComponent,
 }: {
-  currentRoom: Iroom;
+  currentRoom: IChatRoom;
   setComponent: Dispatch<SetStateAction<"profile" | "message">>;
 }) {
   return (

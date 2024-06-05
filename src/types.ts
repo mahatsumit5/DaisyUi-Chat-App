@@ -6,7 +6,7 @@ export interface IUser {
   email: string;
   isActive: boolean;
 }
-export interface Imessage {
+export interface IMessage {
   id: string;
   content: string;
   createdAt: Date;
@@ -15,7 +15,7 @@ export interface Imessage {
   author: string;
 }
 export interface Iroom extends IUser {
-  messages: Imessage[];
+  messages: IMessage[];
   _count: number;
   userId: string;
 }
@@ -75,4 +75,11 @@ export interface ISignUpParams {
   password: string;
   fName: string;
   lName: string;
+}
+export interface IMessageResponse {
+  status: boolean;
+  result: {
+    messages: IMessage[];
+    _count: { messages: number };
+  };
 }
