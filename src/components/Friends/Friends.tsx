@@ -1,8 +1,8 @@
-import { useGetAllChatRoomQuery } from "../../redux-slice/services";
+import { useGetAllChatRoomQuery } from "../../redux-slice/api";
 import FriendCard from "./FriendCard";
 
 function YourFriends() {
-  const { data, error, isLoading } = useGetAllChatRoomQuery(null);
+  const { data, error, isLoading } = useGetAllChatRoomQuery();
 
   return (
     <div className="flex flex-col gap-2">

@@ -58,3 +58,21 @@ export interface IResponse {
   status: boolean;
   data: IFriendReq[] | IUser[];
 }
+
+export interface IError {
+  status: boolean;
+  message: string;
+}
+
+export interface ILogin {
+  status: boolean;
+  message: string;
+  token: { accessJWT: string; refreshJWT: string };
+}
+
+export interface ISignUpParams {
+  email: string;
+  password: string;
+  fName: string;
+  lName: string;
+}

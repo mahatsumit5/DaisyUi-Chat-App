@@ -8,9 +8,9 @@ import defaultImg from "../assets/images/default-profile.jpg";
 import { getMessageAction } from "../action/message.action";
 import { messageSeenStatus } from "../axios/message.axios";
 import { replaceLastMessageInSpecificRoom } from "../redux-slice/room.slice";
-import { useGetAllChatRoomQuery } from "../redux-slice/services";
+import { useGetAllChatRoomQuery } from "../redux-slice/api";
 function ChatMenu() {
-  const { data, error, isLoading } = useGetAllChatRoomQuery(null);
+  const { data, error, isLoading } = useGetAllChatRoomQuery();
   const { user } = useAppSelector((store) => store.user);
   const dispatch = useAppDispatch();
 

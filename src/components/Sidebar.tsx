@@ -26,7 +26,6 @@ const links = [
 ];
 function Sidebar() {
   const { pathname } = useLocation();
-  console.log(pathname);
   return (
     <>
       <div>

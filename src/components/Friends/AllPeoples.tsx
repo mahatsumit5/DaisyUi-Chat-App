@@ -1,9 +1,9 @@
+import { useGetAllUsersQuery } from "../../redux-slice/api";
 import { IUser } from "../../types";
-import { useGetAllUsersQuery } from "../../redux-slice/services";
 import FriendCard from "./FriendCard";
 
 function AllPeoples() {
-  const { data, isLoading, error } = useGetAllUsersQuery("");
+  const { data, isLoading, error } = useGetAllUsersQuery();
 
   return (
     <>
@@ -14,7 +14,7 @@ function AllPeoples() {
       ) : data ? (
         <>
           <div className="flex flex-row flex-wrap gap-8 justify-between px-4">
-            {data.data.map((user: IUser) => (
+            {data.map((user: IUser) => (
               <FriendCard user={user} type="peoples" key={user.id} />
             ))}
           </div>

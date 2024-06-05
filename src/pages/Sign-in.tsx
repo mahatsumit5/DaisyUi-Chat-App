@@ -3,30 +3,51 @@ import { FaArrowUp, FaFacebookSquare } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hook";
-import { loginAction } from "../action/user.action";
+import { useGetLoggedInUserQuery, useLoginMutation } from "../redux-slice/api";
+import { setUser } from "../redux-slice/user.slice";
 
 export function SignIn() {
   const { user } = useAppSelector((store) => store.user);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const location = useLocation();
+  const { refetch } = useGetLoggedInUserQuery();
+  const [login] = useLoginMutation();
   const [form, setform] = useState<{ email: string; password: string }>({
-    email: "",
-    password: "",
+    email: "mahatsumit5@gmail.com",
+    password: "Smith0987",
   });
   function onChange(e: FormEvent<HTMLInputElement>) {
     const { name, value } = e.currentTarget;
-
     setform({ ...form, [name]: value });
   }
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
-    const status = await dispatch(loginAction(form));
-    status && navigate("/chat");
+    login(form)
+      .unwrap()
+      .then(async ({ status, token }) => {
+        if (status) {
+          sessionStorage.setItem("accessJWT", token.accessJWT); ///active for 5mins
+          localStorage.setItem("refreshJWT", token.refreshJWT); //active for 30days
+
+          const data = await refetch().unwrap();
+          dispatch(setUser(data));
+          navigate("/chat");
+        }
+      })
+      .catch(({ data }) => {
+        console.log(data);
+      });
   }
 
   useEffect(() => {
-    if (user) navigate(location.state.from.location.pathname);
+    if (user) {
+      return navigate(
+        location.state?.from.location.pathname
+          ? location.state.from.location.pathname
+          : "/chat"
+      );
+    }
   }, [navigate, user, location]);
   return (
     <div className=" w-full  flex sm:flex-row flex-col">
@@ -54,6 +75,7 @@ export function SignIn() {
               className="p-2  bg-slate-700 rounded-full"
               name="email"
               onChange={onChange}
+              value={form.email}
             />
             <input
               type="password"
@@ -61,6 +83,7 @@ export function SignIn() {
               className="p-2  bg-slate-700 rounded-full"
               name="password"
               onChange={onChange}
+              value={form.password}
             />
             <a className="text-right" href="/forgot-password">
               Forgot Password?

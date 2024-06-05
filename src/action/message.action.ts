@@ -1,6 +1,6 @@
 import { getMessageByuser, sendMessage } from "../axios/message.axios";
 import { setCurrentRoom, setMessages } from "../redux-slice/room.slice";
-import { AppDispatch } from "../store";
+import { AppDispatch } from "../redux-slice/store";
 import { IChatRoom } from "../types";
 
 export const getMessageAction =

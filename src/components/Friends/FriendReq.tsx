@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { useGetFriendRequestQuery } from "../../redux-slice/services";
+import { useGetFriendRequestQuery } from "../../redux-slice/api";
 import FriendCard from "./FriendCard";
 import { IUser } from "../../types";
 
@@ -8,7 +8,7 @@ function FriendReq({
 }: {
   setDisplay: Dispatch<SetStateAction<"people" | "friends" | "Request">>;
 }) {
-  const { data, error, isLoading, refetch } = useGetFriendRequestQuery(null);
+  const { data, error, isLoading } = useGetFriendRequestQuery(null);
 
   return (
     <>
