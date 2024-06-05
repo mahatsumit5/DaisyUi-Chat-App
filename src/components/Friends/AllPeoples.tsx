@@ -1,4 +1,4 @@
-import { useGetAllUsersQuery } from "../../redux-slice/api";
+import { useGetAllUsersQuery } from "../../redux";
 import { IUser } from "../../types";
 import FriendCard from "./FriendCard";
 

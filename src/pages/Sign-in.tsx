@@ -3,8 +3,8 @@ import { FaArrowUp, FaFacebookSquare } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hook";
-import { useGetLoggedInUserQuery, useLoginMutation } from "../redux-slice/api";
-import { setUser } from "../redux-slice/user.slice";
+import { useGetLoggedInUserQuery, useLoginMutation } from "../redux";
+import { setUser } from "../redux/reducer/user.slice";
 
 export function SignIn() {
   const { user } = useAppSelector((store) => store.user);

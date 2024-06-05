@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { IFriendReq, ISentReq } from "../types";
+import { IFriendReq, ISentReq } from "../../types";
 
 interface initialState {
   sentReq: ISentReq[];

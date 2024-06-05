@@ -12,13 +12,10 @@ import Friends from "./pages/Friends";
 import Notification from "./pages/Notification";
 import Dialog from "./components/modal/Dialog";
 import ProfilePage from "./pages/Profile";
-import {
-  useGetLoggedInUserQuery,
-  useGetNewAccessJWTMutation,
-} from "./redux-slice/api";
+import { useGetLoggedInUserQuery, useGetNewAccessJWTMutation } from "./redux";
 import { useEffect } from "react";
 import { useAppDispatch } from "./hook";
-import { setUser } from "./redux-slice/user.slice";
+import { setUser } from "./redux/reducer/user.slice";
 
 export default function App() {
   const dispatch = useAppDispatch();

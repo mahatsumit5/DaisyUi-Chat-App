@@ -1,6 +1,6 @@
-import { friendApi } from "./friend";
-import { userApi } from "./user";
-import { roomApi } from "./room";
+import { friendApi } from "./api/friend";
+import { userApi } from "./api/user";
+import { roomApi } from "./api/room";
 export const rootApi = !import.meta.env.PROD
   ? "http://localhost:8080"
   : "your server domain";

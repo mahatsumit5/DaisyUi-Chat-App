@@ -1,4 +1,4 @@
-import { useGetAllChatRoomQuery } from "../../redux-slice/api";
+import { useGetAllChatRoomQuery } from "../../redux";
 import FriendCard from "./FriendCard";
 
 function YourFriends() {

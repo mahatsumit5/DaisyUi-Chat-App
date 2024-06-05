@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
-import { useSignUpUserMutation } from "../redux-slice/api";
+import { useSignUpUserMutation } from "../redux";
 
 export function SignUp() {
   const [signUpUser] = useSignUpUserMutation();

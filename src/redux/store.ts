@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import roomReducer from "./room.slice";
-import userInfoReducer from "./user.slice";
-import allUsersreducer from "./AllUsers.slice";
-import friendReqReducer from "./friendReq.slice";
-import dialogReducer from "./dialog.slice";
-import { friendApi, userApi, roomApi } from "./api/index";
+import roomReducer from "./reducer/room.slice";
+import userInfoReducer from "./reducer/user.slice";
+import allUsersreducer from "./reducer/AllUsers.slice";
+import friendReqReducer from "./reducer/friendReq.slice";
+import dialogReducer from "./reducer/dialog.slice";
+import { friendApi, userApi, roomApi } from "./index";
 import { setupListeners } from "@reduxjs/toolkit/query";
 export const store = configureStore({
   reducer: {

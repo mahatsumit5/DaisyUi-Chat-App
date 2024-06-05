@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { useLogoutUserMutation } from "../redux-slice/api";
+import { useLogoutUserMutation } from "../redux";
 import { useAppDispatch } from "../hook";
-import { setUser } from "../redux-slice/user.slice";
+import { setUser } from "../redux/reducer/user.slice";
 
 function ProfilePage() {
   const navigate = useNavigate();

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { IChatRoom, IUser, Imessage, Iroom } from "../types";
+import { IChatRoom, IUser, Imessage, Iroom } from "../../types";
 
 interface rooms {
   currentRoom: Iroom;

@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { useGetFriendRequestQuery } from "../../redux-slice/api";
+import { useGetFriendRequestQuery } from "../../redux";
 import FriendCard from "./FriendCard";
 import { IUser } from "../../types";
 

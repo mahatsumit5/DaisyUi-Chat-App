@@ -12,7 +12,7 @@ import {
   useGetFriendRequestQuery,
   useGetSentFriendRequestQuery,
   useSendFriendRequestMutation,
-} from "../../redux-slice/api";
+} from "../../redux";
 import { TiDelete, TiTick } from "react-icons/ti";
 type keys = "peoples" | "friends" | "request";
 
