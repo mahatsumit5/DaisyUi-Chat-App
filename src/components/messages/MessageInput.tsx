@@ -4,38 +4,44 @@ import { useEffect, useState } from "react";
 import { LuPaperclip } from "react-icons/lu";
 import { useGetMessagesQuery, useSendMessageMutation } from "../../redux";
 
-function MessageInput(props: { id: string; userId: string }) {
+function MessageInput(props: { id: string; userId: string; email: string }) {
   const [message, setMessage] = useState<string>("");
   const [sendMessage] = useSendMessageMutation();
-  const { refetch } = useGetMessagesQuery({ roomId: props.id, num: 10 });
+  const { refetch } = useGetMessagesQuery({
+    roomId: props.id,
+    num: 10,
+  });
   async function handleSend() {
     if (!message) return;
-    socket.emit("send_message", message, props.id);
     await sendMessage({
       author: props.userId,
       content: message,
       roomId: props.id,
     }).unwrap();
     refetch();
+    socket.emit("send_message", message, props.id);
     setMessage("");
   }
 
   useEffect(() => {
-    socket.on("typing", (id) => {
-      console.log(id, "is typing");
+    socket.on("send_message_client", (data) => {
+      console.log(data);
+      refetch();
     });
-  }, []);
+  }, [refetch]);
+
   return (
     <section className=" h-11   flex  gap-2 ">
-      <div className="flex flex-1 bg-white rounded-lg gap-5">
+      <div className="flex flex-1 bg-white rounded-lg gap-5" id="input-field">
         <input
           className="w-full h-full p-3 rounded-xl bg-white focus:ring-2"
           placeholder="Write your message "
           onChange={(e) => setMessage(e.target.value)}
           value={message}
-          onInputCapture={() => {
-            socket.emit("typing", props.id);
+          onBlur={() => {
+            socket.emit("stopped_typing", props.id, props.email);
           }}
+          onFocusCapture={() => socket.emit("typing", props.id, props.email)}
         />
         <input type="file" className="hidden" id="file" />
         <label htmlFor="file" className="flex items-center justify-center w-8">

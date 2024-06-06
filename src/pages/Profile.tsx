@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { useLogoutUserMutation } from "../redux";
 import { useAppDispatch, useAppSelector } from "../hook";
 import { setUser } from "../redux/reducer/user.slice";
@@ -7,7 +6,6 @@ import { FaLock } from "react-icons/fa";
 
 function ProfilePage() {
   const { user } = useAppSelector((store) => store.user);
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [logoutUser] = useLogoutUserMutation();
   async function handleLogout() {
@@ -16,7 +14,7 @@ function ProfilePage() {
     sessionStorage.clear();
     localStorage.clear();
     dispatch(setUser(null));
-    navigate("/");
+    window.location.reload();
   }
   return (
     <div className="flex flex-col gap-5 w-full">

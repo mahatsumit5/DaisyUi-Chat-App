@@ -32,7 +32,7 @@ export const messageApi = createApi({
       IMessageResponse,
       { roomId: string; num: number }
     >({
-      query: ({ roomId, num }) => `${roomId}?num=${num}`,
+      query: ({ roomId, num }) => `?id=${roomId}&&num=${num}`,
     }),
   }),
 });

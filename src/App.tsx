@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 
 import { SignIn } from "./pages/Sign-in";
 import { SignUp } from "./pages/SignUp";
@@ -14,30 +14,31 @@ import Dialog from "./components/modal/Dialog";
 import ProfilePage from "./pages/Profile";
 import { useGetLoggedInUserQuery, useGetNewAccessJWTMutation } from "./redux";
 import { useEffect } from "react";
-import { useAppDispatch } from "./hook";
 import { setUser } from "./redux/reducer/user.slice";
+import { useAppDispatch } from "./hook";
+import { IUser } from "./types";
 
 export default function App() {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { data, error } = useGetLoggedInUserQuery();
+  const { error, isFetching, refetch, data } = useGetLoggedInUserQuery();
   const [getNewAccessJWT] = useGetNewAccessJWTMutation();
 
   useEffect(() => {
-    if (error) {
-      getNewAccessJWT()
-        .unwrap()
-        .then((res) => {
-          sessionStorage.setItem("accessJWT", res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+    if (isFetching) return;
+    error
+      ? getNewAccessJWT()
+          .unwrap()
+          .then((res) => {
+            sessionStorage.setItem("accessJWT", res.data as string);
+            refetch();
+          })
+          .catch((err: unknown) => {
+            console.log("Error:", err);
+          })
+      : dispatch(setUser(data as IUser));
+  }, [isFetching, error, getNewAccessJWT, navigate, data, refetch, dispatch]);
 
-    if (data) {
-      dispatch(setUser(data));
-    }
-  }, [error, data, dispatch, getNewAccessJWT]);
   return (
     <>
       <div className=" bg-slate-900 flex justify-center items-center ">

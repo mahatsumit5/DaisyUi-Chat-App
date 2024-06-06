@@ -3,6 +3,7 @@ import roomReducer from "./reducer/room.slice";
 import userInfoReducer from "./reducer/user.slice";
 import allUsersreducer from "./reducer/AllUsers.slice";
 import friendReqReducer from "./reducer/friendReq.slice";
+import socketReducer from "./reducer/socket.slice";
 import dialogReducer from "./dialog.slice";
 import { friendApi, userApi, roomApi, messageApi } from "./index";
 import { setupListeners } from "@reduxjs/toolkit/query";
@@ -13,6 +14,7 @@ export const store = configureStore({
     allUsers: allUsersreducer,
     friendRequest: friendReqReducer,
     dialog: dialogReducer,
+    socket: socketReducer,
     [friendApi.reducerPath]: friendApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
     [roomApi.reducerPath]: roomApi.reducer,

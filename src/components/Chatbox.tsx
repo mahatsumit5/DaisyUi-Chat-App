@@ -20,7 +20,11 @@ function Chatbox() {
     <div className="flex flex-col gap-2 w-full h-full">
       <MessageHeader currentRoom={currentRoom} setComponent={setComponent} />
       {displayComponent[component]}
-      <MessageInput id={currentRoom.id} userId={user?.id as string} />
+      <MessageInput
+        id={currentRoom.id}
+        userId={user?.id as string}
+        email={user?.email || ""}
+      />
     </div>
   ) : null;
 }

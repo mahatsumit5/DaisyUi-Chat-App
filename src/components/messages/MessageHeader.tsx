@@ -4,6 +4,7 @@ import { Dispatch, SetStateAction } from "react";
 import { useAppDispatch } from "../../hook";
 import { setCurrentRoom } from "../../redux/reducer/room.slice";
 import { IoChevronBackSharp } from "react-icons/io5";
+import { MdPhoneEnabled } from "react-icons/md";
 
 function MessageHeader({
   currentRoom,
@@ -24,7 +25,12 @@ function MessageHeader({
         >
           <IoChevronBackSharp size={24} />
         </button>
-        <div className="avatar online">
+        <div
+          className="avatar online"
+          onClick={() => {
+            setComponent("profile");
+          }}
+        >
           <div className="w-10 rounded-full">
             <img
               src={
@@ -42,16 +48,10 @@ function MessageHeader({
           {/* <p className="text-sm">Online</p> */}
         </div>
       </div>
-      <div className="flex gap-2 justify-between items-center pr-5">
-        <button
-          className="btn btn-ghost btn-sm text-white bg-blue-400 rounded-full "
-          onClick={() => {
-            setComponent("profile");
-          }}
-        >
-          Profile
+      <div className="flex gap-5 justify-between items-center pr-2">
+        <button className="btn  btn-ghost ">
+          <MdPhoneEnabled size={25} />
         </button>
-        <div className="divider divider-horizontal" />
 
         <button>
           <IoIosMore size={30} />
