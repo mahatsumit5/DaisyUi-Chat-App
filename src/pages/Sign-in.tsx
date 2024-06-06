@@ -17,8 +17,8 @@ export function SignIn() {
   const { refetch } = useGetLoggedInUserQuery();
   const [login, { isLoading, isError }] = useLoginMutation();
   const [form, setform] = useState<{ email: string; password: string }>({
-    email: randomUserLogin[0].email,
-    password: randomUserLogin[0].password,
+    email: "",
+    password: "",
   });
   function onChange(e: FormEvent<HTMLInputElement>) {
     const { name, value } = e.currentTarget;
