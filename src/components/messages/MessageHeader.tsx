@@ -15,7 +15,7 @@ function MessageHeader({
 }) {
   const dispatch = useAppDispatch();
   return (
-    <header className="bg-white w-full rounded-xl p-3 flex justify-between">
+    <header className="bg-white w-full rounded-xl p-2 flex justify-between">
       <div className="flex gap-5">
         <button
           onClick={() => {

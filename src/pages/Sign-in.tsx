@@ -5,17 +5,20 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hook";
 import { useGetLoggedInUserQuery, useLoginMutation } from "../redux";
 import { setUser } from "../redux/reducer/user.slice";
-
+import { users } from "../dummy_data";
+const randomUserLogin = users.map((item) => {
+  return { email: item.email, password: item.password };
+});
 export function SignIn() {
   const { user } = useAppSelector((store) => store.user);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const location = useLocation();
   const { refetch } = useGetLoggedInUserQuery();
-  const [login] = useLoginMutation();
+  const [login, { isLoading, isError }] = useLoginMutation();
   const [form, setform] = useState<{ email: string; password: string }>({
-    email: "mahatsumit5@gmail.com",
-    password: "Smith0987",
+    email: randomUserLogin[0].email,
+    password: randomUserLogin[0].password,
   });
   function onChange(e: FormEvent<HTMLInputElement>) {
     const { name, value } = e.currentTarget;
@@ -25,7 +28,9 @@ export function SignIn() {
     e.preventDefault();
     login(form)
       .unwrap()
-      .then(async ({ status, token }) => {
+      .then(async ({ status, token, message }) => {
+        console.log(message);
+
         if (status) {
           sessionStorage.setItem("accessJWT", token.accessJWT); ///active for 5mins
           localStorage.setItem("refreshJWT", token.refreshJWT); //active for 30days
@@ -62,25 +67,25 @@ export function SignIn() {
             <FcGoogle size={30} />
             <FaFacebookSquare size={30} color="white" />
           </div>
-          <div className="flex justify-center items-center gap-4 w-[450px] ">
+          <div className="flex justify-center items-center gap-4 w-[400px] ">
             <span className="border h-0 flex-1" />
             <p className="font-serif">or</p>
             <span className="border h-0 flex-1" />
-            <Link to={"/chat"}>chat</Link>
           </div>
           <form onSubmit={onSubmit} className="flex flex-col gap-5 w-full">
             <input
               type="text"
               placeholder="Email"
-              className="p-2  bg-slate-700 rounded-full"
+              className="p-2 px-3  bg-slate-700 rounded-full"
               name="email"
               onChange={onChange}
               value={form.email}
             />
+
             <input
               type="password"
               placeholder="Password"
-              className="p-2  bg-slate-700 rounded-full"
+              className="p-2 px-3 bg-slate-700 rounded-full"
               name="password"
               onChange={onChange}
               value={form.password}
@@ -93,8 +98,9 @@ export function SignIn() {
               className="bg-blue-700 text-white py-2 px-4 rounded-full hover:bg-blue-600  font-bold"
               type="submit"
             >
-              Log In
+              {isLoading ? <span>Loadin...</span> : "Login"}
             </button>
+            {isError && <p>Something went wrong</p>}
           </form>
         </div>
         <span className=" w-full flex justify-center sm:hidden ">

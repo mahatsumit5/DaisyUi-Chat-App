@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hook";
 import { IChatRoom } from "../types";
 import { socket } from "../utils/socket";
@@ -13,83 +13,85 @@ import { useGetAllChatRoomQuery } from "../redux";
 function ChatMenu() {
   const { data, error, isLoading } = useGetAllChatRoomQuery();
   const { user } = useAppSelector((store) => store.user);
+  const { currentRoom } = useAppSelector((store) => store.rooms);
   const dispatch = useAppDispatch();
-
+  const [rooms, setRooms] = useState<IChatRoom[]>([]);
   function handleClick(room: IChatRoom) {
     dispatch(setCurrentRoom(room));
   }
 
-  useEffect(() => {
-    if (!data) return;
-    const roomId = data.data.map((item: IChatRoom) => item.id);
-    socket.emit("join-room", roomId);
-  }, [data]);
+  // useEffect(() => {}, [data]);
 
   useEffect(() => {
     socket.on("send_message_client", (data, id) => {
       dispatch(replaceLastMessageInSpecificRoom({ message: data, roomId: id }));
     });
-  }, [dispatch]);
+    if (!data) return;
+    setRooms(data.data);
+    const roomId = data.data.map((item: IChatRoom) => item.id);
+    socket.emit("join-room", roomId);
+  }, [dispatch, data]);
+
+  function handleSearch(e: FormEvent<HTMLInputElement>) {
+    if (!data) return;
+    setRooms(
+      data.data.filter((item) =>
+        item.fName.toLowerCase().includes(e.currentTarget.value.toLowerCase())
+      )
+    );
+  }
   return (
     <>
       <header className="flex bg-white rounded-xl  justify-between p-4 items-center overflow-hidden">
-        <div className="flex gap-5">
-          <MobileDrawer />
+        <h1 className="text-2xl text-black font-bold">Chat</h1>
 
-          <h1 className="text-2xl text-black font-bold">Chat</h1>
-        </div>
+        <MobileDrawer />
 
-        <div className="flex gap-5">
-          <div>
-            <label className="input input-ghost   flex items-center gap-2">
-              <input
-                type="text"
-                className="hidden sm:block"
-                placeholder="Search"
-              />
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 16 16"
-                fill="currentColor"
-                className="w-4 h-4 opacity-70"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </label>
-          </div>
-          <button className="btn btn-circle btn-ghost">
+        <div className=" gap-5  hidden md:flex">
+          <label className="input input-ghost    items-center gap-2 flex">
+            <input
+              type="text"
+              className="hidden sm:block"
+              placeholder="Search"
+              onChange={handleSearch}
+            />
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              className="w-4 h-4 opacity-70"
             >
               <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M6 18L18 6M6 6l12 12"
+                fillRule="evenodd"
+                d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                clipRule="evenodd"
               />
             </svg>
-          </button>
+          </label>
         </div>
       </header>
+
+      <input
+        className="md:hidden input input-bordered"
+        placeholder="Search...."
+        onChange={handleSearch}
+      />
+
       {error ? (
         <>Oh no, there was an error</>
       ) : isLoading ? (
         <section className="bg-slate-300 h-full rounded-xl p-4 flex flex-col gap-5 overflow-y-auto animate-pulse" />
       ) : data ? (
         <>
-          <section className="bg-white h-full rounded-xl p-4 flex flex-col gap-5 overflow-y-auto">
-            {data.data.map((item: IChatRoom) => (
+          <section className="bg-white h-full rounded-xl p-2 flex flex-col gap-5 overflow-y-auto">
+            {rooms.map((item: IChatRoom) => (
               <div
                 key={item.id}
-                className="flex justify-between border-b p-2 hover:bg-slate-200"
+                className={`flex justify-between border-b p-2 hover:bg-slate-200 ${
+                  currentRoom?.id === item.id
+                    ? "bg-slate-200 rounded-md"
+                    : "rounded-md"
+                }`}
                 onClick={() => {
                   handleClick(item);
                 }}

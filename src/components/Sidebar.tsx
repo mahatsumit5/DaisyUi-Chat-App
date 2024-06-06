@@ -39,7 +39,7 @@ function Sidebar() {
                 pathname === link.link ? "text-red-500 " : "text-slate-300"
               } flex gap-2 items-center font-semibold`}
             >
-              {link.icon} <p className="block sm:hidden"> {link.text}</p>
+              {link.icon} <p className="block "> {link.text}</p>
             </button>
           </Link>
         ))}

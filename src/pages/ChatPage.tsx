@@ -9,7 +9,7 @@ function ChatPage() {
   return (
     <>
       <div
-        className={` flex-col gap-2   ${
+        className={` flex-col gap-3 p-1   ${
           currentRoom?.id ? "hidden md:flex w-[300px]" : "flex w-full  "
         } `}
       >
@@ -20,7 +20,7 @@ function ChatPage() {
         <div
           className={`  ${
             currentRoom?.id ? "md:block" : "hidden"
-          }hidden md:block w-full `}
+          }hidden md:block w-full  `}
         >
           <Chatbox />
         </div>

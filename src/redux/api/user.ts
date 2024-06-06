@@ -36,8 +36,6 @@ const userApi = createApi({
         return baseQueryReturnValue;
       },
 
-      transformErrorResponse: (baseQueryReturnValue) => baseQueryReturnValue,
-
       invalidatesTags: ["Users"],
     }),
 
