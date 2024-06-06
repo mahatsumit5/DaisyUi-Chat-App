@@ -26,28 +26,25 @@ function MessageInput({
   });
   async function handleSend() {
     if (!message) return;
-    await sendMessage({
+    const { result } = await sendMessage({
       author: userId,
       content: message,
       roomId: id,
     }).unwrap();
-
     if (!isLoading && !isError) {
       refetch();
-      socket.emit("send_message", message, id);
+      socket.emit("send_message", result, id);
       setMessage("");
     }
   }
 
   useEffect(() => {
     setStatus({ isError, isLoading });
-
     socket.on("send_message_client", (data) => {
       console.log(data);
       refetch();
     });
   }, [refetch, isError, isLoading, setStatus]);
-  useEffect(() => {}, []);
   return (
     <section className=" h-11   flex  gap-2 ">
       <div className="flex flex-1 bg-white rounded-lg gap-5" id="input-field">

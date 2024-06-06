@@ -27,13 +27,12 @@ function MessageBox({
     roomId: currentRoom?.id || "",
     num: numberOfMessageToDisplay,
   });
-
   useEffect(() => {
     const height = sectionRef.current?.scrollHeight;
     if (sectionRef.current && height) {
       sectionRef.current.scrollTop = height;
     }
-  }, [data, isTyping]);
+  }, [isTyping]);
 
   return error ? (
     <>Unexpected Error Occured</>

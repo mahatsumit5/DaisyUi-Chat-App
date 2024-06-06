@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { messageApiUrl } from "./serverUrl";
-import { IMessageResponse, IResponse } from "../../types";
+import { IMessage, IMessageResponse } from "../../types";
 type sendMessagePArams = {
   content: string;
   roomId: string;
@@ -20,7 +20,10 @@ export const messageApi = createApi({
   }),
   tagTypes: ["Messages"],
   endpoints: (builder) => ({
-    sendMessage: builder.mutation<IResponse, sendMessagePArams>({
+    sendMessage: builder.mutation<
+      { status: boolean; result: IMessage },
+      sendMessagePArams
+    >({
       query: (data) => ({
         url: "",
         method: "post",
