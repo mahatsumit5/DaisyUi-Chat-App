@@ -7,7 +7,17 @@ import { GoDotFill } from "react-icons/go";
 function getTime(time: Date) {
   return new Date(time).toTimeString();
 }
-function MessageBox({ userId }: { userId: string }) {
+function MessageBox({
+  userId,
+  isError,
+  isSendingMessageLoading,
+  message,
+}: {
+  message: string;
+  userId: string;
+  isError: boolean;
+  isSendingMessageLoading: boolean;
+}) {
   const { currentRoom } = useAppSelector((store) => store.rooms);
   const { isTyping } = useAppSelector((store) => store.socket);
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -28,7 +38,9 @@ function MessageBox({ userId }: { userId: string }) {
   return error ? (
     <>Unexpected Error Occured</>
   ) : isLoading ? (
-    <>I am loading........</>
+    <section className="bg-white  rounded-xl p-4 flex flex-col gap-2 overflow-y-auto flex-1 w-full animate-pulse ">
+      Please wait...
+    </section>
   ) : data ? (
     <section
       className="bg-white  rounded-xl p-4 flex flex-col gap-2 overflow-y-auto flex-1 w-full "
@@ -101,6 +113,21 @@ function MessageBox({ userId }: { userId: string }) {
             </span>
           </div>
           <span>{currentRoom?.fName} is typing</span>
+        </div>
+      )}
+
+      {isSendingMessageLoading && message && (
+        <div className="flex justify-end gap-2">
+          <div className=" h-8 rounded-full w-8">
+            <img
+              src="https://gratisography.com/wp-content/uploads/2024/01/gratisography-cyber-kitty-800x525.jpg"
+              className="object-cover overflow-hidden h-8 w-8 rounded-full"
+            />
+          </div>
+          <span className="p-2 bg-blue-900 text-slate-200 rounded-lg gap-2  flex items-center justify-center max-w-80 min-w-24">
+            {message}
+            {isError ? <></> : <FaCheckCircle className="mt-1 text-gray-300" />}
+          </span>
         </div>
       )}
     </section>

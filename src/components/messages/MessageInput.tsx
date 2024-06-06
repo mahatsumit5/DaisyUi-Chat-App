@@ -1,35 +1,53 @@
 import { PiTelegramLogoFill } from "react-icons/pi";
 import { socket } from "../../utils/socket";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { LuPaperclip } from "react-icons/lu";
 import { useGetMessagesQuery, useSendMessageMutation } from "../../redux";
 
-function MessageInput(props: { id: string; userId: string; email: string }) {
-  const [message, setMessage] = useState<string>("");
-  const [sendMessage] = useSendMessageMutation();
+function MessageInput({
+  email,
+  message,
+  setMessage,
+  id,
+  setStatus,
+  userId,
+}: {
+  setMessage: Dispatch<SetStateAction<string>>;
+  message: string;
+  id: string;
+  userId: string;
+  email: string;
+  setStatus: Dispatch<SetStateAction<{ isLoading: boolean; isError: boolean }>>;
+}) {
+  const [sendMessage, { isLoading, isError }] = useSendMessageMutation();
   const { refetch } = useGetMessagesQuery({
-    roomId: props.id,
+    roomId: id,
     num: 10,
   });
   async function handleSend() {
     if (!message) return;
     await sendMessage({
-      author: props.userId,
+      author: userId,
       content: message,
-      roomId: props.id,
+      roomId: id,
     }).unwrap();
-    refetch();
-    socket.emit("send_message", message, props.id);
-    setMessage("");
+
+    if (!isLoading && !isError) {
+      refetch();
+      socket.emit("send_message", message, id);
+      setMessage("");
+    }
   }
 
   useEffect(() => {
+    setStatus({ isError, isLoading });
+
     socket.on("send_message_client", (data) => {
       console.log(data);
       refetch();
     });
-  }, [refetch]);
-
+  }, [refetch, isError, isLoading, setStatus]);
+  useEffect(() => {}, []);
   return (
     <section className=" h-11   flex  gap-2 ">
       <div className="flex flex-1 bg-white rounded-lg gap-5" id="input-field">
@@ -39,9 +57,9 @@ function MessageInput(props: { id: string; userId: string; email: string }) {
           onChange={(e) => setMessage(e.target.value)}
           value={message}
           onBlur={() => {
-            socket.emit("stopped_typing", props.id, props.email);
+            socket.emit("stopped_typing", id, email);
           }}
-          onFocusCapture={() => socket.emit("typing", props.id, props.email)}
+          onFocusCapture={() => socket.emit("typing", id, email)}
         />
         <input type="file" className="hidden" id="file" />
         <label htmlFor="file" className="flex items-center justify-center w-8">
@@ -49,8 +67,9 @@ function MessageInput(props: { id: string; userId: string; email: string }) {
         </label>
       </div>
       <button
-        className="bg-red-600  flex justify-center items-center rounded-xl w-14"
+        className="bg-red-600 disabled:bg-gray-400  flex justify-center items-center rounded-xl w-14"
         onClick={handleSend}
+        disabled={isLoading || !message}
       >
         <PiTelegramLogoFill color="white" size={20} />
       </button>
