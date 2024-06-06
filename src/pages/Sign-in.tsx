@@ -75,7 +75,7 @@ export function SignIn() {
           <form onSubmit={onSubmit} className="flex flex-col gap-5 w-full">
             <input
               type="text"
-              placeholder="Email"
+              placeholder={randomUserLogin[0].email}
               className="p-2 px-3  bg-slate-700 rounded-full"
               name="email"
               onChange={onChange}
@@ -84,7 +84,7 @@ export function SignIn() {
 
             <input
               type="password"
-              placeholder="Password"
+              placeholder={randomUserLogin[0].password}
               className="p-2 px-3 bg-slate-700 rounded-full"
               name="password"
               onChange={onChange}

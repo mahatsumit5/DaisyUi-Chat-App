@@ -80,7 +80,7 @@ function ChatMenu() {
       {error ? (
         <>Oh no, there was an error</>
       ) : isLoading ? (
-        <section className="bg-slate-300 h-full rounded-xl p-4 flex flex-col gap-5 overflow-y-auto animate-pulse" />
+        <section className="skeleton h-full bg-slate-200" />
       ) : data ? (
         <>
           <section className="bg-white h-full rounded-xl p-2 flex flex-col gap-5 overflow-y-auto">

@@ -38,9 +38,7 @@ function MessageBox({
   return error ? (
     <>Unexpected Error Occured</>
   ) : isLoading ? (
-    <section className="bg-white  rounded-xl p-4 flex flex-col gap-2 overflow-y-auto flex-1 w-full animate-pulse ">
-      Please wait...
-    </section>
+    <section className="skeleton w-full h-full bg-slate-300" />
   ) : data ? (
     <section
       className="bg-white  rounded-xl p-2 flex flex-col gap-2 overflow-y-auto flex-1 w-full  "
