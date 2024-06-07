@@ -5,7 +5,7 @@ import { useAppDispatch } from "../../hook";
 import { setCurrentRoom } from "../../redux/reducer/room.slice";
 import { IoChevronBackSharp } from "react-icons/io5";
 import { MdPhoneEnabled } from "react-icons/md";
-import { useDeleteChatRoomMutation, useGetAllChatRoomQuery } from "../../redux";
+import { useDeleteChatRoomMutation } from "../../redux";
 
 function MessageHeader({
   currentRoom,
@@ -16,12 +16,14 @@ function MessageHeader({
 }) {
   const dispatch = useAppDispatch();
   const [deleteChatRoom] = useDeleteChatRoomMutation();
-  const { refetch } = useGetAllChatRoomQuery();
-  async function deleteRoomHandle() {
-    const response = await deleteChatRoom(currentRoom.id).unwrap();
-    console.log(response);
-    refetch();
-    dispatch(setCurrentRoom(null));
+  function deleteRoomHandle() {
+    deleteChatRoom(currentRoom.id)
+      .unwrap()
+      .then((response) => {
+        if (response) {
+          dispatch(setCurrentRoom(null));
+        }
+      });
   }
   return (
     <header className="bg-white w-full rounded-xl p-2 flex justify-between">

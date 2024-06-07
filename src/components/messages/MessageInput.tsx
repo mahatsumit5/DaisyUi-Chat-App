@@ -1,8 +1,13 @@
 import { PiTelegramLogoFill } from "react-icons/pi";
 import { socket } from "../../utils/socket";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction, useCallback, useEffect } from "react";
 import { LuPaperclip } from "react-icons/lu";
-import { useGetMessagesQuery, useSendMessageMutation } from "../../redux";
+import {
+  messageApi,
+  useGetMessagesQuery,
+  useSendMessageMutation,
+} from "../../redux";
+import { useAppDispatch } from "../../hook";
 
 function MessageInput({
   email,
@@ -20,10 +25,11 @@ function MessageInput({
   setStatus: Dispatch<SetStateAction<{ isLoading: boolean; isError: boolean }>>;
 }) {
   const [sendMessage, { isLoading, isError }] = useSendMessageMutation();
-  const { refetch } = useGetMessagesQuery({
+  const { refetch, isUninitialized } = useGetMessagesQuery({
     roomId: id,
     num: 10,
   });
+  const dispatch = useAppDispatch();
   async function handleSend() {
     if (!message) return;
     const { result } = await sendMessage({
@@ -32,7 +38,6 @@ function MessageInput({
       roomId: id,
     }).unwrap();
     if (!isLoading && !isError) {
-      // refetch();
       socket.emit("send_message", result, id);
       setMessage("");
     }
@@ -41,10 +46,14 @@ function MessageInput({
   useEffect(() => {
     setStatus({ isError, isLoading });
     socket.on("send_message_client", (data) => {
-      console.log(data);
-      refetch();
+      dispatch(
+        messageApi.endpoints.getMessages.initiate(
+          { roomId: id, num: 10 },
+          { forceRefetch: true, subscribe: false }
+        )
+      );
     });
-  }, [refetch, isError, isLoading, setStatus]);
+  }, [isError, isLoading, setStatus, dispatch, id]);
   return (
     <section className=" h-11   flex  gap-2 ">
       <div className="flex flex-1 bg-white rounded-lg gap-5" id="input-field">

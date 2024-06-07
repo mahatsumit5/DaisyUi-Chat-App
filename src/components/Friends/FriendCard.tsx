@@ -9,7 +9,6 @@ import {
   useAcceptFriendReqMutation,
   useDeleteSentRequestMutation,
   useGetAllChatRoomQuery,
-  useGetFriendRequestQuery,
   useGetSentFriendRequestQuery,
   useSendFriendRequestMutation,
 } from "../../redux";
@@ -82,6 +81,7 @@ const AllPeoples = ({ user }: { user: IChatRoom }) => {
   const [deleteSentRequest] = useDeleteSentRequestMutation();
   async function handleAddFriend(id: string) {
     await sendFriendRequest({ userId: id });
+
     refetch();
   }
   function sentReqCheck(email: string): boolean {
@@ -127,9 +127,7 @@ const AllPeoples = ({ user }: { user: IChatRoom }) => {
 };
 
 const FriendReq = ({ user }: { user: IUser }) => {
-  const { refetch } = useGetFriendRequestQuery(null);
-
-  const roomQUery = useGetAllChatRoomQuery();
+  const { refetch } = useGetAllChatRoomQuery();
   const [acceptFriendReq] = useAcceptFriendReqMutation();
   const [deleteSentRequest] = useDeleteSentRequestMutation();
 
@@ -138,7 +136,6 @@ const FriendReq = ({ user }: { user: IUser }) => {
       .unwrap()
       .then(() => {
         refetch();
-        roomQUery.refetch();
       });
   }
   return (

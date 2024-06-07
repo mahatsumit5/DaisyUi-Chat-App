@@ -23,10 +23,11 @@ function MessageBox({
   const sectionRef = useRef<HTMLDivElement>(null);
   const [numberOfMessageToDisplay, setNumberOfMessageToDisplay] = useState(10);
 
-  const { data, error, isLoading } = useGetMessagesQuery({
+  const { data, error, isLoading, isUninitialized } = useGetMessagesQuery({
     roomId: currentRoom?.id || "",
     num: numberOfMessageToDisplay,
   });
+  console.log(isUninitialized);
   useEffect(() => {
     const height = sectionRef.current?.scrollHeight;
     if (sectionRef.current && height) {

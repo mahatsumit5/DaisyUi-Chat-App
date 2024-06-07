@@ -22,12 +22,14 @@ export const roomApi = createApi({
   endpoints: (builder) => ({
     getAllChatRoom: builder.query<chatroomReturnType, void>({
       query: () => "",
+      providesTags: ["Rooms"],
     }),
     deleteChatRoom: builder.mutation<unknown, string>({
       query: (id) => ({
         url: `?id=${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Rooms"],
     }),
   }),
 });

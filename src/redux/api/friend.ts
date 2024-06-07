@@ -4,7 +4,7 @@ import { friendApiUrl } from "./serverUrl";
 
 export const friendApi = createApi({
   reducerPath: "FriendApi",
-  tagTypes: ["Users", "FriendRequests", "SentRequests"],
+  tagTypes: ["FriendRequests", "SentRequests"],
   baseQuery: fetchBaseQuery({
     baseUrl: friendApiUrl,
     prepareHeaders: (headers) => {
@@ -22,6 +22,7 @@ export const friendApi = createApi({
         method: "PATCH",
         body: data,
       }),
+      invalidatesTags: ["FriendRequests"],
     }),
     getFriendRequest: builder.query<
       { status: boolean; data: IFriendReq[] },
@@ -44,6 +45,7 @@ export const friendApi = createApi({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["SentRequests"],
       transformResponse: (response: { data: IResponse }) => response.data,
     }),
 
@@ -55,6 +57,7 @@ export const friendApi = createApi({
         method: "DELETE",
         url: `/${data.fromId}/${data.toId}`,
       }),
+      invalidatesTags: ["SentRequests"],
     }),
   }),
 });
