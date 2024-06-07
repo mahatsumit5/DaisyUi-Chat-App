@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { socket } from "./socket";
 import { useAppDispatch, useAppSelector } from "../hook";
 import { setTyping } from "../redux/reducer/socket.slice";
+import { setOnlineUsers } from "../redux/reducer/AllUsers.slice";
 
 const useSocketSetup = () => {
   const { currentRoom } = useAppSelector((store) => store.rooms);
@@ -19,7 +20,14 @@ const useSocketSetup = () => {
     socket.on("stopped_typing", (email) => {
       dispatch(setTyping({ person: email, typing: false }));
     });
+    socket.on("online_users", (email: string) => {
+      console.log(email);
+      dispatch(setOnlineUsers(email));
+    });
 
+    socket.on("disconnect", (reason) => {
+      console.log({ reason });
+    });
     return () => {
       socket.off("connect_error");
     };

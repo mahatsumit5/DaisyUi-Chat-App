@@ -2,11 +2,9 @@ import { Link } from "react-router-dom";
 import ChatMenu from "../components/ChatMenu";
 import Chatbox from "../components/Chatbox";
 import { useAppSelector } from "../hook";
-import { socket } from "../utils/socket";
 
 function ChatPage() {
   const { currentRoom } = useAppSelector((store) => store.rooms);
-  console.log(socket);
   return (
     <>
       <div

@@ -1,7 +1,7 @@
 import { IoIosMore } from "react-icons/io";
 import { IChatRoom } from "../../types";
 import { Dispatch, SetStateAction } from "react";
-import { useAppDispatch } from "../../hook";
+import { useAppDispatch, useAppSelector } from "../../hook";
 import { setCurrentRoom } from "../../redux/reducer/room.slice";
 import { IoChevronBackSharp } from "react-icons/io5";
 import { MdPhoneEnabled } from "react-icons/md";
@@ -16,6 +16,8 @@ function MessageHeader({
 }) {
   const dispatch = useAppDispatch();
   const [deleteChatRoom] = useDeleteChatRoomMutation();
+
+  const { onlineUsers } = useAppSelector((store) => store.onlineUsers);
   function deleteRoomHandle() {
     deleteChatRoom(currentRoom.id)
       .unwrap()
@@ -37,7 +39,9 @@ function MessageHeader({
           <IoChevronBackSharp size={24} />
         </button>
         <div
-          className="avatar online"
+          className={`avatar ${
+            onlineUsers.includes(currentRoom.email) ? "online" : "offline"
+          }`}
           onClick={() => {
             setComponent("profile");
           }}

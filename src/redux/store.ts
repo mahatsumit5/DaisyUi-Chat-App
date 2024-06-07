@@ -11,7 +11,7 @@ export const store = configureStore({
   reducer: {
     rooms: roomReducer,
     user: userInfoReducer,
-    allUsers: allUsersreducer,
+    onlineUsers: allUsersreducer,
     friendRequest: friendReqReducer,
     dialog: dialogReducer,
     socket: socketReducer,

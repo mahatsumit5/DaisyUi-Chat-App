@@ -5,32 +5,31 @@ import { socket } from "../utils/socket";
 
 import MobileDrawer from "./MobileDrawer";
 import defaultImg from "../assets/images/default-profile.jpg";
-import {
-  replaceLastMessageInSpecificRoom,
-  setCurrentRoom,
-} from "../redux/reducer/room.slice";
+import { setCurrentRoom } from "../redux/reducer/room.slice";
 import { useGetAllChatRoomQuery } from "../redux";
 function ChatMenu() {
-  const { data, error, isLoading } = useGetAllChatRoomQuery();
+  const { data, error, isLoading, refetch } = useGetAllChatRoomQuery();
+  console.log(data);
   const { user } = useAppSelector((store) => store.user);
   const { currentRoom } = useAppSelector((store) => store.rooms);
+  const { onlineUsers } = useAppSelector((store) => store.onlineUsers);
   const dispatch = useAppDispatch();
   const [rooms, setRooms] = useState<IChatRoom[]>([]);
+
   function handleClick(room: IChatRoom) {
     dispatch(setCurrentRoom(room));
   }
 
-  // useEffect(() => {}, [data]);
-
   useEffect(() => {
-    socket.on("send_message_client", (data, id) => {
-      dispatch(replaceLastMessageInSpecificRoom({ message: data, roomId: id }));
+    socket.on("send_message_client", (data) => {
+      console.log(data);
+      refetch();
     });
     if (!data) return;
     setRooms(data.data);
     const roomId = data.data.map((item: IChatRoom) => item.id);
-    socket.emit("join-room", roomId);
-  }, [dispatch, data]);
+    socket.emit("join-room", roomId, user?.email);
+  }, [dispatch, data, refetch, user]);
 
   function handleSearch(e: FormEvent<HTMLInputElement>) {
     if (!data) return;
@@ -97,7 +96,11 @@ function ChatMenu() {
                 }}
               >
                 <div className="flex gap-3">
-                  <div className="avatar offline">
+                  <div
+                    className={`avatar ${
+                      onlineUsers.includes(item.email) ? "online" : "offline"
+                    }`}
+                  >
                     <div className="w-10 rounded-full">
                       <img src={item.profile || defaultImg} />
                     </div>
