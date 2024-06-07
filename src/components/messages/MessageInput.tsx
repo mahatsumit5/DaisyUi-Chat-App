@@ -32,7 +32,7 @@ function MessageInput({
       roomId: id,
     }).unwrap();
     if (!isLoading && !isError) {
-      refetch();
+      // refetch();
       socket.emit("send_message", result, id);
       setMessage("");
     }

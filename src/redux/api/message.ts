@@ -29,6 +29,7 @@ export const messageApi = createApi({
         method: "post",
         body: data,
       }),
+      invalidatesTags: ["Messages"],
     }),
 
     getMessages: builder.query<
@@ -36,6 +37,8 @@ export const messageApi = createApi({
       { roomId: string; num: number }
     >({
       query: ({ roomId, num }) => `?id=${roomId}&&num=${num}`,
+      providesTags: ["Messages"],
     }),
   }),
+  refetchOnMountOrArgChange: true,
 });

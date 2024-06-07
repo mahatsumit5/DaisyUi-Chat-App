@@ -32,7 +32,7 @@ function MessageBox({
     if (sectionRef.current && height) {
       sectionRef.current.scrollTop = height;
     }
-  }, [isTyping]);
+  }, [data]);
 
   return error ? (
     <>Unexpected Error Occured</>
