@@ -5,6 +5,7 @@ import { useAppDispatch } from "../../hook";
 import { setCurrentRoom } from "../../redux/reducer/room.slice";
 import { IoChevronBackSharp } from "react-icons/io5";
 import { MdPhoneEnabled } from "react-icons/md";
+import { useDeleteChatRoomMutation, useGetAllChatRoomQuery } from "../../redux";
 
 function MessageHeader({
   currentRoom,
@@ -14,6 +15,14 @@ function MessageHeader({
   setComponent: Dispatch<SetStateAction<"profile" | "message">>;
 }) {
   const dispatch = useAppDispatch();
+  const [deleteChatRoom] = useDeleteChatRoomMutation();
+  const { refetch } = useGetAllChatRoomQuery();
+  async function deleteRoomHandle() {
+    const response = await deleteChatRoom(currentRoom.id).unwrap();
+    console.log(response);
+    refetch();
+    dispatch(setCurrentRoom(null));
+  }
   return (
     <header className="bg-white w-full rounded-xl p-2 flex justify-between">
       <div className="flex gap-5">
@@ -53,7 +62,7 @@ function MessageHeader({
           <MdPhoneEnabled size={25} />
         </button>
 
-        <button>
+        <button onClick={deleteRoomHandle}>
           <IoIosMore size={30} />
         </button>
       </div>

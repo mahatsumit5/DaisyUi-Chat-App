@@ -23,5 +23,11 @@ export const roomApi = createApi({
     getAllChatRoom: builder.query<chatroomReturnType, void>({
       query: () => "",
     }),
+    deleteChatRoom: builder.mutation<unknown, string>({
+      query: (id) => ({
+        url: `?id=${id}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });

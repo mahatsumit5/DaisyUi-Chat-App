@@ -23,7 +23,7 @@ export const {
   useGetNewAccessJWTMutation,
 } = userApi;
 
-export const { useGetAllChatRoomQuery } = roomApi;
+export const { useGetAllChatRoomQuery, useDeleteChatRoomMutation } = roomApi;
 
 export const { useSendMessageMutation, useGetMessagesQuery } = messageApi;
 export { userApi, friendApi, roomApi, messageApi };

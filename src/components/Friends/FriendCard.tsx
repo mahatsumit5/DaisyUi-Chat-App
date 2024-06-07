@@ -8,6 +8,7 @@ import { IoIosPersonAdd } from "react-icons/io";
 import {
   useAcceptFriendReqMutation,
   useDeleteSentRequestMutation,
+  useGetAllChatRoomQuery,
   useGetFriendRequestQuery,
   useGetSentFriendRequestQuery,
   useSendFriendRequestMutation,
@@ -47,6 +48,7 @@ const FriendCard = ({
         &nbsp;
         <h1 className="text-xl">{user?.lName}</h1>
       </span>
+      <p>{user.email}</p>
       {displayComponent[display]}
     </div>
   );
@@ -103,21 +105,21 @@ const AllPeoples = ({ user }: { user: IChatRoom }) => {
     <div className="flex">
       {sentReqCheck(user.email) ? (
         <button
-          className="btn btn-sm btn-ghost"
+          className="btn btn-outline btn-error"
           onClick={() => {
             handleCancelReq(user.id);
           }}
         >
-          <AiFillDelete size={30} color="red" />
+          Cancel <AiFillDelete size={20} color="red" />
         </button>
       ) : (
         <button
-          className="  btn btn-sm btn-ghost"
+          className="  btn btn-outline btn-primary "
           onClick={() => {
             handleAddFriend(user.id);
           }}
         >
-          <IoIosPersonAdd size={30} color="skyblue" />
+          Add Friend <IoIosPersonAdd size={20} color="skyblue" />
         </button>
       )}
     </div>
@@ -127,11 +129,17 @@ const AllPeoples = ({ user }: { user: IChatRoom }) => {
 const FriendReq = ({ user }: { user: IUser }) => {
   const { refetch } = useGetFriendRequestQuery(null);
 
+  const roomQUery = useGetAllChatRoomQuery();
   const [acceptFriendReq] = useAcceptFriendReqMutation();
   const [deleteSentRequest] = useDeleteSentRequestMutation();
-  async function acceptReqHandler(from: string) {
-    acceptFriendReq({ fromId: from });
-    refetch();
+
+  function acceptReqHandler(from: string) {
+    acceptFriendReq({ fromId: from })
+      .unwrap()
+      .then(() => {
+        refetch();
+        roomQUery.refetch();
+      });
   }
   return (
     <div className="flex items-center gap-5">
