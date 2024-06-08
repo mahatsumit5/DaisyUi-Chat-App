@@ -17,7 +17,7 @@ function Chatbox() {
   const displayComponent = {
     message: currentRoom?.id ? (
       <MessageBox
-        message={"hello"}
+        message={message}
         userId={user?.id as string}
         isError={status.isError}
         isSendingMessageLoading={status.isLoading}

@@ -39,7 +39,7 @@ export const friendApi = createApi({
       query: () => "sent-request",
       providesTags: ["SentRequests"],
     }),
-    sendFriendRequest: builder.mutation<unknown, { userId: string }>({
+    sendFriendRequest: builder.mutation<IResponse, { userId: string }>({
       query: (data) => ({
         url: "/send-request",
         method: "POST",

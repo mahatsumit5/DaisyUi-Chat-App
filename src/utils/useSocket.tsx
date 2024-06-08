@@ -24,6 +24,9 @@ const useSocketSetup = () => {
       console.log(email);
       dispatch(setOnlineUsers(email));
     });
+    socket.on("receive_friend_request", (sender) =>
+      console.log("You have a new request from:", sender)
+    );
 
     socket.on("disconnect", (reason) => {
       console.log({ reason });

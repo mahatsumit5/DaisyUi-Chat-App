@@ -14,6 +14,7 @@ import {
 } from "../../redux";
 import { TiDelete, TiTick } from "react-icons/ti";
 import { setCurrentRoom } from "../../redux/reducer/room.slice";
+import { socket } from "../../utils/socket";
 type keys = "peoples" | "friends" | "request";
 
 const FriendCard = ({
@@ -79,10 +80,19 @@ const AllPeoples = ({ user }: { user: IChatRoom }) => {
   const { data, refetch } = useGetSentFriendRequestQuery(null);
   const [sendFriendRequest] = useSendFriendRequestMutation();
   const [deleteSentRequest] = useDeleteSentRequestMutation();
-  async function handleAddFriend(id: string) {
-    await sendFriendRequest({ userId: id });
+  function handleAddFriend(id: string) {
+    sendFriendRequest({ userId: id })
+      .unwrap()
+      .then(() => {
+        refetch();
 
-    refetch();
+        socket.emit(
+          "friend_request_notification",
+          id,
+          loggedInUser.user?.email
+        );
+      })
+      .catch((err) => console.log(err));
   }
   function sentReqCheck(email: string): boolean {
     if (!data) return false;
