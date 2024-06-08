@@ -21,6 +21,7 @@ function Chatbox() {
         userId={user?.id as string}
         isError={status.isError}
         isSendingMessageLoading={status.isLoading}
+        userName={user?.fName as string}
       />
     ) : null,
 

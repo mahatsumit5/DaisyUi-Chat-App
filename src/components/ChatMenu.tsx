@@ -27,8 +27,6 @@ function ChatMenu() {
     });
     if (!data) return;
     setRooms(data.data);
-    const roomId = data.data.map((item: IChatRoom) => item.id);
-    socket.emit("join-room", roomId, user?.email);
   }, [dispatch, data, refetch, user]);
 
   function handleSearch(e: FormEvent<HTMLInputElement>) {

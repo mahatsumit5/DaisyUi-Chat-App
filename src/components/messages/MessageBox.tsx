@@ -12,7 +12,9 @@ function MessageBox({
   isError,
   isSendingMessageLoading,
   message,
+  userName,
 }: {
+  userName: string;
   message: string;
   userId: string;
   isError: boolean;
@@ -22,7 +24,6 @@ function MessageBox({
   const { isTyping } = useAppSelector((store) => store.socket);
   const sectionRef = useRef<HTMLDivElement>(null);
   const [numberOfMessageToDisplay, setNumberOfMessageToDisplay] = useState(10);
-
   const { data, error, isLoading } = useGetMessagesQuery({
     roomId: currentRoom?.id || "",
     num: numberOfMessageToDisplay,
@@ -56,41 +57,77 @@ function MessageBox({
       {data.result.messages.map(
         ({ author, content, createdAt, id, isSeen }) => {
           return (
-            <div
-              key={id}
-              className={`flex gap-2 items-center ${
-                author === userId ? "justify-end" : "justify-start"
-              }`}
-            >
-              <div className="bg-black h-8 rounded-full w-8">
-                <img
-                  src="https://gratisography.com/wp-content/uploads/2024/01/gratisography-cyber-kitty-800x525.jpg"
-                  className="object-cover overflow-hidden h-8 w-8 rounded-full"
-                />
-              </div>
+            <div key={id}>
               <div
-                className={`${
-                  author === userId
-                    ? "bg-blue-500 text-slate-200"
-                    : "bg-gray-200 text-black"
-                } p-2  rounded-lg  text-justify max-w-80 min-w-24`}
+                className={`chat ${
+                  author === userId ? "chat-end" : "chat-start"
+                }`}
+                key={id}
               >
-                <span>{content}</span>
-                <p
-                  className={`${
-                    author === userId ? "text-gray-300" : "text-gray-400"
-                  } text-xs  text-right flex justify-end gap-5`}
-                >
-                  {getTime(createdAt).slice(0, 5)}
-                  {author === userId && (
-                    <FaCheckCircle
-                      className="mt-1"
-                      color={isSeen ? "blue" : "white"}
+                <div className="chat-image avatar">
+                  <div className="w-10 rounded-full">
+                    <img
+                      alt="Tailwind CSS chat bubble component"
+                      src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
                     />
-                  )}
-                </p>
+                  </div>
+                </div>
+                <div className="chat-header">
+                  {author === userId
+                    ? userName
+                    : currentRoom?.fName + " " + currentRoom?.lName}
+                  <time className="text-xs opacity-50">
+                    {getTime(createdAt).slice(0, 5)}
+                  </time>
+                </div>
+                <div className="chat-bubble bg-blue-500 text-white">
+                  {content}
+                </div>
+                <div className="chat-footer opacity-50">
+                  {author === userId
+                    ? isSeen
+                      ? `seen at ${getTime(createdAt).slice(0, 5)}`
+                      : null
+                    : "Deivered"}
+                </div>
               </div>
             </div>
+
+            // <div
+            //   key={id}
+            //   className={`flex gap-2 items-center ${
+            //     author === userId ? "justify-end" : "justify-start"
+            //   }`}
+            // >
+            //   <div className="bg-black h-8 rounded-full w-8">
+            //     <img
+            //       src="https://gratisography.com/wp-content/uploads/2024/01/gratisography-cyber-kitty-800x525.jpg"
+            //       className="object-cover overflow-hidden h-8 w-8 rounded-full"
+            //     />
+            //   </div>
+            //   <div
+            //     className={`${
+            //       author === userId
+            //         ? "bg-blue-500 text-slate-200"
+            //         : "bg-gray-200 text-black"
+            //     } p-2  rounded-lg  text-justify max-w-80 min-w-24`}
+            //   >
+            //     <span>{content}</span>
+            //     <p
+            //       className={`${
+            //         author === userId ? "text-gray-300" : "text-gray-400"
+            //       } text-xs  text-right flex justify-end gap-5`}
+            //     >
+            //       {getTime(createdAt).slice(0, 5)}
+            //       {author === userId && (
+            //         <FaCheckCircle
+            //           className="mt-1"
+            //           color={isSeen ? "blue" : "white"}
+            //         />
+            //       )}
+            //     </p>
+            //   </div>
+            // </div>
           );
         }
       )}
