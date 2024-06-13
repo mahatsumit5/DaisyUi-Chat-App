@@ -1,8 +1,10 @@
 import { PiStarFourFill } from "react-icons/pi";
-import { TiMessages } from "react-icons/ti";
+import { TiMessages, TiUserAddOutline } from "react-icons/ti";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { BsPeople } from "react-icons/bs";
 import { Link, useLocation } from "react-router-dom";
+import { TbUserSearch } from "react-icons/tb";
+import { useGetFriendRequestQuery } from "../redux";
 
 const links = [
   {
@@ -19,13 +21,27 @@ const links = [
   },
   {
     id: 3,
-    text: "Peoples",
+    text: "Friends",
     link: "/friends",
+    icon: <TbUserSearch size={35} />,
+  },
+  {
+    id: 4,
+    text: "Active",
+    link: "/online-users",
     icon: <BsPeople size={35} />,
+  },
+  {
+    id: 5,
+    text: "Request",
+    link: "/friend-request",
+    icon: <TiUserAddOutline size={35} />,
   },
 ];
 function Sidebar() {
   const { pathname } = useLocation();
+  const { data } = useGetFriendRequestQuery(null);
+
   return (
     <>
       <div>
@@ -35,11 +51,16 @@ function Sidebar() {
         {links.map((link) => (
           <Link to={link.link} key={link.id}>
             <button
-              className={`${
+              className={`relative ${
                 pathname === link.link ? "text-red-500 " : "text-slate-300"
               } flex gap-2 items-center font-semibold`}
             >
               {link.icon} <p className="block "> {link.text}</p>
+              {link.text === "Request" && (
+                <span className="text-white  rounded-badge absolute -right-2 -top-2">
+                  {data?.data.friendReqCount}
+                </span>
+              )}
             </button>
           </Link>
         ))}

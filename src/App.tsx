@@ -17,6 +17,8 @@ import { useEffect } from "react";
 import { setUser } from "./redux/reducer/user.slice";
 import { useAppDispatch } from "./hook";
 import { IUser } from "./types";
+import Active from "./pages/Active";
+import Request from "./pages/Request";
 
 export default function App() {
   const navigate = useNavigate();
@@ -58,6 +60,22 @@ export default function App() {
             element={
               <Privatelayout>
                 <Friends />
+              </Privatelayout>
+            }
+          />
+          <Route
+            path="/online-users"
+            element={
+              <Privatelayout>
+                <Active />
+              </Privatelayout>
+            }
+          />
+          <Route
+            path="/friend-request"
+            element={
+              <Privatelayout>
+                <Request />
               </Privatelayout>
             }
           />

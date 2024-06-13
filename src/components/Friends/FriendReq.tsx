@@ -1,45 +1,48 @@
-import { Dispatch, SetStateAction } from "react";
 import { useGetFriendRequestQuery } from "../../redux";
-import FriendCard from "./FriendCard";
 import { IUser } from "../../types";
 
-function FriendReq({
-  setDisplay,
-}: {
-  setDisplay: Dispatch<SetStateAction<"people" | "friends" | "Request">>;
-}) {
-  const { data, error, isLoading } = useGetFriendRequestQuery(null);
+import AllPeoples from "./AllPeoples";
+import FriendCard from "./FriendCard";
 
+function FriendReq() {
+  const { data, error, isLoading } = useGetFriendRequestQuery(null);
   return (
     <>
-      {error ? (
-        <div className="flex items-center justify-center flex-col gap-5">
-          <p className="text-2xl  font-serif font-bold text-black">
-            You do not have any friend request.
-          </p>
-          <button
-            className="btn btn-primary text-white"
-            onClick={() => {
-              setDisplay("people");
-            }}
-          >
-            Find People
-          </button>
+      <div className="flex flex-col gap-10">
+        <div className="flex flex-col gap-4">
+          <h1 className="text-xl md:text-4xl font-bold text-black">
+            Friend Request
+          </h1>
+          {error ? (
+            <p>You do not have any friend request</p>
+          ) : (
+            <>
+              {isLoading ? (
+                <>isLoading</>
+              ) : (
+                <>
+                  {data?.data.result.map((item, index) => (
+                    <FriendCard
+                      type="request"
+                      user={item.from as IUser}
+                      key={index}
+                    />
+                  ))}
+                </>
+              )}
+            </>
+          )}
         </div>
-      ) : isLoading ? (
-        <>loading</>
-      ) : data ? (
-        <div className="flex justify-between flex-wrap flex-row">
-          {data.data.map((item, index) => (
-            <FriendCard type="request" user={item.from as IUser} key={index} />
-          ))}
+
+        <div className="flex flex-col gap-5">
+          <h1 className="text-xl md:text-4xl font-bold text-black">
+            Find new People
+          </h1>
+          <AllPeoples />
         </div>
-      ) : null}
+      </div>
     </>
   );
-  // : (
-  //
-  // );
 }
 
 export default FriendReq;

@@ -27,7 +27,7 @@ const useSocketSetup = () => {
       console.log("You have a new request from:", sender)
     );
 
-    socket.on("disconnect", (reason) => {});
+    socket.on("disconnect", () => {});
     return () => {
       socket.off("connect_error");
     };

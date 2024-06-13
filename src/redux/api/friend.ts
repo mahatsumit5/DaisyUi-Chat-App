@@ -25,10 +25,13 @@ export const friendApi = createApi({
       invalidatesTags: ["FriendRequests"],
     }),
     getFriendRequest: builder.query<
-      { status: boolean; data: IFriendReq[] },
+      {
+        status: boolean;
+        data: { result: IFriendReq[]; friendReqCount: number };
+      },
       null
     >({
-      query: () => "",
+      query: () => "friend-request",
       providesTags: ["FriendRequests"],
     }),
 

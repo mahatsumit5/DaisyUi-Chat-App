@@ -8,12 +8,12 @@ function AllPeoples() {
   return (
     <>
       {error ? (
-        <>Error</>
+        <>Unexpected error occures. Please try again later</>
       ) : isLoading ? (
         <></>
       ) : data ? (
         <>
-          <div className="flex flex-row flex-wrap gap-8 justify-between px-4">
+          <div className="flex flex-row flex-wrap gap-8 justify-between ">
             {data.map((user: IUser) => (
               <FriendCard user={user} type="peoples" key={user.id} />
             ))}
