@@ -21,16 +21,13 @@ const useSocketSetup = () => {
       dispatch(setTyping({ person: email, typing: false }));
     });
     socket.on("online_users", (email: string) => {
-      console.log(email);
       dispatch(setOnlineUsers(email));
     });
     socket.on("receive_friend_request", (sender) =>
       console.log("You have a new request from:", sender)
     );
 
-    socket.on("disconnect", (reason) => {
-      console.log({ reason });
-    });
+    socket.on("disconnect", (reason) => {});
     return () => {
       socket.off("connect_error");
     };

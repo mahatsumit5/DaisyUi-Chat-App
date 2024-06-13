@@ -9,7 +9,6 @@ import { setCurrentRoom } from "../redux/reducer/room.slice";
 import { useGetAllChatRoomQuery } from "../redux";
 function ChatMenu() {
   const { data, error, isLoading, refetch } = useGetAllChatRoomQuery();
-  console.log(data);
   const { user } = useAppSelector((store) => store.user);
   const { currentRoom } = useAppSelector((store) => store.rooms);
   const { onlineUsers } = useAppSelector((store) => store.onlineUsers);
@@ -19,10 +18,12 @@ function ChatMenu() {
   function handleClick(room: IChatRoom) {
     dispatch(setCurrentRoom(room));
   }
-
   useEffect(() => {
-    socket.on("send_message_client", (data) => {
-      console.log(data);
+    const roomIds = data?.data.map((item) => item.id);
+    socket.emit("join-room", roomIds as [], user?.email as string);
+  }, [data, user]);
+  useEffect(() => {
+    socket.on("send_message_client", () => {
       refetch();
     });
     if (!data) return;

@@ -3,6 +3,7 @@ import { useAppSelector } from "../../hook";
 import { FaArrowUp, FaCheckCircle } from "react-icons/fa";
 import { useGetMessagesQuery } from "../../redux";
 import { GoDotFill } from "react-icons/go";
+import { socket } from "../../utils/socket";
 
 function getTime(time: Date) {
   return new Date(time).toTimeString();
@@ -34,6 +35,13 @@ function MessageBox({
       sectionRef.current.scrollTop = height;
     }
   }, [data]);
+
+  useEffect(() => {
+    socket.on("typing", (email) => {
+      console.log(email);
+      // dispatch(setTyping({ person: email, typing: true }));
+    });
+  }, []);
 
   return error ? (
     <>Unexpected Error Occured</>
