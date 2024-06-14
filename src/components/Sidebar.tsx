@@ -5,6 +5,7 @@ import { BsPeople } from "react-icons/bs";
 import { Link, useLocation } from "react-router-dom";
 import { TbUserSearch } from "react-icons/tb";
 import { useGetFriendRequestQuery } from "../redux";
+import { useAppSelector } from "../hook";
 
 const links = [
   {
@@ -41,7 +42,7 @@ const links = [
 function Sidebar() {
   const { pathname } = useLocation();
   const { data } = useGetFriendRequestQuery(null);
-
+  const { user } = useAppSelector((s) => s.user);
   return (
     <>
       <div>
@@ -67,13 +68,16 @@ function Sidebar() {
           </Link>
         ))}
       </div>
-      <div>
-        <Link to={"/profile"}>
+      <div className="bg-slate-500/15 p-2 rounded-lg">
+        <Link to={"/profile"} className="flex items-center gap-3">
           <div className="avatar">
             <div className="w-12 rounded-full">
               <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
             </div>
           </div>
+          <p>
+            {user?.fName}&nbsp;{user?.lName}
+          </p>
         </Link>
       </div>
     </>
