@@ -52,8 +52,10 @@ function Sidebar() {
           <Link to={link.link} key={link.id}>
             <button
               className={`relative ${
-                pathname === link.link ? "text-red-500 " : "text-slate-300"
-              } flex gap-2 items-center font-semibold`}
+                pathname === link.link
+                  ? "text-red-500 bg-slate-700  rounded-lg"
+                  : "text-slate-300"
+              } flex gap-2 items-center font-semibold p-2`}
             >
               {link.icon} <p className="block "> {link.text}</p>
               {link.text === "Request" && (

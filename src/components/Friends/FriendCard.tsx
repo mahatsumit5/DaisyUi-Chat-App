@@ -9,6 +9,7 @@ import {
   useAcceptFriendReqMutation,
   useDeleteSentRequestMutation,
   useGetAllChatRoomQuery,
+  useGetFriendRequestQuery,
   useGetSentFriendRequestQuery,
   useSendFriendRequestMutation,
 } from "../../redux";
@@ -31,7 +32,7 @@ const FriendCard = ({
     request: <FriendReq user={user as IUser} />,
   };
   return (
-    <div className="bg-white p-2 w-full sm:w-[250px] rounded-xl flex flex-col shadow-lg items-center justify-center gap-5">
+    <div className=" p-2 w-full sm:w-[250px] rounded-xl flex flex-col bg-gray-100 shadow-lg items-center justify-center gap-5">
       {/* Avatar and name */}
       <div className="flex gap-4">
         <div className="avatar">
@@ -138,14 +139,16 @@ const AllPeoples = ({ user }: { user: IChatRoom }) => {
 
 const FriendReq = ({ user }: { user: IUser }) => {
   const { refetch } = useGetAllChatRoomQuery();
+  const friendReqQuery = useGetFriendRequestQuery(null);
   const [acceptFriendReq] = useAcceptFriendReqMutation();
   const [deleteSentRequest] = useDeleteSentRequestMutation();
-
+  const loggedInUser = useAppSelector((store) => store.user);
   function acceptReqHandler(from: string) {
     acceptFriendReq({ fromId: from })
       .unwrap()
       .then(() => {
         refetch();
+        socket.emit("friend_request_accepted", from);
       });
   }
   return (
@@ -161,8 +164,11 @@ const FriendReq = ({ user }: { user: IUser }) => {
       <button
         className=" text-red-700 rounded-lg bg-slate-300 hover:bg-slate-500 hover:text-white transition-all"
         onClick={() => {
-          deleteSentRequest({ fromId: user.id, toId: "" });
-          refetch();
+          deleteSentRequest({
+            fromId: user.id,
+            toId: loggedInUser.user?.id as string,
+          });
+          friendReqQuery.refetch();
         }}
       >
         <TiDelete size={35} />

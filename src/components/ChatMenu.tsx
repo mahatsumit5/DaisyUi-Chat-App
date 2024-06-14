@@ -22,6 +22,7 @@ function ChatMenu() {
     const roomIds = data?.data.map((item) => item.id);
     socket.emit("join-room", roomIds as [], user?.email as string);
   }, [data, user]);
+
   useEffect(() => {
     socket.on("send_message_client", () => {
       refetch();

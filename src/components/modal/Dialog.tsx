@@ -1,7 +1,6 @@
 import { RxCross1 } from "react-icons/rx";
 import { useAppDispatch, useAppSelector } from "../../hook";
-import Profile from "../messages/Profile";
-import { toggleDialog } from "../../redux/dialog.slice";
+import { closeDialog } from "../../redux/dialog.slice";
 import { motion, AnimatePresence } from "framer-motion";
 const variants = {
   open: { opacity: 1, scale: 1 },
@@ -9,7 +8,7 @@ const variants = {
 };
 const Dialog = () => {
   const dispatch = useAppDispatch();
-  const { open } = useAppSelector((store) => store.dialog);
+  const { open, children } = useAppSelector((store) => store.dialog);
   return (
     <AnimatePresence>
       <motion.div
@@ -28,15 +27,13 @@ const Dialog = () => {
             <button
               className="btn btn-circle btn-ghost"
               onClick={() => {
-                dispatch(toggleDialog());
+                dispatch(closeDialog());
               }}
             >
               <RxCross1 />
             </button>
           </div>
-          <div className="min-h-52">
-            <Profile type="allUsers" />
-          </div>
+          <div className="min-h-32">{children}</div>
         </motion.div>
       </motion.div>
     </AnimatePresence>

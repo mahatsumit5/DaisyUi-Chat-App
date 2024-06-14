@@ -21,7 +21,7 @@ export const store = configureStore({
     [messageApi.reducerPath]: messageApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat([
+    getDefaultMiddleware({ serializableCheck: false }).concat([
       friendApi.middleware,
       userApi.middleware,
       roomApi.middleware,
