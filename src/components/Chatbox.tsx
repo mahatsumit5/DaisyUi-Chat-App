@@ -28,7 +28,7 @@ function Chatbox() {
     profile: <Profile setComponent={setComponent} type="friend" />,
   };
   return currentRoom?.id ? (
-    <div className="flex flex-col gap-2 w-full h-full">
+    <div className="flex flex-col gap-1 w-full  mt-1 h-full">
       <MessageHeader currentRoom={currentRoom} setComponent={setComponent} />
       {displayComponent[component]}
       <MessageInput

@@ -1,19 +1,33 @@
-import { FormEvent, useEffect, useState } from "react";
+import { Dispatch, FormEvent, SetStateAction, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../hook";
 import { IChatRoom } from "../types";
 import { socket } from "../utils/socket";
 
-import MobileDrawer from "./MobileDrawer";
 import defaultImg from "../assets/images/default-profile.jpg";
 import { setCurrentRoom } from "../redux/reducer/room.slice";
-import { useGetAllChatRoomQuery } from "../redux";
-function ChatMenu() {
-  const { data, error, isLoading, refetch } = useGetAllChatRoomQuery();
+import { chatroomReturnType } from "../redux/api/room";
+import {
+  BaseQueryFn,
+  FetchArgs,
+  FetchBaseQueryError,
+  FetchBaseQueryMeta,
+  QueryActionCreatorResult,
+  QueryDefinition,
+} from "@reduxjs/toolkit/query";
+import { SerializedError } from "@reduxjs/toolkit";
+function ChatMenu({
+  setRooms,
+  rooms,
+  handleSearch,
+  data,
+  error,
+  isLoading,
+  refetch,
+}: ChatMenuProps) {
   const { user } = useAppSelector((store) => store.user);
   const { currentRoom } = useAppSelector((store) => store.rooms);
   const { onlineUsers } = useAppSelector((store) => store.onlineUsers);
   const dispatch = useAppDispatch();
-  const [rooms, setRooms] = useState<IChatRoom[]>([]);
 
   function handleClick(room: IChatRoom) {
     dispatch(setCurrentRoom(room));
@@ -29,49 +43,13 @@ function ChatMenu() {
     });
     if (!data) return;
     setRooms(data.data);
-  }, [dispatch, data, refetch, user]);
+  }, [dispatch, data, refetch, user, setRooms]);
 
-  function handleSearch(e: FormEvent<HTMLInputElement>) {
-    if (!data) return;
-    setRooms(
-      data.data.filter((item) =>
-        item.fName.toLowerCase().includes(e.currentTarget.value.toLowerCase())
-      )
-    );
-  }
   return (
     <>
-      <header className="flex bg-white rounded-xl  justify-between p-4 items-center overflow-hidden">
-        <h1 className="text-2xl text-black font-bold">Chat</h1>
-
-        <MobileDrawer />
-
-        <div className=" gap-5  hidden md:flex">
-          <label className="input input-ghost    items-center gap-2 flex">
-            <input
-              type="text"
-              className="hidden sm:block"
-              placeholder="Search"
-              onChange={handleSearch}
-            />
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              className="w-4 h-4 opacity-70"
-            >
-              <path
-                fillRule="evenodd"
-                d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </label>
-        </div>
-      </header>
-
       <input
-        className="md:hidden input input-bordered"
+        type="text"
+        className="md:hidden bg-slate-100  p-3  rounded-lg mt-2"
         placeholder="Search...."
         onChange={handleSearch}
       />
@@ -82,13 +60,13 @@ function ChatMenu() {
         <section className="skeleton h-full bg-slate-200" />
       ) : data ? (
         <>
-          <section className="bg-white h-full rounded-xl p-2 flex flex-col gap-5 overflow-y-auto">
+          <section className=" h-full rounded-xl p-2 flex  flex-col gap-5 overflow-y-auto bg-slate-50/85">
             {rooms.map((item: IChatRoom) => (
               <div
                 key={item.id}
-                className={`flex justify-between border-b p-2 hover:bg-slate-200 ${
+                className={`flex justify-between border-b p-2 hover:bg-slate-300 ${
                   currentRoom?.id === item.id
-                    ? "bg-slate-200 rounded-md"
+                    ? "bg-slate-300/80 rounded-md"
                     : "rounded-md"
                 }`}
                 onClick={() => {
@@ -147,3 +125,27 @@ function ChatMenu() {
 }
 
 export default ChatMenu;
+
+type ChatMenuProps = {
+  rooms: IChatRoom[];
+  setRooms: Dispatch<SetStateAction<IChatRoom[]>>;
+  handleSearch: (e: FormEvent<HTMLInputElement>) => void;
+  data: chatroomReturnType;
+  error: FetchBaseQueryError | SerializedError | undefined;
+  isLoading: boolean;
+  refetch: () => QueryActionCreatorResult<
+    QueryDefinition<
+      void,
+      BaseQueryFn<
+        string | FetchArgs,
+        unknown,
+        FetchBaseQueryError,
+        object,
+        FetchBaseQueryMeta
+      >,
+      "Rooms",
+      chatroomReturnType,
+      "roomApi"
+    >
+  >;
+};

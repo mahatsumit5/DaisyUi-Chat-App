@@ -3,9 +3,9 @@ import MobileDrawer from "../components/MobileDrawer";
 
 function Friends() {
   return (
-    <div className="flex flex-col  w-full md:px-5">
+    <div className="flex flex-col  w-full md:px-5 px-2">
       <div className="flex w-full justify-between items-center">
-        <h1 className="text-3xl text-gray-800 font-bold font-serif ">
+        <h1 className="text-3xl text-gray-800 font-bold font-serif hidden md:block">
           Friends
         </h1>
         <MobileDrawer />

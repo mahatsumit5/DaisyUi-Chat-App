@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { roomApiUrl } from "./serverUrl";
 import { IChatRoom } from "../../types";
 
-type chatroomReturnType = {
+export type chatroomReturnType = {
   status: boolean;
   data: IChatRoom[];
 };

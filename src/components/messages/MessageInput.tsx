@@ -48,7 +48,7 @@ function MessageInput({
     });
   }, [isError, isLoading, setStatus, dispatch, id]);
   return (
-    <section className=" h-11   flex  gap-2 ">
+    <section className=" min-h-11 flex  gap-2 ">
       <div className="flex flex-1 bg-white rounded-lg gap-5" id="input-field">
         <input
           className="w-full h-full p-3 rounded-xl bg-white focus:ring-2"

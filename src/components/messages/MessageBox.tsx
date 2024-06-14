@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useAppSelector } from "../../hook";
 import { FaArrowUp, FaCheckCircle } from "react-icons/fa";
 import { useGetMessagesQuery } from "../../redux";
@@ -25,10 +25,11 @@ function MessageBox({
   const { isTyping } = useAppSelector((store) => store.socket);
   const sectionRef = useRef<HTMLDivElement>(null);
   const [numberOfMessageToDisplay, setNumberOfMessageToDisplay] = useState(10);
-  const { data, error, isLoading } = useGetMessagesQuery({
-    roomId: currentRoom?.id || "",
-    num: numberOfMessageToDisplay,
-  });
+  const { data, error, isLoading, isUninitialized, refetch } =
+    useGetMessagesQuery({
+      roomId: currentRoom?.id || "",
+      num: numberOfMessageToDisplay,
+    });
   useEffect(() => {
     const height = sectionRef.current?.scrollHeight;
     if (sectionRef.current && height) {
@@ -36,10 +37,15 @@ function MessageBox({
     }
   }, [data]);
 
+  useCallback(() => {
+    if (!isUninitialized) {
+      refetch();
+    }
+  }, [isUninitialized, refetch]);
+
   useEffect(() => {
     socket.on("typing", (email) => {
       console.log(email);
-      // dispatch(setTyping({ person: email, typing: true }));
     });
   }, []);
 
@@ -49,7 +55,7 @@ function MessageBox({
     <section className="skeleton w-full h-full bg-slate-300" />
   ) : data ? (
     <section
-      className="bg-white  rounded-xl p-2 flex flex-col gap-2 overflow-y-auto flex-1 w-full  "
+      className="bg-white  min-h-full rounded-xl p-2 flex flex-col gap-2   w-full overflow-y-auto max-h-fit  "
       ref={sectionRef}
     >
       {numberOfMessageToDisplay < data.result._count.messages && (
