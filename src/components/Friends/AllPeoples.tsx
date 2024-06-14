@@ -13,7 +13,7 @@ function AllPeoples() {
         <></>
       ) : data ? (
         <>
-          <div className="flex flex-row flex-wrap gap-8 justify-between ">
+          <div className="flex flex-row flex-wrap gap-8 justify-evenly ">
             {data.map((user: IUser) => (
               <FriendCard user={user} type="peoples" key={user.id} />
             ))}

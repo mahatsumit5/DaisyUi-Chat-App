@@ -20,7 +20,7 @@ function FriendReq() {
               {isLoading ? (
                 <>isLoading</>
               ) : (
-                <>
+                <div className="flex justify-evenly">
                   {data?.data.result.map((item, index) => (
                     <FriendCard
                       type="request"
@@ -28,7 +28,7 @@ function FriendReq() {
                       key={index}
                     />
                   ))}
-                </>
+                </div>
               )}
             </>
           )}
