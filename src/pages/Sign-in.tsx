@@ -61,7 +61,7 @@ export function SignIn() {
   }, [navigate, user, location]);
   return (
     <div className=" w-full  flex  flex-col items-center justify-center p-2 h-[100dvh] gap-5">
-      <span className="text-4xl w-24 md:w-48">
+      <span className="text-4xl w-24 md:w-32">
         <img src={icon} />
       </span>
       <p className="font-bold">Login with your socials</p>

@@ -46,13 +46,27 @@ function ChatMenu({
   }, [dispatch, data, refetch, user, setRooms]);
 
   return (
-    <>
-      <input
-        type="text"
-        className="md:hidden bg-slate-100  p-3  rounded-lg mt-1"
-        placeholder="Search...."
-        onChange={handleSearch}
-      />
+    <div className="flex flex-col gap-2 w-[380px] md:w-[300px] h-full">
+      <label className="input input-lg bg-white   items-center gap-2 flex justify-between">
+        <input
+          type="text"
+          placeholder="Search"
+          onChange={handleSearch}
+          className="font-[15px]"
+        />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 16 16"
+          fill="currentColor"
+          className="w-4 h-4 opacity-70"
+        >
+          <path
+            fillRule="evenodd"
+            d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </label>
 
       {error ? (
         <>Oh no, there was an error</>
@@ -60,13 +74,13 @@ function ChatMenu({
         <section className="skeleton h-full bg-slate-200" />
       ) : data ? (
         <>
-          <section className=" h-full rounded-xl p-2 flex  flex-col gap-5 overflow-y-auto bg-slate-50/85">
+          <section className=" h-full rounded-xl  flex  flex-col gap-2 overflow-y-auto bg-slate-50/85 ">
             {rooms.map((item: IChatRoom) => (
               <div
                 key={item.id}
                 className={`flex justify-between border-b p-2 hover:bg-slate-300 ${
                   currentRoom?.id === item.id
-                    ? "bg-slate-300/80 rounded-md"
+                    ? "bg-slate-300 rounded-md "
                     : "rounded-md"
                 }`}
                 onClick={() => {
@@ -120,7 +134,7 @@ function ChatMenu({
           </section>
         </>
       ) : null}
-    </>
+    </div>
   );
 }
 

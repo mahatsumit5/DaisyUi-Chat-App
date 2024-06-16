@@ -28,7 +28,7 @@ function MessageHeader({
       });
   }
   return (
-    <header className="bg-white w-full rounded-xl p-2 flex justify-between">
+    <header className="bg-slate-50/85 w-full rounded-xl p-2 flex justify-between h-16">
       <div className="flex gap-5">
         <button
           onClick={() => {

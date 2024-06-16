@@ -3,22 +3,24 @@ import Sidebar from "./Sidebar";
 
 function MobileDrawer() {
   return (
-    <div className=" sm:hidden">
-      <input id="my-drawer" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content">
-        <label htmlFor="my-drawer" className="btn-square drawer-button">
-          <FaHamburger size={25} color="blue" />
-        </label>
-      </div>
-      <div className="drawer-side z-50">
-        <label
-          htmlFor="my-drawer"
-          aria-label="close sidebar"
-          className="drawer-overlay"
-        ></label>
-        <ul className=" py-8 w-56 min-h-full   bg-slate-900 flex flex-col justify-between items-center">
-          <Sidebar />
-        </ul>
+    <div className={`flex w-full justify-end`}>
+      <div className=" sm:hidden">
+        <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+        <div className="drawer-content">
+          <label htmlFor="my-drawer" className="btn-square drawer-button">
+            <FaHamburger size={25} color="blue" />
+          </label>
+        </div>
+        <div className="drawer-side z-50">
+          <label
+            htmlFor="my-drawer"
+            aria-label="close sidebar"
+            className="drawer-overlay"
+          ></label>
+          <ul className=" py-8 w-56 min-h-full   bg-slate-900 flex flex-col justify-between items-center">
+            <Sidebar />
+          </ul>
+        </div>
       </div>
     </div>
   );

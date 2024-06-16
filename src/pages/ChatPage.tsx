@@ -7,7 +7,6 @@ import { FormEvent, useState } from "react";
 import { useGetAllChatRoomQuery } from "../redux";
 import { IChatRoom } from "../types";
 import { chatroomReturnType } from "../redux/api/room";
-
 function ChatPage() {
   const { currentRoom } = useAppSelector((store) => store.rooms);
   const { data, error, isLoading, refetch } = useGetAllChatRoomQuery();
@@ -23,38 +22,12 @@ function ChatPage() {
   }
 
   return (
-    <div className="flex flex-col w-full h-full ">
-      <header className="flex  rounded-xl  justify-between  px-3 items-center overflow-hidden   w-full">
-        <h1 className="text-2xl text-black font-bold">Chat</h1>
+    <div className="flex flex-col w-full h-full gap-3 ">
+      {!currentRoom && <MobileDrawer />}
 
-        <MobileDrawer />
-
-        <div className=" gap-5  hidden md:flex">
-          <label className="input input-ghost    items-center gap-2 flex">
-            <input
-              type="text"
-              className="hidden sm:block"
-              placeholder="Search"
-              onChange={handleSearch}
-            />
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              className="w-4 h-4 opacity-70"
-            >
-              <path
-                fillRule="evenodd"
-                d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </label>
-        </div>
-      </header>
-      <div className="flex h-full ">
+      <div className="flex h-full gap-2">
         <div
-          className={` flex-col gap-3 p-1   ${
+          className={` flex-col gap-3    ${
             currentRoom?.id ? "hidden md:flex w-[300px]" : "flex w-full  "
           } `}
         >
