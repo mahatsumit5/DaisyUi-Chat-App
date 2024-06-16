@@ -49,7 +49,7 @@ function ChatMenu({
     <>
       <input
         type="text"
-        className="md:hidden bg-slate-100  p-3  rounded-lg mt-2"
+        className="md:hidden bg-slate-100  p-3  rounded-lg mt-1"
         placeholder="Search...."
         onChange={handleSearch}
       />

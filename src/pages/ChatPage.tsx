@@ -24,7 +24,7 @@ function ChatPage() {
 
   return (
     <div className="flex flex-col w-full h-full ">
-      <header className="flex  rounded-xl  justify-between min-h-14 px-3 items-center overflow-hidden   w-full">
+      <header className="flex  rounded-xl  justify-between  px-3 items-center overflow-hidden   w-full">
         <h1 className="text-2xl text-black font-bold">Chat</h1>
 
         <MobileDrawer />
