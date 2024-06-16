@@ -55,7 +55,7 @@ function MessageBox({
     <section className="skeleton w-full h-full bg-slate-300" />
   ) : data ? (
     <section
-      className="bg-white  min-h-full rounded-xl p-2 flex flex-col gap-2   w-full overflow-y-auto max-h-fit  "
+      className="bg-white  min-h-full rounded-xl p-2 flex flex-col gap-2   w-full overflow-y-auto  flex-1 "
       ref={sectionRef}
     >
       {numberOfMessageToDisplay < data.result._count.messages && (
