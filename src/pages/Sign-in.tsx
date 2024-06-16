@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from "react";
-import { FaArrowUp, FaFacebookSquare } from "react-icons/fa";
+import { FaFacebookSquare, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hook";
@@ -12,6 +12,9 @@ const randomUserLogin = users.map((item) => {
   return { email: item.email, password: item.password };
 });
 export function SignIn() {
+  const [passwordVisibility, setPasswordVisibility] = useState<
+    "text" | "password"
+  >("password");
   const { user } = useAppSelector((store) => store.user);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -77,7 +80,7 @@ export function SignIn() {
       </div>
       <form
         onSubmit={onSubmit}
-        className="flex flex-col gap-5 w-full max-w-[400px]"
+        className="flex flex-col gap-5 w-full max-w-[400px] relative"
       >
         <input
           type="text"
@@ -89,13 +92,27 @@ export function SignIn() {
         />
 
         <input
-          type="password"
+          type={passwordVisibility}
           placeholder={randomUserLogin[0].password}
-          className="p-2 px-3 bg-slate-500 rounded-md text-white"
+          className="p-2 px-3 bg-slate-500 rounded-md text-white relative"
           name="password"
           onChange={onChange}
           value={form.password}
         />
+        <button
+          className="absolute right-2 top-16"
+          onClick={() => {
+            setPasswordVisibility(
+              passwordVisibility === "password" ? "text" : "password"
+            );
+          }}
+        >
+          {passwordVisibility === "password" ? (
+            <FaRegEye size={21} />
+          ) : (
+            <FaRegEyeSlash size={21} />
+          )}
+        </button>
         <a className="text-right" href="/forgot-password">
           Forgot Password?
         </a>
@@ -113,7 +130,7 @@ export function SignIn() {
       </span>
       <span>Sign up, find friends and chat with your friends.</span>
       <Link to={"/sign-up"}>
-        <button className="btn  btn-ghost">Join Now</button>
+        <button className="btn  btn-ghost bg-slate-800/60">Register Now</button>
       </Link>
     </div>
   );
