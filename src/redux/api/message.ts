@@ -19,7 +19,6 @@ export const messageApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Messages"],
   endpoints: (builder) => ({
     sendMessage: builder.mutation<
       { status: boolean; result: IMessage },
@@ -30,7 +29,27 @@ export const messageApi = createApi({
         method: "post",
         body: data,
       }),
-      invalidatesTags: ["Messages"],
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(
+            messageApi.util.updateQueryData(
+              "getMessages",
+              {
+                num: 10,
+                roomId: arg.roomId,
+              },
+              (draft) => {
+                draft.result._count.messages = draft.result._count.messages + 1;
+                draft.result.messages.push(data.result);
+              }
+            )
+          );
+        } catch (error) {
+          // display error or do something else
+          console.log(error);
+        }
+      },
     }),
 
     getMessages: builder.query<
@@ -38,7 +57,6 @@ export const messageApi = createApi({
       { roomId: string; num: number }
     >({
       query: ({ roomId, num }) => `?id=${roomId}&&num=${num}`,
-      providesTags: ["Messages"],
       onCacheEntryAdded: async (
         arg,
         { cacheDataLoaded, cacheEntryRemoved, updateCachedData }
