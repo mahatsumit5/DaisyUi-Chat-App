@@ -1,14 +1,14 @@
-import { FaHamburger } from "react-icons/fa";
 import Sidebar from "./Sidebar";
+import { RxHamburgerMenu } from "react-icons/rx";
 
 function MobileDrawer() {
   return (
-    <div className={`flex w-full justify-end`}>
+    <div className={`flex w-full justify-start`}>
       <div className=" sm:hidden">
         <input id="my-drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
           <label htmlFor="my-drawer" className="btn-square drawer-button">
-            <FaHamburger size={25} color="blue" />
+            <RxHamburgerMenu size={30} color="blue" />
           </label>
         </div>
         <div className="drawer-side z-50">

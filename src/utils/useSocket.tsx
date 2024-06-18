@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { socket } from "./socket";
 import { useAppDispatch, useAppSelector } from "../hook";
 import { setTyping } from "../redux/reducer/socket.slice";
 import { setOnlineUsers } from "../redux/reducer/AllUsers.slice";
@@ -18,9 +17,9 @@ const useSocketSetup = () => {
   const sentRequest = useGetSentFriendRequestQuery(null);
   const { refetch } = useGetFriendRequestQuery(null);
   const dispatch = useAppDispatch();
+  const { socket } = useAppSelector((store) => store.socket);
 
   useEffect(() => {
-    socket.on("connect", () => {});
     socket.on("connect_error", (err) => {
       console.log(err.message);
     });
@@ -31,8 +30,8 @@ const useSocketSetup = () => {
     socket.on("stopped_typing", (email) => {
       dispatch(setTyping({ person: email, typing: false }));
     });
-    socket.on("online_users", (email: string) => {
-      dispatch(setOnlineUsers(email));
+    socket.on("getOnlineUsers", (onlineUsers) => {
+      dispatch(setOnlineUsers(onlineUsers));
     });
     socket.on("receive_friend_request", (sender) => {
       dispatch(
@@ -66,7 +65,15 @@ const useSocketSetup = () => {
     return () => {
       socket.off("connect_error");
     };
-  }, [dispatch, currentRoom?.id, allUsers, chatRoom, sentRequest, refetch]);
+  }, [
+    dispatch,
+    currentRoom?.id,
+    allUsers,
+    chatRoom,
+    sentRequest,
+    refetch,
+    socket,
+  ]);
 };
 
 export default useSocketSetup;

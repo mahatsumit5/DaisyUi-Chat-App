@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { userApiUrl } from "./serverUrl";
 import { ILogin, IResponse, ISignUpParams, IUser } from "../../types";
+import { socket } from "../reducer/socket.slice";
 
 const userApi = createApi({
   reducerPath: "UserApi",
@@ -43,6 +44,18 @@ const userApi = createApi({
       query: () => "",
       transformResponse: (response: { status: boolean; data: IUser }) =>
         response.data,
+      onQueryStarted: async (arg, { queryFulfilled }) => {
+        try {
+          console.info(arg);
+          const { data } = await queryFulfilled;
+          sessionStorage.setItem("email", data.email);
+          if (data.id) {
+            socket.connect();
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      },
     }),
     signUpUser: builder.mutation<IResponse, ISignUpParams>({
       query: (data) => ({

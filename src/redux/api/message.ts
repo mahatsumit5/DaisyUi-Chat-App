@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { messageApiUrl } from "./serverUrl";
 import { IMessage, IMessageResponse } from "../../types";
-import { socket } from "../../utils/socket";
+import { socket } from "../reducer/socket.slice";
 type sendMessagePArams = {
   content: string;
   roomId: string;

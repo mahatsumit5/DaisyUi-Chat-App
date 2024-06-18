@@ -1,7 +1,6 @@
 import { Dispatch, FormEvent, SetStateAction, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../hook";
 import { IChatRoom } from "../types";
-import { socket } from "../utils/socket";
 
 import defaultImg from "../assets/images/default-profile.jpg";
 import { setCurrentRoom } from "../redux/reducer/room.slice";
@@ -26,6 +25,7 @@ function ChatMenu({
 }: ChatMenuProps) {
   const { user } = useAppSelector((store) => store.user);
   const { currentRoom } = useAppSelector((store) => store.rooms);
+  const { socket } = useAppSelector((store) => store.socket);
   const { onlineUsers } = useAppSelector((store) => store.onlineUsers);
   const dispatch = useAppDispatch();
 
@@ -35,7 +35,7 @@ function ChatMenu({
   useEffect(() => {
     const roomIds = data?.data.map((item) => item.id);
     socket.emit("join-room", roomIds as [], user?.email as string);
-  }, [data, user]);
+  }, [data, user, socket]);
 
   useEffect(() => {
     socket.on("send_message_client", () => {
@@ -43,10 +43,10 @@ function ChatMenu({
     });
     if (!data) return;
     setRooms(data.data);
-  }, [dispatch, data, refetch, user, setRooms]);
+  }, [dispatch, data, refetch, user, setRooms, socket]);
 
   return (
-    <div className="flex flex-col gap-2 w-[380px] md:w-[300px] h-full">
+    <div className="flex flex-col gap-2 w-full md:w-[300px] h-full">
       <label className="input input-lg bg-white   items-center gap-2 flex justify-between">
         <input
           type="text"

@@ -3,7 +3,6 @@ import { useAppSelector } from "../../hook";
 import { FaArrowUp, FaCheckCircle } from "react-icons/fa";
 import { useGetMessagesQuery } from "../../redux";
 import { GoDotFill } from "react-icons/go";
-import { socket } from "../../utils/socket";
 
 function getTime(time: Date) {
   return new Date(time).toTimeString();
@@ -42,12 +41,6 @@ function MessageBox({
       refetch();
     }
   }, [isUninitialized, refetch]);
-
-  useEffect(() => {
-    socket.on("typing", (email) => {
-      console.log(email);
-    });
-  }, []);
 
   return error ? (
     <>Unexpected Error Occured</>
@@ -94,7 +87,13 @@ function MessageBox({
                     {getTime(createdAt).slice(0, 5)}
                   </time>
                 </div>
-                <div className="chat-bubble bg-blue-500 text-white">
+                <div
+                  className={`chat-bubble  text-white ${
+                    author === userId
+                      ? "bg-blue-500 text-white"
+                      : " bg-gray-200 text-slate-600"
+                  }`}
+                >
                   {content}
                 </div>
                 <div className="chat-footer opacity-50">

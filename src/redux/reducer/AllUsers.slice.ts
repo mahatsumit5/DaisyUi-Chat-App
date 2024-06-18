@@ -7,9 +7,8 @@ const allUsersSlice = createSlice({
   name: "users",
   initialState,
   reducers: {
-    setOnlineUsers: (state, { payload }: PayloadAction<string>) => {
-      if (state.onlineUsers.includes(payload)) return;
-      state.onlineUsers = [...state.onlineUsers, payload];
+    setOnlineUsers: (state, { payload }: PayloadAction<[]>) => {
+      state.onlineUsers = payload;
     },
   },
 });

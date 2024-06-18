@@ -15,7 +15,6 @@ import {
 } from "../../redux";
 import { TiDelete, TiTick } from "react-icons/ti";
 import { setCurrentRoom } from "../../redux/reducer/room.slice";
-import { socket } from "../../utils/socket";
 type keys = "peoples" | "friends" | "request";
 
 const FriendCard = ({
@@ -26,6 +25,7 @@ const FriendCard = ({
   type: keys;
 }) => {
   const [display] = useState<keys>(type);
+
   const displayComponent: Record<keys, JSX.Element> = {
     friends: <Friends user={user as IChatRoom} />,
     peoples: <AllPeoples user={user as IChatRoom} />,
@@ -77,6 +77,7 @@ const Friends = ({ user }: { user: IChatRoom }) => {
 };
 
 const AllPeoples = ({ user }: { user: IChatRoom }) => {
+  const { socket } = useAppSelector((store) => store.socket);
   const loggedInUser = useAppSelector((store) => store.user);
   const { data, refetch } = useGetSentFriendRequestQuery(null);
   const [sendFriendRequest] = useSendFriendRequestMutation();
@@ -139,6 +140,7 @@ const AllPeoples = ({ user }: { user: IChatRoom }) => {
 
 const FriendReq = ({ user }: { user: IUser }) => {
   const { refetch } = useGetAllChatRoomQuery();
+  const { socket } = useAppSelector((store) => store.socket);
   const friendReqQuery = useGetFriendRequestQuery(null);
   const [acceptFriendReq] = useAcceptFriendReqMutation();
   const [deleteSentRequest] = useDeleteSentRequestMutation();

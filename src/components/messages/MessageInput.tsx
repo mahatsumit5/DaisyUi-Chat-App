@@ -1,9 +1,8 @@
 import { PiTelegramLogoFill } from "react-icons/pi";
-import { socket } from "../../utils/socket";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { LuPaperclip } from "react-icons/lu";
 import { useSendMessageMutation } from "../../redux";
-import { useAppDispatch } from "../../hook";
+import { useAppDispatch, useAppSelector } from "../../hook";
 
 function MessageInput({
   email,
@@ -21,6 +20,7 @@ function MessageInput({
   setStatus: Dispatch<SetStateAction<{ isLoading: boolean; isError: boolean }>>;
 }) {
   const [sendMessage, { isLoading, isError }] = useSendMessageMutation();
+  const { socket } = useAppSelector((store) => store.socket);
 
   const dispatch = useAppDispatch();
   async function handleSend() {

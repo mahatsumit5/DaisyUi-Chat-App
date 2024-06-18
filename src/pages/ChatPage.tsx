@@ -27,8 +27,8 @@ function ChatPage() {
 
       <div className="flex h-full gap-2">
         <div
-          className={` flex-col gap-3    ${
-            currentRoom?.id ? "hidden md:flex w-[300px]" : "flex w-full  "
+          className={`    ${
+            currentRoom?.id ? "hidden md:flex " : "flex w-full  "
           } `}
         >
           <ChatMenu
@@ -52,7 +52,7 @@ function ChatPage() {
           </div>
         ) : (
           <div
-            className={` hidden md:flex w-full flex-col justify-center items-center gap-5`}
+            className={` hidden sm:flex w-full flex-col justify-center items-center gap-5`}
           >
             <p className="text-2xl">Select a Room</p>
             <p>or</p>
