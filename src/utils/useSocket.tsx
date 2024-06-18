@@ -32,7 +32,6 @@ const useSocketSetup = () => {
       dispatch(setTyping({ person: email, typing: false }));
     });
     socket.on("online_users", (email: string) => {
-      console.log("online users", email);
       dispatch(setOnlineUsers(email));
     });
     socket.on("receive_friend_request", (sender) => {

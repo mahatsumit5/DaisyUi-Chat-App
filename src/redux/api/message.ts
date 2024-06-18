@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { messageApiUrl } from "./serverUrl";
 import { IMessage, IMessageResponse } from "../../types";
+import { socket } from "../../utils/socket";
 type sendMessagePArams = {
   content: string;
   roomId: string;
@@ -38,6 +39,30 @@ export const messageApi = createApi({
     >({
       query: ({ roomId, num }) => `?id=${roomId}&&num=${num}`,
       providesTags: ["Messages"],
+      onCacheEntryAdded: async (
+        arg,
+        { cacheDataLoaded, cacheEntryRemoved, updateCachedData }
+      ) => {
+        try {
+          // wait for initial query to resolve before proceeding
+
+          await cacheDataLoaded;
+          // when data is received from the socket connection to the server,
+          // if it is a message and for the appropriate channel,
+          // update our query result with the received message
+          socket.on("send_message_client", (data: IMessage) => {
+            console.log(data);
+            if (data.chatRoomId !== arg.roomId) return;
+            updateCachedData((draft) => {
+              draft.result.messages.push(data);
+            });
+          });
+        } catch (error) {
+          console.log(error);
+        }
+        await cacheEntryRemoved;
+        socket.close();
+      },
     }),
   }),
   refetchOnMountOrArgChange: true,
