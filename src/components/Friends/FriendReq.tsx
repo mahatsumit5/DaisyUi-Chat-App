@@ -7,7 +7,6 @@ import MobileDrawer from "../MobileDrawer";
 
 function FriendReq() {
   const { data, error, isLoading } = useGetFriendRequestQuery(null);
-  console.log(data);
   return (
     <>
       <div className="flex flex-col gap-5">
