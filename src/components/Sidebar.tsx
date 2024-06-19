@@ -43,6 +43,7 @@ function Sidebar() {
   const { pathname } = useLocation();
   const { data } = useGetFriendRequestQuery(null);
   const { user } = useAppSelector((s) => s.user);
+
   return (
     <>
       <div>

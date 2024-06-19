@@ -11,6 +11,7 @@ import { friendApiUrl } from "./serverUrl";
 import { socket } from "../reducer/socket.slice";
 import { userApi } from "./user";
 import { roomApi } from "./room";
+import { toggleDialog } from "../dialog.slice";
 
 export const friendApi = createApi({
   reducerPath: "FriendApi",
@@ -39,14 +40,13 @@ export const friendApi = createApi({
       onQueryStarted: async ({ fromId }, { dispatch, queryFulfilled }) => {
         try {
           const { data } = await queryFulfilled;
-          console.log(data);
           dispatch(
             friendApi.util.updateQueryData(
               "getFriendRequest",
               null,
               (draft) => {
                 draft.data.result = draft.data.result.filter(
-                  (item) => item.from.email !== data.friendRequest.to.email
+                  (item) => item.from.email !== data.friendRequest.from.email
                 );
               }
             )
@@ -64,7 +64,7 @@ export const friendApi = createApi({
       providesTags: ["FriendRequests"],
       onCacheEntryAdded: async (
         arg,
-        { cacheDataLoaded, cacheEntryRemoved, updateCachedData }
+        { dispatch, cacheDataLoaded, cacheEntryRemoved, updateCachedData }
       ) => {
         try {
           // wait for inital query to load before procedding
@@ -76,6 +76,12 @@ export const friendApi = createApi({
 
               draft.data.result.push(data);
             });
+            dispatch(
+              toggleDialog({
+                content: "You have a new incoming request.",
+                heading: "Notification",
+              })
+            );
           });
 
           socket.on("getRequestDeleted", (data: IFriendReq) => {
@@ -169,7 +175,6 @@ export const friendApi = createApi({
         try {
           if (!arg.fromId) return;
           const { data } = await queryFulfilled;
-          console.log("data deleted", data);
           dispatch(
             friendApi.util.updateQueryData(
               "getSentFriendRequest",
@@ -187,10 +192,10 @@ export const friendApi = createApi({
               "getFriendRequest",
               null,
               (draft) => {
-                console.log(draft);
                 draft.data.result = draft.data.result.filter(
                   (item) => item.from.email !== data.data.from.email
                 );
+                draft.data.friendReqCount = --draft.data.friendReqCount;
               }
             )
           );

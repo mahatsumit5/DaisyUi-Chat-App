@@ -5,15 +5,9 @@ import { IChatRoom } from "../types";
 import defaultImg from "../assets/images/default-profile.jpg";
 import { setCurrentRoom } from "../redux/reducer/room.slice";
 import { chatroomReturnType } from "../redux/api/room";
-import {
-  BaseQueryFn,
-  FetchArgs,
-  FetchBaseQueryError,
-  FetchBaseQueryMeta,
-  QueryActionCreatorResult,
-  QueryDefinition,
-} from "@reduxjs/toolkit/query";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { SerializedError } from "@reduxjs/toolkit";
+import { Link } from "react-router-dom";
 function ChatMenu({
   setRooms,
   rooms,
@@ -21,29 +15,20 @@ function ChatMenu({
   data,
   error,
   isLoading,
-  refetch,
 }: ChatMenuProps) {
   const { user } = useAppSelector((store) => store.user);
   const { currentRoom } = useAppSelector((store) => store.rooms);
-  const { socket } = useAppSelector((store) => store.socket);
   const { onlineUsers } = useAppSelector((store) => store.onlineUsers);
   const dispatch = useAppDispatch();
 
   function handleClick(room: IChatRoom) {
     dispatch(setCurrentRoom(room));
   }
-  useEffect(() => {
-    const roomIds = data?.data.map((item) => item.id);
-    socket.emit("join-room", roomIds as [], user?.email as string);
-  }, [data, user, socket]);
 
   useEffect(() => {
-    socket.on("send_message_client", () => {
-      refetch();
-    });
     if (!data) return;
     setRooms(data.data);
-  }, [dispatch, data, refetch, user, setRooms, socket]);
+  }, [dispatch, data, user, setRooms]);
 
   return (
     <div className="flex flex-col gap-2 w-full md:w-[300px] h-full">
@@ -69,7 +54,12 @@ function ChatMenu({
       </label>
 
       {error ? (
-        <>Oh no, there was an error</>
+        <section className=" h-full rounded-xl  flex  flex-col gap-2 overflow-y-auto bg-slate-50/85 items-center justify-center ">
+          <p>You do not have any friends</p>
+          <Link to={"/friend-request"}>
+            <button className="btn btn-primary text-white">Connect </button>
+          </Link>
+        </section>
       ) : isLoading ? (
         <section className="skeleton h-full bg-slate-200" />
       ) : data ? (
@@ -147,19 +137,19 @@ type ChatMenuProps = {
   data: chatroomReturnType;
   error: FetchBaseQueryError | SerializedError | undefined;
   isLoading: boolean;
-  refetch: () => QueryActionCreatorResult<
-    QueryDefinition<
-      void,
-      BaseQueryFn<
-        string | FetchArgs,
-        unknown,
-        FetchBaseQueryError,
-        object,
-        FetchBaseQueryMeta
-      >,
-      "Rooms",
-      chatroomReturnType,
-      "roomApi"
-    >
-  >;
+  // refetch: () => QueryActionCreatorResult<
+  //   QueryDefinition<
+  //     void,
+  //     BaseQueryFn<
+  //       string | FetchArgs,
+  //       unknown,
+  //       FetchBaseQueryError,
+  //       object,
+  //       FetchBaseQueryMeta
+  //     >,
+  //     "Rooms",
+  //     chatroomReturnType,
+  //     "roomApi"
+  //   >
+  // >;
 };

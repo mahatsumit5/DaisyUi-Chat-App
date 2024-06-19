@@ -9,9 +9,8 @@ import { IChatRoom } from "../types";
 import { chatroomReturnType } from "../redux/api/room";
 function ChatPage() {
   const { currentRoom } = useAppSelector((store) => store.rooms);
-  const { data, error, isLoading, refetch } = useGetAllChatRoomQuery();
+  const { data, error, isLoading, isError } = useGetAllChatRoomQuery(null);
   const [rooms, setRooms] = useState<IChatRoom[]>([]);
-
   function handleSearch(e: FormEvent<HTMLInputElement>) {
     if (!data) return;
     setRooms(
@@ -38,7 +37,6 @@ function ChatPage() {
             data={data as chatroomReturnType}
             error={error}
             isLoading={isLoading}
-            refetch={refetch}
           />
         </div>
 
@@ -51,17 +49,19 @@ function ChatPage() {
             <Chatbox />
           </div>
         ) : (
-          <div
-            className={` hidden sm:flex w-full flex-col justify-center items-center gap-5`}
-          >
-            <p className="text-2xl">Select a Room</p>
-            <p>or</p>
-            <Link to={"/friends"}>
-              <button className="btn btn-primary text-white">
-                Find New People
-              </button>
-            </Link>
-          </div>
+          !isError && (
+            <div
+              className={` hidden sm:flex w-full flex-col justify-center items-center gap-5`}
+            >
+              <p className="text-2xl">Select a Room</p>
+              <p>or</p>
+              <Link to={"/friends"}>
+                <button className="btn btn-primary text-white">
+                  Find New People
+                </button>
+              </Link>
+            </div>
+          )
         )}
       </div>
     </div>

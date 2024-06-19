@@ -74,6 +74,8 @@ export const messageApi = createApi({
           // if it is a message and for the appropriate channel,
           // update our query result with the received message
           socket.on("send_message_client", (data: IMessage) => {
+            console.log(data);
+            console.log(data);
             if (data.chatRoomId !== arg.roomId) return;
             updateCachedData((draft) => {
               draft.result.messages.push(data);

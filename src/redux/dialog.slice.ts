@@ -1,21 +1,29 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-type TinitialState = { open: boolean; children: JSX.Element | null };
+type TinitialState = { open: boolean; content: string; heading: string };
+
+interface IPayload {
+  content: string;
+  heading: string;
+}
 const initialState: TinitialState = {
   open: false,
-  children: null,
+  content: "",
+  heading: "",
 };
 const dialogSlice = createSlice({
   name: "dialog",
   initialState,
   reducers: {
-    toggleDialog: (state, { payload }: PayloadAction<JSX.Element>) => {
+    toggleDialog: (state, { payload }: PayloadAction<IPayload>) => {
       state.open = true;
-      state.children = payload;
+      state.content = payload.content;
+      state.heading = payload.heading;
     },
     closeDialog(state) {
       state.open = false;
-      state.children = null;
+      state.content = "";
+      state.heading = "";
     },
   },
 });

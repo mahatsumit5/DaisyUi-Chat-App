@@ -133,7 +133,7 @@ const AllPeoples = ({ user }: { user: IChatRoom }) => {
 };
 
 const FriendReq = ({ user }: { user: IUser }) => {
-  const { refetch } = useGetAllChatRoomQuery();
+  const { refetch } = useGetAllChatRoomQuery(null);
   const [acceptFriendReq] = useAcceptFriendReqMutation();
   const [deleteSentRequest] = useDeleteSentRequestMutation();
   const loggedInUser = useAppSelector((store) => store.user);

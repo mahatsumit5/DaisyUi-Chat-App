@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../hook";
 import { setTyping } from "../redux/reducer/socket.slice";
 import { setOnlineUsers } from "../redux/reducer/AllUsers.slice";
-import { toggleDialog } from "../redux/dialog.slice";
 import {
   useGetAllChatRoomQuery,
   useGetAllUsersQuery,
@@ -12,7 +11,7 @@ import {
 
 const useSocketSetup = () => {
   const { currentRoom } = useAppSelector((store) => store.rooms);
-  const chatRoom = useGetAllChatRoomQuery();
+  const chatRoom = useGetAllChatRoomQuery(null);
   const allUsers = useGetAllUsersQuery();
   const sentRequest = useGetSentFriendRequestQuery(null);
   const { refetch } = useGetFriendRequestQuery(null);
