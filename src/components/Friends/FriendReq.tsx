@@ -20,7 +20,7 @@ function FriendReq() {
               {isLoading ? (
                 <>isLoading</>
               ) : (
-                <div className="flex justify-evenly">
+                <div className="flex justify-start flex-wrap gap-5">
                   {data?.data.result.map((item, index) => (
                     <FriendCard
                       type="request"

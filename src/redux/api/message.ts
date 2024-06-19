@@ -2,11 +2,15 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { messageApiUrl } from "./serverUrl";
 import { IMessage, IMessageResponse } from "../../types";
 import { socket } from "../reducer/socket.slice";
+// import { createEntityAdapter } from "@reduxjs/toolkit";
 type sendMessagePArams = {
   content: string;
   roomId: string;
   author: string;
 };
+
+// todo Implement
+// const messageAdapter = createEntityAdapter<IMessage>();
 export const messageApi = createApi({
   reducerPath: "messageApi",
   baseQuery: fetchBaseQuery({
@@ -20,6 +24,7 @@ export const messageApi = createApi({
     },
   }),
   endpoints: (builder) => ({
+    // send messages
     sendMessage: builder.mutation<
       { status: boolean; result: IMessage },
       sendMessagePArams
@@ -69,10 +74,10 @@ export const messageApi = createApi({
           // if it is a message and for the appropriate channel,
           // update our query result with the received message
           socket.on("send_message_client", (data: IMessage) => {
-            console.log(data);
             if (data.chatRoomId !== arg.roomId) return;
             updateCachedData((draft) => {
               draft.result.messages.push(data);
+              // messageAdapter.updateOne(draft.result.messages, data);
             });
           });
         } catch (error) {

@@ -33,31 +33,6 @@ const useSocketSetup = () => {
     socket.on("getOnlineUsers", (onlineUsers) => {
       dispatch(setOnlineUsers(onlineUsers));
     });
-    socket.on("receive_friend_request", (sender) => {
-      dispatch(
-        toggleDialog(
-          <div className="flex flex-col gap-3">
-            <h1 className="text-2xl text-black font-bold">Notification</h1>
-            <p>You have a new friend request from {sender}</p>
-            <div className="flex w-full justify-end">
-              <button
-                className="btn btn-ghost "
-                onClick={() => {
-                  refetch();
-                }}
-              >
-                View
-              </button>
-            </div>
-          </div>
-        )
-      );
-      // refetch();
-    });
-
-    socket.on("friend_req_accepted_notification", (from) => {
-      console.log("request accepted", from);
-    });
 
     socket.on("disconnect", () => {});
     return () => {

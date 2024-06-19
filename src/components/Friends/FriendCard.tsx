@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { IChatRoom, ISentReq, IUser } from "../../types";
+import { IChatRoom, IFriendReq, IUser } from "../../types";
 import { AiFillDelete, AiFillMessage } from "react-icons/ai";
 import defaultImg from "../../assets/images/default-profile.jpg";
 import { useAppDispatch, useAppSelector } from "../../hook";
@@ -9,7 +9,6 @@ import {
   useAcceptFriendReqMutation,
   useDeleteSentRequestMutation,
   useGetAllChatRoomQuery,
-  useGetFriendRequestQuery,
   useGetSentFriendRequestQuery,
   useSendFriendRequestMutation,
 } from "../../redux";
@@ -32,11 +31,11 @@ const FriendCard = ({
     request: <FriendReq user={user as IUser} />,
   };
   return (
-    <div className=" p-2 w-full sm:w-[250px] rounded-xl flex flex-col bg-gray-100 shadow-lg items-center justify-center gap-5">
+    <div className=" p-3 w-full sm:w-[200px] rounded-xl flex flex-col bg-gray-100 shadow-lg items-center justify-center gap-5">
       {/* Avatar and name */}
       <div className="flex gap-4">
         <div className="avatar">
-          <div className="w-40">
+          <div className="w-24">
             <img
               src={user.profile || defaultImg}
               className="rounded-full shadow-xl"
@@ -45,11 +44,11 @@ const FriendCard = ({
         </div>
       </div>
       <span className="flex">
-        <h1 className="   text-xl">{user?.fName}</h1>
+        <h1 className="   text-md">{user?.fName}</h1>
         &nbsp;
-        <h1 className="text-xl">{user?.lName}</h1>
+        <h1 className="text-md">{user?.lName}</h1>
       </span>
-      <p>{user.email}</p>
+      <p className="text-sm">{user.email}</p>
       {displayComponent[display]}
     </div>
   );
@@ -81,15 +80,19 @@ const AllPeoples = ({ user }: { user: IChatRoom }) => {
   const { data } = useGetSentFriendRequestQuery(null);
   const [sendFriendRequest] = useSendFriendRequestMutation();
   const [deleteSentRequest] = useDeleteSentRequestMutation();
+
   function handleAddFriend(id: string) {
     sendFriendRequest({ userId: id, email: loggedInUser.user?.email as string })
       .unwrap()
       .then(() => {})
       .catch((err) => console.log(err));
   }
+
   function sentReqCheck(email: string): boolean {
     if (!data) return false;
-    const result = data.data.find((item: ISentReq) => item.to.email === email);
+    const result = data.data.find(
+      (item: IFriendReq) => item.to.email === email
+    );
     if (result?.to) {
       return true;
     } else {
@@ -101,27 +104,28 @@ const AllPeoples = ({ user }: { user: IChatRoom }) => {
     await deleteSentRequest({
       fromId: loggedInUser.user?.id || "",
       toId: to,
+      receiverId: to,
     });
   }
   return (
     <div className="flex">
       {sentReqCheck(user.email) ? (
         <button
-          className="btn btn-outline btn-error"
+          className="btn btn-outline btn-error btn-sm"
           onClick={() => {
             handleCancelReq(user.id);
           }}
         >
-          Cancel <AiFillDelete size={20} color="red" />
+          Cancel <AiFillDelete size={15} color="red" />
         </button>
       ) : (
         <button
-          className="  btn btn-outline btn-primary "
+          className="  btn btn-sm btn-outline btn-info"
           onClick={() => {
             handleAddFriend(user.id);
           }}
         >
-          Add Friend <IoIosPersonAdd size={20} color="skyblue" />
+          Add <IoIosPersonAdd size={15} color="skyblue" />
         </button>
       )}
     </div>
@@ -130,8 +134,6 @@ const AllPeoples = ({ user }: { user: IChatRoom }) => {
 
 const FriendReq = ({ user }: { user: IUser }) => {
   const { refetch } = useGetAllChatRoomQuery();
-  const { socket } = useAppSelector((store) => store.socket);
-  const friendReqQuery = useGetFriendRequestQuery(null);
   const [acceptFriendReq] = useAcceptFriendReqMutation();
   const [deleteSentRequest] = useDeleteSentRequestMutation();
   const loggedInUser = useAppSelector((store) => store.user);
@@ -140,7 +142,6 @@ const FriendReq = ({ user }: { user: IUser }) => {
       .unwrap()
       .then(() => {
         refetch();
-        socket.emit("friend_request_accepted", from);
       });
   }
   return (
@@ -159,8 +160,8 @@ const FriendReq = ({ user }: { user: IUser }) => {
           deleteSentRequest({
             fromId: user.id,
             toId: loggedInUser.user?.id as string,
+            receiverId: user.id,
           });
-          friendReqQuery.refetch();
         }}
       >
         <TiDelete size={35} />

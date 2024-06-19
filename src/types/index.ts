@@ -20,17 +20,6 @@ export interface Iroom extends IUser {
   userId: string;
 }
 
-export interface IFriendReq {
-  status: string;
-  from: {
-    fName: string;
-    lName: string;
-    profile: string | null;
-    email: string;
-    id: string;
-  };
-}
-
 export interface IChatRoom {
   id: string;
   userId: string;
@@ -75,21 +64,47 @@ export interface IMessageResponse {
   };
 }
 
-export interface ISendRequestResponse {
-  status: boolean;
-  data: ISentReq;
-}
 export interface IDeleteRequestResponse {
   status: boolean;
-  data: ISentReq;
+  data: IFriendReq;
   message: string;
 }
-export interface ISentReq {
+
+export interface IFriendReq {
   status: string;
+  from: {
+    fName: string;
+    lName: string;
+    profile: string | null;
+    email: string;
+    id: string;
+  };
   to: {
     fName: string;
     lName: string;
     profile: string | null;
     email: string;
+    id: string;
   };
+}
+
+export interface IFriendRequestResponse {
+  status: boolean;
+  data: { result: IFriendReq[]; friendReqCount: number };
+}
+export interface IFriendRequestAccepted {
+  status: string;
+  friendRequest: IFriendReq;
+  data: {
+    id: string;
+  };
+}
+
+export interface ISentReq {
+  status: boolean;
+  data: IFriendReq[];
+}
+export interface ISendRequestResponse {
+  status: boolean;
+  data: IFriendReq;
 }

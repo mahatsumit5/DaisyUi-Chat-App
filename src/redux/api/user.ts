@@ -46,7 +46,6 @@ const userApi = createApi({
         response.data,
       onQueryStarted: async (arg, { queryFulfilled }) => {
         try {
-          console.info(arg);
           const { data } = await queryFulfilled;
           sessionStorage.setItem("email", data.email);
           if (data.id) {
