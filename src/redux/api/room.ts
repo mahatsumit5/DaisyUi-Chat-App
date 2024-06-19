@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { roomApiUrl } from "./serverUrl";
 import { IChatRoom, IMessage } from "../../types";
 import { socket } from "../reducer/socket.slice";
+import { userApi } from "./user";
 
 export type chatroomReturnType = {
   status: boolean;
@@ -22,10 +23,11 @@ export const roomApi = createApi({
   }),
   endpoints: (builder) => ({
     getAllChatRoom: builder.query<chatroomReturnType, null>({
+      providesTags: ["Rooms"],
       query: () => "",
       onCacheEntryAdded: async (
         arg,
-        { cacheDataLoaded, cacheEntryRemoved, updateCachedData }
+        { dispatch, cacheDataLoaded, cacheEntryRemoved, updateCachedData }
       ) => {
         try {
           const { data } = await cacheDataLoaded;
@@ -40,10 +42,23 @@ export const roomApi = createApi({
               draft.data[roomIndex].lastMessage = data.content;
             });
           });
+
+          socket.on("getDeletedChatRoom", (data) => {
+            console.log(data);
+            updateCachedData((draft) => {
+              console.log(draft);
+              draft.data = draft.data.filter(
+                (item) => item.id !== data.result.id
+              );
+            });
+
+            dispatch(userApi.util.invalidateTags(["Users"]));
+          });
         } catch (error) {
           console.log(error);
         }
         await cacheEntryRemoved;
+        socket.close();
       },
     }),
     deleteChatRoom: builder.mutation<
@@ -57,16 +72,15 @@ export const roomApi = createApi({
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
           const { data } = await queryFulfilled;
-          console.log(data);
 
           dispatch(
             roomApi.util.updateQueryData("getAllChatRoom", null, (draft) => {
-              console.log(draft);
               draft.data = draft.data.filter(
                 (item) => item.id !== data.result.id
               );
             })
           );
+          socket.emit("deleteChatRoom", data);
         } catch (error) {
           console.log(error);
         }

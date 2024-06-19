@@ -82,6 +82,7 @@ export const friendApi = createApi({
                 heading: "Notification",
               })
             );
+            // dispatch(userApi.util.invalidateTags(["Users"]));
           });
 
           socket.on("getRequestDeleted", (data: IFriendReq) => {
