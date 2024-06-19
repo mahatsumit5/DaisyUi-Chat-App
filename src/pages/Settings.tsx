@@ -1,5 +1,11 @@
+import MobileDrawer from "../components/MobileDrawer";
+
 const Settings = () => {
-  return <div>Settings</div>;
+  return (
+    <div>
+      <MobileDrawer />
+    </div>
+  );
 };
 
 export default Settings;

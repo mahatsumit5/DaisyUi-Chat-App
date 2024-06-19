@@ -88,7 +88,7 @@ function MessageBox({
                   </time>
                 </div>
                 <div
-                  className={`chat-bubble  text-white ${
+                  className={`chat-bubble   ${
                     author === userId
                       ? "bg-blue-500 text-white"
                       : " bg-gray-200 text-slate-600"
