@@ -55,10 +55,8 @@ const useSocketSetup = () => {
       // refetch();
     });
 
-    socket.on("friend_req_accepted_notification", () => {
-      chatRoom.refetch();
-      allUsers.refetch();
-      sentRequest.refetch();
+    socket.on("friend_req_accepted_notification", (from) => {
+      console.log("request accepted", from);
     });
 
     socket.on("disconnect", () => {});

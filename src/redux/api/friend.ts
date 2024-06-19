@@ -1,6 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IFriendReq, IResponse, ISentReq } from "../../types";
+import {
+  IDeleteRequestResponse,
+  IFriendReq,
+  ISendRequestResponse,
+  ISentReq,
+} from "../../types";
 import { friendApiUrl } from "./serverUrl";
+import { socket } from "../reducer/socket.slice";
 
 export const friendApi = createApi({
   reducerPath: "FriendApi",
@@ -40,27 +46,64 @@ export const friendApi = createApi({
       null
     >({
       query: () => "sent-request",
-      providesTags: ["SentRequests"],
     }),
-    sendFriendRequest: builder.mutation<IResponse, { userId: string }>({
+    sendFriendRequest: builder.mutation<
+      ISendRequestResponse,
+      { userId: string; email: string }
+    >({
       query: (data) => ({
         url: "/send-request",
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["SentRequests"],
-      transformResponse: (response: { data: IResponse }) => response.data,
+
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          const { data } = await queryFulfilled;
+
+          dispatch(
+            friendApi.util.updateQueryData(
+              "getSentFriendRequest",
+              null,
+              (draft) => {
+                draft.data.push(data.data);
+              }
+            )
+          );
+          socket.emit("friend_request_notification", arg.userId, arg.email);
+        } catch (error) {
+          console.log(error);
+        }
+      },
     }),
 
     deleteSentRequest: builder.mutation<
-      unknown,
+      IDeleteRequestResponse,
       { fromId: string; toId: string }
     >({
       query: (data) => ({
         method: "DELETE",
         url: `/${data.fromId}/${data.toId}`,
       }),
-      invalidatesTags: ["SentRequests"],
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          const { data } = await queryFulfilled;
+
+          dispatch(
+            friendApi.util.updateQueryData(
+              "getSentFriendRequest",
+              null,
+              (draft) => {
+                draft.data = draft.data.filter(
+                  (item) => item.to.email !== data.data.to.email
+                );
+              }
+            )
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      },
     }),
   }),
 });

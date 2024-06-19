@@ -35,7 +35,7 @@ export function SignUp() {
             <MdOutlineArrowBackIosNew />
           </button>
         </Link>
-        <h1 className=" font-bold text-3xl pt-6">Sign Up</h1>
+        <h1 className=" font-bold text-3xl pt-6 text-gray-300">Sign Up</h1>
         <span className="text-gray-500">
           Already a member?&nbsp;
           <Link to={"/"} className="underline text-blue-300">

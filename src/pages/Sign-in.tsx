@@ -27,7 +27,11 @@ export function SignIn() {
   });
   function onChange(e: FormEvent<HTMLInputElement>) {
     const { name, value } = e.currentTarget;
-    setform({ ...form, [name]: value });
+    let lowerCase = value;
+    if (name === "email") {
+      lowerCase = value.toLowerCase();
+    }
+    setform({ ...form, [name]: lowerCase });
   }
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -64,7 +68,7 @@ export function SignIn() {
       <span className="text-4xl w-24 md:w-32">
         <img src={icon} />
       </span>
-      <p className="font-bold">Login with your socials</p>
+      <p className="font-bold text-gray-300">Login with your socials</p>
       <div className="flex gap-4">
         <FcGoogle size={45} className="bg-slate-400 p-2 rounded-xl" />
         <FaFacebookSquare
@@ -75,7 +79,7 @@ export function SignIn() {
       </div>
       <div className="flex justify-center items-center gap-4 w-screen md:w-[400px] ">
         <span className="border h-0 flex-1" />
-        <p className="font-serif">or</p>
+        <p className="font-serif text-gray-300">or</p>
         <span className="border h-0 flex-1" />
       </div>
       <form
@@ -113,7 +117,7 @@ export function SignIn() {
             <FaRegEyeSlash size={21} />
           )}
         </button>
-        <a className="text-right" href="/forgot-password">
+        <a className="text-right text-gray-300" href="/forgot-password">
           Forgot Password?
         </a>
 
@@ -128,9 +132,13 @@ export function SignIn() {
       <span className="text-white font-bold text-xl md:text-4xl">
         New here?
       </span>
-      <span>Sign up, find friends and chat with your friends.</span>
+      <span className="text-gray-300">
+        Sign up, find friends and chat with your friends.
+      </span>
       <Link to={"/sign-up"}>
-        <button className="btn  btn-ghost bg-slate-800/60">Register Now</button>
+        <button className="btn  btn-ghost bg-slate-800/60 text-gray-300">
+          Register Now
+        </button>
       </Link>
     </div>
   );

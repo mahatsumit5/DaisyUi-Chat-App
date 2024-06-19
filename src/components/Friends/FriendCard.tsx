@@ -77,23 +77,14 @@ const Friends = ({ user }: { user: IChatRoom }) => {
 };
 
 const AllPeoples = ({ user }: { user: IChatRoom }) => {
-  const { socket } = useAppSelector((store) => store.socket);
   const loggedInUser = useAppSelector((store) => store.user);
-  const { data, refetch } = useGetSentFriendRequestQuery(null);
+  const { data } = useGetSentFriendRequestQuery(null);
   const [sendFriendRequest] = useSendFriendRequestMutation();
   const [deleteSentRequest] = useDeleteSentRequestMutation();
   function handleAddFriend(id: string) {
-    sendFriendRequest({ userId: id })
+    sendFriendRequest({ userId: id, email: loggedInUser.user?.email as string })
       .unwrap()
-      .then(() => {
-        refetch();
-
-        socket.emit(
-          "friend_request_notification",
-          id,
-          loggedInUser.user?.email
-        );
-      })
+      .then(() => {})
       .catch((err) => console.log(err));
   }
   function sentReqCheck(email: string): boolean {
@@ -107,11 +98,10 @@ const AllPeoples = ({ user }: { user: IChatRoom }) => {
   }
 
   async function handleCancelReq(to: string) {
-    deleteSentRequest({
+    await deleteSentRequest({
       fromId: loggedInUser.user?.id || "",
       toId: to,
     });
-    refetch();
   }
   return (
     <div className="flex">

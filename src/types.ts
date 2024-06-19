@@ -19,16 +19,7 @@ export interface Iroom extends IUser {
   _count: number;
   userId: string;
 }
-export interface ISentReq {
-  status: string;
-  to: {
-    fName: string;
-    lName: string;
-    profile: string | null;
-    email: string;
-    id: string;
-  };
-}
+
 export interface IFriendReq {
   status: string;
   from: {
@@ -81,5 +72,24 @@ export interface IMessageResponse {
   result: {
     messages: IMessage[];
     _count: { messages: number };
+  };
+}
+
+export interface ISendRequestResponse {
+  status: boolean;
+  data: ISentReq;
+}
+export interface IDeleteRequestResponse {
+  status: boolean;
+  data: ISentReq;
+  message: string;
+}
+export interface ISentReq {
+  status: string;
+  to: {
+    fName: string;
+    lName: string;
+    profile: string | null;
+    email: string;
   };
 }
