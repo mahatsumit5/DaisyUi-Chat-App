@@ -19,6 +19,7 @@ import { useAppDispatch } from "./hook";
 import { IUser } from "./types";
 import Active from "./pages/Active";
 import Request from "./pages/Request";
+import Settings from "./pages/Settings";
 
 export default function App() {
   const navigate = useNavigate();
@@ -60,6 +61,14 @@ export default function App() {
             element={
               <Privatelayout>
                 <Friends />
+              </Privatelayout>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <Privatelayout>
+                <Settings />
               </Privatelayout>
             }
           />

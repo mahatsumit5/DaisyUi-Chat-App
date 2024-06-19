@@ -2,7 +2,6 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { roomApiUrl } from "./serverUrl";
 import { IChatRoom, IMessage } from "../../types";
 import { socket } from "../reducer/socket.slice";
-import { toggleDialog } from "../dialog.slice";
 
 export type chatroomReturnType = {
   status: boolean;
