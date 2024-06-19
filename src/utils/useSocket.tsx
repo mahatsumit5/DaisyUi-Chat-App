@@ -4,7 +4,6 @@ import { setTyping } from "../redux/reducer/socket.slice";
 import { setOnlineUsers } from "../redux/reducer/AllUsers.slice";
 import {
   useGetAllChatRoomQuery,
-  useGetAllUsersQuery,
   useGetFriendRequestQuery,
   useGetSentFriendRequestQuery,
 } from "../redux";
@@ -12,7 +11,6 @@ import {
 const useSocketSetup = () => {
   const { currentRoom } = useAppSelector((store) => store.rooms);
   const chatRoom = useGetAllChatRoomQuery(null);
-  const allUsers = useGetAllUsersQuery();
   const sentRequest = useGetSentFriendRequestQuery(null);
   const { refetch } = useGetFriendRequestQuery(null);
   const dispatch = useAppDispatch();
@@ -37,15 +35,7 @@ const useSocketSetup = () => {
     return () => {
       socket.off("connect_error");
     };
-  }, [
-    dispatch,
-    currentRoom?.id,
-    allUsers,
-    chatRoom,
-    sentRequest,
-    refetch,
-    socket,
-  ]);
+  }, [dispatch, currentRoom?.id, chatRoom, sentRequest, refetch, socket]);
 };
 
 export default useSocketSetup;

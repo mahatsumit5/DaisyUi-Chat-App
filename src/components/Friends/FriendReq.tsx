@@ -11,10 +11,20 @@ function FriendReq() {
     <>
       <div className="flex flex-col gap-5">
         <div className="flex flex-col gap-4">
-          <MobileDrawer />
-          <h1 className="text-xl md:text-4xl font-bold text-black">
-            Friend Request
-          </h1>
+          <div className="flex flex-col gap-2 md:flex-row-reverse justify-between">
+            <div className="flex justify-between">
+              <MobileDrawer />
+              <input
+                type="text"
+                className="input input-sm md:input-md input-ghost bg-slate-300 text-slate-900 w-48 md:w-80 text-[16px] md:text-lg"
+                placeholder="Search............"
+              />
+            </div>
+            <h1 className="text-xl md:text-4xl font-bold text-black">
+              Friend Request
+            </h1>
+          </div>
+
           {error ? (
             <p>You do not have any friend request</p>
           ) : (

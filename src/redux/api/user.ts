@@ -1,6 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { userApiUrl } from "./serverUrl";
-import { ILogin, IResponse, ISignUpParams, IUser } from "../../types";
+import {
+  IAllUsersResponse,
+  ILogin,
+  IResponse,
+  ISignUpParams,
+  IUser,
+} from "../../types";
 import { socket } from "../reducer/socket.slice";
 
 const userApi = createApi({
@@ -17,10 +23,17 @@ const userApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getAllUsers: builder.query<IUser[], void>({
-      query: () => "all-users",
-      transformResponse: (response: { status: boolean; data: IUser[] }) =>
-        response.data,
+    getAllUsers: builder.query<
+      IAllUsersResponse,
+      { take: number; page: number; order: "asc" | "desc"; search?: string }
+    >({
+      query: ({ order, page, take }) =>
+        `all-users?order=${order}&&page=${page}&&take=${take}`,
+      transformResponse: (response: {
+        status: boolean;
+        data: IUser[];
+        totalUsers: number;
+      }) => response,
 
       providesTags: ["Users"],
     }),

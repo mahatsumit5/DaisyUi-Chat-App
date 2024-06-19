@@ -32,12 +32,12 @@ function ChatMenu({
 
   return (
     <div className="flex flex-col gap-2 w-full md:w-[300px] h-full">
-      <label className="input input-lg bg-white   items-center gap-2 flex justify-between">
+      <label className="input input-sm bg-white   items-center gap-2 flex justify-between">
         <input
           type="text"
           placeholder="Search"
           onChange={handleSearch}
-          className="font-[15px]"
+          className="text-[16px]"
         />
         <svg
           xmlns="http://www.w3.org/2000/svg"

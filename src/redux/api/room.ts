@@ -44,9 +44,7 @@ export const roomApi = createApi({
           });
 
           socket.on("getDeletedChatRoom", (data) => {
-            console.log(data);
             updateCachedData((draft) => {
-              console.log(draft);
               draft.data = draft.data.filter(
                 (item) => item.id !== data.result.id
               );

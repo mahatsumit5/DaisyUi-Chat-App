@@ -64,6 +64,12 @@ export interface IMessageResponse {
   };
 }
 
+export interface IAllUsersResponse {
+  status: boolean;
+  data: IUser[];
+  totalUsers: number;
+}
+
 export interface IDeleteRequestResponse {
   status: boolean;
   data: IFriendReq;

@@ -3,7 +3,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 
 function MobileDrawer() {
   return (
-    <div className={`flex w-full justify-start`}>
+    <div className={`flex  justify-start`}>
       <div className=" sm:hidden">
         <input id="my-drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
