@@ -20,6 +20,7 @@ import { IUser } from "./types";
 import Request from "./pages/Request";
 import Settings from "./pages/Settings";
 import Loading from "./components/loading/Loading";
+import Toast from "./components/toast/Toast";
 
 export default function App() {
   const navigate = useNavigate();
@@ -101,6 +102,7 @@ export default function App() {
         </Routes>
         <Dialog />
         <Loading />
+        <Toast />
       </div>
     </>
   );

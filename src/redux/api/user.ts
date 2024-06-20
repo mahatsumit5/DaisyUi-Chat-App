@@ -26,16 +26,22 @@ const userApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getAllUsers: builder.query<IAllUsersResponse, IGetAllUsersParams>({
-      query: ({ order, page, take, search }) =>
-        `all-users?order=${order}&&page=${page}&&take=${take}&&search=${search}`,
-      transformResponse: (response: {
-        status: boolean;
-        data: IUser[];
-        totalUsers: number;
-      }) => response,
+    getAllUsers: builder.query<IAllUsersResponse, IGetAllUsersParams | null>({
+      query: (params) =>
+        `all-users?order=${params?.order}&&page=${params?.page}&&take=${params?.take}&&search=${params?.search}`,
 
       providesTags: ["Users"],
+      onCacheEntryAdded: async (
+        arg,
+        { cacheDataLoaded, cacheEntryRemoved }
+      ) => {
+        try {
+          await cacheDataLoaded;
+        } catch (error) {
+          console.log(error);
+        }
+        await cacheEntryRemoved;
+      },
     }),
     logoutUser: builder.mutation<{ status: boolean }, void>({
       query: () => ({ url: "logout", method: "POST" }),

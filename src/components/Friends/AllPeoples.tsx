@@ -45,7 +45,6 @@ function AllPeoples({
           <div className="flex flex-row flex-wrap gap-5 justify-around w-full">
             {data.data.map((user: IUser) => (
               <FriendCard user={user} type="peoples" key={user.id} />
-              // <LoaderCard />
             ))}
           </div>
           <Pagination

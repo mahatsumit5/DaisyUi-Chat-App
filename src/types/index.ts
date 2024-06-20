@@ -13,6 +13,7 @@ export interface IdeleteReqParams {
   fromId: string;
   toId: string;
   receiverId: string;
+  type: "received" | "sent";
 }
 
 export interface IUser {
@@ -127,6 +128,7 @@ export interface IFriendReqAccRes {
 export interface ISentReq {
   status: boolean;
   data: IFriendReq[];
+  count: number;
 }
 export interface ISendReqRes {
   status: boolean;

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { IChatRoom, IUser } from "../../types";
+import { IChatRoom, IFriendReq, IUser } from "../../types";
 import { AiFillDelete, AiFillMessage } from "react-icons/ai";
 import defaultImg from "../../assets/images/default-profile.jpg";
 import { useAppDispatch, useAppSelector } from "../../hook";
@@ -8,6 +8,7 @@ import { IoIosPersonAdd } from "react-icons/io";
 import {
   useAcceptFriendReqMutation,
   useDeleteSentRequestMutation,
+  useGetSentFriendRequestQuery,
   useSendFriendRequestMutation,
 } from "../../redux";
 import { TiDelete, TiTick } from "react-icons/ti";
@@ -75,23 +76,59 @@ const Friends = ({ user }: { user: IChatRoom }) => {
 };
 
 const AllPeoples = ({ user }: { user: IChatRoom }) => {
+  const loggedInUser = useAppSelector((store) => store.user);
+  const { data } = useGetSentFriendRequestQuery({ search: "", skip: 0 });
   const [sendFriendRequest] = useSendFriendRequestMutation();
-
-  async function handleAddFriend(id: string) {
-    await sendFriendRequest({
-      to: id,
-    });
+  const [deleteSentRequest] = useDeleteSentRequestMutation();
+  const { page } = useAppSelector((store) => store.pagination);
+  function handleAddFriend(id: string) {
+    sendFriendRequest({ to: id, page })
+      .unwrap()
+      .then(() => {})
+      .catch((err) => console.log(err));
+  }
+  function sentReqCheck(email: string): boolean {
+    if (!data) return false;
+    const result = data.data.find(
+      (item: IFriendReq) => item.to.email === email
+    );
+    if (result?.to) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
+  async function handleCancelReq(to: string) {
+    await deleteSentRequest({
+      fromId: loggedInUser.user?.id || "",
+      toId: to,
+      receiverId: to,
+      type: "sent",
+    });
+  }
   return (
-    <button
-      className="  btn btn-sm btn-outline btn-info"
-      onClick={() => {
-        handleAddFriend(user.id);
-      }}
-    >
-      Add <IoIosPersonAdd size={15} color="skyblue" />
-    </button>
+    <div className="flex">
+      {sentReqCheck(user.email) ? (
+        <button
+          className="btn btn-outline btn-error btn-sm"
+          onClick={() => {
+            handleCancelReq(user.id);
+          }}
+        >
+          Cancel <AiFillDelete size={15} color="red" />
+        </button>
+      ) : (
+        <button
+          className="  btn btn-sm btn-outline btn-info"
+          onClick={() => {
+            handleAddFriend(user.id);
+          }}
+        >
+          Add <IoIosPersonAdd size={15} color="skyblue" />
+        </button>
+      )}
+    </div>
   );
 };
 
@@ -119,6 +156,7 @@ const FriendReq = ({ user }: { user: IUser }) => {
             fromId: user.id,
             toId: loggedInUser.user?.id as string,
             receiverId: user.id,
+            type: "received",
           });
         }}
       >
@@ -136,6 +174,7 @@ const SentRequest = ({ user }: { user: IUser }) => {
       fromId: loggedInUser.user?.id || "",
       toId: to,
       receiverId: to,
+      type: "sent",
     });
   }
   return (

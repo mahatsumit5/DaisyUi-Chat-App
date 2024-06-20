@@ -9,6 +9,7 @@ import allUsersreducer from "./reducer/AllUsers.slice";
 import friendReqReducer from "./reducer/friendReq.slice";
 import socketReducer from "./reducer/socket.slice";
 import dialogReducer from "./reducer/dialog.slice";
+import toastReducer from "./reducer/toast.slice";
 import loaderReducer from "./reducer/loader.slice";
 import paginationReducer from "./reducer/pagination.slice";
 export const rootApi = !import.meta.env.PROD
@@ -48,4 +49,5 @@ export {
   userInfoReducer,
   roomReducer,
   paginationReducer,
+  toastReducer,
 };

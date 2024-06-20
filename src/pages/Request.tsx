@@ -11,7 +11,7 @@ const Request = () => {
   const [search, setSearch] = useState<string>("");
   const [currentTab, setCurrentTab] = useState(1);
   const { page } = useAppSelector((store) => store.pagination);
-  const numberOfContentPerPage = 30;
+  const numberOfContentPerPage = 8;
   const { data, error, refetch, isFetching } = useGetAllUsersQuery({
     order: "asc",
     page: page,
@@ -20,6 +20,7 @@ const Request = () => {
   });
 
   useEffect(() => {
+    if (!search) return;
     const debounce = setTimeout(() => {
       refetch();
     }, 3000);

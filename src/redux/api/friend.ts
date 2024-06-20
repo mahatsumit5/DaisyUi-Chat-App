@@ -14,6 +14,7 @@ import { userApi } from "./user";
 import { roomApi } from "./room";
 import { toggleDialog } from "../reducer/dialog.slice";
 import { toggleLoader } from "../reducer/loader.slice";
+import { toggleToast } from "../reducer/toast.slice";
 
 export const friendApi = createApi({
   reducerPath: "FriendApi",
@@ -116,6 +117,7 @@ export const friendApi = createApi({
     >({
       query: (data) =>
         `sent-request?skip=${data?.skip}%%search=${data?.search}`,
+      providesTags: ["SentRequests"],
       onCacheEntryAdded: async (
         argument,
         { cacheDataLoaded, cacheEntryRemoved, dispatch, updateCachedData }
@@ -145,11 +147,14 @@ export const friendApi = createApi({
     }),
 
     // send request to to other user
-    sendFriendRequest: builder.mutation<ISendReqRes, { to: string }>({
+    sendFriendRequest: builder.mutation<
+      ISendReqRes,
+      { to: string; page: number }
+    >({
       query: (data) => ({
         url: "/send-request",
         method: "POST",
-        body: data,
+        body: { to: data.to },
       }),
 
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
@@ -161,16 +166,42 @@ export const friendApi = createApi({
             })
           );
           const { data } = await queryFulfilled;
-          // dispatch(
-          //   friendApi.util.updateQueryData(
-          //     "getSentFriendRequest",
-          //     null,
-          //     (draft) => {
-          //       draft.data.push(data.data);
-          //     }
-          //   )
-          // );
+
+          dispatch(
+            friendApi.util.updateQueryData(
+              "getSentFriendRequest",
+              { search: "", skip: 0 },
+              (draft) => {
+                draft.data = [...draft.data, data.data];
+                draft.count = ++draft.count;
+              },
+              true
+            )
+          );
+          dispatch(
+            userApi.util.updateQueryData(
+              "getAllUsers",
+              { order: "asc", page: arg.page, take: 8, search: "" },
+              (draft) => {
+                // Filter out the user with the matching ID from getAllUsers data
+                draft.data = draft.data.filter(
+                  (user) => user.id !== data.data.to.id
+                );
+              },
+              true
+            )
+          );
           dispatch(toggleLoader({ isLoading: false }));
+          dispatch(
+            toggleToast({
+              isOpen: true,
+              content: {
+                id: Math.ceil(Math.random() * 10000000),
+                message: "Your request has been sent",
+                type: "success",
+              },
+            })
+          );
           socket.emit("sendFriendRequest", data.data, arg.to);
         } catch (error) {
           dispatch(toggleLoader({ isLoading: false }));
@@ -197,15 +228,18 @@ export const friendApi = createApi({
             })
           );
           const { data } = await queryFulfilled;
+
           dispatch(
             friendApi.util.updateQueryData(
               "getSentFriendRequest",
-              null,
+              { search: "", skip: 0 },
               (draft) => {
                 draft.data = draft.data.filter(
-                  (item) => item.to.email !== data.data.to.email
+                  (item) => item.to.id !== arg.toId
                 );
-              }
+                draft.count = --draft.count;
+              },
+              true
             )
           );
 
@@ -217,15 +251,38 @@ export const friendApi = createApi({
                 draft.data.result = draft.data.result.filter(
                   (item) => item.from.email !== data.data.from.email
                 );
-                draft.data.friendReqCount = --draft.data.friendReqCount;
+                draft.data.friendReqCount =
+                  arg.type === "received"
+                    ? --draft.data.friendReqCount
+                    : draft.data.friendReqCount;
               }
             )
           );
           socket.emit("request_deleted", data.data, arg.receiverId);
           dispatch(toggleLoader({ isLoading: false }));
+
+          dispatch(
+            toggleToast({
+              isOpen: true,
+              content: {
+                id: Math.ceil(Math.random() * 10000000),
+                message: "Request deleted.",
+                type: "info",
+              },
+            })
+          );
         } catch (error) {
           dispatch(toggleLoader({ isLoading: false }));
-
+          dispatch(
+            toggleToast({
+              isOpen: true,
+              content: {
+                id: Math.ceil(Math.random() * 10000000),
+                message: "Unexpected error Occured.",
+                type: "error",
+              },
+            })
+          );
           console.log(error);
         }
       },
