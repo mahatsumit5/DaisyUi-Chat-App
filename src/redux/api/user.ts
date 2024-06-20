@@ -11,6 +11,7 @@ import {
 } from "../../types";
 import { socket } from "../reducer/socket.slice";
 import { toggleLoader } from "../reducer/loader.slice";
+import { toggleToast } from "../reducer/toast.slice";
 
 const userApi = createApi({
   reducerPath: "UserApi",
@@ -76,7 +77,20 @@ const userApi = createApi({
           await queryFulfilled;
           dispatch(toggleLoader({ isLoading: false }));
           socket.emit("disconnect");
+
+          dispatch(
+            toggleToast({
+              isOpen: true,
+              content: {
+                id: Math.ceil(Math.random() * 10000000),
+                message: "Welcome back",
+                type: "info",
+              },
+            })
+          );
         } catch (error) {
+          console.log(error);
+
           dispatch(toggleLoader({ isLoading: false }));
         }
       },
@@ -120,6 +134,17 @@ const userApi = createApi({
           await queryFulfilled;
           dispatch(toggleLoader({ isLoading: false }));
           socket.emit("disconnect");
+
+          dispatch(
+            toggleToast({
+              isOpen: true,
+              content: {
+                id: Math.ceil(Math.random() * 10000000),
+                message: "Thank you signing up.",
+                type: "info",
+              },
+            })
+          );
         } catch (error) {
           dispatch(toggleLoader({ isLoading: false }));
         }

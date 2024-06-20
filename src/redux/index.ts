@@ -15,10 +15,10 @@ import paginationReducer from "./reducer/pagination.slice";
 export const rootApi = !import.meta.env.PROD
   ? "http://localhost:8080"
   : "your server domain";
+
 export const {
   useAcceptFriendReqMutation,
   useGetFriendRequestQuery,
-
   useGetSentFriendRequestQuery,
   useSendFriendRequestMutation,
   useDeleteSentRequestMutation,

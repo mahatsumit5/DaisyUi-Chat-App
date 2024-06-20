@@ -16,6 +16,7 @@ import {
   toastReducer,
 } from "./index";
 import { setupListeners } from "@reduxjs/toolkit/query";
+import { rtkQueryErrorLogger } from "../utils/errorHandler";
 export const store = configureStore({
   reducer: {
     rooms: roomReducer,
@@ -38,6 +39,7 @@ export const store = configureStore({
       userApi.middleware,
       roomApi.middleware,
       messageApi.middleware,
+      rtkQueryErrorLogger,
     ]),
 });
 

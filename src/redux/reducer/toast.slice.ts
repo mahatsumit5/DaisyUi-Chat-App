@@ -20,14 +20,22 @@ const toastSlice = createSlice({
     },
     closeToast: (state) => {
       state.isOpen = false;
-      state.content = [];
+
+      state.content.pop();
+    },
+    setPosition: (state, { payload }: PayloadAction<position>) => {
+      state.position = payload;
+    },
+    setAlign: (state, { payload }: PayloadAction<position>) => {
+      state.align = payload;
     },
   },
 });
 
 const { reducer, actions } = toastSlice;
 export default reducer;
-export const { toggleToast, removeToast, closeToast } = actions;
+export const { toggleToast, removeToast, closeToast, setAlign, setPosition } =
+  actions;
 
 interface IContent {
   id: number;
