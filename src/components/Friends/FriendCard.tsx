@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { IChatRoom, IFriendReq, IUser } from "../../types";
+import { IChatRoom, IUser } from "../../types";
 import { AiFillDelete, AiFillMessage } from "react-icons/ai";
 import defaultImg from "../../assets/images/default-profile.jpg";
 import { useAppDispatch, useAppSelector } from "../../hook";
@@ -8,12 +8,11 @@ import { IoIosPersonAdd } from "react-icons/io";
 import {
   useAcceptFriendReqMutation,
   useDeleteSentRequestMutation,
-  useGetSentFriendRequestQuery,
   useSendFriendRequestMutation,
 } from "../../redux";
 import { TiDelete, TiTick } from "react-icons/ti";
 import { setCurrentRoom } from "../../redux/reducer/room.slice";
-type keys = "peoples" | "friends" | "request";
+type keys = "peoples" | "friends" | "request" | "SentRequest";
 
 const FriendCard = ({
   user,
@@ -28,6 +27,7 @@ const FriendCard = ({
     friends: <Friends user={user as IChatRoom} />,
     peoples: <AllPeoples user={user as IChatRoom} />,
     request: <FriendReq user={user as IUser} />,
+    SentRequest: <SentRequest user={user} />,
   };
   return (
     <div className=" p-4 w-full sm:w-[250px] rounded-xl flex flex-col bg-slate-200 shadow-lg items-center justify-center gap-5">
@@ -75,59 +75,23 @@ const Friends = ({ user }: { user: IChatRoom }) => {
 };
 
 const AllPeoples = ({ user }: { user: IChatRoom }) => {
-  const loggedInUser = useAppSelector((store) => store.user);
-  const { data } = useGetSentFriendRequestQuery(null);
   const [sendFriendRequest] = useSendFriendRequestMutation();
-  const [deleteSentRequest] = useDeleteSentRequestMutation();
 
-  function handleAddFriend(id: string) {
-    sendFriendRequest({ userId: id, email: loggedInUser.user?.email as string })
-      .unwrap()
-      .then(() => {})
-      .catch((err) => console.log(err));
-  }
-
-  function sentReqCheck(email: string): boolean {
-    if (!data) return false;
-    const result = data.data.find(
-      (item: IFriendReq) => item.to.email === email
-    );
-    if (result?.to) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  async function handleCancelReq(to: string) {
-    await deleteSentRequest({
-      fromId: loggedInUser.user?.id || "",
-      toId: to,
-      receiverId: to,
+  async function handleAddFriend(id: string) {
+    await sendFriendRequest({
+      to: id,
     });
   }
+
   return (
-    <div className="flex">
-      {sentReqCheck(user.email) ? (
-        <button
-          className="btn btn-outline btn-error btn-sm"
-          onClick={() => {
-            handleCancelReq(user.id);
-          }}
-        >
-          Cancel <AiFillDelete size={15} color="red" />
-        </button>
-      ) : (
-        <button
-          className="  btn btn-sm btn-outline btn-info"
-          onClick={() => {
-            handleAddFriend(user.id);
-          }}
-        >
-          Add <IoIosPersonAdd size={15} color="skyblue" />
-        </button>
-      )}
-    </div>
+    <button
+      className="  btn btn-sm btn-outline btn-info"
+      onClick={() => {
+        handleAddFriend(user.id);
+      }}
+    >
+      Add <IoIosPersonAdd size={15} color="skyblue" />
+    </button>
   );
 };
 
@@ -161,6 +125,28 @@ const FriendReq = ({ user }: { user: IUser }) => {
         <TiDelete size={35} />
       </button>
     </div>
+  );
+};
+const SentRequest = ({ user }: { user: IUser }) => {
+  const [deleteSentRequest] = useDeleteSentRequestMutation();
+  const loggedInUser = useAppSelector((store) => store.user);
+
+  async function handleCancelReq(to: string) {
+    await deleteSentRequest({
+      fromId: loggedInUser.user?.id || "",
+      toId: to,
+      receiverId: to,
+    });
+  }
+  return (
+    <button
+      className="btn btn-outline btn-error btn-sm"
+      onClick={() => {
+        handleCancelReq(user.id);
+      }}
+    >
+      Cancel <AiFillDelete size={15} color="red" />
+    </button>
   );
 };
 

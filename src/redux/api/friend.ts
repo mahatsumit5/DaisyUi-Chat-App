@@ -4,7 +4,6 @@ import {
   IFriendReq,
   IFriendReqAccRes,
   IFriendReqRes,
-  ISendReqParams,
   ISendReqRes,
   ISentReq,
   IdeleteReqParams,
@@ -111,8 +110,12 @@ export const friendApi = createApi({
     }),
 
     // get sent request  by the current logged in user
-    getSentFriendRequest: builder.query<ISentReq, null>({
-      query: () => "sent-request",
+    getSentFriendRequest: builder.query<
+      ISentReq,
+      { skip?: number; search?: string } | null
+    >({
+      query: (data) =>
+        `sent-request?skip=${data?.skip}%%search=${data?.search}`,
       onCacheEntryAdded: async (
         argument,
         { cacheDataLoaded, cacheEntryRemoved, dispatch, updateCachedData }
@@ -142,7 +145,7 @@ export const friendApi = createApi({
     }),
 
     // send request to to other user
-    sendFriendRequest: builder.mutation<ISendReqRes, ISendReqParams>({
+    sendFriendRequest: builder.mutation<ISendReqRes, { to: string }>({
       query: (data) => ({
         url: "/send-request",
         method: "POST",
@@ -158,17 +161,17 @@ export const friendApi = createApi({
             })
           );
           const { data } = await queryFulfilled;
-          dispatch(
-            friendApi.util.updateQueryData(
-              "getSentFriendRequest",
-              null,
-              (draft) => {
-                draft.data.push(data.data);
-              }
-            )
-          );
+          // dispatch(
+          //   friendApi.util.updateQueryData(
+          //     "getSentFriendRequest",
+          //     null,
+          //     (draft) => {
+          //       draft.data.push(data.data);
+          //     }
+          //   )
+          // );
           dispatch(toggleLoader({ isLoading: false }));
-          socket.emit("sendFriendRequest", data.data, arg.userId);
+          socket.emit("sendFriendRequest", data.data, arg.to);
         } catch (error) {
           dispatch(toggleLoader({ isLoading: false }));
 

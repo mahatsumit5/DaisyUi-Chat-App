@@ -5,7 +5,10 @@ import FriendCard from "./FriendCard";
 import LoaderCard from "./LoaderCard";
 
 const SentRequest = () => {
-  const { isFetching, error, data } = useGetSentFriendRequestQuery(null);
+  const { isFetching, error, data } = useGetSentFriendRequestQuery({
+    search: "",
+    skip: 0,
+  });
 
   return (
     <>
@@ -28,7 +31,7 @@ const SentRequest = () => {
                   <div className="flex justify-around flex-wrap gap-5">
                     {data?.data.map((item, index) => (
                       <FriendCard
-                        type="peoples"
+                        type="SentRequest"
                         user={item.to as IUser}
                         key={index}
                       />
