@@ -1,17 +1,20 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import {
-  IDeleteRequestResponse,
+  IDeleteReqRes,
   IFriendReq,
-  IFriendRequestAccepted,
-  IFriendRequestResponse,
-  ISendRequestResponse,
+  IFriendReqAccRes,
+  IFriendReqRes,
+  ISendReqParams,
+  ISendReqRes,
   ISentReq,
+  IdeleteReqParams,
 } from "../../types";
 import { friendApiUrl } from "./serverUrl";
 import { socket } from "../reducer/socket.slice";
 import { userApi } from "./user";
 import { roomApi } from "./room";
 import { toggleDialog } from "../dialog.slice";
+import { toggleLoader } from "../loader.slice";
 
 export const friendApi = createApi({
   reducerPath: "FriendApi",
@@ -28,10 +31,7 @@ export const friendApi = createApi({
   }),
   endpoints: (builder) => ({
     // accept Friend Request
-    acceptFriendReq: builder.mutation<
-      IFriendRequestAccepted,
-      { fromId: string }
-    >({
+    acceptFriendReq: builder.mutation<IFriendReqAccRes, { fromId: string }>({
       query: (data) => ({
         url: "",
         method: "PATCH",
@@ -39,6 +39,9 @@ export const friendApi = createApi({
       }),
       onQueryStarted: async ({ fromId }, { dispatch, queryFulfilled }) => {
         try {
+          dispatch(
+            toggleLoader({ isLoading: true, content: "Please Wait..." })
+          );
           const { data } = await queryFulfilled;
           dispatch(
             friendApi.util.updateQueryData(
@@ -51,15 +54,19 @@ export const friendApi = createApi({
               }
             )
           );
+          dispatch(toggleLoader({ isLoading: false }));
+
           socket.emit("friend_request_accepted", data.friendRequest, fromId);
         } catch (error) {
+          dispatch(toggleLoader({ isLoading: false }));
+
           console.log(error);
         }
       },
     }),
 
     // get all the friends Request
-    getFriendRequest: builder.query<IFriendRequestResponse, null>({
+    getFriendRequest: builder.query<IFriendReqRes, null>({
       query: () => "friend-request",
       providesTags: ["FriendRequests"],
       onCacheEntryAdded: async (
@@ -134,10 +141,7 @@ export const friendApi = createApi({
     }),
 
     // send request to to other user
-    sendFriendRequest: builder.mutation<
-      ISendRequestResponse,
-      { userId: string; email: string }
-    >({
+    sendFriendRequest: builder.mutation<ISendReqRes, ISendReqParams>({
       query: (data) => ({
         url: "/send-request",
         method: "POST",
@@ -146,6 +150,12 @@ export const friendApi = createApi({
 
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
+          dispatch(
+            toggleLoader({
+              isLoading: true,
+              content: "Your request is being sent. Please wait a moment.",
+            })
+          );
           const { data } = await queryFulfilled;
           dispatch(
             friendApi.util.updateQueryData(
@@ -156,18 +166,18 @@ export const friendApi = createApi({
               }
             )
           );
+          dispatch(toggleLoader({ isLoading: false }));
           socket.emit("sendFriendRequest", data.data, arg.userId);
         } catch (error) {
+          dispatch(toggleLoader({ isLoading: false }));
+
           console.log(error);
         }
       },
     }),
 
     // Cancel Friend Request by both user
-    deleteSentRequest: builder.mutation<
-      IDeleteRequestResponse,
-      { fromId: string; toId: string; receiverId: string }
-    >({
+    deleteSentRequest: builder.mutation<IDeleteReqRes, IdeleteReqParams>({
       query: (data) => ({
         method: "DELETE",
         url: `/${data.fromId}/${data.toId}`,
@@ -175,6 +185,13 @@ export const friendApi = createApi({
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
           if (!arg.fromId) return;
+
+          dispatch(
+            toggleLoader({
+              isLoading: true,
+              content: "Please wait while we delete your request.",
+            })
+          );
           const { data } = await queryFulfilled;
           dispatch(
             friendApi.util.updateQueryData(
@@ -201,7 +218,10 @@ export const friendApi = createApi({
             )
           );
           socket.emit("request_deleted", data.data, arg.receiverId);
+          dispatch(toggleLoader({ isLoading: false }));
         } catch (error) {
+          dispatch(toggleLoader({ isLoading: false }));
+
           console.log(error);
         }
       },

@@ -2,12 +2,15 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { userApiUrl } from "./serverUrl";
 import {
   IAllUsersResponse,
+  IGetAllUsersParams,
+  IGetNewAcessJWTResponse,
   ILogin,
   IResponse,
   ISignUpParams,
   IUser,
 } from "../../types";
 import { socket } from "../reducer/socket.slice";
+import { toggleLoader } from "../loader.slice";
 
 const userApi = createApi({
   reducerPath: "UserApi",
@@ -23,10 +26,7 @@ const userApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getAllUsers: builder.query<
-      IAllUsersResponse,
-      { take: number; page: number; order: "asc" | "desc"; search?: string }
-    >({
+    getAllUsers: builder.query<IAllUsersResponse, IGetAllUsersParams>({
       query: ({ order, page, take, search }) =>
         `all-users?order=${order}&&page=${page}&&take=${take}&&search=${search}`,
       transformResponse: (response: {
@@ -39,6 +39,18 @@ const userApi = createApi({
     }),
     logoutUser: builder.mutation<{ status: boolean }, void>({
       query: () => ({ url: "logout", method: "POST" }),
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          dispatch(
+            toggleLoader({ isLoading: true, content: "Please Wait..." })
+          );
+          await queryFulfilled;
+          dispatch(toggleLoader({ isLoading: false }));
+          socket.emit("disconnect");
+        } catch (error) {
+          dispatch(toggleLoader({ isLoading: false }));
+        }
+      },
     }),
     login: builder.mutation<ILogin, { email: string; password: string }>({
       query: (data) => ({
@@ -50,6 +62,19 @@ const userApi = createApi({
         return baseQueryReturnValue;
       },
 
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          dispatch(
+            toggleLoader({ isLoading: true, content: "Please Wait..." })
+          );
+          await queryFulfilled;
+          dispatch(toggleLoader({ isLoading: false }));
+          socket.emit("disconnect");
+        } catch (error) {
+          dispatch(toggleLoader({ isLoading: false }));
+        }
+      },
+
       invalidatesTags: ["Users"],
     }),
 
@@ -57,14 +82,20 @@ const userApi = createApi({
       query: () => "",
       transformResponse: (response: { status: boolean; data: IUser }) =>
         response.data,
-      onQueryStarted: async (arg, { queryFulfilled }) => {
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
+          dispatch(
+            toggleLoader({ isLoading: true, content: "Please Wait..." })
+          );
           const { data } = await queryFulfilled;
           sessionStorage.setItem("email", data.email);
           if (data.id) {
             socket.connect();
           }
+          dispatch(toggleLoader({ isLoading: false }));
         } catch (error) {
+          dispatch(toggleLoader({ isLoading: false }));
+
           console.log(error);
         }
       },
@@ -75,11 +106,20 @@ const userApi = createApi({
         method: "POST",
         body: data,
       }),
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          dispatch(
+            toggleLoader({ isLoading: true, content: "Please Wait..." })
+          );
+          await queryFulfilled;
+          dispatch(toggleLoader({ isLoading: false }));
+          socket.emit("disconnect");
+        } catch (error) {
+          dispatch(toggleLoader({ isLoading: false }));
+        }
+      },
     }),
-    getNewAccessJWT: builder.mutation<
-      { status: boolean; data: string; message: string },
-      void
-    >({
+    getNewAccessJWT: builder.mutation<IGetNewAcessJWTResponse, void>({
       query: () => ({
         url: "new-accessJWT",
         headers: {

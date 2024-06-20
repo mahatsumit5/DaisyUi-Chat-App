@@ -18,7 +18,6 @@ export const getNumberOfRequiredPagination = (
   for (let i = 1; i <= numberOfloops; i++) {
     pages.push(i);
   }
-  console.log(pages);
   return pages;
 };
 

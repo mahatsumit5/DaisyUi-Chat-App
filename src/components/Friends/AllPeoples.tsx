@@ -10,7 +10,7 @@ function AllPeoples(props: { search: string }) {
   const maximumNumberOfPagination = 6;
   const numberOfContentPerPage = 10;
   const [page, setPage] = useState<number>(1);
-  const { data, isLoading, error, refetch } = useGetAllUsersQuery({
+  const { data, error, refetch, isFetching } = useGetAllUsersQuery({
     order: "asc",
     page: page,
     take: numberOfContentPerPage,
@@ -76,13 +76,20 @@ function AllPeoples(props: { search: string }) {
             Try again
           </button>
         </>
-      ) : isLoading ? (
-        <></>
+      ) : isFetching ? (
+        <div className="flex flex-row flex-wrap gap-5 justify-center ">
+          {Array(10)
+            .fill("")
+            .map(() => (
+              <LoaderCard key={Math.random()} />
+            ))}
+        </div>
       ) : data ? (
         <>
           <div className="flex flex-row flex-wrap gap-5 justify-center ">
             {data.data.map((user: IUser) => (
               <FriendCard user={user} type="peoples" key={user.id} />
+              // <LoaderCard />
             ))}
           </div>
 
@@ -136,4 +143,14 @@ function AllPeoples(props: { search: string }) {
   );
 }
 
+const LoaderCard = () => {
+  return (
+    <div className="flex flex-col gap-4 w-52 bg-gray-100 rounded-xl h-56 items-center justify-between p-4 ">
+      <div className="skeleton w-24 h-24 bg-slate-300 rounded-full shrink-0"></div>{" "}
+      <div className="skeleton h-2 w-28 bg-slate-300"></div>
+      <div className="skeleton h-2 w-full bg-slate-300"></div>
+      <div className="skeleton h-8 w-28 bg-slate-300"></div>
+    </div>
+  );
+};
 export default AllPeoples;

@@ -1,3 +1,20 @@
+export interface IGetAllUsersParams {
+  take: number;
+  page: number;
+  order: "asc" | "desc";
+  search?: string;
+}
+
+export interface ISendReqParams {
+  userId: string;
+  email: string;
+}
+export interface IdeleteReqParams {
+  fromId: string;
+  toId: string;
+  receiverId: string;
+}
+
 export interface IUser {
   id: string;
   fName: string;
@@ -6,6 +23,7 @@ export interface IUser {
   email: string;
   isActive: boolean;
 }
+
 export interface IMessage {
   id: string;
   content: string;
@@ -70,7 +88,7 @@ export interface IAllUsersResponse {
   totalUsers: number;
 }
 
-export interface IDeleteRequestResponse {
+export interface IDeleteReqRes {
   status: boolean;
   data: IFriendReq;
   message: string;
@@ -94,11 +112,11 @@ export interface IFriendReq {
   };
 }
 
-export interface IFriendRequestResponse {
+export interface IFriendReqRes {
   status: boolean;
   data: { result: IFriendReq[]; friendReqCount: number };
 }
-export interface IFriendRequestAccepted {
+export interface IFriendReqAccRes {
   status: string;
   friendRequest: IFriendReq;
   data: {
@@ -110,7 +128,18 @@ export interface ISentReq {
   status: boolean;
   data: IFriendReq[];
 }
-export interface ISendRequestResponse {
+export interface ISendReqRes {
   status: boolean;
   data: IFriendReq;
+}
+
+export interface IGetNewAcessJWTResponse {
+  status: boolean;
+  data: string;
+  message: string;
+}
+
+export interface IDelChatRoomRes {
+  status: boolean;
+  result: { id: string };
 }

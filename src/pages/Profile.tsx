@@ -16,6 +16,7 @@ function ProfilePage() {
     dispatch(setUser(null));
     window.location.reload();
   }
+
   return (
     <div className="flex flex-col gap-5 w-full">
       <div className="flex justify-between md:justify-end w-full items-center">

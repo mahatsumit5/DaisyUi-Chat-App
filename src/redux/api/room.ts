@@ -1,8 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { roomApiUrl } from "./serverUrl";
-import { IChatRoom, IMessage } from "../../types";
+import { IChatRoom, IDelChatRoomRes, IMessage } from "../../types";
 import { socket } from "../reducer/socket.slice";
 import { userApi } from "./user";
+import { toggleLoader } from "../loader.slice";
 
 export type chatroomReturnType = {
   status: boolean;
@@ -59,16 +60,16 @@ export const roomApi = createApi({
         socket.close();
       },
     }),
-    deleteChatRoom: builder.mutation<
-      { status: boolean; result: { id: string } },
-      string
-    >({
+    deleteChatRoom: builder.mutation<IDelChatRoomRes, string>({
       query: (id) => ({
         url: `?id=${id}`,
         method: "DELETE",
       }),
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
+          dispatch(
+            toggleLoader({ isLoading: true, content: "Please Wait..." })
+          );
           const { data } = await queryFulfilled;
 
           dispatch(
@@ -78,8 +79,12 @@ export const roomApi = createApi({
               );
             })
           );
+          dispatch(toggleLoader({ isLoading: false }));
+
           socket.emit("deleteChatRoom", data);
         } catch (error) {
+          dispatch(toggleLoader({ isLoading: false }));
+
           console.log(error);
         }
       },

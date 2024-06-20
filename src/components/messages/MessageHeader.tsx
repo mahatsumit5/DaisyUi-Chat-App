@@ -1,10 +1,9 @@
-import { IoIosMore } from "react-icons/io";
 import { IChatRoom } from "../../types";
 import { Dispatch, SetStateAction } from "react";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import { setCurrentRoom } from "../../redux/reducer/room.slice";
 import { IoChevronBackSharp } from "react-icons/io5";
-import { MdPhoneEnabled } from "react-icons/md";
+import { MdDeleteOutline, MdPhoneEnabled } from "react-icons/md";
 import { useDeleteChatRoomMutation } from "../../redux";
 
 function MessageHeader({
@@ -69,7 +68,7 @@ function MessageHeader({
         </button>
 
         <button onClick={deleteRoomHandle}>
-          <IoIosMore size={30} />
+          <MdDeleteOutline size={30} />{" "}
         </button>
       </div>
     </header>

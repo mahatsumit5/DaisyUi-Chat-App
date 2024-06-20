@@ -20,6 +20,7 @@ import { IUser } from "./types";
 import Active from "./pages/Active";
 import Request from "./pages/Request";
 import Settings from "./pages/Settings";
+import Loading from "./components/loading/Loading";
 
 export default function App() {
   const navigate = useNavigate();
@@ -107,6 +108,7 @@ export default function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
         </Routes>
         <Dialog />
+        <Loading />
       </div>
     </>
   );
