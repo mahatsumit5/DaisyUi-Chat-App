@@ -20,6 +20,6 @@
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "src/dummy_data.ts"],
+  "include": ["src", "src/dummy_data.ts", "index.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
