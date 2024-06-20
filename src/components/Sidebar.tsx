@@ -3,7 +3,6 @@ import { TiMessages, TiUserAddOutline } from "react-icons/ti";
 import { IoIosSettings, IoMdNotificationsOutline } from "react-icons/io";
 import { BsPeople } from "react-icons/bs";
 import { Link, useLocation } from "react-router-dom";
-import { TbUserSearch } from "react-icons/tb";
 import { useGetFriendRequestQuery } from "../redux";
 import { useAppSelector } from "../hook";
 
@@ -24,14 +23,9 @@ const links = [
     id: 3,
     text: "Friends",
     link: "/friends",
-    icon: <TbUserSearch size={35} />,
-  },
-  {
-    id: 4,
-    text: "Active",
-    link: "/online-users",
     icon: <BsPeople size={31} />,
   },
+
   {
     id: 5,
     text: "Request",

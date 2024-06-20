@@ -13,8 +13,8 @@ import { friendApiUrl } from "./serverUrl";
 import { socket } from "../reducer/socket.slice";
 import { userApi } from "./user";
 import { roomApi } from "./room";
-import { toggleDialog } from "../dialog.slice";
-import { toggleLoader } from "../loader.slice";
+import { toggleDialog } from "../reducer/dialog.slice";
+import { toggleLoader } from "../reducer/loader.slice";
 
 export const friendApi = createApi({
   reducerPath: "FriendApi",
@@ -54,9 +54,9 @@ export const friendApi = createApi({
               }
             )
           );
+          dispatch(roomApi.util.invalidateTags(["Rooms"]));
           dispatch(toggleLoader({ isLoading: false }));
-
-          socket.emit("friend_request_accepted", data.friendRequest, fromId);
+          socket.emit("friend_request_accepted", data.data.id, fromId);
         } catch (error) {
           dispatch(toggleLoader({ isLoading: false }));
 
@@ -120,9 +120,10 @@ export const friendApi = createApi({
         try {
           await cacheDataLoaded;
 
-          socket.on("friend_req_accepted_notification", () => {
+          socket.on("getReqAcceptedNotification", (roomId) => {
             dispatch(userApi.util.invalidateTags(["Users"]));
             dispatch(roomApi.util.invalidateTags(["Rooms"]));
+            socket.emit("join-room", roomId);
           });
           socket.on("getRequestDeleted", (data: IFriendReq) => {
             updateCachedData((draft) => {

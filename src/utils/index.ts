@@ -9,7 +9,6 @@ export const getNumberOfRequiredPagination = (
 ): number[] => {
   const pages: number[] = [];
   const maximumNumberOfPagination = 6;
-
   const numberOfloops =
     totalNumberOfPages > maximumNumberOfPagination
       ? maximumNumberOfPagination
@@ -18,6 +17,7 @@ export const getNumberOfRequiredPagination = (
   for (let i = 1; i <= numberOfloops; i++) {
     pages.push(i);
   }
+
   return pages;
 };
 

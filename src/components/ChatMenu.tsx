@@ -32,7 +32,7 @@ function ChatMenu({
 
   return (
     <div className="flex flex-col gap-2 w-full md:w-[300px] h-full">
-      <label className="input input-sm bg-white   items-center gap-2 flex justify-between">
+      <label className="input input-md bg-white   items-center gap-2 flex justify-between">
         <input
           type="text"
           placeholder="Search"
@@ -62,7 +62,7 @@ function ChatMenu({
         </section>
       ) : isLoading ? (
         <section className="skeleton h-full bg-slate-200" />
-      ) : data ? (
+      ) : data.data.length ? (
         <>
           <section className=" h-full rounded-xl  flex  flex-col gap-2 overflow-y-auto bg-slate-50/85 ">
             {rooms.map((item: IChatRoom) => (
@@ -123,7 +123,14 @@ function ChatMenu({
             ))}
           </section>
         </>
-      ) : null}
+      ) : (
+        <section className=" h-full rounded-xl  flex  flex-col gap-2 overflow-y-auto bg-slate-50/85 items-center justify-center ">
+          <p>You do not have any friends</p>
+          <Link to={"/friend-request"}>
+            <button className="btn btn-primary text-white">Connect </button>
+          </Link>
+        </section>
+      )}
     </div>
   );
 }

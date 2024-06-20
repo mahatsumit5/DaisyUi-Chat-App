@@ -8,7 +8,6 @@ import { IoIosPersonAdd } from "react-icons/io";
 import {
   useAcceptFriendReqMutation,
   useDeleteSentRequestMutation,
-  useGetAllChatRoomQuery,
   useGetSentFriendRequestQuery,
   useSendFriendRequestMutation,
 } from "../../redux";
@@ -31,24 +30,24 @@ const FriendCard = ({
     request: <FriendReq user={user as IUser} />,
   };
   return (
-    <div className=" p-3 w-full sm:w-[200px] rounded-xl flex flex-col bg-gray-100 shadow-lg items-center justify-center gap-5">
+    <div className=" p-4 w-full sm:w-[250px] rounded-xl flex flex-col bg-slate-200 shadow-lg items-center justify-center gap-5">
       {/* Avatar and name */}
-      <div className="flex gap-4">
+      <div className="flex    gap-5 items-center sm:flex-col ">
         <div className="avatar">
-          <div className="w-24">
-            <img
-              src={user.profile || defaultImg}
-              className="rounded-full shadow-xl"
-            />
+          <div className="w-32">
+            <img src={user.profile || defaultImg} className="rounded-full " />
           </div>
         </div>
+        <span className="flex flex-col sm:flex-row sm:gap-2">
+          <h1 className="font-bold text-lg">{user?.fName}</h1>
+
+          <h1 className="text-lg font-bold">{user?.lName}</h1>
+        </span>
       </div>
-      <span className="flex">
-        <h1 className="   text-md">{user?.fName}</h1>
-        &nbsp;
-        <h1 className="text-md">{user?.lName}</h1>
-      </span>
-      <p className="text-sm">{user.email}</p>
+
+      <p className="text-lg text-gray-500 line-clamp-1 mx-2 font-normal sm:text-sm">
+        {user.email}
+      </p>
       {displayComponent[display]}
     </div>
   );
@@ -133,16 +132,11 @@ const AllPeoples = ({ user }: { user: IChatRoom }) => {
 };
 
 const FriendReq = ({ user }: { user: IUser }) => {
-  const { refetch } = useGetAllChatRoomQuery(null);
   const [acceptFriendReq] = useAcceptFriendReqMutation();
   const [deleteSentRequest] = useDeleteSentRequestMutation();
   const loggedInUser = useAppSelector((store) => store.user);
-  function acceptReqHandler(from: string) {
-    acceptFriendReq({ fromId: from })
-      .unwrap()
-      .then(() => {
-        refetch();
-      });
+  async function acceptReqHandler(from: string) {
+    await acceptFriendReq({ fromId: from });
   }
   return (
     <div className="flex items-center gap-5">

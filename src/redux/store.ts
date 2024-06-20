@@ -12,6 +12,7 @@ import {
   dialogReducer,
   loaderReducer,
   socketReducer,
+  paginationReducer,
 } from "./index";
 import { setupListeners } from "@reduxjs/toolkit/query";
 export const store = configureStore({
@@ -23,6 +24,7 @@ export const store = configureStore({
     dialog: dialogReducer,
     loader: loaderReducer,
     socket: socketReducer,
+    pagination: paginationReducer,
     [friendApi.reducerPath]: friendApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
     [roomApi.reducerPath]: roomApi.reducer,

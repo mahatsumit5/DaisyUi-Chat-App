@@ -1,6 +1,6 @@
 import { RxCross1 } from "react-icons/rx";
 import { useAppDispatch, useAppSelector } from "../../hook";
-import { closeDialog } from "../../redux/dialog.slice";
+import { closeDialog } from "../../redux/reducer/dialog.slice";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 const variants = {

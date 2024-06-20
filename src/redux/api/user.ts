@@ -10,7 +10,7 @@ import {
   IUser,
 } from "../../types";
 import { socket } from "../reducer/socket.slice";
-import { toggleLoader } from "../loader.slice";
+import { toggleLoader } from "../reducer/loader.slice";
 
 const userApi = createApi({
   reducerPath: "UserApi",

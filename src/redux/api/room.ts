@@ -3,7 +3,7 @@ import { roomApiUrl } from "./serverUrl";
 import { IChatRoom, IDelChatRoomRes, IMessage } from "../../types";
 import { socket } from "../reducer/socket.slice";
 import { userApi } from "./user";
-import { toggleLoader } from "../loader.slice";
+import { toggleLoader } from "../reducer/loader.slice";
 
 export type chatroomReturnType = {
   status: boolean;

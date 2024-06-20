@@ -8,8 +8,9 @@ import userInfoReducer from "./reducer/user.slice";
 import allUsersreducer from "./reducer/AllUsers.slice";
 import friendReqReducer from "./reducer/friendReq.slice";
 import socketReducer from "./reducer/socket.slice";
-import dialogReducer from "./dialog.slice";
-import loaderReducer from "./loader.slice";
+import dialogReducer from "./reducer/dialog.slice";
+import loaderReducer from "./reducer/loader.slice";
+import paginationReducer from "./reducer/pagination.slice";
 export const rootApi = !import.meta.env.PROD
   ? "http://localhost:8080"
   : "your server domain";
@@ -46,4 +47,5 @@ export {
   allUsersreducer,
   userInfoReducer,
   roomReducer,
+  paginationReducer,
 };
