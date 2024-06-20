@@ -27,8 +27,8 @@ const userApi = createApi({
       IAllUsersResponse,
       { take: number; page: number; order: "asc" | "desc"; search?: string }
     >({
-      query: ({ order, page, take }) =>
-        `all-users?order=${order}&&page=${page}&&take=${take}`,
+      query: ({ order, page, take, search }) =>
+        `all-users?order=${order}&&page=${page}&&take=${take}&&search=${search}`,
       transformResponse: (response: {
         status: boolean;
         data: IUser[];

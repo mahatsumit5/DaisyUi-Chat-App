@@ -13,6 +13,8 @@
     "@reduxjs/toolkit": "^2.2.3",
     "axios": "^1.6.8",
     "framer-motion": "^11.2.6",
+    "lodash": "^4.17.21",
+    "query-string": "^9.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.1.0",
@@ -22,6 +24,7 @@
     "socket.io-client": "^4.7.5"
   },
   "devDependencies": {
+    "@types/lodash": "^4.17.5",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@types/redux-persist": "^4.3.1",

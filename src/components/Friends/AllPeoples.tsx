@@ -4,7 +4,7 @@ import { IUser } from "../../types";
 import FriendCard from "./FriendCard";
 import { getNumberOfRequiredPagination } from "../../utils";
 
-function AllPeoples() {
+function AllPeoples(props: { search: string }) {
   const [paginationArray, setPaginationArray] = useState<number[]>([]);
 
   const maximumNumberOfPagination = 6;
@@ -14,7 +14,7 @@ function AllPeoples() {
     order: "asc",
     page: page,
     take: numberOfContentPerPage,
-    search: "",
+    search: props.search,
   });
   const NumberofPages = data?.totalUsers
     ? data.totalUsers / numberOfContentPerPage
@@ -22,8 +22,6 @@ function AllPeoples() {
   const totalNumberofPages = Math.ceil(NumberofPages);
 
   useEffect(() => {
-    refetch();
-
     if (page > maximumNumberOfPagination) {
       setPaginationArray((previousArray) => {
         if (page > previousArray[previousArray.length - 1]) {
@@ -42,20 +40,42 @@ function AllPeoples() {
         });
       }
     }
-  }, [page, refetch, totalNumberofPages]);
+  }, [page, refetch, totalNumberofPages, props.search, data?.totalUsers]);
+
+  useEffect(() => {
+    const debounce = setTimeout(() => {
+      refetch();
+    }, 3000);
+
+    return () => {
+      clearTimeout(debounce);
+    };
+  }, [props.search, refetch]);
+
+  useEffect(() => {
+    for (let i = 1; i <= maximumNumberOfPagination; i++) {
+      setPaginationArray(getNumberOfRequiredPagination(totalNumberofPages));
+    }
+  }, [data?.totalUsers, setPaginationArray, totalNumberofPages]);
 
   function handleClickOnPageNumber(pageNumber: number) {
     setPage(pageNumber);
   }
 
-  // useEffect(() => {
-  //   fillArray();
-  // }, []);
-
   return (
     <>
       {error ? (
-        <>Unexpected error occures. Please try again later</>
+        <>
+          No users found.
+          <button
+            className="btn btn-outline btn-primary"
+            onClick={() => {
+              window.location.reload();
+            }}
+          >
+            Try again
+          </button>
+        </>
       ) : isLoading ? (
         <></>
       ) : data ? (

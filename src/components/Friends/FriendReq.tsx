@@ -4,9 +4,11 @@ import { IUser } from "../../types";
 import AllPeoples from "./AllPeoples";
 import FriendCard from "./FriendCard";
 import MobileDrawer from "../MobileDrawer";
-
+import { FormEvent, useState } from "react";
 function FriendReq() {
   const { data, error, isLoading } = useGetFriendRequestQuery(null);
+  const [search, setSearch] = useState<string>("");
+
   return (
     <>
       <div className="flex flex-col gap-5">
@@ -18,6 +20,9 @@ function FriendReq() {
                 type="text"
                 className="input input-sm md:input-md input-ghost bg-slate-300 text-slate-900 w-48 md:w-80 text-[16px] md:text-lg"
                 placeholder="Search............"
+                onChange={(e: FormEvent<HTMLInputElement>) => {
+                  setSearch(e.currentTarget.value);
+                }}
               />
             </div>
             <h1 className="text-xl md:text-4xl font-bold text-black">
@@ -56,7 +61,7 @@ function FriendReq() {
           <h1 className="text-xl md:text-4xl font-bold text-black">
             Find new People
           </h1>
-          <AllPeoples />
+          <AllPeoples search={search} />
         </div>
       </div>
     </>
