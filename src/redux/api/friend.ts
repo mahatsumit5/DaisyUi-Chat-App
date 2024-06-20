@@ -198,7 +198,7 @@ export const friendApi = createApi({
               content: {
                 id: Math.ceil(Math.random() * 10000000),
                 message: "Your request has been sent",
-                type: "success",
+                type: "error",
               },
             })
           );

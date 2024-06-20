@@ -4,7 +4,7 @@ const initialState: TInitialState = {
   isOpen: false,
   content: [],
   align: "bottom",
-  position: "center",
+  position: "end",
 };
 const toastSlice = createSlice({
   name: "toast",

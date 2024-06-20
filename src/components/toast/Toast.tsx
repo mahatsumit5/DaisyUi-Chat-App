@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import { closeToast, removeToast } from "../../redux/reducer/toast.slice";
-import { IoMdClose } from "react-icons/io";
 import { motion, AnimatePresence } from "framer-motion";
+import { IoCloseCircle } from "react-icons/io5";
 const variants = {
   open: { y: 0 },
   closed: { y: 100 },
@@ -36,14 +36,14 @@ function Toast() {
         variants={variants}
       >
         {content.map(({ message, type, id }) => (
-          <motion.div className={`alert alert-${type}`} key={id}>
+          <motion.div className={`alert alert-${type} flex`} key={id}>
             <span>{message}</span>
             <button
               onClick={() => {
                 dispatch(removeToast(id));
               }}
             >
-              <IoMdClose color="white" size={20} />
+              <IoCloseCircle size={25} color="white" />
             </button>
           </motion.div>
         ))}
