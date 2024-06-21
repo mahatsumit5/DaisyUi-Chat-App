@@ -79,6 +79,10 @@ const Settings = () => {
             className="btn theme-controller join-item"
             aria-label={item}
             value={item}
+            onChangeCapture={(e) => {
+              localStorage.setItem("theme", e.currentTarget.value);
+              window.location.reload();
+            }}
           />
         ))}
       </div>

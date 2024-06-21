@@ -89,7 +89,7 @@ function MessageBox({
                 <div
                   className={`chat-bubble   ${
                     author === userId
-                      ? "bg-blue-500 text-white"
+                      ? "bg-primary text-primary-content"
                       : " bg-gray-200 text-slate-600"
                   }`}
                 >

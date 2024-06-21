@@ -45,7 +45,10 @@ export default function App() {
 
   return (
     <>
-      <div className=" bg-slate-900 flex justify-center items-center ">
+      <div
+        className=" bg-slate-900 flex justify-center items-center "
+        data-theme={localStorage.getItem("theme") || "winter"}
+      >
         <Routes>
           <Route path="/" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />

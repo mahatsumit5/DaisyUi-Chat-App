@@ -4,7 +4,7 @@ const Loading = () => {
   const { content, isLoading } = useAppSelector((store) => store.loader);
   return (
     <div
-      className={`absolute w-screen h-screen justify-center items-center z-50 bg-slate-900/35 text-white ${
+      className={`absolute w-screen h-screen justify-center items-center z-50 bg-slate-900/35 text-primary ${
         isLoading ? "flex flex-col gap-2" : "hidden"
       }`}
     >

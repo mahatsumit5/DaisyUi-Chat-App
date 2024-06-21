@@ -43,7 +43,7 @@ function Toast() {
                 dispatch(removeToast(id));
               }}
             >
-              <IoCloseCircle size={25} color="white" />
+              <IoCloseCircle size={25} className={`text-${type}-content`} />
             </button>
           </motion.div>
         ))}

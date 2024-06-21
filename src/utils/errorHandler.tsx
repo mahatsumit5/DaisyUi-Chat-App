@@ -71,7 +71,7 @@ export const rtkQueryErrorLogger: Middleware =
           content: {
             id: Math.ceil(Math.random() * 10000000),
             message: "Unexpected error occured.",
-            type: "warning",
+            type: "error",
           },
         })
       );
