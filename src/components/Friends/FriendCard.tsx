@@ -31,7 +31,7 @@ const FriendCard = ({
     SentRequest: <SentRequest user={user} />,
   };
   return (
-    <div className="  w-full sm:w-[250px] rounded-lg flex md:flex-col  md:bg-white md:p-4   items-center justify-around gap-4 md:border-2 md:shadow-lg border-b-2 py-2">
+    <div className=" flex-1 w-full sm:w-[250px] md:rounded-lg md:border-none flex md:flex-col border-b-2 md:bg-base-300 border-b-primary bg-base-100 md:p-4   items-center justify-around gap-4  md:shadow-lg  py-2">
       {/* Avatar and name */}
       <div className="avatar ">
         <div className="w-16 h-full md:w-24">
@@ -118,12 +118,12 @@ const AllPeoples = ({ user }: { user: IChatRoom }) => {
         </button>
       ) : (
         <button
-          className="  btn btn-sm btn-outline btn-info"
+          className="  btn btn-sm  btn-primary"
           onClick={() => {
             handleAddFriend(user.id);
           }}
         >
-          Add <IoIosPersonAdd size={15} color="skyblue" />
+          Add <IoIosPersonAdd size={15} className="text-primary-content" />
         </button>
       )}
     </div>
@@ -138,17 +138,17 @@ const FriendReq = ({ user }: { user: IUser }) => {
     await acceptFriendReq({ fromId: from });
   }
   return (
-    <div className="flex items-center gap-5">
+    <div className="flex  gap-2">
       <button
-        className="bg-slate-300 text-blue-700  rounded-lg hover:bg-slate-500 hover:text-white transition-all"
+        className="btn btn-sm btn-circle btn-success"
         onClick={() => {
           acceptReqHandler(user.id);
         }}
       >
-        <TiTick size={35} />
+        <TiTick size={30} />
       </button>
       <button
-        className=" text-red-700 rounded-lg bg-slate-300 hover:bg-slate-500 hover:text-white transition-all"
+        className="btn btn-sm btn-circle btn-error  items-center "
         onClick={() => {
           deleteSentRequest({
             fromId: user.id,
@@ -158,7 +158,7 @@ const FriendReq = ({ user }: { user: IUser }) => {
           });
         }}
       >
-        <TiDelete size={35} />
+        <TiDelete size={30} className="text-white" />
       </button>
     </div>
   );
@@ -177,12 +177,12 @@ const SentRequest = ({ user }: { user: IUser }) => {
   }
   return (
     <button
-      className="btn btn-outline btn-error btn-sm"
+      className="btn text-error-content btn-error btn-sm"
       onClick={() => {
         handleCancelReq(user.id);
       }}
     >
-      Cancel <AiFillDelete size={15} color="red" />
+      Cancel <AiFillDelete size={15} className="text-error-content" />
     </button>
   );
 };

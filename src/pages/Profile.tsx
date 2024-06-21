@@ -1,7 +1,6 @@
 import { useLogoutUserMutation } from "../redux";
 import { useAppDispatch, useAppSelector } from "../hook";
 import { setUser } from "../redux/reducer/user.slice";
-import MobileDrawer from "../components/MobileDrawer";
 import { FaLock } from "react-icons/fa";
 
 function ProfilePage() {
@@ -20,7 +19,6 @@ function ProfilePage() {
   return (
     <div className="flex flex-col gap-5 w-full">
       <div className="flex justify-between md:justify-end w-full items-center">
-        <MobileDrawer />
         <button className="btn btn-primary text-white" onClick={handleLogout}>
           <FaLock size={20} /> Logout
         </button>
@@ -36,8 +34,12 @@ function ProfilePage() {
       </div>
       <div className="flex flex-col w-full justify-center items-center gap-2">
         <span className="flex gap-3">
-          <p className="text-2xl font-semibold text-gray-800">{user?.fName}</p>
-          <p className="text-2xl font-semibold text-gray-800">{user?.lName}</p>
+          <p className="text-2xl font-semibold text-base-content">
+            {user?.fName}
+          </p>
+          <p className="text-2xl font-semibold text-base-content">
+            {user?.lName}
+          </p>
         </span>
 
         <span>

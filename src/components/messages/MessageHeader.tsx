@@ -27,13 +27,13 @@ function MessageHeader({
       });
   }
   return (
-    <header className="bg-slate-50/85 w-full rounded-xl p-2 flex justify-between h-16">
+    <header className="bg-base-100 w-full rounded-xl p-2 flex justify-between h-16">
       <div className="flex gap-5">
         <button
           onClick={() => {
             dispatch(setCurrentRoom(null));
           }}
-          className="md:hidden"
+          className="lg:hidden"
         >
           <IoChevronBackSharp size={24} />
         </button>
@@ -55,11 +55,10 @@ function MessageHeader({
           </div>
         </div>
         <div className="flex flex-col items-center justify-center">
-          <p className="text-black font-bold ">
+          <p className="text-base-content font-bold ">
             {currentRoom.fName}&nbsp;
             {currentRoom.lName}
           </p>
-          {/* <p className="text-sm">Online</p> */}
         </div>
       </div>
       <div className="flex gap-5 justify-between items-center pr-2">
@@ -68,7 +67,7 @@ function MessageHeader({
         </button>
 
         <button onClick={deleteRoomHandle}>
-          <MdDeleteOutline size={30} />{" "}
+          <MdDeleteOutline size={30} />
         </button>
       </div>
     </header>

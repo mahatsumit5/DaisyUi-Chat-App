@@ -28,7 +28,7 @@ const SentRequest = () => {
             <>
               {data?.data.length ? (
                 <div className="flex flex-col gap-5 ">
-                  <div className="flex justify-around flex-wrap gap-5">
+                  <div className="flex justify-around flex-wrap gap-5 w-full">
                     {data?.data.map((item, index) => (
                       <FriendCard
                         type="SentRequest"

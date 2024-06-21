@@ -45,10 +45,10 @@ function MessageBox({
   return error ? (
     <>Unexpected Error Occured</>
   ) : isLoading ? (
-    <section className="skeleton w-full h-full bg-slate-300" />
+    <section className="skeleton w-full h-full bg-base-300" />
   ) : data ? (
     <section
-      className="bg-slate-50/85 rounded-xl p-2 flex flex-col    overflow-y-auto    flex-1"
+      className="bg-base-100 rounded-xl p-2 flex flex-col    overflow-y-auto    flex-1"
       ref={sectionRef}
     >
       {numberOfMessageToDisplay < data.result._count.messages && (
@@ -80,9 +80,8 @@ function MessageBox({
                   </div>
                 </div>
                 <div className="chat-header">
-                  {author === userId
-                    ? userName
-                    : currentRoom?.fName + " " + currentRoom?.lName}
+                  {author === userId ? userName : currentRoom?.fName}
+                  &nbsp;
                   <time className="text-xs opacity-50">
                     {getTime(createdAt).slice(0, 5)}
                   </time>

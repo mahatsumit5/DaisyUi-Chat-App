@@ -19,16 +19,16 @@ const Dialog = () => {
         variants={variants}
       >
         <motion.div
-          className="w-[350px] bg-white rounded-xl px-5 py-3 flex flex-col sm:min-w-[500px] shadow-lg"
+          className="w-[350px] bg-base-200 rounded-xl px-5 py-3 flex flex-col sm:min-w-[500px] shadow-lg"
           initial={{ opacity: 0, scale: 0 }}
           transition={{ duration: 0.3 }}
           animate={open ? "open" : "closed"}
           variants={variants}
         >
           <div className="flex justify-between items-center">
-            <p className=" text-gray-900 text-xl">{heading}</p>
+            <p className=" text-accent text-xl">{heading}</p>
             <button
-              className="btn btn-circle btn-ghost"
+              className="btn btn-circle btn-ghost hover:bg-primary"
               onClick={() => {
                 dispatch(closeDialog());
               }}

@@ -41,9 +41,12 @@ function MessageInput({
   }, [isError, isLoading, setStatus, dispatch, id]);
   return (
     <section className=" min-h-11 flex  gap-2 ">
-      <div className="flex flex-1 bg-white rounded-lg gap-5" id="input-field">
+      <div
+        className="flex flex-1 bg-base-100 rounded-lg gap-5"
+        id="input-field"
+      >
         <input
-          className="w-full h-full p-3 rounded-xl bg-white focus:ring-2"
+          className="w-full h-full p-3 rounded-xl bg-base-100  text-base-content focus:ring-2"
           placeholder="Write your message "
           onChange={(e) => setMessage(e.target.value)}
           value={message}
@@ -58,11 +61,11 @@ function MessageInput({
         </label>
       </div>
       <button
-        className="bg-red-600 disabled:bg-gray-400  flex justify-center items-center rounded-xl w-14"
+        className="bg-primary disabled:bg-base-content  flex justify-center items-center rounded-xl w-14"
         onClick={handleSend}
         disabled={isLoading || !message}
       >
-        <PiTelegramLogoFill color="white" size={20} />
+        <PiTelegramLogoFill color="black" size={20} />
       </button>
     </section>
   );

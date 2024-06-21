@@ -1,10 +1,10 @@
-import { PiStarFourFill } from "react-icons/pi";
 import { TiMessages, TiUserAddOutline } from "react-icons/ti";
 import { IoIosSettings, IoMdNotificationsOutline } from "react-icons/io";
 import { BsPeople } from "react-icons/bs";
 import { Link, useLocation } from "react-router-dom";
 import { useGetFriendRequestQuery } from "../redux";
 import { useAppSelector } from "../hook";
+import icon from "../assets/images/icon.png";
 
 const links = [
   {
@@ -46,8 +46,10 @@ function Sidebar() {
 
   return (
     <>
-      <div>
-        <PiStarFourFill size={35} color="red" />
+      <div className="flex">
+        <span className=" w-16 ">
+          <img src={icon} className="object-cover" />
+        </span>
       </div>
       <div className=" h-44 flex flex-col gap-4 flex-1 justify-center  w-full items-center">
         {links.map((link) => (
@@ -55,13 +57,13 @@ function Sidebar() {
             <button
               className={`relative w-48 ${
                 pathname === link.link
-                  ? "text-red-500 bg-slate-700  rounded-lg"
-                  : "text-slate-300"
-              } flex gap-2 items-center justify-start font-semibold p-2`}
+                  ? " bg-primary rounded-lg text-primary-content"
+                  : ""
+              }  text-base-content flex gap-2 items-center justify-start font-semibold p-2`}
             >
               {link.icon} <p className="block "> {link.text}</p>
               {link.text === "Request" && (
-                <span className="text-white  rounded-badge absolute -right-2 -top-2">
+                <span className="text-primary  rounded-badge absolute -right-2 -top-2">
                   {data?.data.friendReqCount}
                 </span>
               )}
@@ -69,7 +71,7 @@ function Sidebar() {
           </Link>
         ))}
       </div>
-      <div className="bg-slate-500/15 p-2 rounded-lg">
+      <div className="bg-primary/80 w-full text-primary-content p-2 rounded-lg">
         <Link to={"/profile"} className="flex items-center gap-3">
           <div className="avatar">
             <div className="w-12 rounded-full">

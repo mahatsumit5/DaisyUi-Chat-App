@@ -25,8 +25,8 @@ function FriendReq() {
           ) : (
             <>
               {data?.data.result.length ? (
-                <div className="flex flex-col gap-5 ">
-                  <div className="flex justify-around flex-wrap gap-5">
+                <div className="flex flex-col gap-5 w-full bg-primary">
+                  <div className="flex justify-around flex-wrap gap-5 ">
                     {data?.data.result.map((item, index) => (
                       <FriendCard
                         type="request"

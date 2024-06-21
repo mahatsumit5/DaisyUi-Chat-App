@@ -1,7 +1,6 @@
 import { FormEvent, useEffect, useState } from "react";
 import AllPeoples from "../components/Friends/AllPeoples";
 import FriendReq from "../components/Friends/FriendReq";
-import MobileDrawer from "../components/MobileDrawer";
 import { useGetAllUsersQuery } from "../redux";
 import { IAllUsersResponse } from "../types";
 import { useAppSelector } from "../hook";
@@ -34,7 +33,6 @@ const Request = () => {
     <div className="md:px-2 overflow-y-auto w-full flex flex-col gap-5">
       <div className="flex flex-col gap-2 md:flex-row-reverse justify-between">
         <div className="flex justify-between">
-          <MobileDrawer />
           <input
             type="text"
             className="input input-sm md:input-md input-ghost bg-slate-300 text-slate-900 w-48 md:w-80 text-[16px] md:text-lg"
@@ -61,7 +59,7 @@ const Request = () => {
         />
         <div
           role="tabpanel"
-          className="tab-content bg-base-100 border-base-300 rounded-box p-4 py-4 w-full"
+          className="tab-content bg-base-100 border-base-300 rounded-box p-4 py-4 w-full flex"
         >
           <FriendReq />
         </div>
