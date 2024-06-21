@@ -19,7 +19,7 @@ function Friends() {
         Friends
       </h1>
 
-      <div className="flex gap-2">
+      <div className="flex gap-2 p-4">
         <button className="bg-blue-200/45 p-2 rounded-md text-blue-600 flex gap-2 items-center hover:bg-blue-200">
           <span className="bg-blue-600 px-2 py-1 text-white rounded-lg text-xs">
             1
@@ -34,7 +34,7 @@ function Friends() {
         </button>
       </div>
 
-      <div className="flex-1 flex flex-col gap-5 overflow-y-auto mt-5">
+      <div className="flex-1 flex flex-col gap-5 overflow-y-auto mt-5 ">
         <YourFriends />
       </div>
     </div>

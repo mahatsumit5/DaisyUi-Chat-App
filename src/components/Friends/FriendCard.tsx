@@ -31,22 +31,20 @@ const FriendCard = ({
     SentRequest: <SentRequest user={user} />,
   };
   return (
-    <div className=" p-4 w-full sm:w-[250px] rounded-xl flex flex-col bg-slate-200 shadow-lg items-center justify-center gap-5">
+    <div className="  w-full sm:w-[250px] rounded-lg flex md:flex-col  md:bg-white md:p-4   items-center justify-around gap-4 md:border-2 md:shadow-lg border-b-2 py-2">
       {/* Avatar and name */}
-      <div className="flex    gap-5 items-center sm:flex-col ">
-        <div className="avatar">
-          <div className="w-32">
-            <img src={user.profile || defaultImg} className="rounded-full " />
-          </div>
+      <div className="avatar ">
+        <div className="w-16 h-full md:w-24">
+          <img src={user.profile || defaultImg} className="rounded-full " />
         </div>
-        <span className="flex flex-col sm:flex-row sm:gap-2">
-          <h1 className="font-bold text-lg">{user?.fName}</h1>
-
-          <h1 className="text-lg font-bold">{user?.lName}</h1>
-        </span>
       </div>
+      <span className="flex  sm:flex-row gap-1">
+        <h1 className="text-base">{user?.fName}</h1>
 
-      <p className="text-lg text-gray-500 line-clamp-1 mx-2 font-normal sm:text-sm">
+        <h1 className="text-base ">{user?.lName}</h1>
+      </span>
+
+      <p className="text-lg text-gray-500 line-clamp-1 mx-2 font-normal sm:text-sm hidden md:block">
         {user.email}
       </p>
       {displayComponent[display]}

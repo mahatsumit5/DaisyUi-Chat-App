@@ -61,7 +61,7 @@ const Request = () => {
         />
         <div
           role="tabpanel"
-          className="tab-content bg-base-100 border-base-300 rounded-box p-6 w-full"
+          className="tab-content bg-base-100 border-base-300 rounded-box p-4 py-4 w-full"
         >
           <FriendReq />
         </div>
@@ -80,7 +80,7 @@ const Request = () => {
         />
         <div
           role="tabpanel"
-          className="tab-content bg-base-100 border-base-300 rounded-box p-6 w-full"
+          className="tab-content bg-base-100 border-base-300 rounded-box p-4 py-4 w-full"
         >
           <SentRequest />
         </div>
@@ -99,7 +99,7 @@ const Request = () => {
         />
         <div
           role="tabpanel"
-          className="tab-content bg-base-100 border-base-300 rounded-box p-4 md:p-4"
+          className="tab-content bg-base-100 border-base-300 rounded-box py-4 md:p-4"
         >
           <AllPeoples
             search={search}
