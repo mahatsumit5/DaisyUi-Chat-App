@@ -1,8 +1,15 @@
+import { useAppSelector } from "../../hook";
 import MobileDrawer from "../MobileDrawer";
 
 const NavBar = () => {
+  const { currentRoom } = useAppSelector((store) => store.rooms);
+
   return (
-    <div className="navbar bg-base-100 rounded-md">
+    <div
+      className={`navbar bg-base-100 rounded-md ${
+        currentRoom?.id ? "hidden md:flex" : "flex"
+      }`}
+    >
       <div className="flex-1">
         <a className="btn btn-ghost text-xl hidden md:block">Chat App</a>
         <MobileDrawer />
