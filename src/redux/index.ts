@@ -12,6 +12,7 @@ import dialogReducer from "./reducer/dialog.slice";
 import toastReducer from "./reducer/toast.slice";
 import loaderReducer from "./reducer/loader.slice";
 import paginationReducer from "./reducer/pagination.slice";
+import searchReducer from "./reducer/search.slice";
 export const rootApi = !import.meta.env.PROD
   ? "http://localhost:8080"
   : "your server domain";
@@ -50,4 +51,5 @@ export {
   roomReducer,
   paginationReducer,
   toastReducer,
+  searchReducer,
 };

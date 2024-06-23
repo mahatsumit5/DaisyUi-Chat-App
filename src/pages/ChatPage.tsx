@@ -2,22 +2,27 @@ import { Link } from "react-router-dom";
 import ChatMenu from "../components/ChatMenu";
 import Chatbox from "../components/Chatbox";
 import { useAppSelector } from "../hook";
-import { FormEvent, useState } from "react";
+import { useEffect, useState } from "react";
 import { useGetAllChatRoomQuery } from "../redux";
 import { IChatRoom } from "../types";
-import { chatroomReturnType } from "../redux/api/room";
 function ChatPage() {
   const { currentRoom } = useAppSelector((store) => store.rooms);
+  const { query, type } = useAppSelector((store) => store.search);
   const { data, error, isLoading, isError } = useGetAllChatRoomQuery(null);
-  const [rooms, setRooms] = useState<IChatRoom[]>([]);
-  function handleSearch(e: FormEvent<HTMLInputElement>) {
-    if (!data) return;
-    setRooms(
-      data.data.filter((item) =>
-        item.fName.toLowerCase().includes(e.currentTarget.value.toLowerCase())
-      )
-    );
-  }
+  const [rooms, setRooms] = useState<IChatRoom[]>(data?.data || []);
+
+  useEffect(() => {
+    if (type !== "Messages") return;
+    function handleSearch() {
+      if (!data) return;
+      setRooms(
+        data.data.filter((item) =>
+          item.fName.toLowerCase().includes(query.toLowerCase())
+        )
+      );
+    }
+    handleSearch();
+  }, [query, type, data]);
 
   return (
     <div className="flex h-full gap-2">
@@ -26,14 +31,7 @@ function ChatPage() {
           currentRoom?.id ? "hidden lg:flex " : "flex w-full  "
         } `}
       >
-        <ChatMenu
-          rooms={rooms}
-          setRooms={setRooms}
-          handleSearch={handleSearch}
-          data={data as chatroomReturnType}
-          error={error}
-          isLoading={isLoading}
-        />
+        <ChatMenu rooms={rooms} error={error} isLoading={isLoading} />
       </div>
 
       {currentRoom?.id ? (

@@ -3,8 +3,9 @@ import { IoIosSettings, IoMdNotificationsOutline } from "react-icons/io";
 import { BsPeople } from "react-icons/bs";
 import { Link, useLocation } from "react-router-dom";
 import { useGetFriendRequestQuery } from "../redux";
-import { useAppSelector } from "../hook";
+import { useAppDispatch, useAppSelector } from "../hook";
 import icon from "../assets/images/icon.png";
+import { setQueryType } from "../redux/reducer/search.slice";
 
 const links = [
   {
@@ -40,10 +41,16 @@ const links = [
   },
 ];
 function Sidebar() {
+  const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const { data } = useGetFriendRequestQuery(null);
   const { user } = useAppSelector((s) => s.user);
 
+  function handleClick(name: string) {
+    if (name === "Messages" || name === "Friends") {
+      dispatch(setQueryType(name));
+    }
+  }
   return (
     <>
       <div className="flex">
@@ -60,6 +67,9 @@ function Sidebar() {
                   ? " bg-primary rounded-lg text-primary-content"
                   : ""
               }  text-base-content flex gap-2 items-center justify-start font-semibold p-2`}
+              onClick={() => {
+                handleClick(link.text);
+              }}
             >
               {link.icon} <p className="block "> {link.text}</p>
               {link.text === "Request" && (

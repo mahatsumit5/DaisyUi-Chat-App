@@ -1,21 +1,12 @@
-import { Dispatch, FormEvent, SetStateAction, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../hook";
 import { IChatRoom } from "../types";
 
 import defaultImg from "../assets/images/default-profile.jpg";
 import { setCurrentRoom } from "../redux/reducer/room.slice";
-import { chatroomReturnType } from "../redux/api/room";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { SerializedError } from "@reduxjs/toolkit";
 import { Link } from "react-router-dom";
-function ChatMenu({
-  setRooms,
-  rooms,
-  handleSearch,
-  data,
-  error,
-  isLoading,
-}: ChatMenuProps) {
+function ChatMenu({ rooms, error, isLoading }: ChatMenuProps) {
   const { user } = useAppSelector((store) => store.user);
   const { currentRoom } = useAppSelector((store) => store.rooms);
   const { onlineUsers } = useAppSelector((store) => store.onlineUsers);
@@ -24,11 +15,6 @@ function ChatMenu({
   function handleClick(room: IChatRoom) {
     dispatch(setCurrentRoom(room));
   }
-
-  useEffect(() => {
-    if (!data) return;
-    setRooms(data.data);
-  }, [dispatch, data, user, setRooms]);
 
   return (
     <div className="flex flex-col gap-2 w-full  lg:w-[350px] h-full">
@@ -41,7 +27,7 @@ function ChatMenu({
         </section>
       ) : isLoading ? (
         <section className="skeleton h-full bg-base-100" />
-      ) : data.data.length ? (
+      ) : rooms.length ? (
         <>
           <section className=" h-full rounded-xl  flex  flex-col gap-2 overflow-y-auto bg-base-100 text-base-content ">
             {rooms.map((item: IChatRoom) => (
@@ -65,7 +51,7 @@ function ChatMenu({
                     </div>
                   </div>
                   <div className="flex flex-col ">
-                    <p className=" font-bold text-sm">
+                    <p className=" font-bold text-sm ">
                       {item.fName}&nbsp;
                       {item.lName}
                     </p>
@@ -76,7 +62,7 @@ function ChatMenu({
                           ? ``
                           : `${
                               item.lastmessageAuthor !== user?.id
-                                ? "text-primary-content font-semibold"
+                                ? "text-primary font-semibold"
                                 : ""
                             }`
                       }  line-clamp-1`}
@@ -116,9 +102,6 @@ export default ChatMenu;
 
 type ChatMenuProps = {
   rooms: IChatRoom[];
-  setRooms: Dispatch<SetStateAction<IChatRoom[]>>;
-  handleSearch: (e: FormEvent<HTMLInputElement>) => void;
-  data: chatroomReturnType;
   error: FetchBaseQueryError | SerializedError | undefined;
   isLoading: boolean;
   // refetch: () => QueryActionCreatorResult<

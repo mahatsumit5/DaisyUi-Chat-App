@@ -14,11 +14,13 @@ import {
   socketReducer,
   paginationReducer,
   toastReducer,
+  searchReducer,
 } from "./index";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { rtkQueryErrorLogger } from "../utils/errorHandler";
 export const store = configureStore({
   reducer: {
+    search: searchReducer,
     rooms: roomReducer,
     user: userInfoReducer,
     onlineUsers: allUsersreducer,

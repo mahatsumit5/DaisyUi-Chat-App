@@ -1,8 +1,11 @@
-import { useAppSelector } from "../../hook";
+import { FormEvent } from "react";
+import { useAppDispatch, useAppSelector } from "../../hook";
 import MobileDrawer from "../MobileDrawer";
+import { setQuery } from "../../redux/reducer/search.slice";
 
 const NavBar = () => {
   const { currentRoom } = useAppSelector((store) => store.rooms);
+  const dispatch = useAppDispatch();
 
   return (
     <div
@@ -15,12 +18,16 @@ const NavBar = () => {
         <MobileDrawer />
       </div>
       <div className="flex-none gap-2">
-        <label className="input input-sm md:input-md bg-primary  items-center gap-2 flex justify-between">
+        <label className="input input-sm md:input-md bg-primary  items-center gap-2 flex justify-between text-primary-content">
           <input
             type="text"
             placeholder="Search"
-            // onChange={handleSearch}
-            className="text-[16px] text-primary-content"
+            onChange={(e: FormEvent<HTMLInputElement>) => {
+              dispatch(
+                setQuery({ query: e.currentTarget.value, type: "Peoples" })
+              );
+            }}
+            className="text-[16px] text-primary-content placeholder:text-primary-content/30"
           />
           <svg
             xmlns="http://www.w3.org/2000/svg"
