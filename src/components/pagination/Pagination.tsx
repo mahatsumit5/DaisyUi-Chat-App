@@ -47,7 +47,10 @@ function Pagination({
   }, [totalNumberofPages]);
   //   content is grater than miminum amount to displaying content
   return totalNumberOfAvaibleContent > numberOfContentPerPage ? (
-    <div className="flex justify-center">
+    <div className="flex justify-center flex-col items-center gap-2">
+      <span>
+        page {page} of {totalNumberofPages}
+      </span>
       <div className="join">
         <button
           className="join-item btn btn-square btn-primary disabled:text-white"
