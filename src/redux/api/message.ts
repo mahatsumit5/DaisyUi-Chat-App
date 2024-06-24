@@ -91,4 +91,5 @@ export const messageApi = createApi({
     }),
   }),
   refetchOnMountOrArgChange: true,
+  refetchOnReconnect: true,
 });

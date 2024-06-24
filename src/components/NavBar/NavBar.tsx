@@ -5,8 +5,8 @@ import { setQuery } from "../../redux/reducer/search.slice";
 
 const NavBar = () => {
   const { currentRoom } = useAppSelector((store) => store.rooms);
+  const { query } = useAppSelector((s) => s.search);
   const dispatch = useAppDispatch();
-
   return (
     <div
       className={`navbar bg-base-100 rounded-md ${
@@ -26,12 +26,13 @@ const NavBar = () => {
               dispatch(setQuery({ query: e.currentTarget.value }));
             }}
             className="text-[16px] text-primary-content placeholder:text-primary-content/30"
+            value={query}
           />
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
             fill="currentColor"
-            className="w-4 h-4 opacity-70"
+            className="w-4 h-4 opacity-70 hover:scale-125 hover:cursor-pointer transition-all"
           >
             <path
               fillRule="evenodd"

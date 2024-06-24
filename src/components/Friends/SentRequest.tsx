@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useAppSelector } from "../../hook";
 import { useGetSentFriendRequestQuery } from "../../redux";
 import { IUser } from "../../types";
@@ -10,20 +9,19 @@ const SentRequest = () => {
   const { query, type } = useAppSelector((store) => store.search);
   const { page } = useAppSelector((store) => store.pagination);
 
-  const { isFetching, error, data, refetch } = useGetSentFriendRequestQuery({
-    search: query,
-    page: page,
-  });
-  useEffect(() => {
-    const debounce = setTimeout(() => {
-      if (type !== "Sent-Request") return;
-      refetch();
-    }, 3000);
+  const { isFetching, error, data } = useGetSentFriendRequestQuery(
+    {
+      search: query,
+      page: page,
+    },
+    {
+      skip: type !== "Sent-Request" ? true : false,
+      refetchOnMountOrArgChange: true,
+      refetchOnFocus: true,
+      refetchOnReconnect: true,
+    }
+  );
 
-    return () => {
-      clearTimeout(debounce);
-    };
-  }, [query, type, refetch, page]);
   return (
     <>
       {error ? (

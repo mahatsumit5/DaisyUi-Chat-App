@@ -5,7 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useGetFriendRequestQuery } from "../redux";
 import { useAppDispatch, useAppSelector } from "../hook";
 import icon from "../assets/images/icon.png";
-import { setQueryType } from "../redux/reducer/search.slice";
+import { resetSearchBar, setQueryType } from "../redux/reducer/search.slice";
 
 const links = [
   {
@@ -49,7 +49,9 @@ function Sidebar() {
   function handleClick(name: string) {
     if (name === "Messages" || name === "Friends") {
       dispatch(setQueryType(name));
+      return;
     }
+    dispatch(resetSearchBar());
   }
   return (
     <>

@@ -29,7 +29,10 @@ const searchReducer = createSlice({
     setQueryType(state, { payload }: PayloadAction<QueryType>) {
       state.type = payload;
     },
+    resetSearchBar(state) {
+      (state.query = ""), (state.type = null);
+    },
   },
 });
 export default searchReducer.reducer;
-export const { setQuery, setQueryType } = searchReducer.actions;
+export const { setQuery, setQueryType, resetSearchBar } = searchReducer.actions;

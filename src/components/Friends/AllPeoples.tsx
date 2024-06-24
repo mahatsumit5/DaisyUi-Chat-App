@@ -3,7 +3,6 @@ import FriendCard from "./FriendCard";
 import LoaderCard from "./LoaderCard";
 import Pagination from "../pagination/Pagination";
 import { useGetAllUsersQuery } from "../../redux";
-import { useEffect } from "react";
 import { useAppSelector } from "../../hook";
 
 function AllPeoples() {
@@ -11,23 +10,16 @@ function AllPeoples() {
   const { page } = useAppSelector((store) => store.pagination);
   const { query, type } = useAppSelector((store) => store.search);
 
-  const { data, error, refetch, isFetching } = useGetAllUsersQuery({
-    order: "asc",
-    page: page,
-    take: numberOfContentPerPage,
-    search: query,
-  });
+  const { data, error, isFetching } = useGetAllUsersQuery(
+    {
+      order: "asc",
+      page: page,
+      take: numberOfContentPerPage,
+      search: query,
+    },
+    { skip: type !== "Peoples" ? true : false }
+  );
 
-  useEffect(() => {
-    if (type !== "Peoples") return;
-    const debounce = setTimeout(() => {
-      refetch();
-    }, 3000);
-
-    return () => {
-      clearTimeout(debounce);
-    };
-  }, [page, type, query, refetch]);
   return (
     <>
       {error ? (
