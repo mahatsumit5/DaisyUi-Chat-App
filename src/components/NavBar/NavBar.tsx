@@ -23,9 +23,7 @@ const NavBar = () => {
             type="text"
             placeholder="Search"
             onChange={(e: FormEvent<HTMLInputElement>) => {
-              dispatch(
-                setQuery({ query: e.currentTarget.value, type: "Peoples" })
-              );
+              dispatch(setQuery({ query: e.currentTarget.value }));
             }}
             className="text-[16px] text-primary-content placeholder:text-primary-content/30"
           />

@@ -1,23 +1,33 @@
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { IAllUsersResponse, IUser } from "../../types";
+import { IUser } from "../../types";
 import FriendCard from "./FriendCard";
 import LoaderCard from "./LoaderCard";
-import { SerializedError } from "@reduxjs/toolkit";
 import Pagination from "../pagination/Pagination";
+import { useGetAllUsersQuery } from "../../redux";
+import { useEffect } from "react";
+import { useAppSelector } from "../../hook";
 
-type AllPeoplesProps = {
-  search: string;
-  error: FetchBaseQueryError | SerializedError | undefined;
-  isFetching: boolean;
-  data: IAllUsersResponse;
-  numberOfContentPerPage: number;
-};
-function AllPeoples({
-  error,
-  data,
-  isFetching,
-  numberOfContentPerPage,
-}: AllPeoplesProps) {
+function AllPeoples() {
+  const numberOfContentPerPage = 8;
+  const { page } = useAppSelector((store) => store.pagination);
+  const { query, type } = useAppSelector((store) => store.search);
+
+  const { data, error, refetch, isFetching } = useGetAllUsersQuery({
+    order: "asc",
+    page: page,
+    take: numberOfContentPerPage,
+    search: query,
+  });
+
+  useEffect(() => {
+    if (type !== "Peoples") return;
+    const debounce = setTimeout(() => {
+      refetch();
+    }, 3000);
+
+    return () => {
+      clearTimeout(debounce);
+    };
+  }, [page, type, query, refetch]);
   return (
     <>
       {error ? (
@@ -40,7 +50,7 @@ function AllPeoples({
               <LoaderCard key={Math.random()} />
             ))}
         </div>
-      ) : data.data.length ? (
+      ) : data?.data.length ? (
         <div className="flex flex-col gap-5">
           <div className="flex flex-row flex-wrap gap-5 justify-around w-full">
             {data.data.map((user: IUser) => (

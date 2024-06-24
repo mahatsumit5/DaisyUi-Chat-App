@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useAppSelector } from "../../hook";
 import { useGetSentFriendRequestQuery } from "../../redux";
 import { IUser } from "../../types";
 import Pagination from "../pagination/Pagination";
@@ -5,11 +7,23 @@ import FriendCard from "./FriendCard";
 import LoaderCard from "./LoaderCard";
 
 const SentRequest = () => {
-  const { isFetching, error, data } = useGetSentFriendRequestQuery({
-    search: "",
-    skip: 0,
-  });
+  const { query, type } = useAppSelector((store) => store.search);
+  const { page } = useAppSelector((store) => store.pagination);
 
+  const { isFetching, error, data, refetch } = useGetSentFriendRequestQuery({
+    search: query,
+    page: page,
+  });
+  useEffect(() => {
+    const debounce = setTimeout(() => {
+      if (type !== "Sent-Request") return;
+      refetch();
+    }, 3000);
+
+    return () => {
+      clearTimeout(debounce);
+    };
+  }, [query, type, refetch, page]);
   return (
     <>
       {error ? (
@@ -39,8 +53,8 @@ const SentRequest = () => {
                   </div>
 
                   <Pagination
-                    numberOfContentPerPage={10}
-                    totalNumberOfAvaibleContent={data.data.length}
+                    numberOfContentPerPage={7}
+                    totalNumberOfAvaibleContent={data.count}
                   />
                 </div>
               ) : (

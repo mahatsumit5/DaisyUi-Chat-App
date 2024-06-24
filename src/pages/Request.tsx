@@ -1,33 +1,12 @@
-import { FormEvent, useEffect, useState } from "react";
 import AllPeoples from "../components/Friends/AllPeoples";
 import FriendReq from "../components/Friends/FriendReq";
-import { useGetAllUsersQuery } from "../redux";
-import { IAllUsersResponse } from "../types";
+
 import { useAppDispatch, useAppSelector } from "../hook";
 import SentRequest from "../components/Friends/SentRequest";
 import { setQueryType } from "../redux/reducer/search.slice";
 const Request = () => {
   const dispatch = useAppDispatch();
-  const { page } = useAppSelector((store) => store.pagination);
-  const { query, type } = useAppSelector((store) => store.search);
-  const numberOfContentPerPage = 8;
-  const { data, error, refetch, isFetching } = useGetAllUsersQuery({
-    order: "asc",
-    page: page,
-    take: numberOfContentPerPage,
-    search: query,
-  });
-
-  useEffect(() => {
-    if (type !== "Peoples") return;
-    const debounce = setTimeout(() => {
-      refetch();
-    }, 3000);
-
-    return () => {
-      clearTimeout(debounce);
-    };
-  }, [page, refetch, type, query]);
+  const { type } = useAppSelector((store) => store.search);
 
   return (
     <div className="md:px-2 overflow-y-auto w-full flex flex-col gap-5">
@@ -86,13 +65,7 @@ const Request = () => {
           role="tabpanel"
           className="tab-content bg-base-100 border-base-300 rounded-box py-4 md:p-4"
         >
-          <AllPeoples
-            search={query}
-            error={error}
-            data={data as IAllUsersResponse}
-            isFetching={isFetching}
-            numberOfContentPerPage={numberOfContentPerPage}
-          />
+          <AllPeoples />
         </div>
       </div>
     </div>

@@ -113,10 +113,11 @@ export const friendApi = createApi({
     // get sent request  by the current logged in user
     getSentFriendRequest: builder.query<
       ISentReq,
-      { skip?: number; search?: string } | null
+      { page?: number; search?: string } | null
     >({
       query: (data) =>
-        `sent-request?skip=${data?.skip}%%search=${data?.search}`,
+        `sent-request?take=7&&page=${data?.page}&&search=${data?.search}`,
+      // tod make take dynamic
       providesTags: ["SentRequests"],
       onCacheEntryAdded: async (
         argument,
@@ -124,7 +125,6 @@ export const friendApi = createApi({
       ) => {
         try {
           await cacheDataLoaded;
-
           socket.on("getReqAcceptedNotification", (roomId) => {
             dispatch(userApi.util.invalidateTags(["Users"]));
             dispatch(roomApi.util.invalidateTags(["Rooms"]));
@@ -170,7 +170,7 @@ export const friendApi = createApi({
           dispatch(
             friendApi.util.updateQueryData(
               "getSentFriendRequest",
-              { search: "", skip: 0 },
+              { search: "", page: 1 },
               (draft) => {
                 draft.data = [...draft.data, data.data];
                 draft.count = ++draft.count;
@@ -232,7 +232,7 @@ export const friendApi = createApi({
           dispatch(
             friendApi.util.updateQueryData(
               "getSentFriendRequest",
-              { search: "", skip: 0 },
+              { search: "", page: 1 },
               (draft) => {
                 draft.data = draft.data.filter(
                   (item) => item.to.id !== arg.toId

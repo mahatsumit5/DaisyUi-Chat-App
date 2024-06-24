@@ -75,7 +75,7 @@ const Friends = ({ user }: { user: IChatRoom }) => {
 
 const AllPeoples = ({ user }: { user: IChatRoom }) => {
   const loggedInUser = useAppSelector((store) => store.user);
-  const { data } = useGetSentFriendRequestQuery({ search: "", skip: 0 });
+  const { data } = useGetSentFriendRequestQuery({ search: "", page: 1 });
   const [sendFriendRequest] = useSendFriendRequestMutation();
   const [deleteSentRequest] = useDeleteSentRequestMutation();
   const { page } = useAppSelector((store) => store.pagination);
