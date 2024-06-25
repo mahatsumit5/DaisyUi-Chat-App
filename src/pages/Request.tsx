@@ -17,10 +17,11 @@ const Request = () => {
           role="tab"
           className="tab w-16"
           aria-label="Request"
-          defaultChecked={type === "Friend-Request"}
+          defaultChecked={true}
           value={"Friend-Request"}
           onClick={() => {
             dispatch(setQueryType("Friend-Request"));
+            // dispatch(setPage(1));
           }}
         />
         <div
@@ -39,6 +40,7 @@ const Request = () => {
           defaultChecked={type === "Sent-Request"}
           value={"Sent-Request"}
           onClick={() => {
+            // dispatch(setPage(1));
             dispatch(setQueryType("Sent-Request"));
           }}
         />
@@ -58,6 +60,7 @@ const Request = () => {
           defaultChecked={type === "Peoples"}
           value={"Peoples"}
           onClick={() => {
+            // dispatch(setPage(1));
             dispatch(setQueryType("Peoples"));
           }}
         />

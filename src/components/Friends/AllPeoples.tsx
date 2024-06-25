@@ -17,7 +17,12 @@ function AllPeoples() {
       take: numberOfContentPerPage,
       search: query,
     },
-    { skip: type !== "Peoples" ? true : false }
+    {
+      skip: type !== "Peoples" ? true : false,
+      refetchOnReconnect: true,
+      // refetchOnMountOrArgChange: true,
+      // pollingInterval: 2000, refetch every 2 seconds
+    }
   );
 
   return (

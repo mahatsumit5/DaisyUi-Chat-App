@@ -3,12 +3,26 @@ import { IChatRoom } from "../types";
 
 import defaultImg from "../assets/images/default-profile.jpg";
 import { setCurrentRoom } from "../redux/reducer/room.slice";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { SerializedError } from "@reduxjs/toolkit";
+
 import { Link } from "react-router-dom";
-function ChatMenu({ rooms, error, isLoading }: ChatMenuProps) {
+import { useGetAllChatRoomQuery } from "../redux";
+function ChatMenu() {
   const { user } = useAppSelector((store) => store.user);
   const { currentRoom } = useAppSelector((store) => store.rooms);
+  const { query, type } = useAppSelector((store) => store.search);
+  const { data, error, isLoading } = useGetAllChatRoomQuery(
+    {
+      search: query,
+      skip: 0,
+      take: 10,
+    },
+    {
+      skip: type !== "Messages" ? true : false,
+      pollingInterval: 20000,
+      refetchOnReconnect: true,
+      // refetchOnMountOrArgChange: true,
+    }
+  );
   const { onlineUsers } = useAppSelector((store) => store.onlineUsers);
   const dispatch = useAppDispatch();
 
@@ -22,15 +36,17 @@ function ChatMenu({ rooms, error, isLoading }: ChatMenuProps) {
         <section className=" h-full rounded-xl  flex  flex-col gap-2 overflow-y-auto  items-center justify-center ">
           <p>You do not have any friends</p>
           <Link to={"/friend-request"}>
-            <button className="btn btn-primary text-white">Connect </button>
+            <button className="btn btn-primary text-primary-content">
+              Connect
+            </button>
           </Link>
         </section>
       ) : isLoading ? (
         <section className="skeleton h-full bg-base-100" />
-      ) : rooms.length ? (
+      ) : data ? (
         <>
           <section className=" h-full rounded-xl  flex  flex-col gap-2 overflow-y-auto bg-base-100 text-base-content ">
-            {rooms.map((item: IChatRoom) => (
+            {data.data.map((item: IChatRoom) => (
               <div
                 key={item.id}
                 className={`flex justify-between border-b p-2 hover:bg-base-300 ${
@@ -86,37 +102,9 @@ function ChatMenu({ rooms, error, isLoading }: ChatMenuProps) {
             ))}
           </section>
         </>
-      ) : (
-        <section className=" h-full rounded-xl  flex  flex-col gap-2 overflow-y-auto bg-slate-50/85 items-center justify-center ">
-          <p>You do not have any friends</p>
-          <Link to={"/friend-request"}>
-            <button className="btn btn-primary text-white">Connect </button>
-          </Link>
-        </section>
-      )}
+      ) : null}
     </div>
   );
 }
 
 export default ChatMenu;
-
-type ChatMenuProps = {
-  rooms: IChatRoom[];
-  error: FetchBaseQueryError | SerializedError | undefined;
-  isLoading: boolean;
-  // refetch: () => QueryActionCreatorResult<
-  //   QueryDefinition<
-  //     void,
-  //     BaseQueryFn<
-  //       string | FetchArgs,
-  //       unknown,
-  //       FetchBaseQueryError,
-  //       object,
-  //       FetchBaseQueryMeta
-  //     >,
-  //     "Rooms",
-  //     chatroomReturnType,
-  //     "roomApi"
-  //   >
-  // >;
-};

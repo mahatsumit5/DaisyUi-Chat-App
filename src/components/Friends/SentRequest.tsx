@@ -16,8 +16,8 @@ const SentRequest = () => {
     },
     {
       skip: type !== "Sent-Request" ? true : false,
-      refetchOnMountOrArgChange: true,
-      refetchOnFocus: true,
+      // refetchOnMountOrArgChange: true,
+      // refetchOnFocus: true,
       refetchOnReconnect: true,
     }
   );

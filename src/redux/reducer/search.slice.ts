@@ -17,7 +17,7 @@ interface SetQueryProps {
 }
 const initialState: InitialState = {
   query: "",
-  type: "Friend-Request",
+  type: "Messages",
 };
 const searchReducer = createSlice({
   name: "search",

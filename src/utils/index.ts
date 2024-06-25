@@ -1,4 +1,3 @@
-import qs from "query-string";
 export type UrlQueryParams = {
   params: string;
   key: string;
@@ -20,16 +19,3 @@ export const getNumberOfRequiredPagination = (
 
   return pages;
 };
-
-export function formQueryURL({ key, params, value }: UrlQueryParams) {
-  const currentUrl = qs.parse(params);
-  currentUrl[key] = value;
-  const url = qs.stringifyUrl(
-    {
-      url: window.location.pathname,
-      query: currentUrl,
-    },
-    { skipNull: true }
-  );
-  return url;
-}

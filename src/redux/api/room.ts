@@ -9,6 +9,12 @@ export type chatroomReturnType = {
   status: boolean;
   data: IChatRoom[];
 };
+
+type GetChatRoomParams = {
+  skip: number;
+  take: number;
+  search: string;
+};
 export const roomApi = createApi({
   reducerPath: "roomApi",
   tagTypes: ["Rooms"],
@@ -23,9 +29,11 @@ export const roomApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getAllChatRoom: builder.query<chatroomReturnType, null>({
+    getAllChatRoom: builder.query<chatroomReturnType, GetChatRoomParams>({
       providesTags: ["Rooms"],
-      query: () => "",
+      query: ({ search, skip, take }) =>
+        "?search=" + search + "&skip=" + skip + "&take=" + take,
+
       onCacheEntryAdded: async (
         arg,
         { dispatch, cacheDataLoaded, cacheEntryRemoved, updateCachedData }
@@ -73,11 +81,15 @@ export const roomApi = createApi({
           const { data } = await queryFulfilled;
 
           dispatch(
-            roomApi.util.updateQueryData("getAllChatRoom", null, (draft) => {
-              draft.data = draft.data.filter(
-                (item) => item.id !== data.result.id
-              );
-            })
+            roomApi.util.updateQueryData(
+              "getAllChatRoom",
+              { search: "", skip: 0, take: 10 },
+              (draft) => {
+                draft.data = draft.data.filter(
+                  (item) => item.id !== data.result.id
+                );
+              }
+            )
           );
           dispatch(toggleLoader({ isLoading: false }));
 
