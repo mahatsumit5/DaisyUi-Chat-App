@@ -10,7 +10,7 @@ function ChatMenu() {
   const { user } = useAppSelector((store) => store.user);
   const { currentRoom } = useAppSelector((store) => store.rooms);
   const { query, type } = useAppSelector((store) => store.search);
-  const { data, error, isLoading } = useGetAllChatRoomQuery(
+  const { data, error, isFetching } = useGetAllChatRoomQuery(
     {
       search: query,
       skip: 0,
@@ -18,7 +18,7 @@ function ChatMenu() {
     },
     {
       skip: type !== "Messages" ? true : false,
-      pollingInterval: 20000,
+      // pollingInterval: 20000,
       refetchOnReconnect: true,
       // refetchOnMountOrArgChange: true,
     }
@@ -41,16 +41,22 @@ function ChatMenu() {
             </button>
           </Link>
         </section>
-      ) : isLoading ? (
-        <section className="skeleton h-full bg-base-100" />
+      ) : isFetching ? (
+        <section className="flex flex-col h-full bg-base-100 p-2  rounded-md gap-3 ">
+          {Array(10)
+            .fill("")
+            .map(() => (
+              <LoadingRoom key={Math.random()} />
+            ))}
+        </section>
       ) : data ? (
         <>
           <section className=" h-full rounded-xl  flex  flex-col gap-2 overflow-y-auto bg-base-100 text-base-content ">
             {data.data.map((item: IChatRoom) => (
               <div
                 key={item.id}
-                className={`flex justify-between border-b p-2 hover:bg-base-300 ${
-                  currentRoom?.id === item.id ? " rounded-md " : "rounded-md"
+                className={`flex justify-between border-b p-2 hover:bg-base-200 ${
+                  currentRoom?.id === item.id ? "bg-base-300 " : ""
                 }`}
                 onClick={() => {
                   handleClick(item);
@@ -102,9 +108,25 @@ function ChatMenu() {
             ))}
           </section>
         </>
-      ) : null}
+      ) : (
+        <>plesae wait</>
+      )}
     </div>
   );
 }
-
+const LoadingRoom = () => {
+  return (
+    <section
+      className="  w-full h-10 rounded-sm  flex justify-start gap-2"
+      key={Math.random()}
+    >
+      <section className="rounded-full bg-slate-300 w-10 skeleton"></section>
+      <section className="flex-1 flex flex-col gap-2">
+        <section className="skeleton w-16 bg-base-300 h-3"></section>
+        <section className="skeleton w-16 bg-base-300 h-3"></section>
+      </section>
+      <section className="skeleton w-16 bg-base-300 h-3"></section>
+    </section>
+  );
+};
 export default ChatMenu;
