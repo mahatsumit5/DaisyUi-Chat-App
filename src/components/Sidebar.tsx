@@ -87,7 +87,12 @@ function Sidebar() {
         <Link to={"/profile"} className="flex items-center gap-3">
           <div className="avatar">
             <div className="w-12 rounded-full">
-              <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+              <img
+                src={
+                  user?.profile ||
+                  "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                }
+              />
             </div>
           </div>
           <p>

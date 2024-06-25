@@ -25,25 +25,25 @@ const ChangePassword = () => {
     changePassword({ password: passwords.newPassword });
   }
   return (
-    <div className="flex justify-center items-center w-full ">
+    <div className="flex justify-start items-center w-full ">
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-2 bg-base-100 p-4 rounded-md items-center w-[20rem]"
+        className="flex flex-col gap-2   rounded-md items-start w-full md:w-[40rem]"
       >
-        <span className="font-bold">Password Reset</span>
-        <span className="text-sm">Enter new password</span>
+        <span className="font-semibold text-lg">Change Password</span>
+        <span className="text-sm text-base-content/65">Enter new password</span>
         <div className="flex flex-col gap-2 w-full">
           <label htmlFor="password" className="text-left text-accent-content">
             New Password
           </label>
-          <label className="input input-md  flex gap-1 border-base-300 justify-start items-center p-0">
+          <label className="input input-sm  flex gap-1  justify-start items-center p-0 border-primary/40 rounded-lg">
             <span className="bg-base-300/35 h-full rounded-md flex items-center w-11 justify-center">
               <IoLockClosed className="text-base-content" />
             </span>
             <input
-              type="text"
+              type="password"
               placeholder="Enter new password"
-              className="h-full w-full"
+              className="h-full w-full text-[16px]"
               value={passwords.newPassword}
               onChange={(e: FormEvent<HTMLInputElement>) => {
                 setPassword({
@@ -56,14 +56,14 @@ const ChangePassword = () => {
           <label htmlFor="password" className="text-left">
             Repeat Password
           </label>
-          <label className="input input-md  flex gap-1 border-base-300 justify-start p-0">
+          <label className="input input-sm  flex gap-1 border-base-300 justify-start p-0 border-primary/40 rounded-lg">
             <span className="bg-base-300/35 h-full rounded-md flex items-center w-11 justify-center">
               <IoLockClosed className="text-base-content" />
             </span>
             <input
-              type="text"
+              type="password"
               placeholder="Confirm password"
-              className="h-full w-full"
+              className="h-full w-full text-[16px]"
               value={passwords.confirmPassword}
               onChange={(e: FormEvent<HTMLInputElement>) => {
                 setPassword({
@@ -74,7 +74,11 @@ const ChangePassword = () => {
             />
           </label>
         </div>
-        <button className="btn w-full btn-sm btn-primary" type="submit">
+        <button
+          className="btn w-full btn-sm btn-primary"
+          type="submit"
+          disabled={!passwords.newPassword}
+        >
           {isLoading ? <LoadingButton /> : "Save"}
         </button>
       </form>

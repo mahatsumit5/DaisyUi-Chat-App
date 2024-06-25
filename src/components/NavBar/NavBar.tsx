@@ -8,6 +8,7 @@ import { setUser } from "../../redux/reducer/user.slice";
 
 const NavBar = () => {
   const { currentRoom } = useAppSelector((store) => store.rooms);
+  const { user } = useAppSelector((store) => store.user);
   const { query } = useAppSelector((s) => s.search);
   const dispatch = useAppDispatch();
   const [logoutUser] = useLogoutUserMutation();
@@ -64,7 +65,10 @@ const NavBar = () => {
             <div className="w-10 rounded-full">
               <img
                 alt="Tailwind CSS Navbar component"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                src={
+                  user?.profile ||
+                  "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                }
               />
             </div>
           </div>
@@ -74,16 +78,12 @@ const NavBar = () => {
           >
             <li>
               <Link to={"/profile"}>
-                <a className="justify-between">
-                  Profile
-                  <span className="badge">New</span>
-                </a>
+                Profile
+                <span className="badge">New</span>
               </Link>
             </li>
             <li>
-              <Link to={"/settings"}>
-                <a>Settings</a>
-              </Link>
+              <Link to={"/settings"}>Settings</Link>
             </li>
             <li>
               <a onClick={handleLogout}>Logout</a>

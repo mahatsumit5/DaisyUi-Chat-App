@@ -33,6 +33,7 @@ export const {
   useSignUpUserMutation,
   useGetNewAccessJWTMutation,
   useChangePasswordMutation,
+  useUploadImageMutation,
 } = userApi;
 
 export const { useGetAllChatRoomQuery, useDeleteChatRoomMutation } = roomApi;

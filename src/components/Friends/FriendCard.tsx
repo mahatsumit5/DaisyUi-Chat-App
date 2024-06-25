@@ -66,7 +66,7 @@ const Friends = ({ user }: { user: IChatRoom }) => {
           handleClick(user);
         }}
       >
-        <AiFillMessage size={30} color="pink" />
+        <AiFillMessage size={30} className="text-primary-content" />
         Message
       </button>
     </Link>

@@ -15,7 +15,7 @@ import { toggleToast } from "../reducer/toast.slice";
 
 const userApi = createApi({
   reducerPath: "UserApi",
-  tagTypes: ["Users"],
+  tagTypes: ["Users", "CurrentUser"],
   baseQuery: fetchBaseQuery({
     baseUrl: userApiUrl,
     prepareHeaders: (headers) => {
@@ -119,6 +119,7 @@ const userApi = createApi({
           console.log(error);
         }
       },
+      providesTags: ["CurrentUser"],
     }),
     signUpUser: builder.mutation<IResponse, ISignUpParams>({
       query: (data) => ({
@@ -182,6 +183,18 @@ const userApi = createApi({
           console.log(error);
         }
       },
+    }),
+    uploadImage: builder.mutation<unknown, File>({
+      query: (image) => {
+        const formData = new FormData();
+        formData.append("profile", image);
+        return {
+          url: "upload-profile",
+          body: formData,
+          method: "PUT",
+        };
+      },
+      invalidatesTags: ["CurrentUser"],
     }),
   }),
 });
