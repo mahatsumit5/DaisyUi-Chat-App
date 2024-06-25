@@ -4,6 +4,7 @@ import FriendReq from "../components/Friends/FriendReq";
 import { useAppDispatch, useAppSelector } from "../hook";
 import SentRequest from "../components/Friends/SentRequest";
 import { setQueryType } from "../redux/reducer/search.slice";
+import { setPage } from "../redux/reducer/pagination.slice";
 const Request = () => {
   const dispatch = useAppDispatch();
   const { type } = useAppSelector((store) => store.search);
@@ -21,7 +22,7 @@ const Request = () => {
           value={"Friend-Request"}
           onClick={() => {
             dispatch(setQueryType("Friend-Request"));
-            // dispatch(setPage(1));
+            dispatch(setPage(1));
           }}
         />
         <div
@@ -40,7 +41,7 @@ const Request = () => {
           defaultChecked={type === "Sent-Request"}
           value={"Sent-Request"}
           onClick={() => {
-            // dispatch(setPage(1));
+            dispatch(setPage(1));
             dispatch(setQueryType("Sent-Request"));
           }}
         />
@@ -60,7 +61,7 @@ const Request = () => {
           defaultChecked={type === "Peoples"}
           value={"Peoples"}
           onClick={() => {
-            // dispatch(setPage(1));
+            dispatch(setPage(1));
             dispatch(setQueryType("Peoples"));
           }}
         />

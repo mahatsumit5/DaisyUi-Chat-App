@@ -43,7 +43,7 @@ function MessageInput({
   }, [isError, isLoading, setStatus, dispatch, id]);
   return (
     <>
-      <section className=" min-h-11 flex  gap-2 ">
+      <section className=" min-h-11 flex  gap-2 flex-1 ">
         <form onSubmit={handleSend} className="flex  w-full gap-1">
           <label className="flex w-full input rounded-none border-none">
             <input
@@ -55,6 +55,7 @@ function MessageInput({
               onChange={(e: FormEvent<HTMLInputElement>) => {
                 setMessage(e.currentTarget.value);
               }}
+              onBlur={() => socket.emit("stopped_typing", id, email)}
             />
 
             <input type="file" className="hidden" id="file" />
@@ -73,12 +74,14 @@ function MessageInput({
             </label>
           </label>
 
-          <button
-            className="bg-primary disabled:bg-base-content  flex justify-center items-center  w-14"
-            disabled={isLoading || !message}
-          >
-            <PiTelegramLogoFill className="text-primary-content" size={20} />
-          </button>
+          <div className="">
+            <button
+              className="bg-primary disabled:bg-base-content  flex justify-center items-center  w-14 h-14"
+              disabled={isLoading || !message}
+            >
+              <PiTelegramLogoFill className="text-primary-content" size={20} />
+            </button>
+          </div>
         </form>
       </section>
     </>

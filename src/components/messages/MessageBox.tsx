@@ -28,21 +28,20 @@ function MessageBox({
     roomId: currentRoom?.id || "",
     num: numberOfMessageToDisplay,
   });
-  console.log(isError);
   useEffect(() => {
     const height = sectionRef.current?.scrollHeight;
     if (sectionRef.current && height) {
       sectionRef.current.scrollTop = height;
     }
   }, [data]);
-
+  console.log(isError);
   return error ? (
     <>Unexpected Error Occured</>
   ) : isLoading ? (
-    <section className="skeleton w-full h-full bg-base-300" />
-  ) : data ? (
+    <section className="skeleton w-full h-full bg-base-300 flex-1" />
+  ) : data?.result._count.messages ? (
     <section
-      className="p-2 flex flex-col  border-b-2  overflow-y-auto    flex-1"
+      className="p-2 flex flex-col  border-b-2  flex-1  max-h-[72dvh]  overflow-y-scroll"
       ref={sectionRef}
     >
       {numberOfMessageToDisplay < data.result._count.messages && (
@@ -142,7 +141,9 @@ bg-primary/80 text-primary-content
       )}
     </section>
   ) : (
-    <p>this page is broken</p>
+    <section className="flex-1 border-b-2">
+      You do not have any messages.
+    </section>
   );
 }
 

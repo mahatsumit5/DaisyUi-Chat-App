@@ -17,13 +17,13 @@ function Privatelayout({ children }: { children: React.ReactNode }) {
     socket.emit("join_your_room", user.id, user.email);
   }, [user, socket]);
   return user?.id ? (
-    <div className=" bg-base-300 w-full  h-[100dvh] max-h-[100dvh] overflow-hidden  flex px-2 py-4 gap-2">
+    <div className=" bg-base-300 w-full  h-[100dvh] max-h-[100dvh] overflow-hidden  flex md:px-2 md:py-4 gap-2">
       <div className="h-full bg-base-100 hidden sm:flex  p-4   flex-col justify-between  items-center  min-h-full rounded-lg">
         <Sidebar />
       </div>
-      <div className="w-full flex flex-col gap-2">
+      <div className="w-full flex flex-col gap-2 h-full">
         <NavBar />
-        {children}
+        <div className="flex-1 md:max-h-[90dvh] "> {children}</div>
       </div>
     </div>
   ) : (
