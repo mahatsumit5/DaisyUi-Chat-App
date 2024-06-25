@@ -32,6 +32,7 @@ export const {
   useGetLoggedInUserQuery,
   useSignUpUserMutation,
   useGetNewAccessJWTMutation,
+  useChangePasswordMutation,
 } = userApi;
 
 export const { useGetAllChatRoomQuery, useDeleteChatRoomMutation } = roomApi;

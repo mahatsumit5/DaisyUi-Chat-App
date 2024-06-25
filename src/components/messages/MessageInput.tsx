@@ -43,7 +43,7 @@ function MessageInput({
   }, [isError, isLoading, setStatus, dispatch, id]);
   return (
     <>
-      <section className=" min-h-11 flex  gap-2 flex-1 ">
+      <section className=" min-h-14 flex  gap-2  ">
         <form onSubmit={handleSend} className="flex  w-full gap-1">
           <label className="flex w-full input rounded-none border-none">
             <input
@@ -76,7 +76,7 @@ function MessageInput({
 
           <div className="">
             <button
-              className="bg-primary disabled:bg-base-content  flex justify-center items-center  w-14 h-14"
+              className="bg-primary disabled:bg-primary/25  flex justify-center items-center  w-14 h-14"
               disabled={isLoading || !message}
             >
               <PiTelegramLogoFill className="text-primary-content" size={20} />

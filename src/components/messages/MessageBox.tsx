@@ -41,7 +41,7 @@ function MessageBox({
     <section className="skeleton w-full h-full bg-base-300 flex-1" />
   ) : data?.result._count.messages ? (
     <section
-      className="p-2 flex flex-col  border-b-2  flex-1  max-h-[72dvh]  overflow-y-scroll"
+      className="p-2 flex flex-col  border-b-2 border-b-base-300  flex-1 max-h-[80dvh] md:max-h-[72dvh]  overflow-y-scroll min-h-[60dvh] "
       ref={sectionRef}
     >
       {numberOfMessageToDisplay < data.result._count.messages && (

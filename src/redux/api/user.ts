@@ -160,6 +160,29 @@ const userApi = createApi({
         method: "PATCH",
       }),
     }),
+    changePassword: builder.mutation<
+      { status: boolean; message: string },
+      { password: string }
+    >({
+      query: (data) => ({ url: "reset-password", method: "PUT", body: data }),
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+          dispatch(
+            toggleToast({
+              isOpen: true,
+              content: {
+                id: Math.ceil(Math.random() * 10000000),
+                message: "Your password has been changed",
+                type: "success",
+              },
+            })
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      },
+    }),
   }),
 });
 

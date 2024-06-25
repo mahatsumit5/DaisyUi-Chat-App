@@ -23,7 +23,7 @@ function Privatelayout({ children }: { children: React.ReactNode }) {
       </div>
       <div className="w-full flex flex-col gap-2 h-full">
         <NavBar />
-        <div className="flex-1 md:max-h-[90dvh] "> {children}</div>
+        {children}
       </div>
     </div>
   ) : (
