@@ -13,7 +13,7 @@ function ChatMenu() {
   const { data, error, isFetching } = useGetAllChatRoomQuery(
     {
       search: query,
-      skip: 0,
+      page: 1,
       take: 10,
     },
     {

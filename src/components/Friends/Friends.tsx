@@ -4,7 +4,7 @@ import FriendCard from "./FriendCard";
 function YourFriends() {
   const { data, error, isLoading } = useGetAllChatRoomQuery({
     search: "",
-    skip: 0,
+    page: 1,
     take: 10,
   });
 

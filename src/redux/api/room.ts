@@ -11,7 +11,7 @@ export type chatroomReturnType = {
 };
 
 type GetChatRoomParams = {
-  skip: number;
+  page: number;
   take: number;
   search: string;
 };
@@ -31,8 +31,8 @@ export const roomApi = createApi({
   endpoints: (builder) => ({
     getAllChatRoom: builder.query<chatroomReturnType, GetChatRoomParams>({
       providesTags: ["Rooms"],
-      query: ({ search, skip, take }) =>
-        "?search=" + search + "&skip=" + skip + "&take=" + take,
+      query: ({ search, page, take }) =>
+        "?search=" + search + "&page=" + page + "&take=" + take,
 
       onCacheEntryAdded: async (
         arg,
@@ -83,7 +83,7 @@ export const roomApi = createApi({
           dispatch(
             roomApi.util.updateQueryData(
               "getAllChatRoom",
-              { search: "", skip: 0, take: 10 },
+              { search: "", page: 1, take: 10 },
               (draft) => {
                 draft.data = draft.data.filter(
                   (item) => item.id !== data.result.id
