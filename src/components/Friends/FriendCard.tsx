@@ -61,7 +61,7 @@ const Friends = ({ user }: { user: IChatRoom }) => {
   return (
     <Link to={"/chat"}>
       <button
-        className="btn  btn-ghost"
+        className="btn   btn-primary"
         onClick={() => {
           handleClick(user);
         }}

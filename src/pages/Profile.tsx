@@ -1,29 +1,10 @@
-import { useLogoutUserMutation } from "../redux";
-import { useAppDispatch, useAppSelector } from "../hook";
-import { setUser } from "../redux/reducer/user.slice";
-import { FaLock } from "react-icons/fa";
+import { useAppSelector } from "../hook";
 
 function ProfilePage() {
   const { user } = useAppSelector((store) => store.user);
-  const dispatch = useAppDispatch();
-  const [logoutUser] = useLogoutUserMutation();
-  async function handleLogout() {
-    await logoutUser();
-
-    sessionStorage.clear();
-    localStorage.clear();
-    dispatch(setUser(null));
-    window.location.reload();
-  }
 
   return (
     <div className="flex flex-col gap-5 w-full">
-      <div className="flex justify-between md:justify-end w-full items-center">
-        <button className="btn btn-primary text-white" onClick={handleLogout}>
-          <FaLock size={20} /> Logout
-        </button>
-      </div>
-
       <div className=" flex items-start justify-center">
         <div className="w-80 rounded-full mt-10">
           <img

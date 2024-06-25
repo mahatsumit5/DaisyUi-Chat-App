@@ -47,11 +47,11 @@ function Sidebar() {
   const { user } = useAppSelector((s) => s.user);
 
   function handleClick(name: string) {
+    dispatch(resetSearchBar());
     if (name === "Messages" || name === "Friends") {
       dispatch(setQueryType(name));
       return;
     }
-    dispatch(resetSearchBar());
   }
   return (
     <>

@@ -126,6 +126,7 @@ export const friendApi = createApi({
         try {
           await cacheDataLoaded;
           socket.on("getReqAcceptedNotification", (roomId) => {
+            console.log("new room crated", roomId);
             dispatch(userApi.util.invalidateTags(["Users"]));
             dispatch(roomApi.util.invalidateTags(["Rooms"]));
             socket.emit("join-room", roomId);

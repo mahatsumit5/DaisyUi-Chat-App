@@ -11,7 +11,7 @@ const Request = () => {
 
   return (
     <div className="md:px-2 overflow-y-auto w-full flex flex-col gap-5">
-      <div role="tablist" className="tabs tabs-lifted w-full">
+      <div role="tablist" className="tabs tabs-lifted tabs-lg">
         <input
           type="radio"
           name="my_tabs_2"

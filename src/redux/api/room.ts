@@ -4,6 +4,7 @@ import { IChatRoom, IDelChatRoomRes, IMessage } from "../../types";
 import { socket } from "../reducer/socket.slice";
 import { userApi } from "./user";
 import { toggleLoader } from "../reducer/loader.slice";
+import { setAvailableRooms } from "../reducer/room.slice";
 
 export type chatroomReturnType = {
   status: boolean;
@@ -40,6 +41,7 @@ export const roomApi = createApi({
       ) => {
         try {
           const { data } = await cacheDataLoaded;
+          dispatch(setAvailableRooms(data.data));
           const roomIds = data.data.map((item) => item.id);
           socket.emit("join-room", roomIds);
 
@@ -58,7 +60,6 @@ export const roomApi = createApi({
                 (item) => item.id !== data.result.id
               );
             });
-
             dispatch(userApi.util.invalidateTags(["Users"]));
           });
         } catch (error) {

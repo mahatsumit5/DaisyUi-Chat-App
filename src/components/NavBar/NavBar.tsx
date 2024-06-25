@@ -2,11 +2,25 @@ import { FormEvent } from "react";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import MobileDrawer from "../MobileDrawer";
 import { setQuery } from "../../redux/reducer/search.slice";
+import { Link, useNavigate } from "react-router-dom";
+import { useLogoutUserMutation } from "../../redux";
+import { setUser } from "../../redux/reducer/user.slice";
 
 const NavBar = () => {
   const { currentRoom } = useAppSelector((store) => store.rooms);
   const { query } = useAppSelector((s) => s.search);
   const dispatch = useAppDispatch();
+  const [logoutUser] = useLogoutUserMutation();
+  const navigate = useNavigate();
+  async function handleLogout() {
+    await logoutUser();
+
+    sessionStorage.clear();
+    localStorage.clear();
+    dispatch(setUser(null));
+    // window.location.reload();
+    navigate("/");
+  }
   return (
     <div
       className={`navbar bg-base-100 rounded-md ${
@@ -59,16 +73,20 @@ const NavBar = () => {
             className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
           >
             <li>
-              <a className="justify-between">
-                Profile
-                <span className="badge">New</span>
-              </a>
+              <Link to={"/profile"}>
+                <a className="justify-between">
+                  Profile
+                  <span className="badge">New</span>
+                </a>
+              </Link>
             </li>
             <li>
-              <a>Settings</a>
+              <Link to={"/settings"}>
+                <a>Settings</a>
+              </Link>
             </li>
             <li>
-              <a>Logout</a>
+              <a onClick={handleLogout}>Logout</a>
             </li>
           </ul>
         </div>

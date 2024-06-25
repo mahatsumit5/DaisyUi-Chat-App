@@ -1,29 +1,37 @@
+import ActivePeople from "../components/Friends/ActivePeople";
 import YourFriends from "../components/Friends/Friends";
 
 function Friends() {
   return (
     <div className="flex flex-col  w-full  gap-5">
-      <h1 className="text-3xl  text-base-content font-bold font-sans ">
-        Friends
-      </h1>
-
-      <div className="flex gap-2 px-3">
-        <button className="btn  bg-primary text-primary-content">
-          <span className="bg-base-200 px-2 py-1 text-base-content rounded-lg text-xs">
-            1
-          </span>
-          Active
-        </button>
-        <button className="btn  border-2 border-primary text-primary">
-          <span className="bg-primary px-2 py-1 text-primary-content rounded-lg text-xs">
-            24
-          </span>
-          Inactive
-        </button>
-      </div>
-
-      <div className="flex-1 rounded-xl flex flex-col  overflow-y-auto w-full bg-base-100 p-4">
-        <YourFriends />
+      <div role="tablist" className="tabs tabs-lifted tabs-lg">
+        <input
+          type="radio"
+          name="my_tabs_2"
+          role="tab"
+          className="tab"
+          aria-label="Friends"
+          defaultChecked
+        />
+        <div
+          role="tabpanel"
+          className="tab-content bg-base-100 border-base-300 rounded-box p-6"
+        >
+          <YourFriends />
+        </div>
+        <input
+          type="radio"
+          name="my_tabs_2"
+          role="tab"
+          className="tab"
+          aria-label="Active"
+        />
+        <div
+          role="tabpanel"
+          className="tab-content bg-base-100 border-base-300 rounded-box  p-6"
+        >
+          <ActivePeople />
+        </div>
       </div>
     </div>
   );
