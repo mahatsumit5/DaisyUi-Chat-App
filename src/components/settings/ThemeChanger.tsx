@@ -34,7 +34,7 @@ const themes = [
 ];
 const ThemeChanger = () => {
   return (
-    <div className="join join-vertical overflow-y-scroll w-full h-[90%]">
+    <div className="join join-vertical overflow-y-scroll w-full h-[79dvh]">
       {themes.map((item) => (
         <input
           key={item}

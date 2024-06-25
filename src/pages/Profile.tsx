@@ -5,11 +5,14 @@ function ProfilePage() {
 
   return (
     <div className="flex flex-col gap-5 w-full">
-      <div className=" flex items-start justify-center">
-        <div className="w-80 rounded-full mt-10">
+      <div className=" avatar flex items-start justify-center">
+        <div className="w-72   rounded-full mt-10">
           <img
-            src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-            className="rounded-full"
+            src={
+              user?.profile ||
+              "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+            }
+            className="rounded-full  object-contain"
           />
         </div>
       </div>

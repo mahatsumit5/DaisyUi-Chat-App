@@ -2,12 +2,13 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { messageApiUrl } from "./serverUrl";
 import { IMessage, IMessageResponse } from "../../types";
 import { socket } from "../reducer/socket.slice";
-// import { createEntityAdapter } from "@reduxjs/toolkit";
 type sendMessagePArams = {
-  content: string;
+  content: string | File;
   roomId: string;
   author: string;
 };
+
+type keys = "author" | "roomId" | "content";
 
 // todo Implement
 // const messageAdapter = createEntityAdapter<IMessage>();
@@ -29,11 +30,14 @@ export const messageApi = createApi({
       { status: boolean; result: IMessage },
       sendMessagePArams
     >({
-      query: (data) => ({
-        url: "",
-        method: "post",
-        body: data,
-      }),
+      query: (data) => {
+        const formData = new FormData();
+        for (const key in data) {
+          const value = key as keys;
+          formData.append(key, data[value]);
+        }
+        return { url: "", method: "post", body: formData };
+      },
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
           const { data } = await queryFulfilled;

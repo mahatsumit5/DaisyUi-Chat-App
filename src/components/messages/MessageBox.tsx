@@ -21,6 +21,8 @@ function MessageBox({
   isSendingMessageLoading: boolean;
 }) {
   const { currentRoom } = useAppSelector((store) => store.rooms);
+  const { user } = useAppSelector((store) => store.user);
+
   const { isTyping } = useAppSelector((store) => store.socket);
   const sectionRef = useRef<HTMLDivElement>(null);
   const [numberOfMessageToDisplay, setNumberOfMessageToDisplay] = useState(10);
@@ -68,7 +70,12 @@ function MessageBox({
                   <div className="w-10 rounded-full">
                     <img
                       alt="Tailwind CSS chat bubble component"
-                      src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                      src={
+                        (author === userId
+                          ? user?.profile
+                          : currentRoom?.profile) ||
+                        "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                      }
                     />
                   </div>
                 </div>
@@ -79,15 +86,25 @@ function MessageBox({
                     {getTime(createdAt).slice(0, 5)}
                   </time>
                 </div>
-                <div
-                  className={`chat-bubble   ${
-                    author === userId
-                      ? "bg-primary text-primary-content"
-                      : " bg-gray-200 text-slate-600"
-                  }`}
-                >
-                  {content}
-                </div>
+                {content.includes(
+                  "https://cfw-image-bucket.s3.ap-southeast-2.amazonaws.com"
+                ) ? (
+                  <div className="avatar">
+                    <div className="w-52 rounded">
+                      <img src={content} />
+                    </div>
+                  </div>
+                ) : (
+                  <div
+                    className={`chat-bubble   ${
+                      author === userId
+                        ? "bg-primary text-primary-content"
+                        : " bg-gray-200 text-slate-600"
+                    }`}
+                  >
+                    {content}
+                  </div>
+                )}
                 <div className="chat-footer opacity-50">
                   {author === userId
                     ? isSeen

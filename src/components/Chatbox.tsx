@@ -6,6 +6,7 @@ import MessageInput from "./messages/MessageInput";
 import Profile from "./messages/Profile";
 function Chatbox() {
   const [message, setMessage] = useState<string>("");
+  const [file, setFile] = useState<File>();
 
   const { currentRoom } = useAppSelector((store) => store.rooms);
   const { user } = useAppSelector((store) => store.user);
@@ -38,6 +39,8 @@ function Chatbox() {
         userId={user?.id as string}
         email={user?.email || ""}
         setMessage={setMessage}
+        file={file}
+        setFile={setFile}
       />
     </div>
   ) : null;
