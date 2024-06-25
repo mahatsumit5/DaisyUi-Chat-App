@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAppSelector } from "../../hook";
-import { FaArrowUp, FaCheckCircle } from "react-icons/fa";
+import { FaArrowUp } from "react-icons/fa";
 import { useGetMessagesQuery } from "../../redux";
 import { GoDotFill } from "react-icons/go";
 
@@ -24,11 +24,11 @@ function MessageBox({
   const { isTyping } = useAppSelector((store) => store.socket);
   const sectionRef = useRef<HTMLDivElement>(null);
   const [numberOfMessageToDisplay, setNumberOfMessageToDisplay] = useState(10);
-  const { data, error, isLoading, isUninitialized, refetch } =
-    useGetMessagesQuery({
-      roomId: currentRoom?.id || "",
-      num: numberOfMessageToDisplay,
-    });
+  const { data, error, isLoading } = useGetMessagesQuery({
+    roomId: currentRoom?.id || "",
+    num: numberOfMessageToDisplay,
+  });
+  console.log(isError);
   useEffect(() => {
     const height = sectionRef.current?.scrollHeight;
     if (sectionRef.current && height) {
@@ -36,19 +36,13 @@ function MessageBox({
     }
   }, [data]);
 
-  useCallback(() => {
-    if (!isUninitialized) {
-      refetch();
-    }
-  }, [isUninitialized, refetch]);
-
   return error ? (
     <>Unexpected Error Occured</>
   ) : isLoading ? (
     <section className="skeleton w-full h-full bg-base-300" />
   ) : data ? (
     <section
-      className="bg-base-100 rounded-xl p-2 flex flex-col    overflow-y-auto    flex-1"
+      className="p-2 flex flex-col  border-b-2  overflow-y-auto    flex-1"
       ref={sectionRef}
     >
       {numberOfMessageToDisplay < data.result._count.messages && (
@@ -104,42 +98,6 @@ function MessageBox({
                 </div>
               </div>
             </div>
-
-            // <div
-            //   key={id}
-            //   className={`flex gap-2 items-center ${
-            //     author === userId ? "justify-end" : "justify-start"
-            //   }`}
-            // >
-            //   <div className="bg-black h-8 rounded-full w-8">
-            //     <img
-            //       src="https://gratisography.com/wp-content/uploads/2024/01/gratisography-cyber-kitty-800x525.jpg"
-            //       className="object-cover overflow-hidden h-8 w-8 rounded-full"
-            //     />
-            //   </div>
-            //   <div
-            //     className={`${
-            //       author === userId
-            //         ? "bg-blue-500 text-slate-200"
-            //         : "bg-gray-200 text-black"
-            //     } p-2  rounded-lg  text-justify max-w-80 min-w-24`}
-            //   >
-            //     <span>{content}</span>
-            //     <p
-            //       className={`${
-            //         author === userId ? "text-gray-300" : "text-gray-400"
-            //       } text-xs  text-right flex justify-end gap-5`}
-            //     >
-            //       {getTime(createdAt).slice(0, 5)}
-            //       {author === userId && (
-            //         <FaCheckCircle
-            //           className="mt-1"
-            //           color={isSeen ? "blue" : "white"}
-            //         />
-            //       )}
-            //     </p>
-            //   </div>
-            // </div>
           );
         }
       )}
@@ -164,16 +122,22 @@ function MessageBox({
 
       {isSendingMessageLoading && message && (
         <div className="flex justify-end gap-2">
-          <div className=" h-8 rounded-full w-8">
-            <img
-              src="https://gratisography.com/wp-content/uploads/2024/01/gratisography-cyber-kitty-800x525.jpg"
-              className="object-cover overflow-hidden h-8 w-8 rounded-full"
-            />
-          </div>
-          <span className="p-2 bg-blue-900 text-slate-200 rounded-lg gap-2  flex items-center justify-center max-w-80 min-w-24">
+          <div
+            className={`chat-bubble   
+bg-primary/80 text-primary-content
+                       
+                  `}
+          >
             {message}
-            {isError ? <></> : <FaCheckCircle className="mt-1 text-gray-300" />}
-          </span>
+          </div>
+          <div className="chat-image avatar">
+            <div className="w-10 rounded-full">
+              <img
+                alt="Tailwind CSS chat bubble component"
+                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+              />
+            </div>
+          </div>
         </div>
       )}
     </section>

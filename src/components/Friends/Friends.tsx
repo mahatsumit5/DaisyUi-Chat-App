@@ -2,7 +2,11 @@ import { useGetAllChatRoomQuery } from "../../redux";
 import FriendCard from "./FriendCard";
 
 function YourFriends() {
-  const { data, error, isLoading } = useGetAllChatRoomQuery(null);
+  const { data, error, isLoading } = useGetAllChatRoomQuery({
+    search: "",
+    skip: 0,
+    take: 10,
+  });
 
   return (
     <div className="flex flex-col gap-2">
