@@ -34,13 +34,14 @@ const themes = [
 ];
 const ThemeChanger = () => {
   return (
-    <div className="join join-vertical overflow-y-scroll w-full h-[79dvh]">
+    <div className="grid grid-cols-3 md:grid-cols-5 gap-2 p-2 overflow-y-scroll w-full h-[79dvh]">
       {themes.map((item) => (
         <input
+          data-theme={item}
           key={item}
           type="radio"
           name="theme-buttons"
-          className="btn theme-controller join-item"
+          className="btn bg-primary h-28 md:h-48 text-primary-content"
           aria-label={item}
           value={item}
           onChangeCapture={(e) => {
