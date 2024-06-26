@@ -26,18 +26,18 @@ const NavBar = () => {
       }`}
     >
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl hidden md:block">Chat Ap</a>
+        <a className="btn btn-ghost text-xl hidden md:block">Chat App</a>
         <MobileDrawer />
       </div>
       <div className="flex-none gap-2">
-        <label className="input input-sm md:input-md bg-primary  items-center gap-2 flex justify-between text-primary-content">
+        <label className="input input-sm md:input-md bg-primary  items-center gap-2 flex justify-between text-primary-content ">
           <input
             type="text"
             placeholder="Search"
             onChange={(e: FormEvent<HTMLInputElement>) => {
               dispatch(setQuery({ query: e.currentTarget.value }));
             }}
-            className="text-[16px] text-primary-content placeholder:text-primary-content/30"
+            className="text-[16px] text-primary-content placeholder:text-primary-content/70"
             value={query}
           />
           <svg
