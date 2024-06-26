@@ -16,6 +16,7 @@ import { toggleToast } from "../reducer/toast.slice";
 const userApi = createApi({
   reducerPath: "UserApi",
   tagTypes: ["Users", "CurrentUser"],
+
   baseQuery: fetchBaseQuery({
     baseUrl: userApiUrl,
     prepareHeaders: (headers) => {
@@ -25,6 +26,7 @@ const userApi = createApi({
       );
       return headers;
     },
+    timeout: 10000, // request timeouts after 10 seconds
   }),
   endpoints: (builder) => ({
     getAllUsers: builder.query<IAllUsersResponse, IGetAllUsersParams | null>({
