@@ -31,8 +31,8 @@ const ProfileSettings = () => {
           <div className="mask mask-squircle w-36">
             <img
               src={
-                user?.profile ||
                 preview ||
+                user?.profile ||
                 "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
               }
             />

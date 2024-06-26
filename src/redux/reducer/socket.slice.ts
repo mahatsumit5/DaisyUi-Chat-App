@@ -8,6 +8,7 @@ const URL = !import.meta.env.PROD
 export const socket = io(URL, {
   autoConnect: false,
   query: { email: sessionStorage.getItem("email") },
+  transports: ["websocket"],
 });
 type TinitialState = {
   isTyping: boolean;

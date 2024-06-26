@@ -14,6 +14,7 @@ function Privatelayout({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!user?.id) return;
+    socket.connect();
     socket.emit("join_your_room", user.id, user.email);
   }, [user, socket]);
   return user?.id ? (

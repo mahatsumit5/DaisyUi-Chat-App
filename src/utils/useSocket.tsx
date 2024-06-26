@@ -12,6 +12,9 @@ const useSocketSetup = () => {
     socket.on("connect_error", (err) => {
       console.log(err.message);
     });
+    socket.on("connect", () => {
+      console.log("You are connected with id", socket.id);
+    });
 
     socket.on("typing", (email) => {
       dispatch(setTyping({ person: email, typing: true }));
@@ -19,8 +22,8 @@ const useSocketSetup = () => {
     socket.on("stopped_typing", (email) => {
       dispatch(setTyping({ person: email, typing: false }));
     });
-    socket.on("getOnlineUsers", (onlineUsers) => {
-      console.log(onlineUsers);
+    socket.on("getOnlineUsers", (onlineUsers: string[]) => {
+      console.log("this user is online", onlineUsers);
       dispatch(setOnlineUsers(onlineUsers));
     });
 
