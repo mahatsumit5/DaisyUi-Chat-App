@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { IChatRoom, IUser } from "../../types";
+import { socket } from "./socket.slice";
 
 interface rooms {
   currentRoom: IChatRoom | null;
@@ -24,6 +25,7 @@ export const roomSlice = createSlice({
 
     setCurrentRoom: (state, { payload }: PayloadAction<IChatRoom | null>) => {
       state.currentRoom = payload;
+      socket.emit("join-room", payload?.id);
     },
     replaceLastMessageInSpecificRoom: (
       state,

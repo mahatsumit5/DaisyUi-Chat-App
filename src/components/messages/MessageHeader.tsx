@@ -32,7 +32,7 @@ function MessageHeader({ currentRoom }: { currentRoom: IChatRoom }) {
         </button>
         <div
           className={`avatar ${
-            onlineUsers.includes(currentRoom.email) ? "online" : "offline"
+            onlineUsers.includes(currentRoom.userId) ? "online" : "offline"
           }`}
           onClick={() => {}}
         >

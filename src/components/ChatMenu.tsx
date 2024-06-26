@@ -65,7 +65,7 @@ function ChatMenu() {
                 <div className="flex gap-3">
                   <div
                     className={`avatar ${
-                      onlineUsers.includes(item.email) ? "online" : "offline"
+                      onlineUsers.includes(item.userId) ? "online" : "offline"
                     }`}
                   >
                     <div className="w-10 rounded-full">

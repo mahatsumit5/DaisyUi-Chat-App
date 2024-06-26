@@ -5,7 +5,8 @@ import { socket } from "../reducer/socket.slice";
 import { userApi } from "./user";
 import { toggleLoader } from "../reducer/loader.slice";
 import { setAvailableRooms } from "../reducer/room.slice";
-
+import notificatioDing from "../../assets/notification_ding.mp3";
+const notification = new Audio(notificatioDing);
 export type chatroomReturnType = {
   status: boolean;
   data: IChatRoom[];
@@ -42,10 +43,9 @@ export const roomApi = createApi({
         try {
           const { data } = await cacheDataLoaded;
           dispatch(setAvailableRooms(data.data));
-          const roomIds = data.data.map((item) => item.id);
-          socket.emit("join-room", roomIds);
 
           socket.on("send_message_client", (data: IMessage) => {
+            notification.play();
             updateCachedData((draft) => {
               const roomIndex = draft.data.findIndex(
                 (item) => item.id === data.chatRoomId

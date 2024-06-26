@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import ChatMenu from "../components/ChatMenu";
-import Chatbox from "../components/Chatbox";
+
 import { useAppSelector } from "../hook";
+import { ChatBox, ChatMenu } from "../components";
 
 function ChatPage() {
   const { currentRoom } = useAppSelector((store) => store.rooms);
@@ -18,7 +18,7 @@ function ChatPage() {
 
       {currentRoom?.id ? (
         <div className={` ${currentRoom?.id ? "w-full" : ""}  `}>
-          <Chatbox />
+          <ChatBox />
         </div>
       ) : (
         <div

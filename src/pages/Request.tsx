@@ -1,10 +1,7 @@
-import AllPeoples from "../components/Friends/AllPeoples";
-import FriendReq from "../components/Friends/FriendReq";
-
 import { useAppDispatch, useAppSelector } from "../hook";
-import SentRequest from "../components/Friends/SentRequest";
 import { setQueryType } from "../redux/reducer/search.slice";
 import { setPage } from "../redux/reducer/pagination.slice";
+import { AllPeoples, FriendRequest, SentRequest } from "../components";
 const Request = () => {
   const dispatch = useAppDispatch();
   const { type } = useAppSelector((store) => store.search);
@@ -29,7 +26,7 @@ const Request = () => {
           role="tabpanel"
           className="tab-content bg-base-100 border-base-300 rounded-box p-4 py-4 w-full flex"
         >
-          <FriendReq />
+          <FriendRequest />
         </div>
 
         <input

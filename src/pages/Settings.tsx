@@ -1,7 +1,6 @@
 import { useState } from "react";
-import ThemeChanger from "../components/settings/ThemeChanger";
 import Menu from "../components/settings/Menu";
-import ProfileSettings from "../components/settings/ProfileSettings";
+import { ProfileSettings, Theme } from "../components";
 
 export type displayComponentKeys = "Theme" | "Profile";
 const Settings = () => {
@@ -9,7 +8,7 @@ const Settings = () => {
     useState<displayComponentKeys>("Theme");
 
   const display: Record<displayComponentKeys, React.JSX.Element> = {
-    Theme: <ThemeChanger />,
+    Theme: <Theme />,
     Profile: <ProfileSettings />,
   };
   return (

@@ -1,9 +1,10 @@
 import { IUser } from "../../types";
-import FriendCard from "./FriendCard";
-import LoaderCard from "./LoaderCard";
-import Pagination from "../pagination/Pagination";
+
 import { useGetAllUsersQuery } from "../../redux";
 import { useAppSelector } from "../../hook";
+import LoaderCard from "./LoaderCard";
+import FriendCard from "./FriendCard";
+import Pagination from "../pagination/Pagination";
 
 function AllPeoples() {
   const numberOfContentPerPage = 8;

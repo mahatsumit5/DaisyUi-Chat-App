@@ -1,5 +1,4 @@
-import ActivePeople from "../components/Friends/ActivePeople";
-import YourFriends from "../components/Friends/Friends";
+import { ActivePeople, MyFriends } from "../components";
 
 function Friends() {
   return (
@@ -17,7 +16,7 @@ function Friends() {
           role="tabpanel"
           className="tab-content bg-base-100 border-base-300 rounded-box p-6"
         >
-          <YourFriends />
+          <MyFriends />
         </div>
         <input
           type="radio"

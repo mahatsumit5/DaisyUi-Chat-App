@@ -1,30 +1,29 @@
 import { Route, Routes, useNavigate } from "react-router-dom";
 
-import { SignIn } from "./pages/Sign-in";
-import { SignUp } from "./pages/SignUp";
-import ChatPage from "./pages/ChatPage";
-import ForgotPassword from "./pages/ForgotPassword";
-import Privatelayout from "./components/Privatelayout";
-
-// import { autoLogin } from "./action/user.action";
-import Friends from "./pages/Friends";
-
-import Notification from "./pages/Notification";
-import Dialog from "./components/modal/Dialog";
-import ProfilePage from "./pages/Profile";
 import { useGetLoggedInUserQuery, useGetNewAccessJWTMutation } from "./redux";
 import { useEffect } from "react";
 import { setUser } from "./redux/reducer/user.slice";
 import { useAppDispatch } from "./hook";
 import { IUser } from "./types";
-import Request from "./pages/Request";
-import Settings from "./pages/Settings";
-import Loading from "./components/loading/Loading";
-import Toast from "./components/toast/Toast";
+
+import {
+  ChatPage,
+  ForgotPassword,
+  Friends,
+  Notification,
+  Request,
+  Settings,
+  SignIn,
+  SignUp,
+} from "./pages";
+import ProfilePage from "./pages/Profile";
+import Privatelayout from "./components/Privatelayout";
+import { Dialog, Loading, Toast } from "./components";
 
 export default function App() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
   const { error, isFetching, refetch, data } = useGetLoggedInUserQuery();
   const [getNewAccessJWT] = useGetNewAccessJWTMutation();
 
@@ -36,9 +35,6 @@ export default function App() {
           .then((res) => {
             sessionStorage.setItem("accessJWT", res.data as string);
             refetch();
-          })
-          .catch((err: unknown) => {
-            console.log("Error:", err);
           })
       : dispatch(setUser(data as IUser));
   }, [isFetching, error, getNewAccessJWT, navigate, data, refetch, dispatch]);

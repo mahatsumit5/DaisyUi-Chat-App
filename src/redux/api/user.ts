@@ -109,7 +109,7 @@ const userApi = createApi({
             toggleLoader({ isLoading: true, content: "Please Wait..." })
           );
           const { data } = await queryFulfilled;
-          sessionStorage.setItem("email", data.email);
+          sessionStorage.setItem("id", data.id);
           if (data.id) {
             socket.connect();
           }
@@ -119,6 +119,13 @@ const userApi = createApi({
 
           console.log(error);
         }
+      },
+      transformErrorResponse(response) {
+        console.log(response);
+        if (response.status === "TIMEOUT_ERROR") {
+          response.error = "Connection timeout.";
+        }
+        return response;
       },
       providesTags: ["CurrentUser"],
     }),
