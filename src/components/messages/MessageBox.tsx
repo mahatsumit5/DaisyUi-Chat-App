@@ -2,24 +2,20 @@ import { useEffect, useRef, useState } from "react";
 import { useAppSelector } from "../../hook";
 import { FaArrowUp } from "react-icons/fa";
 import { useGetMessagesQuery } from "../../redux";
-import { GoDotFill } from "react-icons/go";
+import MessageLoadingState from "./MessageLoadingState";
+import { IChatRoom, IUser } from "../../types";
+import UserIsTyping from "./UserIsTyping";
+import MessageDisplay from "./MessageDisplay";
 
-function getTime(time: Date) {
-  return new Date(time).toTimeString();
-}
 function MessageBox({
   userId,
   isError,
   isSendingMessageLoading,
   message,
   userName,
-}: {
-  userName: string;
-  message: string;
-  userId: string;
-  isError: boolean;
-  isSendingMessageLoading: boolean;
-}) {
+  preview,
+}: messageBoxProps) {
+  console.log(isError);
   const { currentRoom } = useAppSelector((store) => store.rooms);
   const { user } = useAppSelector((store) => store.user);
 
@@ -30,13 +26,14 @@ function MessageBox({
     roomId: currentRoom?.id || "",
     num: numberOfMessageToDisplay,
   });
+
   useEffect(() => {
     const height = sectionRef.current?.scrollHeight;
     if (sectionRef.current && height) {
       sectionRef.current.scrollTop = height;
     }
   }, [data]);
-  console.log(isError);
+
   return error ? (
     <>Unexpected Error Occured</>
   ) : isLoading ? (
@@ -56,106 +53,24 @@ function MessageBox({
           <FaArrowUp />
         </button>
       )}
-      {data.result.messages.map(
-        ({ author, content, createdAt, id, isSeen }) => {
-          return (
-            <div key={id}>
-              <div
-                className={`chat ${
-                  author === userId ? "chat-end" : "chat-start"
-                }`}
-                key={id}
-              >
-                <div className="chat-image avatar">
-                  <div className="w-10 rounded-full">
-                    <img
-                      alt="Tailwind CSS chat bubble component"
-                      src={
-                        (author === userId
-                          ? user?.profile
-                          : currentRoom?.profile) ||
-                        "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                      }
-                    />
-                  </div>
-                </div>
-                <div className="chat-header">
-                  {author === userId ? userName : currentRoom?.fName}
-                  &nbsp;
-                  <time className="text-xs opacity-50">
-                    {getTime(createdAt).slice(0, 5)}
-                  </time>
-                </div>
-                {content.includes(
-                  "https://cfw-image-bucket.s3.ap-southeast-2.amazonaws.com"
-                ) ? (
-                  <div className="avatar">
-                    <div className="w-52 rounded">
-                      <img src={content} />
-                    </div>
-                  </div>
-                ) : (
-                  <div
-                    className={`chat-bubble   ${
-                      author === userId
-                        ? "bg-primary text-primary-content"
-                        : " bg-gray-200 text-slate-600"
-                    }`}
-                  >
-                    {content}
-                  </div>
-                )}
-                <div className="chat-footer opacity-50">
-                  {author === userId
-                    ? isSeen
-                      ? `seen at ${getTime(createdAt).slice(0, 5)}`
-                      : null
-                    : "Deivered"}
-                </div>
-              </div>
-            </div>
-          );
-        }
-      )}
-      {isTyping && (
-        <div className="flex flex-col gap-2 mt-5">
-          <div className="flex">
-            <div className="bg-black h-8 rounded-full w-8">
-              <img
-                src="https://gratisography.com/wp-content/uploads/2024/01/gratisography-cyber-kitty-800x525.jpg"
-                className="object-cover overflow-hidden h-8 w-8 rounded-full"
-              />
-            </div>
-            <span className="  w-14 rounded-full flex justify-center items-center h-7">
-              <GoDotFill className="animate-bounce" />
-              <GoDotFill className="animate-bounce" />
-              <GoDotFill className="animate-bounce" />
-            </span>
-          </div>
-          <span>{currentRoom?.fName} is typing</span>
-        </div>
-      )}
+      <MessageDisplay
+        userName={userName}
+        currentRoom={currentRoom as IChatRoom}
+        messages={data.result.messages}
+        user={user as IUser}
+        userId={userId}
+      />
 
-      {isSendingMessageLoading && message && (
-        <div className="flex justify-end gap-2">
-          <div
-            className={`chat-bubble   
-bg-primary/80 text-primary-content
-                       
-                  `}
-          >
-            {message}
-          </div>
-          <div className="chat-image avatar">
-            <div className="w-10 rounded-full">
-              <img
-                alt="Tailwind CSS chat bubble component"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-              />
-            </div>
-          </div>
-        </div>
-      )}
+      <UserIsTyping
+        currentRoom={currentRoom as IChatRoom}
+        isTyping={isTyping}
+      />
+      <MessageLoadingState
+        message={message}
+        messageLoading={isSendingMessageLoading}
+        preview={preview}
+        user={user as IUser}
+      />
     </section>
   ) : (
     <section className="flex-1 border-b-2">
@@ -165,3 +80,11 @@ bg-primary/80 text-primary-content
 }
 
 export default MessageBox;
+type messageBoxProps = {
+  userName: string;
+  message: string;
+  userId: string;
+  isError: boolean;
+  isSendingMessageLoading: boolean;
+  preview: string;
+};

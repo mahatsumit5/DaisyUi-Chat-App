@@ -1,18 +1,11 @@
 import { IChatRoom } from "../../types";
-import { Dispatch, SetStateAction } from "react";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import { setCurrentRoom } from "../../redux/reducer/room.slice";
 import { IoChevronBackSharp } from "react-icons/io5";
 import { MdDeleteOutline, MdPhoneEnabled } from "react-icons/md";
 import { useDeleteChatRoomMutation } from "../../redux";
 
-function MessageHeader({
-  currentRoom,
-  setComponent,
-}: {
-  currentRoom: IChatRoom;
-  setComponent: Dispatch<SetStateAction<"profile" | "message">>;
-}) {
+function MessageHeader({ currentRoom }: { currentRoom: IChatRoom }) {
   const dispatch = useAppDispatch();
   const [deleteChatRoom] = useDeleteChatRoomMutation();
 
@@ -41,9 +34,7 @@ function MessageHeader({
           className={`avatar ${
             onlineUsers.includes(currentRoom.email) ? "online" : "offline"
           }`}
-          onClick={() => {
-            setComponent("profile");
-          }}
+          onClick={() => {}}
         >
           <div className="w-10 rounded-full">
             <img

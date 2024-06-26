@@ -5,7 +5,6 @@ import {
   FormEvent,
   SetStateAction,
   useEffect,
-  useState,
 } from "react";
 import { LuPaperclip } from "react-icons/lu";
 import { useSendMessageMutation } from "../../redux";
@@ -20,27 +19,20 @@ function MessageInput({
   userId,
   file,
   setFile,
-}: {
-  setMessage: Dispatch<SetStateAction<string>>;
-  message: string;
-  id: string;
-  userId: string;
-  email: string;
-  setStatus: Dispatch<SetStateAction<{ isLoading: boolean; isError: boolean }>>;
-  setFile: Dispatch<SetStateAction<File | undefined>>;
-  file: File | undefined;
-}) {
+  preview,
+  setPreview,
+}: messageInputProps) {
   const [sendMessage, { isLoading, isError }] = useSendMessageMutation();
   const { socket } = useAppSelector((store) => store.socket);
 
-  const [preview, setPreview] = useState<string>("");
   useEffect(() => {
     if (!file) return;
     const url = URL.createObjectURL(file as Blob);
     setPreview(url);
     return () => URL.revokeObjectURL(url);
-  }, [file]);
+  }, [file, setPreview]);
   const dispatch = useAppDispatch();
+
   async function handleSend(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
@@ -50,6 +42,8 @@ function MessageInput({
       content: file ? file : message,
       roomId: id,
     }).unwrap();
+    setFile(undefined);
+    setPreview("");
     if (!isLoading && !isError) {
       socket.emit("send_message", result, id);
       setMessage("");
@@ -59,10 +53,9 @@ function MessageInput({
   useEffect(() => {
     setStatus({ isError, isLoading });
   }, [isError, isLoading, setStatus, dispatch, id]);
-  console.log(file);
   return (
     <>
-      <section className=" min-h-14 h-auto flex  gap-2  flex-1">
+      <section className=" min-h-14 h-auto flex  gap-2 ">
         <form onSubmit={handleSend} className="flex  w-full gap-1">
           <label className="flex w-full input rounded-none border-none">
             {file ? (
@@ -102,9 +95,7 @@ function MessageInput({
               id="file"
               accept=".jpg,.avif,.png,.jpeg"
               onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                console.log(e);
                 const { files } = e.target;
-                console.log(files);
                 setFile(files ? (files[0] as File) : undefined);
               }}
             />
@@ -112,10 +103,26 @@ function MessageInput({
 
           <div className="">
             <button
-              className="bg-primary disabled:bg-primary/25  flex justify-center items-center  w-14 h-14"
+              className="bg-primary disabled:bg-primary/45  flex justify-center items-center  w-20 h-14"
               disabled={isLoading || (!message && !file)}
             >
-              <PiTelegramLogoFill className="text-primary-content" size={20} />
+              {isLoading ? (
+                <svg
+                  width="30"
+                  height="30"
+                  fill="currentColor"
+                  className="mr-2 animate-spin"
+                  viewBox="0 0 1792 1792"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M526 1394q0 53-37.5 90.5t-90.5 37.5q-52 0-90-38t-38-90q0-53 37.5-90.5t90.5-37.5 90.5 37.5 37.5 90.5zm498 206q0 53-37.5 90.5t-90.5 37.5-90.5-37.5-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm-704-704q0 53-37.5 90.5t-90.5 37.5-90.5-37.5-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm1202 498q0 52-38 90t-90 38q-53 0-90.5-37.5t-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm-964-996q0 66-47 113t-113 47-113-47-47-113 47-113 113-47 113 47 47 113zm1170 498q0 53-37.5 90.5t-90.5 37.5-90.5-37.5-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm-640-704q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm530 206q0 93-66 158.5t-158 65.5q-93 0-158.5-65.5t-65.5-158.5q0-92 65.5-158t158.5-66q92 0 158 66t66 158z"></path>
+                </svg>
+              ) : (
+                <PiTelegramLogoFill
+                  className="text-primary-content"
+                  size={20}
+                />
+              )}
             </button>
           </div>
         </form>
@@ -125,3 +132,15 @@ function MessageInput({
 }
 
 export default MessageInput;
+type messageInputProps = {
+  setMessage: Dispatch<SetStateAction<string>>;
+  message: string;
+  id: string;
+  userId: string;
+  email: string;
+  setStatus: Dispatch<SetStateAction<{ isLoading: boolean; isError: boolean }>>;
+  setFile: Dispatch<SetStateAction<File | undefined>>;
+  file: File | undefined;
+  preview: string;
+  setPreview: Dispatch<SetStateAction<string>>;
+};

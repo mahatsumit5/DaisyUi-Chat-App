@@ -3,35 +3,30 @@ import { useAppSelector } from "../hook";
 import MessageBox from "./messages/MessageBox";
 import MessageHeader from "./messages/MessageHeader";
 import MessageInput from "./messages/MessageInput";
-import Profile from "./messages/Profile";
 function Chatbox() {
   const [message, setMessage] = useState<string>("");
   const [file, setFile] = useState<File>();
+  const [preview, setPreview] = useState<string>("");
 
   const { currentRoom } = useAppSelector((store) => store.rooms);
   const { user } = useAppSelector((store) => store.user);
+
   const [status, setStatus] = useState<{
     isLoading: boolean;
     isError: boolean;
   }>({ isError: false, isLoading: false });
-  const [component, setComponent] = useState<"message" | "profile">("message");
-  const displayComponent = {
-    message: currentRoom?.id ? (
+
+  return currentRoom?.id ? (
+    <div className="flex flex-col  w-full   min-h-full max-h-full bg-base-100 rounded-md justify-between">
+      <MessageHeader currentRoom={currentRoom} />
       <MessageBox
         message={message}
         userId={user?.id as string}
         isError={status.isError}
         isSendingMessageLoading={status.isLoading}
         userName={user?.fName as string}
-      />
-    ) : null,
-
-    profile: <Profile setComponent={setComponent} type="friend" />,
-  };
-  return currentRoom?.id ? (
-    <div className="flex flex-col  w-full   min-h-full max-h-full bg-base-100 rounded-md justify-between">
-      <MessageHeader currentRoom={currentRoom} setComponent={setComponent} />
-      {displayComponent[component]}
+        preview={preview}
+      />{" "}
       <MessageInput
         message={message}
         setStatus={setStatus}
@@ -41,6 +36,8 @@ function Chatbox() {
         setMessage={setMessage}
         file={file}
         setFile={setFile}
+        preview={preview}
+        setPreview={setPreview}
       />
     </div>
   ) : null;

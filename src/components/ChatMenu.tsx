@@ -31,7 +31,7 @@ function ChatMenu() {
   }
 
   return (
-    <div className="flex flex-col gap-2 w-full  lg:w-[350px] h-full">
+    <div className="flex flex-col gap-2 w-full  lg:w-[350px] h-full ">
       {error ? (
         <section className=" h-full rounded-xl  flex  flex-col gap-2 overflow-y-auto  items-center justify-center ">
           <p>You do not have any friends</p>
@@ -51,7 +51,7 @@ function ChatMenu() {
         </section>
       ) : data ? (
         <>
-          <section className=" h-full rounded-xl  flex  flex-col gap-2 overflow-y-auto bg-base-100 text-base-content ">
+          <section className=" h-full rounded-xl  flex  flex-col gap-2 overflow-y-auto bg-base-100 text-base-content overflow-hidden">
             {data.data.map((item: IChatRoom) => (
               <div
                 key={item.id}
