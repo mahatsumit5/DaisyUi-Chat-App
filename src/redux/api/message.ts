@@ -2,6 +2,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { messageApiUrl } from "./serverUrl";
 import { IMessage, IMessageResponse } from "../../types";
 import { socket } from "../reducer/socket.slice";
+import notificatioDing from "../../assets/notification_ding.mp3";
+const notification = new Audio(notificatioDing);
 type sendMessagePArams = {
   content: string | File;
   roomId: string;
@@ -78,9 +80,8 @@ export const messageApi = createApi({
           // if it is a message and for the appropriate channel,
           // update our query result with the received message
           socket.on("send_message_client", (data: IMessage) => {
-            console.log(data);
-            console.log(data);
             if (data.chatRoomId !== arg.roomId) return;
+            notification.play();
             updateCachedData((draft) => {
               draft.result.messages.push(data);
               // messageAdapter.updateOne(draft.result.messages, data);

@@ -76,7 +76,6 @@ const userApi = createApi({
           );
           await queryFulfilled;
           dispatch(toggleLoader({ isLoading: false }));
-          socket.emit("disconnect");
 
           dispatch(
             toggleToast({

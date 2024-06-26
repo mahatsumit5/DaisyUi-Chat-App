@@ -13,6 +13,7 @@ import {
 } from "../../redux";
 import { TiDelete, TiTick } from "react-icons/ti";
 import { setCurrentRoom } from "../../redux/reducer/room.slice";
+import { setQueryType } from "../../redux/reducer/search.slice";
 type keys = "peoples" | "friends" | "request" | "SentRequest";
 
 const FriendCard = ({
@@ -57,6 +58,7 @@ const Friends = ({ user }: { user: IChatRoom }) => {
 
   function handleClick(room: IChatRoom) {
     dispatch(setCurrentRoom(room));
+    dispatch(setQueryType("Messages"));
   }
   return (
     <Link to={"/chat"}>
