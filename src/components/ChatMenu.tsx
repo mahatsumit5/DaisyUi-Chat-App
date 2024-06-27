@@ -1,11 +1,11 @@
 import { useAppDispatch, useAppSelector } from "../hook";
 import { IChatRoom } from "../types";
 
-import defaultImg from "../assets/images/default-profile.jpg";
 import { setCurrentRoom } from "../redux/reducer/room.slice";
 
 import { Link } from "react-router-dom";
 import { useGetAllChatRoomQuery } from "../redux";
+import ErrorMessage from "./error/ErrorMessage";
 function ChatMenu() {
   const { user } = useAppSelector((store) => store.user);
   const { currentRoom } = useAppSelector((store) => store.rooms);
@@ -49,7 +49,7 @@ function ChatMenu() {
               <LoadingRoom key={Math.random()} />
             ))}
         </section>
-      ) : data ? (
+      ) : data?.data.length ? (
         <>
           <section className=" h-full rounded-xl  flex  flex-col gap-2 overflow-y-auto bg-base-100 text-base-content overflow-hidden">
             {data.data.map((item: IChatRoom) => (
@@ -63,15 +63,27 @@ function ChatMenu() {
                 }}
               >
                 <div className="flex gap-3">
-                  <div
-                    className={`avatar ${
-                      onlineUsers.includes(item.userId) ? "online" : "offline"
-                    }`}
-                  >
-                    <div className="w-10 rounded-full">
-                      <img src={item.profile || defaultImg} />
+                  {item.profile ? (
+                    <div
+                      className={`avatar ${
+                        onlineUsers.includes(item.userId) ? "online" : "offline"
+                      }`}
+                    >
+                      <div className="w-10 rounded-full">
+                        <img src={item.profile} />
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <div className="avatar placeholder">
+                      <div className="bg-neutral/70 text-neutral-content w-12 rounded-full">
+                        <span className="text-xl">
+                          {item.fName.slice(0, 1)}
+                          {item.lName.slice(0, 1)}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
                   <div className="flex flex-col ">
                     <p className=" font-bold text-sm ">
                       {item.fName}&nbsp;
@@ -109,7 +121,9 @@ function ChatMenu() {
           </section>
         </>
       ) : (
-        <>plesae wait</>
+        <section className=" h-full md:rounded-xl  flex    bg-base-100 text-base-content overflow-hidden  items-center justify-center">
+          <ErrorMessage />
+        </section>
       )}
     </div>
   );

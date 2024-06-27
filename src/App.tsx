@@ -17,6 +17,7 @@ import Privatelayout from "./components/Privatelayout";
 import { Dialog, Loading, Toast } from "./components";
 import { useEffect } from "react";
 import { useAppDispatch } from "./hook";
+import PageNotFound from "./components/PageNotFound";
 
 export default function App() {
   const location = useLocation();
@@ -28,8 +29,8 @@ export default function App() {
   return (
     <>
       <div
-        className=" bg-slate-900 flex justify-center items-center "
-        data-theme={localStorage.getItem("theme") || "winter"}
+        className=" flex justify-center items-center "
+        data-theme={localStorage.getItem("theme") || "light"}
       >
         <Routes>
           <Route path="/" element={<SignIn />} />
@@ -84,6 +85,7 @@ export default function App() {
             }
           />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
         <Dialog />
         <Loading />

@@ -23,7 +23,6 @@ const useSocketSetup = () => {
       dispatch(setTyping({ person: email, typing: false }));
     });
     socket.on("getOnlineUsers", (onlineUsers: string[]) => {
-      console.log("this user is online", onlineUsers);
       dispatch(setOnlineUsers(onlineUsers));
     });
 

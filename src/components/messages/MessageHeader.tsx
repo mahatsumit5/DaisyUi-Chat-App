@@ -30,21 +30,32 @@ function MessageHeader({ currentRoom }: { currentRoom: IChatRoom }) {
         >
           <IoChevronBackSharp size={24} />
         </button>
-        <div
-          className={`avatar ${
-            onlineUsers.includes(currentRoom.userId) ? "online" : "offline"
-          }`}
-          onClick={() => {}}
-        >
-          <div className="w-10 rounded-full">
-            <img
-              src={
-                currentRoom.profile ||
-                "https://gratisography.com/wp-content/uploads/2024/01/gratisography-cyber-kitty-800x525.jpg"
-              }
-            />
+        {currentRoom.profile ? (
+          <div
+            className={`avatar ${
+              onlineUsers.includes(currentRoom.userId) ? "online" : "offline"
+            }`}
+            onClick={() => {}}
+          >
+            <div className="w-10 rounded-full">
+              <img
+                src={
+                  currentRoom.profile ||
+                  "https://gratisography.com/wp-content/uploads/2024/01/gratisography-cyber-kitty-800x525.jpg"
+                }
+              />
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="avatar placeholder">
+            <div className="bg-neutral/70 text-neutral-content w-12 rounded-full">
+              <span className="text-xl">
+                {currentRoom.fName.slice(0, 1)}
+                {currentRoom.lName.slice(0, 1)}
+              </span>
+            </div>
+          </div>
+        )}
         <div className="flex flex-col items-center justify-center">
           <p className="text-base-content font-bold ">
             {currentRoom.fName}&nbsp;

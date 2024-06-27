@@ -6,6 +6,7 @@ import MessageLoadingState from "./MessageLoadingState";
 import { IChatRoom, IUser } from "../../types";
 import UserIsTyping from "./UserIsTyping";
 import MessageDisplay from "./MessageDisplay";
+import envelope from "../../assets/images/envelope.svg";
 
 function MessageBox({
   userId,
@@ -73,8 +74,9 @@ function MessageBox({
       />
     </section>
   ) : (
-    <section className="flex-1 border-b-2">
-      You do not have any messages.
+    <section className="flex-1 flex items-center justify-center flex-col gap-2">
+      <img src={envelope} className="w-28 md:w-40" />
+      <p className="text-2xl font-semibold text-primary">No new messages</p>
     </section>
   );
 }

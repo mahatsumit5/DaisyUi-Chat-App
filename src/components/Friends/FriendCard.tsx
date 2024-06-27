@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { IChatRoom, IFriendReq, IUser } from "../../types";
 import { AiFillDelete, AiFillMessage } from "react-icons/ai";
-import defaultImg from "../../assets/images/default-profile.jpg";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import { useState } from "react";
 import { IoIosPersonAdd } from "react-icons/io";
@@ -34,11 +33,23 @@ const FriendCard = ({
   return (
     <div className=" flex-1 w-full sm:w-[250px] md:rounded-lg md:border-none flex md:flex-col border-b-2 md:bg-base-300 border-b-primary bg-base-100 md:p-4   items-center justify-around gap-4  md:shadow-lg  py-2">
       {/* Avatar and name */}
-      <div className="avatar ">
-        <div className="w-16 h-full md:w-24">
-          <img src={user.profile || defaultImg} className="rounded-full " />
+      {user.profile ? (
+        <div className="avatar ">
+          <div className="w-16 h-full md:w-24">
+            <img src={user.profile} className="rounded-full " />
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="avatar placeholder">
+          <div className="bg-neutral/70 text-neutral-content w-16 md:w-24 rounded-full">
+            <span className="text-3xl">
+              {user.fName.slice(0, 1)}
+              {user.lName.slice(0, 1)}
+            </span>
+          </div>
+        </div>
+      )}
+
       <span className="flex  sm:flex-row gap-1">
         <h1 className="text-base">{user?.fName}</h1>
 
