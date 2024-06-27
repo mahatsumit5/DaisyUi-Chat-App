@@ -2,9 +2,9 @@ import { FormEvent, useEffect, useState } from "react";
 import { FaFacebookSquare, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../hook";
-import { useGetLoggedInUserQuery, useLoginMutation } from "../redux";
-import { setUser } from "../redux/reducer/user.slice";
+import { useAppSelector } from "../hook";
+import { useLoginMutation } from "../redux";
+
 import { users } from "../dummy_data";
 import icon from "../assets/images/icon.png";
 
@@ -17,9 +17,7 @@ export function SignIn() {
   >("password");
   const { user } = useAppSelector((store) => store.user);
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const location = useLocation();
-  const { refetch } = useGetLoggedInUserQuery();
   const [login, { isLoading, isError }] = useLoginMutation();
   const [form, setform] = useState<{ email: string; password: string }>({
     email: "",
@@ -35,27 +33,12 @@ export function SignIn() {
   }
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
-    login(form)
-      .unwrap()
-      .then(async ({ status, token, message }) => {
-        console.log(message);
-
-        if (status) {
-          sessionStorage.setItem("accessJWT", token.accessJWT); ///active for 5mins
-          localStorage.setItem("refreshJWT", token.refreshJWT); //active for 30days
-
-          const data = await refetch().unwrap();
-          dispatch(setUser(data));
-          navigate("/chat");
-        }
-      })
-      .catch(({ data }) => {
-        console.log(data);
-      });
+    login(form);
   }
 
   useEffect(() => {
     if (user) {
+      console.log("i am being executed");
       return navigate(
         location.state?.from.location.pathname
           ? location.state.from.location.pathname

@@ -20,10 +20,13 @@ export const rtkQueryErrorLogger: Middleware =
 
     if (isRejectedWithValue(action)) {
       const errorResponse: ErrorResponse = action.payload as ErrorResponse;
-      if (errorResponse.data.message === "jwt malformed") {
+      if (
+        errorResponse.data.message === "jwt expired" ||
+        errorResponse.data.message === "jwt malformed"
+      ) {
         errorResponse.data.message = "Session expired.Please log in again.";
+        return next(action);
       }
-      console.log(errorResponse.data.message);
 
       api.dispatch(
         toggleToast({

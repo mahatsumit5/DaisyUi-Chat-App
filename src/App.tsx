@@ -1,10 +1,6 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 
-import { useGetLoggedInUserQuery, useGetNewAccessJWTMutation } from "./redux";
-import { useEffect } from "react";
-import { setUser } from "./redux/reducer/user.slice";
-import { useAppDispatch } from "./hook";
-import { IUser } from "./types";
+import { userApi } from "./redux";
 
 import {
   ChatPage,
@@ -19,26 +15,16 @@ import {
 import ProfilePage from "./pages/Profile";
 import Privatelayout from "./components/Privatelayout";
 import { Dialog, Loading, Toast } from "./components";
+import { useEffect } from "react";
+import { useAppDispatch } from "./hook";
 
 export default function App() {
-  const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useAppDispatch();
-
-  const { error, isFetching, refetch, data } = useGetLoggedInUserQuery();
-  const [getNewAccessJWT] = useGetNewAccessJWTMutation();
-
   useEffect(() => {
-    if (isFetching) return;
-    error
-      ? getNewAccessJWT()
-          .unwrap()
-          .then((res) => {
-            sessionStorage.setItem("accessJWT", res.data as string);
-            refetch();
-          })
-      : dispatch(setUser(data as IUser));
-  }, [isFetching, error, getNewAccessJWT, navigate, data, refetch, dispatch]);
-
+    if (location.pathname === "/" || location.pathname === "/sign-up") return;
+    dispatch(userApi.endpoints.getLoggedInUser.initiate());
+  }, [location, dispatch]);
   return (
     <>
       <div

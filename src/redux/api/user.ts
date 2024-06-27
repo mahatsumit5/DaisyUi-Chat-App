@@ -12,6 +12,7 @@ import {
 import { socket } from "../reducer/socket.slice";
 import { toggleLoader } from "../reducer/loader.slice";
 import { toggleToast } from "../reducer/toast.slice";
+import { setUser } from "../reducer/user.slice";
 
 const userApi = createApi({
   reducerPath: "UserApi",
@@ -76,7 +77,15 @@ const userApi = createApi({
           dispatch(
             toggleLoader({ isLoading: true, content: "Please Wait..." })
           );
-          await queryFulfilled;
+          const { data } = await queryFulfilled;
+          if (data.status) {
+            sessionStorage.setItem("accessJWT", data.token.accessJWT); ///active for 5mins
+            localStorage.setItem("refreshJWT", data.token.refreshJWT); //active for 30days
+            const result = await dispatch(
+              userApi.endpoints.getLoggedInUser.initiate()
+            );
+            console.log(result);
+          }
           dispatch(toggleLoader({ isLoading: false }));
 
           dispatch(
@@ -103,12 +112,15 @@ const userApi = createApi({
       query: () => "",
       transformResponse: (response: { status: boolean; data: IUser }) =>
         response.data,
+
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
           dispatch(
             toggleLoader({ isLoading: true, content: "Please Wait..." })
           );
+
           const { data } = await queryFulfilled;
+          dispatch(setUser(data as IUser));
           sessionStorage.setItem("id", data.id);
           if (data.id) {
             socket.connect();
@@ -116,17 +128,9 @@ const userApi = createApi({
           dispatch(toggleLoader({ isLoading: false }));
         } catch (error) {
           dispatch(toggleLoader({ isLoading: false }));
+        }
+      },
 
-          console.log(error);
-        }
-      },
-      transformErrorResponse(response) {
-        console.log(response);
-        if (response.status === "TIMEOUT_ERROR") {
-          response.error = "Connection timeout.";
-        }
-        return response;
-      },
       providesTags: ["CurrentUser"],
     }),
     signUpUser: builder.mutation<IResponse, ISignUpParams>({
