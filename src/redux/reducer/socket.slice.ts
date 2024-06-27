@@ -9,6 +9,7 @@ export const socket = io(URL, {
   autoConnect: false,
   query: { email: sessionStorage.getItem("email") },
   transports: ["websocket"],
+  withCredentials: true,
 });
 type TinitialState = {
   isTyping: boolean;

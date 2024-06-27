@@ -17,7 +17,7 @@ import { setUser } from "../reducer/user.slice";
 const userApi = createApi({
   reducerPath: "UserApi",
   tagTypes: ["Users", "CurrentUser"],
-
+  keepUnusedDataFor: 30,
   baseQuery: fetchBaseQuery({
     baseUrl: userApiUrl,
     prepareHeaders: (headers) => {
@@ -27,6 +27,7 @@ const userApi = createApi({
       );
       return headers;
     },
+
     timeout: 10000, // request timeouts after 10 seconds
   }),
   endpoints: (builder) => ({
@@ -79,6 +80,8 @@ const userApi = createApi({
           );
           const { data } = await queryFulfilled;
           if (data.status) {
+            sessionStorage.setItem("email", arg.email);
+
             sessionStorage.setItem("accessJWT", data.token.accessJWT); ///active for 5mins
             localStorage.setItem("refreshJWT", data.token.refreshJWT); //active for 30days
             const result = await dispatch(
@@ -121,10 +124,7 @@ const userApi = createApi({
 
           const { data } = await queryFulfilled;
           dispatch(setUser(data as IUser));
-          sessionStorage.setItem("email", data.email);
-          if (data.id) {
-            socket.connect();
-          }
+
           dispatch(toggleLoader({ isLoading: false }));
         } catch (error) {
           dispatch(toggleLoader({ isLoading: false }));

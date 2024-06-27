@@ -14,9 +14,10 @@ export function SocketProvider({
 }) {
   const [socket, setSocket] = useState<Socket>();
   useEffect(() => {
+    if (!email) return;
     const newSocket = io(URL, {
       autoConnect: false,
-      query: { email: sessionStorage.getItem("email") },
+      query: { email: email },
       transports: ["websocket"],
     });
     setSocket(newSocket);
