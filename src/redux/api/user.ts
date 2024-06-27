@@ -121,7 +121,7 @@ const userApi = createApi({
 
           const { data } = await queryFulfilled;
           dispatch(setUser(data as IUser));
-          sessionStorage.setItem("id", data.id);
+          sessionStorage.setItem("email", data.email);
           if (data.id) {
             socket.connect();
           }

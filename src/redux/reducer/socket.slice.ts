@@ -7,7 +7,7 @@ const URL = !import.meta.env.PROD
   : "https://messenger-j2bf.onrender.com";
 export const socket = io(URL, {
   autoConnect: false,
-  query: { id: sessionStorage.getItem("id") },
+  query: { email: sessionStorage.getItem("email") },
   transports: ["websocket"],
 });
 type TinitialState = {
