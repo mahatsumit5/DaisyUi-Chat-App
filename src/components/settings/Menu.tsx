@@ -17,13 +17,22 @@ const links = [
 ];
 const Menu = ({
   setDisplayComponent,
+  displayComponent,
 }: {
+  displayComponent: displayComponentKeys;
   setDisplayComponent: Dispatch<SetStateAction<displayComponentKeys>>;
 }) => {
   return (
     <ul className="menu bg-base-100 menu-horizontal rounded-box">
       {links.map((item) => (
-        <li key={item.id}>
+        <li
+          key={item.id}
+          className={`${
+            displayComponent === item.text
+              ? "bg-primary/80 rounded-lg text-primary-content"
+              : ""
+          } font-semibold`}
+        >
           <a
             onClick={() => {
               setDisplayComponent(item.text as displayComponentKeys);

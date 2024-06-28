@@ -13,7 +13,10 @@ const Settings = () => {
   };
   return (
     <div className="flex flex-col gap-2 h-full">
-      <Menu setDisplayComponent={setDisplayComponent} />{" "}
+      <Menu
+        setDisplayComponent={setDisplayComponent}
+        displayComponent={displayComponent}
+      />
       <div className="flex h-[98%]">{display[displayComponent]}</div>
     </div>
   );
