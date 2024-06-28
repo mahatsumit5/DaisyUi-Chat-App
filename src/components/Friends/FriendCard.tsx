@@ -31,7 +31,7 @@ const FriendCard = ({
     SentRequest: <SentRequest user={user} />,
   };
   return (
-    <div className=" flex-1 w-full sm:w-[250px] md:rounded-lg md:border-none flex md:flex-col border-b-2 md:bg-base-300 border-b-primary bg-base-100 md:p-4   items-center justify-around gap-4  md:shadow-lg  py-2">
+    <div className="  w-full sm:w-[200px] md:rounded-lg md:border-none flex md:flex-col border-b-2 md:bg-base-300 border-b-primary bg-base-100 md:p-4   items-center justify-start gap-2  md:shadow-lg  py-2 ">
       {/* Avatar and name */}
       {user.profile ? (
         <div className="avatar ">
@@ -50,15 +50,17 @@ const FriendCard = ({
         </div>
       )}
 
-      <span className="flex  sm:flex-row gap-1">
-        <h1 className="text-base">{user?.fName}</h1>
+      <div className="flex flex-col items-start  md:items-center justify-center">
+        <span className="flex  sm:flex-row gap-1">
+          <h1 className="text-base">{user?.fName}</h1>
 
-        <h1 className="text-base ">{user?.lName}</h1>
-      </span>
+          <h1 className="text-base ">{user?.lName}</h1>
+        </span>
 
-      <p className="text-lg text-gray-500 line-clamp-1 mx-2 font-normal sm:text-sm hidden md:block">
-        {user.email}
-      </p>
+        <p className="text-xs text-gray-500 line-clamp-1  font-normal  ">
+          {user.email}
+        </p>
+      </div>
       {displayComponent[display]}
     </div>
   );
@@ -119,7 +121,7 @@ const AllPeoples = ({ user }: { user: IChatRoom }) => {
     });
   }
   return (
-    <div className="flex">
+    <div className="flex justify-end md:justify-center w-full">
       {sentReqCheck(user.email) ? (
         <button
           className="btn btn-outline btn-error btn-sm"
@@ -151,7 +153,7 @@ const FriendReq = ({ user }: { user: IUser }) => {
     await acceptFriendReq({ fromId: from });
   }
   return (
-    <div className="flex  gap-2">
+    <div className="flex  justify-end md:justify-center w-full gap-2">
       <button
         className="btn btn-sm btn-circle btn-success"
         onClick={() => {
@@ -189,14 +191,16 @@ const SentRequest = ({ user }: { user: IUser }) => {
     });
   }
   return (
-    <button
-      className="btn text-error-content btn-error btn-sm"
-      onClick={() => {
-        handleCancelReq(user.id);
-      }}
-    >
-      Cancel <AiFillDelete size={15} className="text-error-content" />
-    </button>
+    <div className="flex w-full justify-end md:justify-center">
+      <button
+        className="btn text-error-content btn-error btn-sm"
+        onClick={() => {
+          handleCancelReq(user.id);
+        }}
+      >
+        Cancel <AiFillDelete size={15} className="text-error-content" />
+      </button>
+    </div>
   );
 };
 
