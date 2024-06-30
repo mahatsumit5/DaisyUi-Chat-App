@@ -15,7 +15,7 @@ function Privatelayout({ children }: { children: React.ReactNode }) {
       <div className="h-full bg-base-100 hidden sm:flex  p-4   flex-col justify-between  items-center  min-h-full rounded-lg">
         <Sidebar />
       </div>
-      <div className="w-full flex flex-col gap-2 h-full">
+      <div className="w-full flex flex-col  h-full">
         <NavBar />
         {children}
       </div>

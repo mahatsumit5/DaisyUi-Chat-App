@@ -7,7 +7,7 @@ function ChatPage() {
   const { currentRoom } = useAppSelector((store) => store.rooms);
 
   return (
-    <div className="flex h-full gap-2">
+    <div className="flex h-full gap-1">
       <div
         className={`    ${
           currentRoom?.id ? "hidden lg:flex " : "flex w-full  "

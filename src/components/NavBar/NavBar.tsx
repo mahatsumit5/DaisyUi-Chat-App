@@ -21,7 +21,7 @@ const NavBar = () => {
   }
   return (
     <div
-      className={`navbar bg-base-100 rounded-md ${
+      className={`navbar bg-base-100 rounded-t-md border-b-2 ${
         currentRoom?.id ? "hidden md:flex" : "flex"
       }`}
     >
@@ -30,7 +30,7 @@ const NavBar = () => {
         <MobileDrawer />
       </div>
       <div className="flex-none gap-2">
-        <label className="input input-sm md:input-md bg-primary  items-center gap-2 flex justify-between text-primary-content ">
+        <label className="input input-sm bg-primary/70  items-center gap-2 flex justify-between text-primary-content ">
           <input
             type="text"
             placeholder="Search"

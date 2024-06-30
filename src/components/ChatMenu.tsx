@@ -42,7 +42,7 @@ function ChatMenu() {
           </Link>
         </section>
       ) : isFetching ? (
-        <section className="flex flex-col h-full bg-base-100 p-2  rounded-md gap-3 ">
+        <section className="flex flex-col h-full bg-base-100 p-2  ` gap-5 ">
           {Array(10)
             .fill("")
             .map(() => (
@@ -51,12 +51,12 @@ function ChatMenu() {
         </section>
       ) : data?.data.length ? (
         <>
-          <section className=" h-full rounded-xl  flex  flex-col gap-2 overflow-y-auto bg-base-100 text-base-content overflow-hidden">
+          <section className=" h-full p-2  flex  flex-col gap-2 overflow-y-auto bg-base-100 text-base-content overflow-hidden">
             {data.data.map((item: IChatRoom) => (
               <div
                 key={item.id}
-                className={`flex justify-between border-b p-2 hover:bg-base-200 ${
-                  currentRoom?.id === item.id ? "bg-base-300 " : ""
+                className={`flex justify-between border-b p-2 hover:bg-base-200 rounded-md ${
+                  currentRoom?.id === item.id ? "bg-base-200 " : ""
                 }`}
                 onClick={() => {
                   handleClick(item);
@@ -130,16 +130,13 @@ function ChatMenu() {
 }
 const LoadingRoom = () => {
   return (
-    <section
-      className="  w-full h-10 rounded-sm  flex justify-start gap-2"
-      key={Math.random()}
-    >
-      <section className="rounded-full bg-slate-300 w-10 skeleton"></section>
+    <section className="  w-full h-10 rounded-sm  flex justify-start  items-center gap-2 ">
+      <section className="rounded-full bg-slate-300 w-10 h-10 skeleton"></section>
       <section className="flex-1 flex flex-col gap-2">
-        <section className="skeleton w-16 bg-base-300 h-3"></section>
-        <section className="skeleton w-16 bg-base-300 h-3"></section>
+        <section className="skeleton w-24 bg-base-300 h-2"></section>
+        <section className="skeleton w-16 bg-base-300 h-2"></section>
       </section>
-      <section className="skeleton w-16 bg-base-300 h-3"></section>
+      <section className="skeleton w-10 bg-base-300 h-2"></section>
     </section>
   );
 };

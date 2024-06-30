@@ -22,9 +22,8 @@ const ProfileSettings = () => {
     await uploadImage(file);
   }
   return (
-    <div className="flex items-start justify-start w-full flex-col bg-base-100 p-2 gap-3 rounded-md h-[79dvh] overflow-y-scroll">
+    <div className="flex items-start justify-start w-full flex-col bg-base-100 p-2 gap-1 rounded-md h-[79dvh] overflow-y-scroll">
       <span className="text-lg font-semibold">Account</span>
-      <p className="text-base-content/65">Manage your profile</p>
       <span className="border w-full mt-2" />
       <div className="flex flex-row items-start   p-4 rounded-md w-full justify-start  gap-8 md:w-[40rem]">
         <div className="avatar relative">

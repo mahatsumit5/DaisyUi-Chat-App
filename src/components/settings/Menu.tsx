@@ -23,7 +23,7 @@ const Menu = ({
   setDisplayComponent: Dispatch<SetStateAction<displayComponentKeys>>;
 }) => {
   return (
-    <ul className="menu bg-base-100 menu-horizontal rounded-box">
+    <ul className="menu gap-2 menu-horizontal rounded-b-md">
       {links.map((item) => (
         <li
           key={item.id}

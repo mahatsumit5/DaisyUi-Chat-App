@@ -35,7 +35,7 @@ const FriendCard = ({
       {/* Avatar and name */}
       {user.profile ? (
         <div className="avatar ">
-          <div className="w-16 h-full md:w-24">
+          <div className="w-12 h-full md:w-24">
             <img src={user.profile} className="rounded-full " />
           </div>
         </div>
@@ -82,7 +82,6 @@ const Friends = ({ user }: { user: IChatRoom }) => {
         }}
       >
         <AiFillMessage size={30} className="text-primary-content" />
-        Message
       </button>
     </Link>
   );

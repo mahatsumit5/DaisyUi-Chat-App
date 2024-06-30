@@ -34,7 +34,7 @@ const themes = [
 ];
 const ThemeChanger = () => {
   return (
-    <div className="grid grid-cols-3 md:grid-cols-5 gap-2 p-2 overflow-y-scroll w-full h-[79dvh]">
+    <div className="grid grid-cols-3 md:grid-cols-5 gap-2 p-2 overflow-y-scroll w-full h-[79dvh] bg-base-100">
       {themes.map((item) => (
         <input
           data-theme={item}
