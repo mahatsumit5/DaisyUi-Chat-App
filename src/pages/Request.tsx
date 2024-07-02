@@ -7,7 +7,7 @@ const Request = () => {
   const { type } = useAppSelector((store) => store.search);
 
   return (
-    <div className="md:px-2 overflow-y-auto w-full flex flex-col gap-5">
+    <div className=" overflow-y-auto w-full flex flex-col gap-5">
       <div role="tablist" className="tabs tabs-lifted tabs-lg">
         <input
           type="radio"

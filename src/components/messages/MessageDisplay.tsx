@@ -35,6 +35,7 @@ const MessageDisplay = ({
                         : currentRoom?.profile) ||
                       "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
                     }
+                    loading="lazy"
                   />
                 </div>
               </div>
@@ -50,7 +51,7 @@ const MessageDisplay = ({
               ) ? (
                 <div className="avatar">
                   <div className="w-52 rounded">
-                    <img src={content} />
+                    <img src={content} loading="lazy" />
                   </div>
                 </div>
               ) : (
