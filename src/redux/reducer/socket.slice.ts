@@ -4,7 +4,7 @@ import { Socket, io } from "socket.io-client";
 // "undefined" means the URL will be computed from the `window.location` object
 const URL = !import.meta.env.PROD
   ? "http://192.168.20.8:8080"
-  : "https://messenger-j2bf.onrender.com";
+  : import.meta.env.VITE_ROOTSERVER;
 export const socket = io(URL, {
   autoConnect: false,
   query: { email: sessionStorage.getItem("email") },

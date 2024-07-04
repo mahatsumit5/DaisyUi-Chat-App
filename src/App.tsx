@@ -15,18 +15,21 @@ import {
 import ProfilePage from "./pages/Profile";
 import Privatelayout from "./components/Privatelayout";
 import { Dialog, Loading, Toast } from "./components";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useAppDispatch } from "./hook";
 import PageNotFound from "./components/PageNotFound";
+import { SocketContext } from "./contexts/SocketProvider";
 
 export default function App() {
   const location = useLocation();
   const dispatch = useAppDispatch();
+  const socket = useContext(SocketContext);
+
   useGetLoggedInUserQuery();
   useEffect(() => {
     if (location.pathname === "/" || location.pathname === "/sign-up") return;
     dispatch(userApi.endpoints.getLoggedInUser.initiate());
-  }, [location, dispatch]);
+  }, [location, dispatch, socket]);
   return (
     <>
       <div

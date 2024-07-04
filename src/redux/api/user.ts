@@ -82,8 +82,6 @@ const userApi = createApi({
           );
           const { data } = await queryFulfilled;
           if (data.status) {
-            sessionStorage.setItem("email", arg.email);
-
             sessionStorage.setItem("accessJWT", data.token.accessJWT); ///active for 5mins
             localStorage.setItem("refreshJWT", data.token.refreshJWT); //active for 30days
             await dispatch(userApi.endpoints.getLoggedInUser.initiate());
@@ -115,7 +113,7 @@ const userApi = createApi({
       transformResponse: (response: { status: boolean; data: IUser }) =>
         response.data,
 
-      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+      onQueryStarted: async (socket, { dispatch, queryFulfilled }) => {
         try {
           dispatch(
             toggleLoader({ isLoading: true, content: "Please Wait..." })
@@ -123,7 +121,6 @@ const userApi = createApi({
 
           const { data } = await queryFulfilled;
           dispatch(setUser(data as IUser));
-          socket.connect();
 
           dispatch(toggleLoader({ isLoading: false }));
         } catch (error) {
