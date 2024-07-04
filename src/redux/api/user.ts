@@ -18,6 +18,7 @@ const userApi = createApi({
   reducerPath: "UserApi",
   tagTypes: ["Users", "CurrentUser"],
   keepUnusedDataFor: 30,
+
   baseQuery: fetchBaseQuery({
     baseUrl: userApiUrl,
     prepareHeaders: (headers) => {
@@ -27,8 +28,9 @@ const userApi = createApi({
       );
       return headers;
     },
+    credentials: "include",
 
-    timeout: 10000, // request timeouts after 10 seconds
+    // timeout: 10000, // request timeouts after 10 seconds
   }),
   endpoints: (builder) => ({
     getAllUsers: builder.query<IAllUsersResponse, IGetAllUsersParams | null>({
@@ -122,7 +124,7 @@ const userApi = createApi({
           const { data } = await queryFulfilled;
           dispatch(setUser(data as IUser));
           socket.connect();
-          socket.auth;
+
           dispatch(toggleLoader({ isLoading: false }));
         } catch (error) {
           dispatch(toggleLoader({ isLoading: false }));

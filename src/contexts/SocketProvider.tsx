@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Socket, io } from "socket.io-client";
 const URL = !import.meta.env.PROD
   ? "http://192.168.20.8:8080"
-  : "https://messenger-j2bf.onrender.com";
+  : import.meta.env.VITE_ROOTSERVER;
 export const SocketContext = React.createContext({});
 
 export function SocketProvider({
@@ -15,6 +15,7 @@ export function SocketProvider({
   const [socket, setSocket] = useState<Socket>();
   useEffect(() => {
     if (!email) return;
+    console.log(email);
     const newSocket = io(URL, {
       autoConnect: false,
       query: { email: email },
