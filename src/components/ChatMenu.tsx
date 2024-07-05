@@ -6,10 +6,12 @@ import { setCurrentRoom } from "../redux/reducer/room.slice";
 import { Link } from "react-router-dom";
 import { useGetAllChatRoomQuery } from "../redux";
 import ErrorMessage from "./error/ErrorMessage";
+
 function ChatMenu() {
   const { user } = useAppSelector((store) => store.user);
   const { currentRoom } = useAppSelector((store) => store.rooms);
   const { query, type } = useAppSelector((store) => store.search);
+
   const { data, error, isFetching } = useGetAllChatRoomQuery(
     {
       search: query,

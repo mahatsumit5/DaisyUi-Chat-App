@@ -5,12 +5,14 @@ import { setQuery } from "../../redux/reducer/search.slice";
 import { Link } from "react-router-dom";
 import { useLogoutUserMutation } from "../../redux";
 import { setUser } from "../../redux/reducer/user.slice";
+import { useSocket } from "../../hooks/socket.hook";
 const NavBar = () => {
   const { currentRoom } = useAppSelector((store) => store.rooms);
   const { user } = useAppSelector((store) => store.user);
   const { query } = useAppSelector((s) => s.search);
   const dispatch = useAppDispatch();
   const [logoutUser] = useLogoutUserMutation();
+  const socket = useSocket();
 
   async function handleLogout() {
     await logoutUser();
@@ -18,6 +20,7 @@ const NavBar = () => {
     localStorage.clear();
     dispatch(setUser(null));
     window.location.reload();
+    socket.close();
   }
   return (
     <div

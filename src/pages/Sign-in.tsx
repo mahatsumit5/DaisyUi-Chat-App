@@ -33,8 +33,10 @@ export function SignIn() {
     setform({ ...form, [name]: lowerCase });
   }
   async function onSubmit(e: FormEvent) {
+    sessionStorage.setItem("email", form.email);
+
     e.preventDefault();
-    login(form);
+    await login(form).unwrap();
   }
 
   useEffect(() => {

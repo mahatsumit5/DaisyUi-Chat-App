@@ -1,14 +1,40 @@
 import { useAppSelector } from "../hook";
 import { Navigate, useLocation } from "react-router-dom";
 import Sidebar from "./Sidebar";
-import useSocketSetup from "../utils/useSocket";
 import NavBar from "./NavBar/NavBar";
+import { useSocket } from "../hooks/socket.hook";
+import { useEffect } from "react";
 
 function Privatelayout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const { user } = useAppSelector((store) => store.user);
-  useSocketSetup();
-  // const { socket } = useAppSelector((store) => store.socket);
+  const socket = useSocket();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (!socket) return;
+    socket.on("connect_error", (err) => {
+      console.log(err.message);
+    });
+    socket.on("connect", () => {
+      console.log("You are connected with id", socket.id);
+    });
+
+    socket.on("typing", (email) => {
+      dispatch(setTyping({ person: email, typing: true }));
+    });
+    socket.on("stopped_typing", (email) => {
+      dispatch(setTyping({ person: email, typing: false }));
+    });
+    socket.on("getOnlineUsers", (onlineUsers: string[]) => {
+      dispatch(setOnlineUsers(onlineUsers));
+    });
+
+    socket.on("disconnect", () => {});
+    return () => {
+      socket.off("connect_error");
+    };
+  }, [dispatch, socket]);
 
   return user?.id ? (
     <div className=" bg-base-300 w-full  h-[100dvh] max-h-[100dvh] overflow-hidden  flex md:px-2 md:py-4 gap-2">

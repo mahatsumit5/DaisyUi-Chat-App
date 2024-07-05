@@ -122,7 +122,6 @@ const userApi = createApi({
           const { data } = await queryFulfilled;
           dispatch(setUser(data as IUser));
           socket.connect();
-          socket.auth;
           dispatch(toggleLoader({ isLoading: false }));
         } catch (error) {
           dispatch(toggleLoader({ isLoading: false }));

@@ -81,17 +81,17 @@ export const roomApi = createApi({
           );
           const { data } = await queryFulfilled;
 
-          dispatch(
-            roomApi.util.updateQueryData(
-              "getAllChatRoom",
-              { search: "", page: 1, take: 10 },
-              (draft) => {
-                draft.data = draft.data.filter(
-                  (item) => item.id !== data.result.id
-                );
-              }
-            )
-          );
+          // dispatch(
+          //   roomApi.util.updateQueryData(
+          //     "getAllChatRoom",
+          //     { search: "", page: 1, take: 10 },
+          //     (draft) => {
+          //       draft.data = draft.data.filter(
+          //         (item) => item.id !== data.result.id
+          //       );
+          //     }
+          //   )
+          // );
           dispatch(toggleLoader({ isLoading: false }));
 
           socket.emit("deleteChatRoom", data);

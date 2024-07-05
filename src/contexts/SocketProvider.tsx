@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Socket, io } from "socket.io-client";
+import { useAppDispatch } from "../hook";
+import { setTyping } from "../redux/reducer/socket.slice";
+import { setOnlineUsers } from "../redux/reducer/AllUsers.slice";
 const URL = !import.meta.env.PROD
   ? "http://192.168.20.8:8080"
   : "https://messenger-j2bf.onrender.com";
@@ -25,6 +28,7 @@ export function SocketProvider({
       newSocket.close();
     };
   }, [email]);
+
   return (
     <SocketContext.Provider value={socket as Socket}>
       {children}

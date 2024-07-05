@@ -18,17 +18,20 @@ import { Dialog, Loading, Toast } from "./components";
 import { useEffect } from "react";
 import { useAppDispatch } from "./hook";
 import PageNotFound from "./components/PageNotFound";
+import { SocketProvider } from "./contexts/SocketProvider";
 
 export default function App() {
   const location = useLocation();
+
   const dispatch = useAppDispatch();
   useGetLoggedInUserQuery();
   useEffect(() => {
     if (location.pathname === "/" || location.pathname === "/sign-up") return;
     dispatch(userApi.endpoints.getLoggedInUser.initiate());
   }, [location, dispatch]);
+
   return (
-    <>
+    <SocketProvider email={JSON.stringify(sessionStorage.getItem("email"))}>
       <div
         className=" flex justify-center items-center "
         data-theme={localStorage.getItem("theme") || "light"}
@@ -92,6 +95,6 @@ export default function App() {
         <Loading />
         <Toast />
       </div>
-    </>
+    </SocketProvider>
   );
 }
