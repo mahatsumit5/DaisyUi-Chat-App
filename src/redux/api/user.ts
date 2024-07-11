@@ -18,6 +18,7 @@ const userApi = createApi({
   reducerPath: "UserApi",
   tagTypes: ["Users", "CurrentUser"],
   keepUnusedDataFor: 30,
+
   baseQuery: fetchBaseQuery({
     baseUrl: userApiUrl,
     prepareHeaders: (headers) => {
@@ -79,8 +80,6 @@ const userApi = createApi({
           );
           const { data } = await queryFulfilled;
           if (data.status) {
-            sessionStorage.setItem("email", arg.email);
-
             sessionStorage.setItem("accessJWT", data.token.accessJWT); ///active for 5mins
             localStorage.setItem("refreshJWT", data.token.refreshJWT); //active for 30days
             await dispatch(userApi.endpoints.getLoggedInUser.initiate());

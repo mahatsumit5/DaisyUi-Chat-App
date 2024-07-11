@@ -24,6 +24,7 @@ export default function App() {
   const location = useLocation();
 
   const dispatch = useAppDispatch();
+
   useGetLoggedInUserQuery();
   useEffect(() => {
     if (location.pathname === "/" || location.pathname === "/sign-up") return;
