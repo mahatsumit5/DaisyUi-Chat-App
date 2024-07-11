@@ -23,12 +23,11 @@ const userApi = createApi({
     prepareHeaders: (headers) => {
       headers.set(
         "Authorization",
-        sessionStorage.getItem("accessJWT") as string
+        `Bearer ${sessionStorage.getItem("accessJWT") as string}`
       );
       return headers;
     },
-
-    timeout: 10000, // request timeouts after 10 seconds
+    credentials: "include",
   }),
   endpoints: (builder) => ({
     getAllUsers: builder.query<IAllUsersResponse, IGetAllUsersParams | null>({

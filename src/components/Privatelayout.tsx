@@ -1,18 +1,17 @@
-import { useAppSelector } from "../hook";
+import { useAppDispatch, useAppSelector } from "../hook";
 import { Navigate, useLocation } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import NavBar from "./NavBar/NavBar";
-import { useSocket } from "../hooks/socket.hook";
 import { useEffect } from "react";
+import { setTyping, socket } from "../redux/reducer/socket.slice";
+import { setOnlineUsers } from "../redux/reducer/AllUsers.slice";
 
 function Privatelayout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const { user } = useAppSelector((store) => store.user);
-  const socket = useSocket();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (!socket) return;
     socket.on("connect_error", (err) => {
       console.log(err.message);
     });
@@ -34,7 +33,7 @@ function Privatelayout({ children }: { children: React.ReactNode }) {
     return () => {
       socket.off("connect_error");
     };
-  }, [dispatch, socket]);
+  }, [dispatch]);
 
   return user?.id ? (
     <div className=" bg-base-300 w-full  h-[100dvh] max-h-[100dvh] overflow-hidden  flex md:px-2 md:py-4 gap-2">

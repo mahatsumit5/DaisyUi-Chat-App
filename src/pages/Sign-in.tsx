@@ -21,8 +21,8 @@ export function SignIn() {
   const location = useLocation();
   const [login, { isLoading, isError }] = useLoginMutation();
   const [form, setform] = useState<{ email: string; password: string }>({
-    email: "",
-    password: "",
+    email: "mahatsumit5@gmail.com",
+    password: "Smith0987",
   });
   function onChange(e: FormEvent<HTMLInputElement>) {
     const { name, value } = e.currentTarget;

@@ -24,7 +24,7 @@ export const friendApi = createApi({
     prepareHeaders: (headers) => {
       headers.set(
         "Authorization",
-        sessionStorage.getItem("accessJWT") as string
+        `Bearer ${sessionStorage.getItem("accessJWT") as string}`
       );
       return headers;
     },
