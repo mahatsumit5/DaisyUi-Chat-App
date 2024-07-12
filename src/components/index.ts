@@ -27,6 +27,7 @@ import FriendRequest from "./Friends/FriendReq";
 import MyFriends from "./Friends/Friends";
 import LoaderCard from "./Friends/LoaderCard";
 import SentRequest from "./Friends/SentRequest";
+import MenuLayout from "./MenuPageLayout";
 export {
   SideBar,
   ChatBox,
@@ -57,4 +58,5 @@ export {
   MyFriends,
   LoaderCard,
   SentRequest,
+  MenuLayout,
 };

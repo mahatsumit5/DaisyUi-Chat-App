@@ -1,24 +1,34 @@
-import { useState } from "react";
-import Menu from "../components/settings/Menu";
+import { FaAffiliatetheme } from "react-icons/fa";
+import { CgProfile } from "react-icons/cg";
+import MenuPageLayout from "../components/MenuPageLayout";
 import { ProfileSettings, Theme } from "../components";
-
 export type displayComponentKeys = "Theme" | "Profile";
-const Settings = () => {
-  const [displayComponent, setDisplayComponent] =
-    useState<displayComponentKeys>("Theme");
 
-  const display: Record<displayComponentKeys, React.JSX.Element> = {
+const links = [
+  {
+    id: 1,
+    text: "Theme" as displayComponentKeys,
+    icon: <FaAffiliatetheme />,
+  },
+
+  {
+    id: 2,
+    text: "Profile" as displayComponentKeys,
+    icon: <CgProfile />,
+  },
+];
+
+const Settings = () => {
+  const display: Record<displayComponentKeys, JSX.Element> = {
     Theme: <Theme />,
     Profile: <ProfileSettings />,
   };
   return (
-    <div className="flex flex-col gap-2 h-full">
-      <Menu
-        setDisplayComponent={setDisplayComponent}
-        displayComponent={displayComponent}
-      />
-      <div className="flex h-[98%]">{display[displayComponent]}</div>
-    </div>
+    <MenuPageLayout<displayComponentKeys>
+      links={links}
+      display={display}
+      key={"settings"}
+    />
   );
 };
 

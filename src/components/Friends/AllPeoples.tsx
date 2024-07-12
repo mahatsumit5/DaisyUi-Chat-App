@@ -41,7 +41,7 @@ function AllPeoples() {
           </button>
         </>
       ) : isFetching ? (
-        <div className="flex flex-row flex-wrap gap-5 justify-center w-full">
+        <div className="flex flex-row flex-wrap gap-2 justify-center w-full">
           {Array(10)
             .fill("")
             .map(() => (
@@ -50,7 +50,7 @@ function AllPeoples() {
         </div>
       ) : data?.data.length ? (
         <div className="flex flex-col gap-5">
-          <div className="flex flex-col md:flex-row flex-wrap  gap-4 justify-center w-full">
+          <div className="flex justify-around flex-wrap gap-5 w-full">
             {data.data.map((user: IUser) => (
               <FriendCard user={user} type="peoples" key={user.id} />
             ))}

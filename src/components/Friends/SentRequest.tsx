@@ -30,7 +30,7 @@ const SentRequest = () => {
         <>
           {isFetching ? (
             <div className="flex justify-around flex-wrap gap-5">
-              {Array(3)
+              {Array(10)
                 .fill("")
                 .map(() => (
                   <LoaderCard key={Math.random()} />

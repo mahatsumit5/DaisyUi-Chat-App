@@ -17,7 +17,7 @@ function Chatbox() {
   }>({ isError: false, isLoading: false });
 
   return currentRoom?.id ? (
-    <div className="flex flex-col  w-full   min-h-full max-h-full bg-base-100  justify-between">
+    <div className="flex flex-col  w-full   bg-base-100  justify-between relative">
       <MessageHeader currentRoom={currentRoom} />
       <MessageBox
         message={message}
@@ -26,7 +26,7 @@ function Chatbox() {
         isSendingMessageLoading={status.isLoading}
         userName={user?.fName as string}
         preview={preview}
-      />{" "}
+      />
       <MessageInput
         message={message}
         setStatus={setStatus}

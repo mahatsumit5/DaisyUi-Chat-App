@@ -1,38 +1,29 @@
 import { ActivePeople, MyFriends } from "../components";
-
+import MenuPageLayout from "../components/MenuPageLayout";
+export type displayComponentKeys = "Friends" | "Active";
+const links: { id: number; text: displayComponentKeys; icon: JSX.Element }[] = [
+  {
+    id: 1,
+    text: "Friends",
+    icon: <></>,
+  },
+  {
+    icon: <></>,
+    id: 2,
+    text: "Active",
+  },
+];
 function Friends() {
+  const display: Record<displayComponentKeys, JSX.Element> = {
+    Friends: <MyFriends />,
+    Active: <ActivePeople />,
+  };
   return (
-    <div className="flex flex-col  w-full  gap-5">
-      <div role="tablist" className="tabs tabs-lifted tabs-lg">
-        <input
-          type="radio"
-          name="my_tabs_2"
-          role="tab"
-          className="tab"
-          aria-label="Friends"
-          defaultChecked
-        />
-        <div
-          role="tabpanel"
-          className="tab-content bg-base-100 border-base-300 rounded-box p-6"
-        >
-          <MyFriends />
-        </div>
-        <input
-          type="radio"
-          name="my_tabs_2"
-          role="tab"
-          className="tab"
-          aria-label="Active"
-        />
-        <div
-          role="tabpanel"
-          className="tab-content bg-base-100 border-base-300 rounded-box  p-6"
-        >
-          <ActivePeople />
-        </div>
-      </div>
-    </div>
+    <MenuPageLayout<displayComponentKeys>
+      display={display}
+      links={links}
+      key={"friend"}
+    />
   );
 }
 

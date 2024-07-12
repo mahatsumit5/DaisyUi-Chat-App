@@ -10,13 +10,13 @@ function YourFriends() {
   });
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 w-full">
       {error ? (
         <>Oh no, there was an error</>
       ) : isLoading ? (
         <section className="bg-slate-300 h-full rounded-xl p-4 flex flex-col gap-5 overflow-y-auto animate-pulse" />
       ) : data?.data.length ? (
-        <div className="flex gap-5  w-full flex-wrap">
+        <div className="flex justify-around flex-wrap gap-5 w-full">
           {data.data.map((user) => (
             <FriendCard user={user} type="friends" key={user.id} />
           ))}
