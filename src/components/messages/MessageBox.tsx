@@ -38,10 +38,10 @@ function MessageBox({
   return error ? (
     <>Unexpected Error Occured</>
   ) : isLoading ? (
-    <section className="skeleton w-full h-full bg-base-300 flex-1" />
+    <section className="skeleton w-full h-full bg-base-300 flex-1 max-h-fit " />
   ) : data?.result._count.messages ? (
     <section
-      className="p-2 flex flex-col  border-b-2 border-b-base-300 md:h-[72vh]  overflow-y-scroll  "
+      className="p-2 flex flex-col  border-b-2 border-b-base-300 md:h-[72vh]  flex-1 md:flex-none overflow-y-scroll  mt-14 md:mt-0"
       ref={sectionRef}
     >
       {numberOfMessageToDisplay < data.result._count.messages && (

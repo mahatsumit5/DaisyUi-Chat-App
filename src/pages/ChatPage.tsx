@@ -7,7 +7,7 @@ function ChatPage() {
   const { currentRoom } = useAppSelector((store) => store.rooms);
 
   return (
-    <div className="flex  gap-1 flex-1">
+    <div className="flex  gap-1 flex-1 ">
       <div
         className={`    ${
           currentRoom?.id ? "hidden lg:flex " : "flex w-full  "
@@ -17,12 +17,12 @@ function ChatPage() {
       </div>
 
       {currentRoom?.id ? (
-        <div className={` ${currentRoom?.id ? "w-full" : ""}  `}>
+        <div className={` ${currentRoom?.id ? "w-full " : ""}  `}>
           <ChatBox />
         </div>
       ) : (
         <div
-          className={` hidden md:flex w-full flex-col justify-center items-center gap-5`}
+          className={` hidden md:flex w-full flex-col justify-center items-center gap-5 `}
         >
           <p className="text-2xl">Select a Room</p>
           <p>or</p>

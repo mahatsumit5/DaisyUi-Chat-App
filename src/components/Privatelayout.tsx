@@ -38,10 +38,10 @@ function Privatelayout({ children }: { children: React.ReactNode }) {
 
   return sessionStorage.getItem("accessJWT") ? (
     <div className=" bg-base-300 w-full  min-h-[100dvh] md:max-h-[100dvh]  overflow-hidden  flex md:px-2 md:py-4 gap-2">
-      <div className="h-[95dvh] bg-base-100 hidden sm:flex  p-4   flex-col justify-between  items-center  min-h-full rounded-lg">
+      <div className=" bg-base-100 hidden sm:flex  p-4   flex-col justify-between  items-center  min-h-full rounded-lg">
         <Sidebar />
       </div>
-      <div className="w-full flex flex-col   ">
+      <div className="w-full flex flex-col">
         <NavBar />
         {children}
       </div>

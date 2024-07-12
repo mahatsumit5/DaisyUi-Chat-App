@@ -55,7 +55,7 @@ function MessageInput({
   }, [isError, isLoading, setStatus, dispatch, id]);
   return (
     <>
-      <section className=" min-h-14 h-auto flex   mt-1 p-2">
+      <section className=" min-h-14 h-auto flex    w-full bg-base-100 p-2">
         <form onSubmit={handleSend} className="flex  w-full gap-2">
           <label className="flex input p-1 w-full  rounded-md border-none h-full bg-base-300/85 text-base-content">
             {file ? (
