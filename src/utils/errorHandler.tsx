@@ -1,6 +1,7 @@
 import { isRejectedWithValue } from "@reduxjs/toolkit";
 import type { MiddlewareAPI, Middleware } from "@reduxjs/toolkit";
 import { toggleToast } from "../redux/reducer/toast.slice";
+import { toggleDialog } from "../redux/reducer/dialog.slice";
 
 /**
  * Log a warning and show a toast!
@@ -26,6 +27,21 @@ export const rtkQueryErrorLogger: Middleware =
       ) {
         errorResponse.data.message = "Session expired.Please log in again.";
         return next(action);
+      }
+
+      switch (errorResponse.data.message) {
+        case "You are not logged in":
+          errorResponse.data.message = "Session expired.Please log in again.";
+          api.dispatch(
+            toggleDialog({
+              heading: "Session Expired.",
+              content: "Session expired. Please login again",
+              type: "login",
+            })
+          );
+          return next(action);
+        default:
+          break;
       }
 
       api.dispatch(

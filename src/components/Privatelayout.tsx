@@ -1,15 +1,16 @@
-import { useAppDispatch, useAppSelector } from "../hook";
+import { useAppDispatch } from "../hook";
 import { Navigate, useLocation } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import NavBar from "./NavBar/NavBar";
 import { useEffect } from "react";
 import { setTyping, socket } from "../redux/reducer/socket.slice";
 import { setOnlineUsers } from "../redux/reducer/AllUsers.slice";
+import { useGetLoggedInUserQuery } from "../redux";
 
 function Privatelayout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
-  const { user } = useAppSelector((store) => store.user);
   const dispatch = useAppDispatch();
+  useGetLoggedInUserQuery();
 
   useEffect(() => {
     socket.on("connect_error", (err) => {
@@ -35,7 +36,7 @@ function Privatelayout({ children }: { children: React.ReactNode }) {
     };
   }, [dispatch]);
 
-  return user?.id ? (
+  return sessionStorage.getItem("accessJWT") ? (
     <div className=" bg-base-300 w-full  h-[100dvh] max-h-[100dvh] overflow-hidden  flex md:px-2 md:py-4 gap-2">
       <div className="h-full bg-base-100 hidden sm:flex  p-4   flex-col justify-between  items-center  min-h-full rounded-lg">
         <Sidebar />

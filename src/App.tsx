@@ -1,6 +1,6 @@
 import { Route, Routes, useLocation } from "react-router-dom";
 
-import { useGetLoggedInUserQuery, userApi } from "./redux";
+import { userApi } from "./redux";
 
 import {
   ChatPage,
@@ -25,7 +25,6 @@ export default function App() {
 
   const dispatch = useAppDispatch();
 
-  useGetLoggedInUserQuery();
   useEffect(() => {
     if (location.pathname === "/" || location.pathname === "/sign-up") return;
     dispatch(userApi.endpoints.getLoggedInUser.initiate());

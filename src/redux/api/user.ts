@@ -123,6 +123,7 @@ const userApi = createApi({
           dispatch(toggleLoader({ isLoading: false }));
         } catch (error) {
           dispatch(toggleLoader({ isLoading: false }));
+          // if (error) return window.location.replace("/");
         }
       },
 

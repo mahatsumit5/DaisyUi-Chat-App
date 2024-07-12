@@ -9,7 +9,6 @@ const variants = {
 };
 const Dialog = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const { open, content, heading } = useAppSelector((store) => store.dialog);
   return (
     <AnimatePresence>
@@ -26,7 +25,7 @@ const Dialog = () => {
           variants={variants}
         >
           <div className="flex justify-between items-center">
-            <p className=" text-accent text-xl">{heading}</p>
+            <p className=" font-bold text-xl">{heading}</p>
             <button
               className="btn btn-circle btn-ghost hover:bg-primary"
               onClick={() => {
@@ -37,18 +36,10 @@ const Dialog = () => {
             </button>
           </div>
           <div className="min-h-14 flex justify-start">
-            <p className="text-lg ">{content}</p>
+            <p className="text-base ">{content}</p>
           </div>
           <div className="flex justify-end gap-5">
-            <button
-              className="btn btn-sm btn-primary"
-              onClick={() => {
-                navigate("/friend-request");
-                dispatch(closeDialog());
-              }}
-            >
-              View
-            </button>
+            <Button />
             <button
               className="btn btn-sm btn-error"
               onClick={() => {
@@ -62,6 +53,43 @@ const Dialog = () => {
       </motion.div>
     </AnimatePresence>
   );
+};
+
+const Button = () => {
+  const { type } = useAppSelector((store) => store.dialog);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  switch (type) {
+    case "request":
+      return (
+        <button
+          className="btn btn-sm btn-primary"
+          onClick={() => {
+            navigate("/friend-request");
+            dispatch(closeDialog());
+          }}
+        >
+          View
+        </button>
+      );
+    case "login":
+      return (
+        <button
+          className="btn btn-sm btn-primary"
+          onClick={() => {
+            navigate("/");
+            dispatch(closeDialog());
+          }}
+        >
+          Login
+        </button>
+      );
+
+    case "password":
+      return null;
+    default:
+      return null;
+  }
 };
 
 export default Dialog;

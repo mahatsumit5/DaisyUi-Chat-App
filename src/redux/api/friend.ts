@@ -87,6 +87,7 @@ export const friendApi = createApi({
               toggleDialog({
                 content: "You have a new incoming request.",
                 heading: "Notification",
+                type: "request",
               })
             );
             // dispatch(userApi.util.invalidateTags(["Users"]));

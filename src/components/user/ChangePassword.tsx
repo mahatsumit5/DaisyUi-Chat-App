@@ -19,6 +19,7 @@ const ChangePassword = () => {
         toggleDialog({
           content: "Password do not match",
           heading: "Alert",
+          type: "password",
         })
       );
     }

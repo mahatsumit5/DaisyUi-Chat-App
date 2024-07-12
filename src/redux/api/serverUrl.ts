@@ -1,4 +1,6 @@
-export const rootApi = import.meta.env.VITE_ROOTSERVER;
+export const rootApi = import.meta.env.DEV
+  ? import.meta.env.VITE_ROOTSERVER
+  : "";
 
 export const userApiUrl = rootApi + "api/v1/user";
 export const friendApiUrl = rootApi + "api/v1/friend";
