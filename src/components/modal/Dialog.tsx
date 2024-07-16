@@ -79,6 +79,7 @@ const Button = () => {
           onClick={() => {
             navigate("/");
             dispatch(closeDialog());
+            sessionStorage.clear();
           }}
         >
           Login

@@ -40,6 +40,9 @@ export const rtkQueryErrorLogger: Middleware =
             })
           );
           return next(action);
+
+        case "Invalid Compact JWS":
+          return next(action);
         default:
           break;
       }
