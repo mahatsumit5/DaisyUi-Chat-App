@@ -16,7 +16,7 @@ function YourFriends() {
       ) : isLoading ? (
         <section className="bg-slate-300 h-full rounded-xl p-4 flex flex-col gap-5 overflow-y-auto animate-pulse" />
       ) : data?.data.length ? (
-        <div className="flex justify-around flex-wrap gap-5 w-full">
+        <div className="flex justify-start flex-wrap gap-8 w-full ">
           {data.data.map((user) => (
             <FriendCard user={user} type="friends" key={user.id} />
           ))}

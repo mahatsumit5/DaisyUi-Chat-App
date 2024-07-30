@@ -6,38 +6,45 @@ import { useGetFriendRequestQuery } from "../redux";
 import { useAppDispatch, useAppSelector } from "../hook";
 import icon from "../assets/images/icon.png";
 import { resetSearchBar, setQueryType } from "../redux/reducer/search.slice";
+import { IoHomeOutline } from "react-icons/io5";
 
 const links = [
+  {
+    id: 0,
+    text: "Home",
+    link: "/home",
+    icon: <IoHomeOutline size={22} />,
+  },
   {
     id: 1,
     text: "Messages",
     link: "/chat",
-    icon: <TiMessages size={35} />,
+    icon: <TiMessages size={22} />,
   },
   {
     id: 2,
     text: "Notification",
     link: "/notification",
-    icon: <IoMdNotificationsOutline size={35} />,
+    icon: <IoMdNotificationsOutline size={22} />,
   },
   {
     id: 3,
     text: "Friends",
     link: "/friends",
-    icon: <BsPeople size={31} />,
+    icon: <BsPeople size={22} />,
   },
 
   {
     id: 5,
     text: "Request",
     link: "/friend-request",
-    icon: <TiUserAddOutline size={35} />,
+    icon: <TiUserAddOutline size={22} />,
   },
   {
     id: 6,
     text: "Settings",
     link: "/settings",
-    icon: <IoIosSettings size={35} />,
+    icon: <IoIosSettings size={22} />,
   },
 ];
 function Sidebar() {
@@ -60,7 +67,7 @@ function Sidebar() {
           <img src={icon} className="object-cover" />
         </span>
       </div>
-      <div className=" h-44 flex flex-col gap-4 flex-1 justify-center  w-full items-center">
+      <div className=" h-44 flex flex-col gap-4 flex-1 justify-center p-2  w-full items-center">
         {links.map((link) => (
           <Link to={link.link} key={link.id}>
             <button
@@ -83,7 +90,7 @@ function Sidebar() {
           </Link>
         ))}
       </div>
-      <div className="bg-primary/80 w-full text-primary-content p-2 rounded-lg">
+      <div className=" w-full text-primary-content p-2 rounded-lg">
         <Link to={"/profile"} className="flex items-center gap-3">
           <div className="avatar">
             <div className="w-12 rounded-full">
@@ -95,7 +102,7 @@ function Sidebar() {
               />
             </div>
           </div>
-          <p>
+          <p className="text-primary">
             {user?.fName}&nbsp;{user?.lName}
           </p>
         </Link>

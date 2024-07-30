@@ -19,6 +19,8 @@ import { useEffect } from "react";
 import { useAppDispatch } from "./hook";
 import PageNotFound from "./components/PageNotFound";
 import { SocketProvider } from "./contexts/SocketProvider";
+import Home from "./pages/Home";
+import CommentDialog from "./components/post/CommentDialog";
 
 export default function App() {
   const location = useLocation();
@@ -47,6 +49,15 @@ export default function App() {
               </Privatelayout>
             }
           />
+          <Route
+            path="/home"
+            element={
+              <Privatelayout>
+                <Home />
+              </Privatelayout>
+            }
+          />
+
           <Route
             path="/friends"
             element={
@@ -94,6 +105,7 @@ export default function App() {
         <Dialog />
         <Loading />
         <Toast />
+        <CommentDialog />
       </div>
     </SocketProvider>
   );

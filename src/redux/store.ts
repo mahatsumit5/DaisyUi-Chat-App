@@ -5,6 +5,7 @@ import {
   userApi,
   roomApi,
   messageApi,
+  postApi,
   roomReducer,
   userInfoReducer,
   allUsersreducer,
@@ -15,6 +16,7 @@ import {
   paginationReducer,
   toastReducer,
   searchReducer,
+  commentDrawerReducer,
 } from "./index";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { rtkQueryErrorLogger } from "../utils/errorHandler";
@@ -26,6 +28,7 @@ export const store = configureStore({
     onlineUsers: allUsersreducer,
     friendRequest: friendReqReducer,
     dialog: dialogReducer,
+    comment: commentDrawerReducer,
     loader: loaderReducer,
     socket: socketReducer,
     pagination: paginationReducer,
@@ -34,6 +37,7 @@ export const store = configureStore({
     [userApi.reducerPath]: userApi.reducer,
     [roomApi.reducerPath]: roomApi.reducer,
     [messageApi.reducerPath]: messageApi.reducer,
+    [postApi.reducerPath]: postApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }).concat([
@@ -41,6 +45,7 @@ export const store = configureStore({
       userApi.middleware,
       roomApi.middleware,
       messageApi.middleware,
+      postApi.middleware,
       rtkQueryErrorLogger,
     ]),
 });

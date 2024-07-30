@@ -24,7 +24,7 @@ const NavBar = () => {
   }
   return (
     <div
-      className={`navbar bg-base-100 rounded-t-md border-b-2 ${
+      className={`navbar bg-base-100 rounded-t-md border-b-2   ${
         currentRoom?.id ? "hidden md:flex" : "flex"
       }`}
     >

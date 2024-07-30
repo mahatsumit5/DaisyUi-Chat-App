@@ -145,3 +145,13 @@ export interface IDelChatRoomRes {
   status: boolean;
   result: { id: string };
 }
+export interface IPost {
+  id: string;
+  title: string;
+  content: string;
+  author: IUser;
+  createdAt: Date;
+  updatedAt: Date;
+  likes: string[];
+  images: string[];
+}

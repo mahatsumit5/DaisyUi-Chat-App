@@ -2,7 +2,8 @@ import { friendApi } from "./api/friend";
 import { userApi } from "./api/user";
 import { roomApi } from "./api/room";
 import { messageApi } from "./api/message";
-
+import { postApi } from "./api/post";
+import commentDrawerReducer from "./reducer/comment.drawer";
 import roomReducer from "./reducer/room.slice";
 import userInfoReducer from "./reducer/user.slice";
 import allUsersreducer from "./reducer/AllUsers.slice";
@@ -36,11 +37,13 @@ export const {
 export const { useGetAllChatRoomQuery, useDeleteChatRoomMutation } = roomApi;
 
 export const { useSendMessageMutation, useGetMessagesQuery } = messageApi;
+export const { useCreatePostMutation, useGetPostsQuery } = postApi;
 export {
   userApi,
   friendApi,
   roomApi,
   messageApi,
+  postApi,
   loaderReducer,
   dialogReducer,
   socketReducer,
@@ -48,6 +51,7 @@ export {
   allUsersreducer,
   userInfoReducer,
   roomReducer,
+  commentDrawerReducer,
   paginationReducer,
   toastReducer,
   searchReducer,
