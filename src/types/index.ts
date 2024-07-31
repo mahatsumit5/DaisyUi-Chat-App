@@ -150,8 +150,8 @@ export interface IPost {
   title: string;
   content: string;
   author: IUser;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   likes: string[];
   images: string[];
 }

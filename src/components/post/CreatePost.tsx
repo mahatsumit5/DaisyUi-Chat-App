@@ -1,12 +1,13 @@
 import { RxCross2 } from "react-icons/rx";
 import { useAppSelector } from "../../hook";
-import { ChangeEvent, FormEvent, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { motion } from "framer-motion";
 import { FcAddImage } from "react-icons/fc";
 import { useCreatePostMutation } from "../../redux";
 import LoadingButton from "../loading/LoadingButton";
 import { MdOutlineCreate } from "react-icons/md";
 const CreatePost = () => {
+  const [images, setImages] = useState<FileList>();
   const [createPost, { isLoading }] = useCreatePostMutation();
   const [form, setForm] = useState({ title: "", content: "" });
   const { user } = useAppSelector((store) => store.user);
@@ -20,7 +21,8 @@ const CreatePost = () => {
   }
   async function handleCreatePost(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    await createPost({ ...form, id: user?.id as string }).unwrap();
+
+    await createPost({ ...form, id: user?.id as string, images }).unwrap();
   }
   return (
     <motion.form
@@ -29,16 +31,25 @@ const CreatePost = () => {
       animate={{ opacity: 1, height: expandInput ? "450px" : "80px" }}
       onSubmit={handleCreatePost}
     >
+      {images?.length}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <div className="avatar">
             <div className=" w-12 h-12 rounded-full ">
-              <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+              <img
+                src={
+                  user?.profile ||
+                  "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                }
+                alt="profile"
+              />
             </div>
           </div>
           <span className="flex flex-col">
             <p className="font-bold text-sm md:text-lg">{`${user?.fName} ${user?.lName}`}</p>
-            <p className="no-underline hidden md:block">{user?.email}</p>
+            <p className="no-underline hidden md:block text-base-content/45">
+              {user?.email}
+            </p>
           </span>
         </div>
 
@@ -79,6 +90,11 @@ const CreatePost = () => {
           id="image"
           accept=".jpg,.avif,.png,.jpeg"
           multiple
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            const { files } = e.target;
+
+            setImages(files as FileList);
+          }}
         />
         <label htmlFor="image" className="btn">
           <FcAddImage size={35} />

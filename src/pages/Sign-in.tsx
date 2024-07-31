@@ -3,7 +3,7 @@ import { FaFacebookSquare, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../hook";
-import { useLoginMutation } from "../redux";
+import { useGetLoggedInUserQuery, useLoginMutation } from "../redux";
 
 import { users } from "../dummy_data";
 import icon from "../assets/images/icon.png";
@@ -13,6 +13,7 @@ const randomUserLogin = users.map((item) => {
   return { email: item.email, password: item.password };
 });
 export function SignIn() {
+  useGetLoggedInUserQuery();
   const [passwordVisibility, setPasswordVisibility] = useState<
     "text" | "password"
   >("password");
