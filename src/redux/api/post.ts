@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { postApiUrl } from "./serverUrl";
-import { IPost } from "../../types";
+import { IDeletePost, IPost, updataPostParams } from "../../types";
+import { toggleLoader } from "../reducer/loader.slice";
 type keys = "title" | "id" | "content" | "images";
 
 export const postApi = createApi({
@@ -23,7 +24,7 @@ export const postApi = createApi({
         title: string;
         content: string;
         id: string;
-        images: FileList | undefined;
+        images: File[];
       }
     >({
       query: (data) => {
@@ -43,11 +44,40 @@ export const postApi = createApi({
       },
       invalidatesTags: ["post"],
     }),
-    getPosts: builder.query<IPost[], void>({
+    getPosts: builder.query<IPost[], null>({
       providesTags: ["post"],
       query: () => "",
       transformResponse: ({ posts }: { status: boolean; posts: IPost[] }) => {
         return posts;
+      },
+    }),
+    updatePost: builder.mutation<unknown, updataPostParams>({
+      query: (data) => {
+        return { url: "", method: "put", body: data };
+      },
+    }),
+    deletePost: builder.mutation<IDeletePost, string>({
+      query: (postId) => {
+        return { url: `/${postId}`, method: "delete" };
+      },
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          dispatch(toggleLoader({ isLoading: true }));
+          const { data } = await queryFulfilled;
+          dispatch(
+            postApi.util.updateQueryData(
+              "getPosts",
+              null,
+              (draft) =>
+                (draft = draft.filter((post) => post.id !== data.post.id))
+            )
+          );
+          dispatch(toggleLoader({ isLoading: false }));
+        } catch (error) {
+          dispatch(toggleLoader({ isLoading: false }));
+
+          console.log(error);
+        }
       },
     }),
   }),

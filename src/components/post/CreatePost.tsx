@@ -1,13 +1,14 @@
 import { RxCross2 } from "react-icons/rx";
 import { useAppSelector } from "../../hook";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { motion } from "framer-motion";
-import { FcAddImage } from "react-icons/fc";
+import { AnimatePresence, motion } from "framer-motion";
+import { FcAddImage, FcImageFile } from "react-icons/fc";
 import { useCreatePostMutation } from "../../redux";
 import LoadingButton from "../loading/LoadingButton";
 import { MdOutlineCreate } from "react-icons/md";
+import { TiDelete } from "react-icons/ti";
 const CreatePost = () => {
-  const [images, setImages] = useState<FileList>();
+  const [images, setImages] = useState<File[]>([]);
   const [createPost, { isLoading }] = useCreatePostMutation();
   const [form, setForm] = useState({ title: "", content: "" });
   const { user } = useAppSelector((store) => store.user);
@@ -19,19 +20,28 @@ const CreatePost = () => {
     const { name, value } = e.currentTarget;
     setForm({ ...form, [name]: value });
   }
+
+  function handleRemoveImage(file: File) {
+    if (!images) return;
+    setImages(images.filter((item) => item.name !== file.name));
+  }
   async function handleCreatePost(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     await createPost({ ...form, id: user?.id as string, images }).unwrap();
+    setForm({ title: "", content: "" });
+    setImages([]);
+    setExpandInput(false);
   }
+
   return (
     <motion.form
       className="bg-base-100 rounded-3xl p-4 flex flex-col gap-5 overflow-hidden"
       initial={{ opacity: 0, height: "80px" }}
-      animate={{ opacity: 1, height: expandInput ? "450px" : "80px" }}
+      animate={{ opacity: 1, height: expandInput ? "auto" : "80px" }}
       onSubmit={handleCreatePost}
     >
-      {images?.length}
+      {/* header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <div className="avatar">
@@ -67,6 +77,8 @@ const CreatePost = () => {
           )}
         </button>
       </div>
+
+      {/* input fields */}
       <input
         className="bg-base-200  p-2 text-left rounded-xl"
         placeholder="Title"
@@ -83,6 +95,7 @@ const CreatePost = () => {
         value={form.content}
       />
       <span className="border-b" />
+      {/* file and button */}
       <div className="flex justify-between items-center">
         <input
           type="file"
@@ -92,8 +105,8 @@ const CreatePost = () => {
           multiple
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
             const { files } = e.target;
-
-            setImages(files as FileList);
+            if (!files?.length) return;
+            setImages(Object.values(files));
           }}
         />
         <label htmlFor="image" className="btn">
@@ -108,6 +121,39 @@ const CreatePost = () => {
           {isLoading ? <LoadingButton /> : "Post"}
         </button>
       </div>
+
+      {/* Selected Images */}
+      {images?.length ? (
+        <div className="flex flex-col gap-2">
+          <span className="">{images.length} images selected.</span>
+          {images.map((item) => (
+            <AnimatePresence>
+              <motion.div
+                key={item.name}
+                className="flex gap-2 items-center bg-base-200 p-2 rounded-md justify-between"
+                initial={{ y: -100, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5, ease: "easeIn" }}
+                exit={{ y: -100, opacity: 0 }}
+              >
+                <p className="flex gap-2 text-primary/60">
+                  <FcImageFile size={30} /> {item.name}
+                </p>
+
+                <button
+                  className="btn btn-sm btn-circle text-right"
+                  type="button"
+                  onClick={() => {
+                    handleRemoveImage(item);
+                  }}
+                >
+                  <TiDelete size={20} className=" text-error" />
+                </button>
+              </motion.div>
+            </AnimatePresence>
+          ))}
+        </div>
+      ) : null}
     </motion.form>
   );
 };

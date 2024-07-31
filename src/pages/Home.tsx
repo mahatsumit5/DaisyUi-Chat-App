@@ -7,7 +7,7 @@ import { useGetPostsQuery } from "../redux";
 const Home = () => {
   const { isOpen } = useAppSelector((store) => store.comment);
 
-  const { isError, isFetching, data: posts } = useGetPostsQuery();
+  const { isError, isFetching, data: posts } = useGetPostsQuery(null);
   return (
     <div className=" h-full flex gap-2 ">
       <div

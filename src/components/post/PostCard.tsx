@@ -6,30 +6,73 @@ import { useAppDispatch } from "../../hook";
 import { toggleCommentDrawer } from "../../redux/reducer/comment.drawer";
 import { dateConverter } from "../../utils";
 import { MdDeleteOutline, MdOutlineEdit } from "react-icons/md";
-import { useEffect, useRef } from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import ImageCarousel from "./ImageCarousel";
+import { useDeletePostMutation, useUpdatePostMutation } from "../../redux";
 
 const PostCard = ({ post }: { post: IPost }) => {
+  const [updatePost] = useUpdatePostMutation();
+  const [form, setForm] = useState({
+    title: post.title,
+    content: post.content,
+  });
+  const InputRef = useRef<HTMLInputElement>(null);
+  const TextAreaRef = useRef<HTMLTextAreaElement>(null);
+  const [editing, setEditing] = useState(false);
   const dispatch = useAppDispatch();
+  const [deletePost] = useDeletePostMutation();
   const ContainerRef = useRef<HTMLDivElement>(null);
+  const handleDeletePost = async () => {
+    await deletePost(post.id).unwrap();
+  };
+
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleUpdatePost = async (
+    e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      setEditing(false);
+
+      try {
+        await updatePost({ ...form, id: post.id }).unwrap();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
   useEffect(() => {
+    if (post.title === form.title && post.content === form.content) return;
     const handleOutSideClick = (e: MouseEvent) => {
-      console.log(e);
-      // if (ContainerRef.current) dispatch(toggleCommentDrawer());
+      if (
+        ContainerRef.current &&
+        !ContainerRef.current.contains(e.target as Node)
+      ) {
+        setEditing(false);
+        console.log(form);
+      }
     };
     document.addEventListener("mousedown", handleOutSideClick);
     return () => {
       document.removeEventListener("mousedown", handleOutSideClick);
     };
-  }, [dispatch]);
+  }, [form, post]);
+
+  useEffect(() => {
+    if (editing && InputRef.current) {
+      InputRef.current.focus();
+    }
+  }, [editing]);
   return (
     <>
-      <div
-        className="bg-base-200 p-3 rounded-lg flex flex-col gap-3"
-        ref={ContainerRef}
-      >
+      <div className="bg-base-200 p-3 rounded-lg flex flex-col gap-3">
         {/* header */}
-        <div className="flex gap-2 items-center justify-between">
+        <div className="flex gap-2 items-center justify-between ">
           <div className="avatar">
             <div className=" w-12 h-12 rounded-full ">
               <img
@@ -58,13 +101,23 @@ const PostCard = ({ post }: { post: IPost }) => {
               className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow gap-2"
             >
               <li className="">
-                <button className="btn w-full justify-between btn-sm">
+                <button
+                  className="btn w-full justify-between btn-sm"
+                  type="button"
+                  onClick={() => {
+                    setEditing(true);
+                  }}
+                >
                   Edit
                   <MdOutlineEdit className="text-primary" size={20} />
                 </button>
               </li>
               <li className="">
-                <button className="btn w-full justify-between btn-sm">
+                <button
+                  className="btn w-full justify-between btn-sm"
+                  type="button"
+                  onClick={handleDeletePost}
+                >
                   Delete
                   <MdDeleteOutline className="text-error" size={20} />
                 </button>
@@ -74,8 +127,27 @@ const PostCard = ({ post }: { post: IPost }) => {
         </div>
         {/* Content */}
         <div className="border-b-2 min-h-20 flex flex-col gap-2">
-          <span className="text-lg font-semibold">{post.title}</span>
-          <span className="text-sm  text-base-content/75">{post.content}</span>
+          <div className="flex flex-col gap-2" ref={ContainerRef}>
+            <input
+              className="text-lg font-semibold disabled:cursor-text w-full input input-sm "
+              disabled={!editing}
+              value={form.title}
+              ref={InputRef}
+              onKeyDown={handleUpdatePost}
+              name="title"
+              onChange={handleInputChange}
+            />
+            <textarea
+              className="text-sm  text-base-content/75 w-full resize-none input input-lg"
+              disabled={!editing}
+              value={form.content}
+              name="content"
+              onKeyDown={handleUpdatePost}
+              onChange={handleInputChange}
+              ref={TextAreaRef}
+            />
+          </div>
+
           {post.images.length ? <ImageCarousel images={post.images} /> : null}
         </div>
 

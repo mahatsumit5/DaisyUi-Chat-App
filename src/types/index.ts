@@ -16,6 +16,12 @@ export interface IdeleteReqParams {
   type: "received" | "sent";
 }
 
+export type updataPostParams = {
+  id: string;
+  title: string;
+  content: string;
+};
+
 export interface IUser {
   id: string;
   fName: string;
@@ -81,6 +87,11 @@ export interface IMessageResponse {
     messages: IMessage[];
     _count: { messages: number };
   };
+}
+export interface IDeletePost {
+  status: boolean;
+  message: string;
+  post: IPost;
 }
 
 export interface IAllUsersResponse {

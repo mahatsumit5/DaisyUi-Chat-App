@@ -44,3 +44,7 @@ export const dateConverter = (timestamp: string): string => {
       return "Just now";
   }
 };
+
+export const convertFileListToFileArray = (fileList: FileList): File[] => {
+  return Object.values(fileList);
+};

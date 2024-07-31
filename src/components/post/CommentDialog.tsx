@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
-import { useAppDispatch, useAppSelector } from "../../hook";
+import { useRef } from "react";
+import { useAppSelector } from "../../hook";
 import { motion, AnimatePresence } from "framer-motion";
 
 const CommentDialog = () => {
