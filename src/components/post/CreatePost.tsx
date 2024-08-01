@@ -36,7 +36,7 @@ const CreatePost = () => {
 
   return (
     <motion.form
-      className="bg-base-100 rounded-3xl p-4 flex flex-col gap-5 overflow-hidden"
+      className="bg-base-300/55 rounded-lg p-4 flex flex-col gap-5 overflow-hidden min-h-20"
       initial={{ opacity: 0, height: "80px" }}
       animate={{ opacity: 1, height: expandInput ? "auto" : "80px" }}
       onSubmit={handleCreatePost}
@@ -80,7 +80,7 @@ const CreatePost = () => {
 
       {/* input fields */}
       <input
-        className="bg-base-200  p-2 text-left rounded-xl"
+        className="bg-neutral/35  p-2 text-left rounded-xl"
         placeholder="Title"
         type="text"
         name="title"
@@ -89,7 +89,7 @@ const CreatePost = () => {
       />
       <textarea
         name="content"
-        className="bg-base-200 h-52 p-2 text-left resize-none rounded-xl"
+        className="bg-neutral/35 h-52 p-2 text-left resize-none rounded-xl"
         placeholder="What's on your mind?"
         onChange={handleInputChange}
         value={form.content}
@@ -126,10 +126,10 @@ const CreatePost = () => {
       {images?.length ? (
         <div className="flex flex-col gap-2">
           <span className="">{images.length} images selected.</span>
-          {images.map((item) => (
+          {images.map((item, index) => (
             <AnimatePresence>
               <motion.div
-                key={item.name}
+                key={index}
                 className="flex gap-2 items-center bg-base-200 p-2 rounded-md justify-between"
                 initial={{ y: -100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}

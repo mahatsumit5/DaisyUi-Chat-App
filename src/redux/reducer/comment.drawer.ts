@@ -1,11 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
-const initialState = { isOpen: false };
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+const initialState = { isOpen: false, postId: "" };
 const commentDrawerSlice = createSlice({
   name: "commentDrawer",
   initialState,
   reducers: {
-    toggleCommentDrawer: (state) => {
+    toggleCommentDrawer: (state, { payload }: PayloadAction<string>) => {
       state.isOpen = !state.isOpen;
+      state.postId = payload;
     },
   },
 });

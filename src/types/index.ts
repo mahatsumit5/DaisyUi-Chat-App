@@ -75,6 +75,12 @@ export interface ILogin {
   token: { accessJWT: string; refreshJWT: string };
 }
 
+export interface ICreateCommentParams {
+  userId: string;
+  content: string;
+  postId: string;
+}
+
 export interface ISignUpParams {
   email: string;
   password: string;
@@ -165,4 +171,14 @@ export interface IPost {
   updatedAt: string;
   likes: string[];
   images: string[];
+  comments: IComment[];
+}
+
+export interface IComment {
+  id: string;
+  content: string;
+  postId: string;
+  authorId: IUser;
+  createdAt: string;
+  updatedAt: string;
 }

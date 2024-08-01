@@ -3,6 +3,7 @@ import { userApi } from "./api/user";
 import { roomApi } from "./api/room";
 import { messageApi } from "./api/message";
 import { postApi } from "./api/post";
+import { commentApi } from "./api/comment";
 import commentDrawerReducer from "./reducer/comment.drawer";
 import roomReducer from "./reducer/room.slice";
 import userInfoReducer from "./reducer/user.slice";
@@ -22,7 +23,7 @@ export const {
   useSendFriendRequestMutation,
   useDeleteSentRequestMutation,
 } = friendApi;
-
+export const { usePostCommentMutation } = commentApi;
 export const {
   useGetAllUsersQuery,
   useLogoutUserMutation,
@@ -49,6 +50,7 @@ export {
   roomApi,
   messageApi,
   postApi,
+  commentApi,
   loaderReducer,
   dialogReducer,
   socketReducer,

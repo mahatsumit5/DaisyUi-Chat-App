@@ -47,9 +47,8 @@ export const postApi = createApi({
     getPosts: builder.query<IPost[], null>({
       providesTags: ["post"],
       query: () => "",
-      transformResponse: ({ posts }: { status: boolean; posts: IPost[] }) => {
-        return posts;
-      },
+      transformResponse: ({ posts }: { status: boolean; posts: IPost[] }) =>
+        posts,
     }),
     updatePost: builder.mutation<unknown, updataPostParams>({
       query: (data) => {

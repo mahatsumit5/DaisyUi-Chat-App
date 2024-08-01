@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import { useLogoutUserMutation } from "../../redux";
 import { setUser } from "../../redux/reducer/user.slice";
 import { useSocket } from "../../hooks/socket.hook";
+import icon from "../../assets/images/icon.png";
+
 const NavBar = () => {
   const { currentRoom } = useAppSelector((store) => store.rooms);
   const { user } = useAppSelector((store) => store.user);
@@ -24,16 +26,19 @@ const NavBar = () => {
   }
   return (
     <div
-      className={`navbar bg-base-100 rounded-t-md border-b-2   ${
+      className={`navbar bg-base-100 rounded-t-md border-b-2 fixed right-0 z-10 top-0   ${
         currentRoom?.id ? "hidden md:flex" : "flex"
       }`}
     >
-      <div className="flex-1">
-        <a className="btn btn-ghost text-xl hidden md:block">Chat App</a>
+      <div className="flex-1 p-2 flex gap-2">
+        <span className="">
+          <img src={icon} className="" alt="logo" height={25} width={25} />
+        </span>
+        <p className="font-bold">Chat App</p>
         <MobileDrawer />
       </div>
       <div className="flex-none gap-2">
-        <label className="input input-sm bg-primary/70  items-center gap-2 flex justify-between text-primary-content ">
+        <label className="input input-sm bg-primary  items-center gap-2 flex justify-between text-primary-content ">
           <input
             type="text"
             placeholder="Search"

@@ -9,6 +9,7 @@ import { MdDeleteOutline, MdOutlineEdit } from "react-icons/md";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import ImageCarousel from "./ImageCarousel";
 import { useDeletePostMutation, useUpdatePostMutation } from "../../redux";
+import CommentDialog from "./CommentDialog";
 
 const PostCard = ({ post }: { post: IPost }) => {
   const [updatePost] = useUpdatePostMutation();
@@ -70,7 +71,7 @@ const PostCard = ({ post }: { post: IPost }) => {
   }, [editing]);
   return (
     <>
-      <div className="bg-base-200 p-3 rounded-lg flex flex-col gap-3">
+      <div className="bg-base-300/75 p-3 rounded-lg flex flex-col gap-3 overflow-y-auto">
         {/* header */}
         <div className="flex gap-2 items-center justify-between ">
           <div className="avatar">
@@ -129,7 +130,7 @@ const PostCard = ({ post }: { post: IPost }) => {
         <div className="border-b-2 min-h-20 flex flex-col gap-2">
           <div className="flex flex-col gap-2" ref={ContainerRef}>
             <input
-              className="text-lg font-semibold disabled:cursor-text w-full input input-sm "
+              className="text-lg font-semibold  disabled:cursor-text w-full input input-sm disabled:text-base-content disabled:bg-base-200/75"
               disabled={!editing}
               value={form.title}
               ref={InputRef}
@@ -138,7 +139,7 @@ const PostCard = ({ post }: { post: IPost }) => {
               onChange={handleInputChange}
             />
             <textarea
-              className="text-sm  text-base-content/75 w-full resize-none input input-lg"
+              className="text-sm   w-full  resize-none input input-lg disabled:text-base-content "
               disabled={!editing}
               value={form.content}
               name="content"
@@ -150,7 +151,6 @@ const PostCard = ({ post }: { post: IPost }) => {
 
           {post.images.length ? <ImageCarousel images={post.images} /> : null}
         </div>
-
         {/* Reaction Buttons */}
         <div className="flex gap-2">
           <button className="btn btn-xs btn-ghost">
@@ -163,8 +163,7 @@ const PostCard = ({ post }: { post: IPost }) => {
             <FaRegComment size={20} />
           </button>
         </div>
-
-        {/* comment */}
+        {/*add comment */}
         <div className="flex gap-2 items-center">
           <div className="avatar">
             <div className=" w-7 rounded-full ">
@@ -179,14 +178,22 @@ const PostCard = ({ post }: { post: IPost }) => {
           </div>
 
           <span
-            className="  btn flex justify-start btn-ghost"
+            className="  btn flex justify-start btn-ghost btn-sm "
             onClick={() => {
-              dispatch(toggleCommentDrawer());
+              dispatch(toggleCommentDrawer(post.id));
             }}
           >
             Add a comment....
           </span>
         </div>
+        {/* Comment section */}
+
+        <CommentDialog
+          comments={post.comments}
+          postId={post.id}
+          key={post.id}
+          author={post.author}
+        />
       </div>
     </>
   );

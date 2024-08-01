@@ -20,7 +20,6 @@ import { useAppDispatch } from "./hook";
 import PageNotFound from "./components/PageNotFound";
 import { SocketProvider } from "./contexts/SocketProvider";
 import Home from "./pages/Home";
-import CommentDialog from "./components/post/CommentDialog";
 
 export default function App() {
   const location = useLocation();
@@ -35,7 +34,7 @@ export default function App() {
   return (
     <SocketProvider email={JSON.stringify(sessionStorage.getItem("email"))}>
       <div
-        className=" flex justify-center items-center "
+        className=" flex justify-center items-center relative"
         data-theme={localStorage.getItem("theme") || "light"}
       >
         <Routes>
@@ -105,7 +104,6 @@ export default function App() {
         <Dialog />
         <Loading />
         <Toast />
-        <CommentDialog />
       </div>
     </SocketProvider>
   );

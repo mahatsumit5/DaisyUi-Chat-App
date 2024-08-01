@@ -45,7 +45,7 @@ export function SignIn() {
       return navigate(
         location.state?.from.location.pathname
           ? location.state.from.location.pathname
-          : "/chat"
+          : "/home"
       );
     }
   }, [navigate, user, location]);

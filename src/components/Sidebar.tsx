@@ -3,8 +3,7 @@ import { IoIosSettings, IoMdNotificationsOutline } from "react-icons/io";
 import { BsPeople } from "react-icons/bs";
 import { Link, useLocation } from "react-router-dom";
 import { useGetFriendRequestQuery } from "../redux";
-import { useAppDispatch, useAppSelector } from "../hook";
-import icon from "../assets/images/icon.png";
+import { useAppDispatch } from "../hook";
 import { resetSearchBar, setQueryType } from "../redux/reducer/search.slice";
 import { IoHomeOutline } from "react-icons/io5";
 
@@ -51,7 +50,6 @@ function Sidebar() {
   const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const { data } = useGetFriendRequestQuery(null);
-  const { user } = useAppSelector((s) => s.user);
 
   function handleClick(name: string) {
     dispatch(resetSearchBar());
@@ -61,53 +59,29 @@ function Sidebar() {
     }
   }
   return (
-    <>
-      <div className="flex">
-        <span className=" w-16 ">
-          <img src={icon} className="object-cover" />
-        </span>
-      </div>
-      <div className=" h-44 flex flex-col gap-4 flex-1 justify-center p-2  w-full items-center">
-        {links.map((link) => (
-          <Link to={link.link} key={link.id}>
-            <button
-              className={`relative w-48 ${
-                pathname === link.link
-                  ? " bg-primary rounded-lg text-primary-content"
-                  : ""
-              }  text-base-content flex gap-2 items-center justify-start font-semibold p-2`}
-              onClick={() => {
-                handleClick(link.text);
-              }}
-            >
-              {link.icon} <p className="block "> {link.text}</p>
-              {link.text === "Request" && (
-                <span className="text-primary  rounded-badge absolute -right-2 -top-2">
-                  {data?.data.friendReqCount}
-                </span>
-              )}
-            </button>
-          </Link>
-        ))}
-      </div>
-      <div className=" w-full text-primary-content p-2 rounded-lg">
-        <Link to={"/profile"} className="flex items-center gap-3">
-          <div className="avatar">
-            <div className="w-12 rounded-full">
-              <img
-                src={
-                  user?.profile ||
-                  "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                }
-              />
-            </div>
-          </div>
-          <p className="text-primary">
-            {user?.fName}&nbsp;{user?.lName}
-          </p>
+    <div className="h-full flex flex-col gap-4 fixed left-0  bg-base-100 p-4 border justify-start py-5 ">
+      {links.map((link) => (
+        <Link to={link.link} key={link.id}>
+          <button
+            className={`relative w-36 ${
+              pathname === link.link
+                ? " bg-primary rounded-lg text-primary-content"
+                : ""
+            }  text-base-content flex gap-2 items-center justify-start font-semibold p-2`}
+            onClick={() => {
+              handleClick(link.text);
+            }}
+          >
+            {link.icon} <p className="block "> {link.text}</p>
+            {link.text === "Request" && (
+              <span className="text-primary  rounded-badge absolute -right-2 -top-2">
+                {data?.data.friendReqCount}
+              </span>
+            )}
+          </button>
         </Link>
-      </div>
-    </>
+      ))}
+    </div>
   );
 }
 

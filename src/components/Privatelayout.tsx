@@ -15,7 +15,7 @@ function Privatelayout({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     socket.on("connect_error", (err) => {
-      console.log(err.message);
+      console.log(err);
     });
     socket.on("connect", () => {
       console.log("You are connected with id", socket.id);
@@ -39,14 +39,12 @@ function Privatelayout({ children }: { children: React.ReactNode }) {
 
   return sessionStorage.getItem("accessJWT") ? (
     <div
-      className={` bg-base-300 w-full  min-h-[100dvh]  flex md:px-2  gap-2 relative ${
-        isOpen ? "h-[100dvh] overflow-hidden" : ""
+      className={` bg-base-300 w-full  min-h-[100dvh]  flex relative mt-14 ${
+        isOpen ? "" : ""
       }`}
     >
-      <div className=" h-[100dvh] fixed left-2  hidden md:flex  p-2   flex-col justify-between  items-center    border-r">
-        <Sidebar />
-      </div>
-      <div className="w-full flex flex-col md:ml-60 py-2">
+      <Sidebar />
+      <div className="w-full flex flex-col md:ml-44 py-2">
         <NavBar />
         {children}
       </div>
