@@ -1,7 +1,7 @@
 import { FcLike } from "react-icons/fc";
 import { IPost } from "../../types";
 import { FaRegComment } from "react-icons/fa";
-import { IoMdMore, IoMdShareAlt } from "react-icons/io";
+import { IoIosHeartEmpty, IoMdMore, IoMdShareAlt } from "react-icons/io";
 import { useAppDispatch } from "../../hook";
 import { toggleCommentDrawer } from "../../redux/reducer/comment.drawer";
 import { dateConverter } from "../../utils";
@@ -42,8 +42,10 @@ const PostCard = ({ post }: { post: IPost }) => {
   };
 
   const handleOnLike = async () => {
-    await likePost(post.id).unwrap;
+    likePost(post.id).unwrap;
   };
+
+  const handleOnRemoveLike = async () => {};
   const handleUpdatePost = async (
     e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -169,9 +171,12 @@ const PostCard = ({ post }: { post: IPost }) => {
       <p>{post.likes.length} likes</p>
       {/* Reaction Buttons */}
       <div className="flex gap-2">
-        <button className="btn btn-xs btn-ghost" onClick={handleOnLike}>
-          <FcLike size={20} />
-        </button>
+      {post.likes.includes<button className="btn btn-xs btn-ghost" onClick={handleOnLike}>
+        <FcLike size={20} />
+      </button>
+      <button className="btn btn-xs btn-ghost" onClick={handleOnRemoveLike}>
+        <IoIosHeartEmpty size={20} />
+      </button>}
         <button className="btn btn-xs btn-ghost">
           <IoMdShareAlt size={20} />
         </button>

@@ -55,9 +55,9 @@ function MessageInput({
   }, [isError, isLoading, setStatus, dispatch, id]);
   return (
     <>
-      <section className=" min-h-14 h-auto flex    w-full bg-base-100 p-2">
+      <section className=" min-h-14 h-auto flex bg-base-100   w-full  p-2 fixed bottom-0 md:absolute">
         <form onSubmit={handleSend} className="flex  w-full gap-2">
-          <label className="flex input p-1 w-full  rounded-md border-none h-full bg-base-300/85 text-base-content">
+          <label className="flex input p-2 focus:border-primary focus:outline-primary w-full  rounded-md  h-full bg-base-300 text-base-content">
             {file ? (
               <div className="avatar">
                 <div className="w-24 rounded">

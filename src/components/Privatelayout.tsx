@@ -43,7 +43,7 @@ function Privatelayout({ children }: { children: React.ReactNode }) {
         isOpen ? "" : ""
       }`}
     >
-      <div className="hidden md:block">
+      <div className="hidden md:block border ">
         <Sidebar />
       </div>
       <div className="w-full flex flex-col md:ml-44 py-2">

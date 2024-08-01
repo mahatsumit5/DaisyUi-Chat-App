@@ -17,7 +17,7 @@ function Chatbox() {
   }>({ isError: false, isLoading: false });
 
   return currentRoom?.id ? (
-    <div className="flex flex-col  w-full h-full  bg-base-100  justify-between relative">
+    <div className="flex flex-col  w-full h-full  bg-base-100  justify-start relative">
       <MessageHeader currentRoom={currentRoom} />
       <MessageBox
         message={message}

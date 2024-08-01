@@ -34,14 +34,14 @@ const themes = [
 ];
 const ThemeChanger = () => {
   return (
-    <div className="grid grid-cols-3 md:grid-cols-5 gap-2 p-2 overflow-y-scroll w-full h-[79dvh] bg-base-100">
+    <div className="flex flex-wrap gap-2 p-2  w-full ">
       {themes.map((item) => (
         <input
           data-theme={item}
           key={item}
           type="radio"
           name="theme-buttons"
-          className="btn bg-primary h-28 md:h-48 text-primary-content"
+          className="btn bg-primary w-24  md:w-32 h-24 md:h-32 text-primary-content"
           aria-label={item}
           value={item}
           onChangeCapture={(e) => {

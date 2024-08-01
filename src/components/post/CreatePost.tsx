@@ -80,7 +80,7 @@ const CreatePost = () => {
 
       {/* input fields */}
       <input
-        className="bg-base-200  p-2 text-left rounded-xl"
+        className="input bg-base-200 focus:outline-none p-2 text-left rounded-xl focus:border-primary focus:border-2"
         placeholder="Title"
         type="text"
         name="title"
@@ -89,7 +89,7 @@ const CreatePost = () => {
       />
       <textarea
         name="content"
-        className="bg-base-200 h-52 p-2 text-left resize-none rounded-xl"
+        className="bg-base-200 h-52 p-2 focus:border-primary focus:outline-none input text-left resize-none rounded-xl focus:border-2"
         placeholder="What's on your mind?"
         onChange={handleInputChange}
         value={form.content}
