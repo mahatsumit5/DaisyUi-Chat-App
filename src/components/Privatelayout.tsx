@@ -39,11 +39,13 @@ function Privatelayout({ children }: { children: React.ReactNode }) {
 
   return sessionStorage.getItem("accessJWT") ? (
     <div
-      className={` bg-base-300 w-full  min-h-[100dvh]  flex relative mt-14 ${
+      className={` bg-base-200 w-full  min-h-[100dvh]  flex relative mt-14 ${
         isOpen ? "" : ""
       }`}
     >
-      <Sidebar />
+      <div className="hidden md:block">
+        <Sidebar />
+      </div>
       <div className="w-full flex flex-col md:ml-44 py-2">
         <NavBar />
         {children}

@@ -111,7 +111,7 @@ const CommentDialog = ({
         </div>
       )}
       {/* Input Field */}
-      <form className="flex gap-2" onSubmit={handleOnComment}>
+      <form className="flex gap-2 items-center" onSubmit={handleOnComment}>
         <div className="avatar">
           <div className=" w-12 h-12 rounded-full ">
             <img
@@ -124,7 +124,7 @@ const CommentDialog = ({
         </div>
         <input
           type="text"
-          className="input input-md text-[16px] flex-1 rounded-3xl"
+          className="input input-sm text-[16px] flex-1 rounded-xl focus:outline-primary bg-base-200 border-none"
           placeholder="Add a comment"
           name="comments"
           ref={inputRef}

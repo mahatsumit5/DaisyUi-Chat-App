@@ -36,7 +36,7 @@ const CreatePost = () => {
 
   return (
     <motion.form
-      className="bg-base-300/55 rounded-lg p-4 flex flex-col gap-5 overflow-hidden min-h-20"
+      className="bg-base-100 rounded-lg p-4 flex flex-col gap-5 overflow-hidden min-h-20"
       initial={{ opacity: 0, height: "80px" }}
       animate={{ opacity: 1, height: expandInput ? "auto" : "80px" }}
       onSubmit={handleCreatePost}
@@ -80,7 +80,7 @@ const CreatePost = () => {
 
       {/* input fields */}
       <input
-        className="bg-neutral/35  p-2 text-left rounded-xl"
+        className="bg-base-200  p-2 text-left rounded-xl"
         placeholder="Title"
         type="text"
         name="title"
@@ -89,7 +89,7 @@ const CreatePost = () => {
       />
       <textarea
         name="content"
-        className="bg-neutral/35 h-52 p-2 text-left resize-none rounded-xl"
+        className="bg-base-200 h-52 p-2 text-left resize-none rounded-xl"
         placeholder="What's on your mind?"
         onChange={handleInputChange}
         value={form.content}
@@ -109,7 +109,10 @@ const CreatePost = () => {
             setImages(Object.values(files));
           }}
         />
-        <label htmlFor="image" className="btn">
+        <label
+          htmlFor="image"
+          className="btn btn-square btn-primary btn-outline"
+        >
           <FcAddImage size={35} />
         </label>
 

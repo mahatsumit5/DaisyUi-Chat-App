@@ -31,10 +31,12 @@ const NavBar = () => {
       }`}
     >
       <div className="flex-1 p-2 flex gap-2">
-        <span className="">
+        <span className="hidden md:block">
           <img src={icon} className="" alt="logo" height={25} width={25} />
         </span>
-        <p className="font-bold">Chat App</p>
+        <p className="font-bold hidden md:block text-lg text-primary">
+          Chat App
+        </p>
         <MobileDrawer />
       </div>
       <div className="flex-none gap-2">
@@ -72,7 +74,7 @@ const NavBar = () => {
                 alt="Tailwind CSS Navbar component"
                 src={
                   user?.profile ||
-                  "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                  "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
                 }
                 loading="lazy"
               />

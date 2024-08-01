@@ -43,6 +43,7 @@ export const {
   useGetPostsQuery,
   useDeletePostMutation,
   useUpdatePostMutation,
+  useLikePostMutation,
 } = postApi;
 export {
   userApi,

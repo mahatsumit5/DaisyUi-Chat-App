@@ -1,6 +1,14 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { postApiUrl } from "./serverUrl";
-import { IDeletePost, IPost, updataPostParams } from "../../types";
+import {
+  createPostParams,
+  ICreatePostRes,
+  IDeletePost,
+  ILikedPost,
+  ILikePostResponse,
+  IPost,
+  updataPostParams,
+} from "../../types";
 import { toggleLoader } from "../reducer/loader.slice";
 type keys = "title" | "id" | "content" | "images";
 
@@ -18,15 +26,7 @@ export const postApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    createPost: builder.mutation<
-      { status: boolean; result: IPost },
-      {
-        title: string;
-        content: string;
-        id: string;
-        images: File[];
-      }
-    >({
+    createPost: builder.mutation<ICreatePostRes, createPostParams>({
       query: (data) => {
         const formData = new FormData();
         for (const key in data) {
@@ -75,6 +75,31 @@ export const postApi = createApi({
         } catch (error) {
           dispatch(toggleLoader({ isLoading: false }));
 
+          console.log(error);
+        }
+      },
+    }),
+    likePost: builder.mutation<ILikedPost, string>({
+      query: (postId) => {
+        return { url: "like", method: "put", body: { postId } };
+      },
+      transformResponse: (res: ILikePostResponse) => res.likedPost,
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          const { data } = await queryFulfilled;
+
+          dispatch(
+            postApi.util.updateQueryData("getPosts", null, (draft) => {
+              return draft.map((post) => {
+                if (post.id === data.postId) {
+                  return { ...post, likes: [...post.likes, data] };
+                } else {
+                  return post;
+                }
+              });
+            })
+          );
+        } catch (error) {
           console.log(error);
         }
       },

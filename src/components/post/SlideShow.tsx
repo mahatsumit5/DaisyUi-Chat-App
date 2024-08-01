@@ -10,6 +10,7 @@ export const Slideshow = ({ image }: { image: string }) => (
       transition={{ duration: 0.8 }}
       exit={{ x: -200, opacity: 0 }}
       className="object-cover"
+      loading="lazy"
     />
   </AnimatePresence>
 );

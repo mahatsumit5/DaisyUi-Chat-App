@@ -80,12 +80,27 @@ export interface ICreateCommentParams {
   content: string;
   postId: string;
 }
-
+export interface createPostParams {
+  title: string;
+  content: string;
+  id: string;
+  images: File[];
+}
 export interface ISignUpParams {
   email: string;
   password: string;
   fName: string;
   lName: string;
+}
+export interface ICreatePostRes {
+  status: boolean;
+  result: IPost;
+}
+
+export interface ILikePostResponse {
+  status: boolean;
+  message: string;
+  likedPost: ILikedPost;
 }
 export interface IMessageResponse {
   status: boolean;
@@ -169,7 +184,7 @@ export interface IPost {
   author: IUser;
   createdAt: string;
   updatedAt: string;
-  likes: string[];
+  likes: ILikedPost[];
   images: string[];
   comments: IComment[];
 }
@@ -181,4 +196,9 @@ export interface IComment {
   authorId: IUser;
   createdAt: string;
   updatedAt: string;
+}
+export interface ILikedPost {
+  id: string;
+  postId: string;
+  userId: IUser;
 }
