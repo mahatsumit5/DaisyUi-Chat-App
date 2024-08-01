@@ -102,6 +102,11 @@ export interface ILikePostResponse {
   message: string;
   likedPost: ILikedPost;
 }
+export interface IRemovedLikeRes {
+  status: boolean;
+  message: string;
+  deletedLike: ILikedPost;
+}
 export interface IMessageResponse {
   status: boolean;
   result: {
@@ -200,5 +205,5 @@ export interface IComment {
 export interface ILikedPost {
   id: string;
   postId: string;
-  userId: IUser;
+  userId: string;
 }

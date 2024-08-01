@@ -44,6 +44,7 @@ export const {
   useDeletePostMutation,
   useUpdatePostMutation,
   useLikePostMutation,
+  useRemoveLikeMutation,
 } = postApi;
 export {
   userApi,

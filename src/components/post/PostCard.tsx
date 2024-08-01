@@ -2,7 +2,7 @@ import { FcLike } from "react-icons/fc";
 import { IPost } from "../../types";
 import { FaRegComment } from "react-icons/fa";
 import { IoIosHeartEmpty, IoMdMore, IoMdShareAlt } from "react-icons/io";
-import { useAppDispatch } from "../../hook";
+import { useAppDispatch, useAppSelector } from "../../hook";
 import { toggleCommentDrawer } from "../../redux/reducer/comment.drawer";
 import { dateConverter } from "../../utils";
 import { MdDeleteOutline, MdOutlineEdit } from "react-icons/md";
@@ -11,26 +11,37 @@ import ImageCarousel from "./ImageCarousel";
 import {
   useDeletePostMutation,
   useLikePostMutation,
+  useRemoveLikeMutation,
   useUpdatePostMutation,
 } from "../../redux";
 import CommentDialog from "./CommentDialog";
 import { motion, useInView } from "framer-motion";
 
 const PostCard = ({ post }: { post: IPost }) => {
+  const dispatch = useAppDispatch();
   const [likePost] = useLikePostMutation();
+  const [removeLike] = useRemoveLikeMutation();
   const [updatePost] = useUpdatePostMutation();
+  const [deletePost] = useDeletePostMutation();
+
+  const [editing, setEditing] = useState(false);
   const [form, setForm] = useState({
     title: post.title,
     content: post.content,
   });
+
   const cardRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(cardRef);
   const InputRef = useRef<HTMLInputElement>(null);
   const TextAreaRef = useRef<HTMLTextAreaElement>(null);
-  const [editing, setEditing] = useState(false);
-  const dispatch = useAppDispatch();
-  const [deletePost] = useDeletePostMutation();
   const ContainerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(cardRef);
+
+  const { user } = useAppSelector((store) => store.user);
+
+  // check whether currentUser has liked the post
+  const userHasLiked = post.likes.find(
+    (like) => like.userId === user?.id || ""
+  );
   const handleDeletePost = async () => {
     await deletePost(post.id).unwrap();
   };
@@ -45,7 +56,9 @@ const PostCard = ({ post }: { post: IPost }) => {
     likePost(post.id).unwrap;
   };
 
-  const handleOnRemoveLike = async () => {};
+  const handleOnRemoveLike = async () => {
+    await removeLike(userHasLiked?.id as string);
+  };
   const handleUpdatePost = async (
     e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -82,6 +95,7 @@ const PostCard = ({ post }: { post: IPost }) => {
       InputRef.current.focus();
     }
   }, [editing]);
+
   return (
     <motion.div
       className="bg-base-100 p-3 rounded-lg flex flex-col gap-3 overflow-y-auto"
@@ -171,12 +185,15 @@ const PostCard = ({ post }: { post: IPost }) => {
       <p>{post.likes.length} likes</p>
       {/* Reaction Buttons */}
       <div className="flex gap-2">
-      {post.likes.includes<button className="btn btn-xs btn-ghost" onClick={handleOnLike}>
-        <FcLike size={20} />
-      </button>
-      <button className="btn btn-xs btn-ghost" onClick={handleOnRemoveLike}>
-        <IoIosHeartEmpty size={20} />
-      </button>}
+        {userHasLiked ? (
+          <button className="btn btn-xs btn-ghost" onClick={handleOnRemoveLike}>
+            <FcLike size={20} />
+          </button>
+        ) : (
+          <button className="btn btn-xs btn-ghost" onClick={handleOnLike}>
+            <IoIosHeartEmpty size={20} />
+          </button>
+        )}
         <button className="btn btn-xs btn-ghost">
           <IoMdShareAlt size={20} />
         </button>

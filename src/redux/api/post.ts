@@ -7,6 +7,7 @@ import {
   ILikedPost,
   ILikePostResponse,
   IPost,
+  IRemovedLikeRes,
   updataPostParams,
 } from "../../types";
 import { toggleLoader } from "../reducer/loader.slice";
@@ -93,6 +94,38 @@ export const postApi = createApi({
               return draft.map((post) => {
                 if (post.id === data.postId) {
                   return { ...post, likes: [...post.likes, data] };
+                } else {
+                  return post;
+                }
+              });
+            })
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      },
+    }),
+    removeLike: builder.mutation<ILikedPost, string>({
+      query: (likeId) => {
+        return {
+          url: `remove-like`,
+          method: "put",
+          body: { likeId },
+        };
+      },
+      transformResponse: (res: IRemovedLikeRes) => res.deletedLike,
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          const { data } = await queryFulfilled;
+
+          dispatch(
+            postApi.util.updateQueryData("getPosts", null, (draft) => {
+              return draft.map((post) => {
+                if (post.id === data.postId) {
+                  return {
+                    ...post,
+                    likes: post.likes.filter((like) => like.id !== data.id),
+                  };
                 } else {
                   return post;
                 }
