@@ -7,6 +7,8 @@ import { useCreatePostMutation } from "../../redux";
 import LoadingButton from "../loading/LoadingButton";
 import { MdOutlineCreate } from "react-icons/md";
 import { TiDelete } from "react-icons/ti";
+import { Avatar } from "../Avatar/Avatar";
+import { extractInitial } from "../../utils";
 const CreatePost = () => {
   const [images, setImages] = useState<File[]>([]);
   const [createPost, { isLoading }] = useCreatePostMutation();
@@ -34,7 +36,7 @@ const CreatePost = () => {
     setExpandInput(false);
   }
 
-  return (
+  return user ? (
     <motion.form
       className="bg-base-100 rounded-lg p-4 flex flex-col gap-5 overflow-hidden min-h-20"
       initial={{ opacity: 0, height: "80px" }}
@@ -44,17 +46,11 @@ const CreatePost = () => {
       {/* header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <div className="avatar">
-            <div className=" w-12 h-12 rounded-full ">
-              <img
-                src={
-                  user?.profile ||
-                  "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                }
-                alt="profile"
-              />
-            </div>
-          </div>
+          <Avatar
+            url={user?.profile}
+            classname="w-11"
+            initial={extractInitial(user.fName, user.lName)}
+          />
           <span className="flex flex-col">
             <p className="font-bold text-sm md:text-lg">{`${user?.fName} ${user?.lName}`}</p>
             <p className="no-underline hidden md:block text-base-content/45">
@@ -64,16 +60,16 @@ const CreatePost = () => {
         </div>
 
         <button
-          className="btn btn-circle btn-ghost flex"
+          className="btn btn-sm btn-circle  flex btn-primary"
           onClick={() => setExpandInput(!expandInput)}
           type="button"
         >
           {expandInput ? (
             <>
-              <RxCross2 size={30} />
+              <RxCross2 size={20} />
             </>
           ) : (
-            <MdOutlineCreate size={30} />
+            <MdOutlineCreate size={20} />
           )}
         </button>
       </div>
@@ -158,7 +154,7 @@ const CreatePost = () => {
         </div>
       ) : null}
     </motion.form>
-  );
+  ) : null;
 };
 
 export default CreatePost;

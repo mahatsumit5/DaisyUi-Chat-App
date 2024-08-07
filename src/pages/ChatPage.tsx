@@ -9,7 +9,7 @@ function ChatPage() {
   return (
     <div className="flex  gap-1 flex-1 ">
       <div
-        className={`    ${
+        className={`  fixed top-14 h-full  ${
           currentRoom?.id ? "hidden lg:flex " : "flex w-full  "
         } `}
       >
@@ -17,17 +17,17 @@ function ChatPage() {
       </div>
 
       {currentRoom?.id ? (
-        <div className={` ${currentRoom?.id ? "w-full " : ""}  `}>
+        <div className={` ${currentRoom?.id ? "w-full ml-[350px] " : ""}  `}>
           <ChatBox />
         </div>
       ) : (
         <div
-          className={` hidden md:flex w-full flex-col justify-center items-center gap-5 `}
+          className={` hidden md:flex w-full flex-col justify-center items-center gap-2 `}
         >
           <p className="text-2xl">Select a Room</p>
           <p>or</p>
           <Link to={"/friends"}>
-            <button className="btn btn-primary text-white">
+            <button className="btn btn-primary btn-outline" type="button">
               Find New People
             </button>
           </Link>

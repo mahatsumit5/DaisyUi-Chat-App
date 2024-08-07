@@ -64,7 +64,7 @@ export const user = [
 export const users = [
   {
     email: "john.doe@example.com",
-    password: "password123",
+    password: "password123@",
     fName: "John",
     lName: "Doe",
   },

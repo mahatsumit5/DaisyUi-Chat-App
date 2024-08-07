@@ -7,6 +7,8 @@ import { useLogoutUserMutation } from "../../redux";
 import { setUser } from "../../redux/reducer/user.slice";
 import { useSocket } from "../../hooks/socket.hook";
 import icon from "../../assets/images/icon.png";
+import { Avatar } from "../Avatar/Avatar";
+import { extractInitial } from "../../utils";
 
 const NavBar = () => {
   const { currentRoom } = useAppSelector((store) => store.rooms);
@@ -24,7 +26,7 @@ const NavBar = () => {
     window.location.reload();
     socket.close();
   }
-  return (
+  return user ? (
     <div
       className={`navbar bg-base-100 rounded-t-md border-b-2 fixed right-0 z-10 top-0   ${
         currentRoom?.id ? "hidden md:flex" : "flex"
@@ -69,7 +71,7 @@ const NavBar = () => {
             role="button"
             className="btn btn-ghost btn-circle avatar"
           >
-            <div className="w-10 rounded-full">
+            {/* <div className="w-10 rounded-full">
               <img
                 alt="Tailwind CSS Navbar component"
                 src={
@@ -78,7 +80,12 @@ const NavBar = () => {
                 }
                 loading="lazy"
               />
-            </div>
+            </div> */}
+            <Avatar
+              initial={extractInitial(user?.fName, user?.lName)}
+              url={user?.profile as string}
+              classname="w-10"
+            />
           </div>
           <ul
             tabIndex={0}
@@ -100,7 +107,7 @@ const NavBar = () => {
         </div>
       </div>
     </div>
-  );
+  ) : null;
 };
 
 export default NavBar;

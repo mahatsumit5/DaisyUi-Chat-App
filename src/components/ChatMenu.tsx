@@ -33,7 +33,7 @@ function ChatMenu() {
   }
 
   return (
-    <div className="flex flex-col gap-2 w-full  lg:w-[350px] h-full ">
+    <div className="bg-base-100 flex flex-col gap-2 w-full  lg:w-[350px] h-full overflow-y-auto border-x-2 mt-2">
       {error ? (
         <section className=" h-full rounded-xl  flex  flex-col gap-2 overflow-y-auto  items-center justify-center ">
           <p>You do not have any friends</p>
@@ -45,7 +45,7 @@ function ChatMenu() {
         </section>
       ) : isFetching ? (
         <section className="flex flex-col h-full bg-base-100 p-2  ` gap-5 ">
-          {Array(10)
+          {Array(20)
             .fill("")
             .map(() => (
               <LoadingRoom key={Math.random()} />

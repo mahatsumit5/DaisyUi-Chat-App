@@ -31,7 +31,7 @@ const FriendCard = ({
     SentRequest: <SentRequest user={user} />,
   };
   return (
-    <div className="  w-full sm:w-[200px] md:rounded-lg md:border-none flex md:flex-col border-b-2 md:bg-base-300 border-b-primary bg-base-100 md:p-4   items-center justify-start gap-2  md:shadow-lg  py-2 ">
+    <div className="  w-full sm:w-[200px] md:rounded-lg md:border-none flex md:flex-col border-b-2  border-b-primary bg-base-100 md:p-4   items-center justify-start gap-2  md:shadow-lg  py-2 ">
       {/* Avatar and name */}
       {user.profile ? (
         <div className="avatar ">

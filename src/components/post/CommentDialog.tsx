@@ -5,9 +5,10 @@ import { toggleCommentDrawer } from "../../redux/reducer/comment.drawer";
 import { IoCloseCircleSharp } from "react-icons/io5";
 import { usePostCommentMutation } from "../../redux";
 import { IComment, IUser } from "../../types";
-import { dateConverter } from "../../utils";
+import { dateConverter, extractInitial } from "../../utils";
 import { FiMoreVertical } from "react-icons/fi";
 import { LuHeart } from "react-icons/lu";
+import { Avatar } from "../Avatar/Avatar";
 
 const CommentDialog = ({
   comments,
@@ -63,17 +64,11 @@ const CommentDialog = ({
               {/* Comment header profile name time */}
               <div className="flex gap-2 items-center">
                 {/* avatar */}
-                <div className="avatar">
-                  <div className=" w-7 rounded-full ">
-                    <img
-                      src={
-                        author.profile ||
-                        "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                      }
-                      alt="profile"
-                    />
-                  </div>
-                </div>
+                <Avatar
+                  initial={extractInitial(author.fName, author.lName)}
+                  url={user?.profile as string}
+                  classname="w-10"
+                />
 
                 {/* name */}
                 <p className="text-sm font-bold">
@@ -96,9 +91,12 @@ const CommentDialog = ({
               </div>
 
               {/* Content */}
-              <p className="ml-9 text-sm">{comment.content}</p>
+              <div className="mx-12 flex justify-between ">
+                <p className="text-sm">{comment.content}</p>
+                <p className="text-xs">8 likes</p>
+              </div>
               {/* Reply button */}
-              <div className="ml-6">
+              <div className="ml-8 flex justify-start">
                 <button className="btn btn-sm btn-link">Reply</button>
               </div>
             </div>
@@ -112,16 +110,11 @@ const CommentDialog = ({
       )}
       {/* Input Field */}
       <form className="flex gap-2 items-center" onSubmit={handleOnComment}>
-        <div className="avatar">
-          <div className=" w-12 h-12 rounded-full ">
-            <img
-              src={
-                "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-              }
-              alt="profile"
-            />
-          </div>
-        </div>
+        <Avatar
+          initial={extractInitial(author.fName, author.lName)}
+          url={user?.profile as string}
+          classname="w-10"
+        />
         <input
           type="text"
           className="input input-sm text-[16px] flex-1 rounded-xl focus:outline-primary bg-base-200 border-none"

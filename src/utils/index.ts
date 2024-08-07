@@ -48,3 +48,7 @@ export const dateConverter = (timestamp: string): string => {
 export const convertFileListToFileArray = (fileList: FileList): File[] => {
   return Object.values(fileList);
 };
+
+export const extractInitial = (fName: string, lName: string): string => {
+  return fName.slice(0, 1).toUpperCase() + lName.slice(0, 1).toUpperCase();
+};

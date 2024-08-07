@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from "../hook";
+import { useAppDispatch } from "../hook";
 import { Navigate, useLocation } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import NavBar from "./NavBar/NavBar";
@@ -8,7 +8,6 @@ import { setOnlineUsers } from "../redux/reducer/AllUsers.slice";
 import { useGetLoggedInUserQuery } from "../redux";
 
 function Privatelayout({ children }: { children: React.ReactNode }) {
-  const { isOpen } = useAppSelector((store) => store.comment);
   const location = useLocation();
   const dispatch = useAppDispatch();
   useGetLoggedInUserQuery();
@@ -39,15 +38,13 @@ function Privatelayout({ children }: { children: React.ReactNode }) {
 
   return sessionStorage.getItem("accessJWT") ? (
     <div
-      className={` bg-base-200 w-full  min-h-[100dvh]  flex relative mt-14 ${
-        isOpen ? "" : ""
-      }`}
+      className={` bg-base-100 w-full min-h-[100dvh] h-full  flex relative overflow-y-auto`}
     >
-      <div className="hidden md:block border ">
+      <NavBar />
+      <div className="hidden md:block  mt-14">
         <Sidebar />
       </div>
-      <div className="w-full flex flex-col md:ml-44 py-2">
-        <NavBar />
+      <div className="w-full flex flex-col md:ml-44 py-2 mt-14 border-x-2 bg-base-300/50">
         {children}
       </div>
     </div>

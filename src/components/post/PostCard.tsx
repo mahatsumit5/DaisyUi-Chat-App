@@ -4,7 +4,7 @@ import { FaRegComment } from "react-icons/fa";
 import { IoIosHeartEmpty, IoMdMore, IoMdShareAlt } from "react-icons/io";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import { toggleCommentDrawer } from "../../redux/reducer/comment.drawer";
-import { dateConverter } from "../../utils";
+import { dateConverter, extractInitial } from "../../utils";
 import { MdDeleteOutline, MdOutlineEdit } from "react-icons/md";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import ImageCarousel from "./ImageCarousel";
@@ -16,6 +16,7 @@ import {
 } from "../../redux";
 import CommentDialog from "./CommentDialog";
 import { motion, useInView } from "framer-motion";
+import { Avatar } from "../Avatar/Avatar";
 
 const PostCard = ({ post }: { post: IPost }) => {
   const dispatch = useAppDispatch();
@@ -106,55 +107,51 @@ const PostCard = ({ post }: { post: IPost }) => {
     >
       {/* header */}
       <div className="flex gap-2 items-center justify-between ">
-        <div className="avatar">
-          <div className=" w-12 h-12 rounded-full ">
-            <img
-              src={
-                post.author.profile ||
-                "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-              }
-              alt="profile"
-            />
-          </div>
-        </div>
+        <Avatar
+          url={post.author.profile}
+          classname="w-12"
+          initial={extractInitial(post.author.fName, post.author.lName)}
+        />
         <p className="font-semibold text-sm flex-1">{`${post.author.fName} ${post.author.lName}`}</p>
         <p className="text-base-content/85">{dateConverter(post.createdAt)}</p>
-        <div className="dropdown dropdown-end">
-          <div
-            tabIndex={0}
-            role="button"
-            className="btn m-1 btn-sm btn-square btn-ghost btn-outline btn-primary"
-          >
-            <IoMdMore />
+        {user?.id === post?.author.id && (
+          <div className="dropdown dropdown-end">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn m-1 btn-sm btn-square btn-ghost btn-outline btn-primary"
+            >
+              <IoMdMore />
+            </div>
+            <ul
+              tabIndex={0}
+              className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow gap-2"
+            >
+              <li className="">
+                <button
+                  className="btn w-full justify-between btn-sm"
+                  type="button"
+                  onClick={() => {
+                    setEditing(true);
+                  }}
+                >
+                  Edit
+                  <MdOutlineEdit className="text-primary" size={20} />
+                </button>
+              </li>
+              <li className="">
+                <button
+                  className="btn w-full justify-between btn-sm"
+                  type="button"
+                  onClick={handleDeletePost}
+                >
+                  Delete
+                  <MdDeleteOutline className="text-error" size={20} />
+                </button>
+              </li>
+            </ul>
           </div>
-          <ul
-            tabIndex={0}
-            className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow gap-2"
-          >
-            <li className="">
-              <button
-                className="btn w-full justify-between btn-sm"
-                type="button"
-                onClick={() => {
-                  setEditing(true);
-                }}
-              >
-                Edit
-                <MdOutlineEdit className="text-primary" size={20} />
-              </button>
-            </li>
-            <li className="">
-              <button
-                className="btn w-full justify-between btn-sm"
-                type="button"
-                onClick={handleDeletePost}
-              >
-                Delete
-                <MdDeleteOutline className="text-error" size={20} />
-              </button>
-            </li>
-          </ul>
-        </div>{" "}
+        )}
       </div>
       {/* Content */}
       <div className="border-b-2 min-h-20 flex flex-col gap-2">
@@ -203,18 +200,11 @@ const PostCard = ({ post }: { post: IPost }) => {
       </div>
       {/*add comment */}
       <div className="flex gap-2 items-center">
-        <div className="avatar">
-          <div className=" w-7 rounded-full ">
-            <img
-              src={
-                post.author.profile ||
-                "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-              }
-              alt="profile"
-              loading="lazy"
-            />
-          </div>
-        </div>
+        <Avatar
+          url={post.author.profile}
+          classname="w-7"
+          initial={extractInitial(post.author.fName, post.author.lName)}
+        />
 
         <span
           className="  btn flex justify-start  btn-sm btm-nav-xs"
