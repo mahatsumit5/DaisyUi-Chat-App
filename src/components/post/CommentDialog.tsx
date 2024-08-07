@@ -3,23 +3,30 @@ import { useAppDispatch, useAppSelector } from "../../hook";
 import { motion } from "framer-motion";
 import { toggleCommentDrawer } from "../../redux/reducer/comment.drawer";
 import { IoCloseCircleSharp } from "react-icons/io5";
-import { usePostCommentMutation } from "../../redux";
-import { IComment, IUser } from "../../types";
+import {
+  useGetCommentsQuery,
+  useLikeCommentMutation,
+  usePostCommentMutation,
+  useUnlikeCommentMutation,
+} from "../../redux";
+import { IUser } from "../../types";
 import { dateConverter, extractInitial } from "../../utils";
-import { FiMoreVertical } from "react-icons/fi";
 import { LuHeart } from "react-icons/lu";
 import { Avatar } from "../Avatar/Avatar";
+import CommentDropdown from "./CommentDropdown";
+import { RiHeartFill } from "react-icons/ri";
 
 const CommentDialog = ({
-  comments,
   postId,
   author,
 }: {
   author: IUser;
-  comments: IComment[];
   postId: string;
 }) => {
+  const { data: comments } = useGetCommentsQuery(postId);
   const [postComment] = usePostCommentMutation();
+  const [likeComment] = useLikeCommentMutation();
+  const [unlikeComment] = useUnlikeCommentMutation();
   const dispatch = useAppDispatch();
   const inputRef = useRef<HTMLInputElement>(null);
   const variants = {
@@ -35,8 +42,27 @@ const CommentDialog = ({
       postId,
       userId: user?.id as string,
     });
+    inputRef.current?.value;
   };
-  return (
+
+  const handleLikeComment = async (
+    commentId: string,
+    type: "like" | "unlike"
+  ) => {
+    switch (type) {
+      case "like":
+        await likeComment({ commentId, postId });
+        break;
+      case "unlike":
+        console.log("unlike");
+        // unlike here
+        await unlikeComment({ commentId, postId });
+        break;
+      default:
+        break;
+    }
+  };
+  return user?.id ? (
     <motion.div
       className=" w-full   rounded-lg     overflow-hidden flex flex-col gap-3"
       animate={isOpen && postId === id ? "open" : "closed"}
@@ -50,50 +76,71 @@ const CommentDialog = ({
           onClick={() => {
             dispatch(toggleCommentDrawer(postId));
           }}
-          className="btn btn-sm btn-ghost btn-square"
+          className="btn btn-xs btn-primary btn-square"
         >
-          <IoCloseCircleSharp size={20} />
+          <IoCloseCircleSharp size={16} />
         </button>
       </div>
       {/* content */}
 
-      {comments.length ? (
+      {comments?.length ? (
         <div className="py-4  flex-1 flex flex-col gap-4">
           {comments.map((comment) => (
             <div key={comment.id} className="flex flex-col gap-2 ">
               {/* Comment header profile name time */}
-              <div className="flex gap-2 items-center">
+              <div className="flex gap-2 items-center justify-between">
                 {/* avatar */}
                 <Avatar
-                  initial={extractInitial(author.fName, author.lName)}
-                  url={user?.profile as string}
+                  initial={extractInitial(
+                    comment.author.fName,
+                    comment.author.lName
+                  )}
+                  url={comment.author.profile as string}
                   classname="w-10"
                 />
 
-                {/* name */}
-                <p className="text-sm font-bold">
-                  {author.fName} {author.lName}
-                </p>
-                {/* time */}
-                <p className="flex-1">{dateConverter(comment.updatedAt)}</p>
+                <span>
+                  {/* name */}
+                  <p className="text-sm font-bold">
+                    {comment.author.fName} {comment.author.lName}
+                  </p>
+                  {/* time */}
+                  <p className="flex-1 text-xs">
+                    {dateConverter(comment.updatedAt)}
+                  </p>
+                </span>
 
-                {/* more actions */}
-                <div className="flex gap-2">
-                  <button className="btn btn-sm btn-circle">
-                    <LuHeart />
-                  </button>
-                  {author.id === user?.id && (
-                    <button className="btn btn-sm btn-circle btn-link">
-                      <FiMoreVertical />
+                {/*like update delete */}
+                <div className="flex gap-2 flex-1 justify-end">
+                  {comment.likes.find(({ userId }) => userId === user.id) ? (
+                    <button
+                      className="btn btn-xs btn-circle"
+                      onClick={() => {
+                        handleLikeComment(comment.id, "unlike");
+                      }}
+                    >
+                      <RiHeartFill className="text-error" />
                     </button>
+                  ) : (
+                    <button
+                      className="btn btn-xs btn-circle"
+                      onClick={() => {
+                        handleLikeComment(comment.id, "like");
+                      }}
+                    >
+                      <LuHeart />
+                    </button>
+                  )}
+                  {comment.authorId === user?.id && (
+                    <CommentDropdown Comment={comment} />
                   )}
                 </div>
               </div>
 
               {/* Content */}
-              <div className="mx-12 flex justify-between ">
+              <div className="ml-12 flex justify-between ">
                 <p className="text-sm">{comment.content}</p>
-                <p className="text-xs">8 likes</p>
+                <p className="text-xs">{comment.likes.length} likes</p>
               </div>
               {/* Reply button */}
               <div className="ml-8 flex justify-start">
@@ -125,7 +172,7 @@ const CommentDialog = ({
         <button></button>
       </form>
     </motion.div>
-  );
+  ) : null;
 };
 
 export default CommentDialog;

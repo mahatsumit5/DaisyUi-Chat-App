@@ -217,12 +217,7 @@ const PostCard = ({ post }: { post: IPost }) => {
       </div>
       {/* Comment section */}
 
-      <CommentDialog
-        comments={post.comments}
-        postId={post.id}
-        key={post.id}
-        author={post.author}
-      />
+      <CommentDialog postId={post.id} key={post.id} author={post.author} />
     </motion.div>
   );
 };

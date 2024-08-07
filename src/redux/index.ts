@@ -23,7 +23,13 @@ export const {
   useSendFriendRequestMutation,
   useDeleteSentRequestMutation,
 } = friendApi;
-export const { usePostCommentMutation } = commentApi;
+export const {
+  usePostCommentMutation,
+  useDeleteCommentMutation,
+  useLikeCommentMutation,
+  useUnlikeCommentMutation,
+  useGetCommentsQuery,
+} = commentApi;
 export const {
   useGetAllUsersQuery,
   useLogoutUserMutation,

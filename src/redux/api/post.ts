@@ -48,6 +48,18 @@ export const postApi = createApi({
     getPosts: builder.query<IPost[], null>({
       providesTags: ["post"],
       query: () => "",
+      onCacheEntryAdded: async (
+        arg,
+        { cacheDataLoaded, cacheEntryRemoved }
+      ) => {
+        try {
+          await cacheDataLoaded;
+        } catch (error) {
+          console.log(error);
+        }
+        await cacheEntryRemoved;
+      },
+
       transformResponse: ({ posts }: { status: boolean; posts: IPost[] }) =>
         posts,
     }),
@@ -138,6 +150,6 @@ export const postApi = createApi({
       },
     }),
   }),
-  refetchOnMountOrArgChange: true,
+  refetchOnMountOrArgChange: false,
   refetchOnReconnect: true,
 });

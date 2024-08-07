@@ -5,6 +5,11 @@ export interface IGetAllUsersParams {
   search?: string;
 }
 
+export interface ServerResponse {
+  status: boolean;
+  message: string;
+}
+
 export interface ISendReqParams {
   userId: string;
   email: string;
@@ -132,6 +137,20 @@ export interface IDeleteReqRes {
   message: string;
 }
 
+export interface IDeleteCommentRes extends ServerResponse {
+  data: IComment;
+}
+export interface ILikeCommentResponse extends ServerResponse {
+  likedComment: {
+    userId: string;
+  };
+}
+export interface IUnlikeLikeCommentResponse extends ServerResponse {
+  unlikedComment: {
+    userId: string;
+  };
+}
+
 export interface IFriendReq {
   status: string;
   from: {
@@ -198,9 +217,13 @@ export interface IComment {
   id: string;
   content: string;
   postId: string;
-  authorId: IUser;
+  authorId: string;
+  author: IUser;
   createdAt: string;
   updatedAt: string;
+  likes: {
+    userId: string;
+  }[];
 }
 export interface ILikedPost {
   id: string;
