@@ -16,6 +16,7 @@ import loaderReducer from "./reducer/loader.slice";
 import paginationReducer from "./reducer/pagination.slice";
 import searchReducer from "./reducer/search.slice";
 import postReducer from "./reducer/post.slice";
+import HomeMessageBox from "./reducer/HomeMessageBox";
 export const {
   useAcceptFriendReqMutation,
   useGetFriendRequestQuery,
@@ -70,5 +71,6 @@ export {
   paginationReducer,
   toastReducer,
   searchReducer,
+  HomeMessageBox,
   postReducer,
 };

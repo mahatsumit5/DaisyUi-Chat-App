@@ -17,6 +17,7 @@ import {
 import CommentDialog from "./CommentDialog";
 import { motion, useInView } from "framer-motion";
 import { Avatar } from "../Avatar/Avatar";
+import { socket } from "../../redux/reducer/socket.slice";
 
 const PostCard = ({ post }: { post: IPost }) => {
   const dispatch = useAppDispatch();
@@ -54,7 +55,12 @@ const PostCard = ({ post }: { post: IPost }) => {
   };
 
   const handleOnLike = async () => {
-    likePost(post.id).unwrap;
+    const data = await likePost(post.id).unwrap();
+
+    // only send if the post is created by someone else except you.
+    if (data.userId !== post.author.id) {
+      socket.emit("send_like_notification", { ...data, to: post.author.id });
+    }
   };
 
   const handleOnRemoveLike = async () => {

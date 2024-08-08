@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { setTyping, socket } from "../redux/reducer/socket.slice";
 import { setOnlineUsers } from "../redux/reducer/AllUsers.slice";
 import { useGetLoggedInUserQuery } from "../redux";
+import { toggleDialog } from "../redux/reducer/dialog.slice";
 
 function Privatelayout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
@@ -29,6 +30,22 @@ function Privatelayout({ children }: { children: React.ReactNode }) {
     socket.on("getOnlineUsers", (onlineUsers: string[]) => {
       dispatch(setOnlineUsers(onlineUsers));
     });
+    socket.on("getLikedNotification", (data) => {
+      console.log(
+        "user with id",
+        data.userId,
+        "liked your post with id",
+        data.postId
+      );
+
+      dispatch(
+        toggleDialog({
+          content: "someone liked your post",
+          heading: "notification",
+          type: "request",
+        })
+      );
+    });
 
     socket.on("disconnect", () => {});
     return () => {
@@ -38,7 +55,7 @@ function Privatelayout({ children }: { children: React.ReactNode }) {
 
   return sessionStorage.getItem("accessJWT") ? (
     <div
-      className={` bg-base-100 w-full min-h-[100dvh] h-full  flex relative overflow-y-auto`}
+      className={` bg-base-100 w-full min-h-[100dvh] h-full  flex relative overflow-y-auto `}
     >
       <NavBar />
       <div className="hidden md:block  mt-14">

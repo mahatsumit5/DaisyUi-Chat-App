@@ -43,13 +43,26 @@ export const postApi = createApi({
 
         return { url: "", method: "post", body: formData };
       },
-      invalidatesTags: ["post"],
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(
+            postApi.util.updateQueryData("getPosts", 0, (draft) => {
+              return {
+                totalNumberOfPosts: draft.totalNumberOfPosts + 1,
+                posts: [data.result, ...draft.posts],
+              };
+            })
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      },
     }),
     getPosts: builder.query<
       { posts: IPost[]; totalNumberOfPosts: number },
       number
     >({
-      providesTags: ["post"],
       query: (skip) => `?skip=${skip}&&take=4`,
       onCacheEntryAdded: async (
         arg,

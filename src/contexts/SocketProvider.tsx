@@ -16,7 +16,7 @@ export function SocketProvider({
   useEffect(() => {
     console.log(email);
     const newSocket = io(URL, {
-      // autoConnect: false,
+      autoConnect: false,
       query: { email: email },
       transports: ["websocket"],
     });

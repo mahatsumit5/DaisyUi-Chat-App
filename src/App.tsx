@@ -1,7 +1,5 @@
 import { Route, Routes, useLocation } from "react-router-dom";
-
 import { userApi } from "./redux";
-
 import {
   ChatPage,
   ForgotPassword,
@@ -20,6 +18,7 @@ import { useAppDispatch } from "./hook";
 import PageNotFound from "./components/PageNotFound";
 import { SocketProvider } from "./contexts/SocketProvider";
 import Home from "./pages/Home";
+import HomeMessageBox from "./components/HomeMessageBoc/HomeMessageBox";
 
 export default function App() {
   const location = useLocation();
@@ -104,6 +103,7 @@ export default function App() {
         <Dialog />
         <Loading />
         <Toast />
+        <HomeMessageBox />
       </div>
     </SocketProvider>
   );

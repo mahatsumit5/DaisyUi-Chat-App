@@ -19,11 +19,13 @@ import {
   commentDrawerReducer,
   commentApi,
   postReducer,
+  HomeMessageBox,
 } from "./index";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { rtkQueryErrorLogger } from "../utils/errorHandler";
 export const store = configureStore({
   reducer: {
+    messageBox: HomeMessageBox,
     post: postReducer,
     search: searchReducer,
     rooms: roomReducer,

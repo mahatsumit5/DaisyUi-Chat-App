@@ -3,7 +3,11 @@ import HomeAllUsers from "../components/Friends/HomeAllUsers";
 import CreatePost from "../components/post/CreatePost";
 import PostCard from "../components/post/PostCard";
 import PostLoading from "../components/post/PostLoading";
-import { useGetAllUsersQuery, useGetPostsQuery } from "../redux";
+import {
+  useGetAllChatRoomQuery,
+  useGetAllUsersQuery,
+  useGetPostsQuery,
+} from "../redux";
 import { useAppDispatch, useAppSelector } from "../hook";
 import { setSkip } from "../redux/reducer/post.slice";
 import { LoadingButton } from "../components";
@@ -19,6 +23,12 @@ const Home = () => {
     isError: usersError,
     data: users,
   } = useGetAllUsersQuery({ order: "asc", page: 1, take: 10, search: "" });
+
+  const {
+    isError: friendError,
+    isLoading: friendLoading,
+    data: friends,
+  } = useGetAllChatRoomQuery({ page: 1, search: "", take: 10 });
   // useEffect(() => {
   //   console.log(skip);
   //   if (posts?.totalNumberOfPosts - skip < 4) return;
@@ -41,7 +51,7 @@ const Home = () => {
   //   };
   // }, [dispatch, skip, posts?.totalNumberOfPosts]);
   return (
-    <div className=" h-full flex ">
+    <div className=" h-full flex relative">
       <div className={`p-2 w-full lg:w-full flex flex-col gap-3   border-r-2 `}>
         <CreatePost />
         {isError ? (
@@ -71,19 +81,47 @@ const Home = () => {
       </div>
       {/* Side Bar */}
       <div className="hidden lg:flex  lg:w-[350px]  py-4  h-full    ">
-        {usersError ? (
-          <>Error occured</>
-        ) : isLoading ? (
-          Array(5)
-            .fill("")
-            .map((item, index) => <PostLoading key={index} />)
-        ) : (
-          <div className="flex flex-col gap-4 w-full">
-            {users?.data.map((user) => (
-              <HomeAllUsers key={user.id} user={user} />
-            ))}
-          </div>
-        )}
+        <div className="flex flex-col gap-4 w-full px-2">
+          <span className="mx-2 text-sm font-bold">Friends</span>
+
+          {friendError ? (
+            <>Error Ocurred</>
+          ) : friendLoading ? (
+            <>Loading....</>
+          ) : (
+            <div className="max-h-60 overflow-y-auto flex flex-col gap-2">
+              {friends?.data.map((item) => (
+                <HomeAllUsers
+                  key={item.id}
+                  user={{
+                    email: item.email,
+                    fName: item.fName,
+                    id: item.userId,
+                    lName: item.lName,
+                    profile: item.profile,
+                    isActive: item.isActive,
+                  }}
+                  type="friends"
+                  room={item}
+                />
+              ))}
+            </div>
+          )}
+          <span className="mx-2 text-sm font-bold">People you may know</span>
+          {usersError ? (
+            <>Error occured</>
+          ) : isLoading ? (
+            Array(5)
+              .fill("")
+              .map((item, index) => <PostLoading key={index} />)
+          ) : (
+            <div className=" max-h-60 overflow-y-auto flex flex-col gap-2">
+              {users?.data.map((user) => (
+                <HomeAllUsers key={user.id} user={user} type="users" />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

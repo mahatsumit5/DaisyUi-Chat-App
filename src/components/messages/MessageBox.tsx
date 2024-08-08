@@ -19,10 +19,11 @@ function MessageBox({
   console.log(isError);
   const { currentRoom } = useAppSelector((store) => store.rooms);
   const { user } = useAppSelector((store) => store.user);
-
   const { isTyping } = useAppSelector((store) => store.socket);
-  const sectionRef = useRef<HTMLDivElement>(null);
+
   const [numberOfMessageToDisplay, setNumberOfMessageToDisplay] = useState(10);
+
+  const sectionRef = useRef<HTMLDivElement>(null);
   const { data, error, isLoading } = useGetMessagesQuery({
     roomId: currentRoom?.id || "",
     num: numberOfMessageToDisplay,
@@ -41,7 +42,7 @@ function MessageBox({
     <section className="skeleton w-full h-full bg-base-300 flex-1 max-h-fit " />
   ) : data?.result._count.messages ? (
     <section
-      className="p-2 flex flex-col   border-b-base-300    flex-1 md:flex-none overflow-y-scroll  mt-14  pb-16"
+      className="p-2 flex flex-col   border-b-base-300  h-[650px]   flex-1 md:flex-none overflow-y-auto  mt-14  pb-16"
       ref={sectionRef}
     >
       {numberOfMessageToDisplay < data.result._count.messages && (
