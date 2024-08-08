@@ -4,7 +4,10 @@ import { IComment } from "../../types";
 import { useDeleteCommentMutation } from "../../redux";
 import LoadingButton from "../loading/LoadingButton";
 
-const CommentDropdown: React.FC<{ Comment: IComment }> = ({ Comment }) => {
+const CommentDropdown: React.FC<{
+  Comment: IComment;
+  handleOnEdit: (comment: IComment) => void;
+}> = ({ Comment, handleOnEdit }) => {
   const [deleteComment, { isLoading }] = useDeleteCommentMutation();
 
   async function handleDeleteComment() {
@@ -23,7 +26,14 @@ const CommentDropdown: React.FC<{ Comment: IComment }> = ({ Comment }) => {
         className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow gap-2"
       >
         <li>
-          <button className="btn btn-sm">Edit </button>
+          <button
+            className="btn btn-sm"
+            onClick={() => {
+              handleOnEdit(Comment);
+            }}
+          >
+            Edit{" "}
+          </button>
         </li>
         <li>
           <button

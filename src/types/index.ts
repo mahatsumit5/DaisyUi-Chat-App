@@ -210,7 +210,10 @@ export interface IPost {
   updatedAt: string;
   likes: ILikedPost[];
   images: string[];
-  comments: IComment[];
+  comments: { id: string }[];
+  _count: {
+    comments: number;
+  };
 }
 
 export interface IComment {

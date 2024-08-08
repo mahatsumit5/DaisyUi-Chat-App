@@ -7,6 +7,7 @@ import {
   ILikeCommentResponse,
   IUnlikeLikeCommentResponse,
 } from "../../types";
+import { postApi } from "./post";
 const url = rootApi + "api/v1/comment";
 
 export const commentApi = createApi({
@@ -56,6 +57,25 @@ export const commentApi = createApi({
                 draft.push(data);
               }
             )
+          );
+          dispatch(
+            postApi.util.updateQueryData("getPosts", 0, (draft) => {
+              return {
+                ...draft,
+                posts: draft.posts.map((post) => {
+                  if (post.id === arg.postId) {
+                    return {
+                      ...post,
+                      _count: {
+                        comments: post._count.comments + 1,
+                      },
+                    };
+                  } else {
+                    return post;
+                  }
+                }),
+              };
+            })
           );
         } catch (error) {
           console.log(error);

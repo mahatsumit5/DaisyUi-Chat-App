@@ -9,13 +9,16 @@ import {
   usePostCommentMutation,
   useUnlikeCommentMutation,
 } from "../../redux";
-import { IUser } from "../../types";
+import { IComment, IUser } from "../../types";
 import { dateConverter, extractInitial } from "../../utils";
 import { LuHeart } from "react-icons/lu";
 import { Avatar } from "../Avatar/Avatar";
 import CommentDropdown from "./CommentDropdown";
 import { RiHeartFill } from "react-icons/ri";
-
+const variants = {
+  open: { opacity: 1, height: "auto", display: "block" },
+  closed: { opacity: 0, height: 0, display: "hidden" },
+};
 const CommentDialog = ({
   postId,
   author,
@@ -23,18 +26,20 @@ const CommentDialog = ({
   author: IUser;
   postId: string;
 }) => {
-  const { data: comments } = useGetCommentsQuery(postId);
   const [postComment] = usePostCommentMutation();
   const [likeComment] = useLikeCommentMutation();
   const [unlikeComment] = useUnlikeCommentMutation();
+
+  const { data: comments } = useGetCommentsQuery(postId);
+
   const dispatch = useAppDispatch();
-  const inputRef = useRef<HTMLInputElement>(null);
-  const variants = {
-    open: { opacity: 1, height: "auto" },
-    closed: { opacity: 0, height: 0 },
-  };
+
   const { isOpen, postId: id } = useAppSelector((store) => store.comment);
   const { user } = useAppSelector((store) => store.user);
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+
   const handleOnComment = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await postComment({
@@ -42,7 +47,7 @@ const CommentDialog = ({
       postId,
       userId: user?.id as string,
     });
-    inputRef.current?.value;
+    formRef.current?.reset();
   };
 
   const handleLikeComment = async (
@@ -54,12 +59,18 @@ const CommentDialog = ({
         await likeComment({ commentId, postId });
         break;
       case "unlike":
-        console.log("unlike");
-        // unlike here
         await unlikeComment({ commentId, postId });
         break;
       default:
         break;
+    }
+  };
+
+  const handleOnEdit = (comment: IComment) => {
+    console.log(comment);
+    inputRef.current?.focus();
+    if (inputRef.current?.value) {
+      inputRef.current.value = comment.content;
     }
   };
   return user?.id ? (
@@ -132,7 +143,10 @@ const CommentDialog = ({
                     </button>
                   )}
                   {comment.authorId === user?.id && (
-                    <CommentDropdown Comment={comment} />
+                    <CommentDropdown
+                      Comment={comment}
+                      handleOnEdit={handleOnEdit}
+                    />
                   )}
                 </div>
               </div>
@@ -156,7 +170,11 @@ const CommentDialog = ({
         </div>
       )}
       {/* Input Field */}
-      <form className="flex gap-2 items-center" onSubmit={handleOnComment}>
+      <form
+        className="flex gap-2 items-center"
+        onSubmit={handleOnComment}
+        ref={formRef}
+      >
         <Avatar
           initial={extractInitial(author.fName, author.lName)}
           url={user?.profile as string}

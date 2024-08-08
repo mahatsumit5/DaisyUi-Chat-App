@@ -179,7 +179,9 @@ const PostCard = ({ post }: { post: IPost }) => {
         {post.images.length ? <ImageCarousel images={post.images} /> : null}
       </div>
       {/* like and comment counts */}
-      <p>{post.likes.length} likes</p>
+      <p className="text-xs text-base-content/55">
+        {post.likes.length} likes {post._count.comments} comments
+      </p>
       {/* Reaction Buttons */}
       <div className="flex gap-2">
         {userHasLiked ? (
@@ -194,27 +196,16 @@ const PostCard = ({ post }: { post: IPost }) => {
         <button className="btn btn-xs btn-ghost">
           <IoMdShareAlt size={20} />
         </button>
-        <button className="btn btn-xs btn-ghost">
-          <FaRegComment size={20} />
-        </button>
-      </div>
-      {/*add comment */}
-      <div className="flex gap-2 items-center">
-        <Avatar
-          url={post.author.profile}
-          classname="w-7"
-          initial={extractInitial(post.author.fName, post.author.lName)}
-        />
-
-        <span
-          className="  btn flex justify-start  btn-sm btm-nav-xs"
+        <button
+          className="btn btn-xs btn-ghost"
           onClick={() => {
             dispatch(toggleCommentDrawer(post.id));
           }}
         >
-          Add a comment....
-        </span>
+          <FaRegComment size={20} />
+        </button>
       </div>
+
       {/* Comment section */}
 
       <CommentDialog postId={post.id} key={post.id} author={post.author} />

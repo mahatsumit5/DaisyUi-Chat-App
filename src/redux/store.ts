@@ -18,11 +18,13 @@ import {
   searchReducer,
   commentDrawerReducer,
   commentApi,
+  postReducer,
 } from "./index";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { rtkQueryErrorLogger } from "../utils/errorHandler";
 export const store = configureStore({
   reducer: {
+    post: postReducer,
     search: searchReducer,
     rooms: roomReducer,
     user: userInfoReducer,

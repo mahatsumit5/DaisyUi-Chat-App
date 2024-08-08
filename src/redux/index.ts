@@ -15,7 +15,7 @@ import toastReducer from "./reducer/toast.slice";
 import loaderReducer from "./reducer/loader.slice";
 import paginationReducer from "./reducer/pagination.slice";
 import searchReducer from "./reducer/search.slice";
-
+import postReducer from "./reducer/post.slice";
 export const {
   useAcceptFriendReqMutation,
   useGetFriendRequestQuery,
@@ -70,4 +70,5 @@ export {
   paginationReducer,
   toastReducer,
   searchReducer,
+  postReducer,
 };

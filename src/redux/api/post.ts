@@ -45,9 +45,12 @@ export const postApi = createApi({
       },
       invalidatesTags: ["post"],
     }),
-    getPosts: builder.query<IPost[], null>({
+    getPosts: builder.query<
+      { posts: IPost[]; totalNumberOfPosts: number },
+      number
+    >({
       providesTags: ["post"],
-      query: () => "",
+      query: (skip) => `?skip=${skip}&&take=4`,
       onCacheEntryAdded: async (
         arg,
         { cacheDataLoaded, cacheEntryRemoved }
@@ -59,9 +62,24 @@ export const postApi = createApi({
         }
         await cacheEntryRemoved;
       },
-
-      transformResponse: ({ posts }: { status: boolean; posts: IPost[] }) =>
+      serializeQueryArgs: ({ endpointName }) => {
+        return endpointName;
+      },
+      transformResponse: ({
         posts,
+        totalNumberOfPosts,
+      }: {
+        status: boolean;
+        posts: IPost[];
+        totalNumberOfPosts: number;
+      }) => ({ totalNumberOfPosts, posts }),
+      merge: (cacheData, incomingData) => {
+        cacheData.posts.push(...incomingData.posts);
+      },
+      // Refetch when the page arg changes
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg;
+      },
     }),
     updatePost: builder.mutation<unknown, updataPostParams>({
       query: (data) => {
@@ -77,12 +95,12 @@ export const postApi = createApi({
           dispatch(toggleLoader({ isLoading: true }));
           const { data } = await queryFulfilled;
           dispatch(
-            postApi.util.updateQueryData(
-              "getPosts",
-              null,
-              (draft) =>
-                (draft = draft.filter((post) => post.id !== data.post.id))
-            )
+            postApi.util.updateQueryData("getPosts", 0, (draft) => {
+              return {
+                ...draft,
+                posts: draft.posts.filter((post) => post.id !== data.post.id),
+              };
+            })
           );
           dispatch(toggleLoader({ isLoading: false }));
         } catch (error) {
@@ -102,14 +120,17 @@ export const postApi = createApi({
           const { data } = await queryFulfilled;
 
           dispatch(
-            postApi.util.updateQueryData("getPosts", null, (draft) => {
-              return draft.map((post) => {
-                if (post.id === data.postId) {
-                  return { ...post, likes: [...post.likes, data] };
-                } else {
-                  return post;
-                }
-              });
+            postApi.util.updateQueryData("getPosts", 0, (draft) => {
+              return {
+                ...draft,
+                posts: draft.posts.map((post) => {
+                  if (post.id === data.postId) {
+                    return { ...post, likes: [...post.likes, data] };
+                  } else {
+                    return post;
+                  }
+                }),
+              };
             })
           );
         } catch (error) {
@@ -131,17 +152,20 @@ export const postApi = createApi({
           const { data } = await queryFulfilled;
 
           dispatch(
-            postApi.util.updateQueryData("getPosts", null, (draft) => {
-              return draft.map((post) => {
-                if (post.id === data.postId) {
-                  return {
-                    ...post,
-                    likes: post.likes.filter((like) => like.id !== data.id),
-                  };
-                } else {
-                  return post;
-                }
-              });
+            postApi.util.updateQueryData("getPosts", 0, (draft) => {
+              return {
+                ...draft,
+                posts: draft.posts.map((post) => {
+                  if (post.id === data.postId) {
+                    return {
+                      ...post,
+                      likes: post.likes.filter((like) => like.id !== data.id),
+                    };
+                  } else {
+                    return post;
+                  }
+                }),
+              };
             })
           );
         } catch (error) {
