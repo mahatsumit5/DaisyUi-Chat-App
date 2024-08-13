@@ -23,7 +23,8 @@ export const rtkQueryErrorLogger: Middleware =
       const errorResponse: ErrorResponse = action.payload as ErrorResponse;
       if (
         errorResponse.data.message === "jwt expired" ||
-        errorResponse.data.message === "jwt malformed"
+        errorResponse.data.message === "jwt malformed" ||
+        errorResponse.data.message === `"exp" claim timestamp check failed`
       ) {
         errorResponse.data.message = "Session expired.Please log in again.";
         return next(action);

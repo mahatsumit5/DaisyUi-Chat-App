@@ -57,7 +57,7 @@ const Home = () => {
         {isError ? (
           <Alert message="Error occured while fetching posts" />
         ) : (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4  ">
             {loading
               ? Array(5)
                   .fill("")
@@ -65,17 +65,19 @@ const Home = () => {
               : posts?.posts?.map((item) => (
                   <PostCard post={item} key={item.id} />
                 ))}
-            <button
-              ref={btnRef}
-              className="btn btn-sm btn-primary"
-              onClick={() => {
-                dispatch(setSkip(skip + 4));
-                btnRef.current?.scrollIntoView();
-              }}
-              disabled={(posts?.totalNumberOfPosts as number) - skip < 4}
-            >
-              {loading ? <LoadingButton /> : "Show More"}
-            </button>
+            <div className="w-full items-center flex justify-center">
+              <button
+                ref={btnRef}
+                className="btn btn-sm btn-primary btn-ghost w-40 "
+                onClick={() => {
+                  dispatch(setSkip(skip + 4));
+                  btnRef.current?.scrollIntoView();
+                }}
+                disabled={(posts?.totalNumberOfPosts as number) - skip < 4}
+              >
+                {loading ? <LoadingButton /> : "Show More"}
+              </button>
+            </div>
           </div>
         )}
       </div>
