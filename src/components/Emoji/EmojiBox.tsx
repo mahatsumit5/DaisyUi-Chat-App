@@ -48,9 +48,9 @@ const EmojiBox: React.FC<{
         {emojiArrayConverted.map((item, index) => (
           <span
             key={index}
-            className="text-lg hover:cursor-pointer"
+            className="text-2xl hover:cursor-pointer hover:scale-110 hover:shadow-xl"
             onClick={() => {
-              setMessage(item);
+              setMessage((prev) => prev + item);
             }}
           >
             {item}

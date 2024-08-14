@@ -81,7 +81,7 @@ const CommentDialog = ({
       variants={variants}
     >
       {/* header */}
-      <div className="w-full flex justify-between items-center border-b-2">
+      <div className="w-full flex justify-between items-center ">
         <p className="text-sm font-semibold">Comments</p>
         <button
           onClick={() => {
