@@ -33,7 +33,7 @@ export default function App() {
   return (
     <SocketProvider email={JSON.stringify(sessionStorage.getItem("email"))}>
       <div
-        className=" flex  relative"
+        className=" bg-base-300"
         data-theme={localStorage.getItem("theme") || "light"}
       >
         <Routes>

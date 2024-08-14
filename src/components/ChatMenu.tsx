@@ -33,7 +33,7 @@ function ChatMenu() {
   }
 
   return (
-    <div className="bg-base-100 flex flex-col gap-2 w-full  lg:w-[350px] h-full overflow-y-auto border-x-2 mt-2">
+    <div className="bg-base-100 flex flex-col gap-2 w-full  lg:w-[350px] h-full overflow-y-auto ">
       {error ? (
         <section className=" h-full rounded-xl  flex  flex-col gap-2 overflow-y-auto  items-center justify-center ">
           <p>You do not have any friends</p>

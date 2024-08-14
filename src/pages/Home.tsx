@@ -52,7 +52,7 @@ const Home = () => {
   // }, [dispatch, skip, posts?.totalNumberOfPosts]);
   return (
     <div className=" h-full flex relative">
-      <div className={`p-2 w-full lg:w-full flex flex-col gap-3   border-r-2 `}>
+      <div className={` px-2 w-full lg:w-full flex flex-col gap-3   `}>
         <CreatePost />
         {isError ? (
           <Alert message="Error occured while fetching posts" />
@@ -82,7 +82,7 @@ const Home = () => {
         )}
       </div>
       {/* Side Bar */}
-      <div className="hidden lg:flex  lg:w-[350px]  py-4  h-full    ">
+      <div className="hidden lg:flex  lg:w-[350px]  py-4    bg-base-100 rounded-lg   h-fit  sticky top-0 right-0">
         <div className="flex flex-col gap-4 w-full px-2">
           <span className="mx-2 text-sm font-bold">Friends</span>
 

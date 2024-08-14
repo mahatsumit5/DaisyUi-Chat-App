@@ -59,7 +59,7 @@ function Sidebar() {
     }
   }
   return (
-    <div className=" flex flex-col gap-4 md:fixed left-0  p-6  justify-center items-center  ">
+    <div className=" flex flex-col gap-4  py-4   justify-start items-center ">
       {links.map((link) => (
         <Link to={link.link} key={link.id}>
           <button
