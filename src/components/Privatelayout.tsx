@@ -54,17 +54,19 @@ function Privatelayout({ children }: { children: React.ReactNode }) {
   }, [dispatch]);
 
   return sessionStorage.getItem("accessJWT") ? (
-    <div className="">
+    <>
       <NavBar />
+
       <div
-        className={` w-full  min-h-screen flex relative overflow-y-auto max-w-7xl mx-auto mt-2 gap-2`}
+        className={` w-full flex min-h-full overflow-y-auto max-w-7xl mx-auto mt-2 gap-2  relative`}
       >
-        <div className="hidden md:block   bg-base-100  w-[200px] rounded-md">
+        <p className="sticky top-12 z-50 ">check</p>
+        <div className="hidden md:block   bg-base-100  w-[200px] rounded-md ">
           <Sidebar />
         </div>
         <div className="w-full flex flex-col    ">{children}</div>
       </div>
-    </div>
+    </>
   ) : (
     <Navigate to={"/"} state={{ from: { location } }} />
   );
