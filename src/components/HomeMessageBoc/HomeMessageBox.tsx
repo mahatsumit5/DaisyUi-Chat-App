@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "../../hook";
 import { IoMdClose } from "react-icons/io";
@@ -9,6 +9,9 @@ import { extractInitial } from "../../utils";
 import MessageDisplay from "../messages/MessageDisplay";
 import { IChatRoom, IUser } from "../../types";
 import { useGetMessagesQuery } from "../../redux";
+import MessageInput from "../messages/MessageInput";
+import useMessageHook from "../../hooks/useMessage.hook";
+import UserIsTyping from "../messages/UserIsTyping";
 
 const variants = {
   open: { opacity: 1, display: "block" },
@@ -20,6 +23,8 @@ const variants2 = {
 };
 
 const HomeMessageBox = () => {
+  const { numOfMessages, setNumofMessages } = useMessageHook();
+  const messageBoxRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
   const [expand, setExpand] = useState<boolean>(false);
   const { isOpen, chatRoom } = useAppSelector((state) => state.messageBox);
@@ -27,22 +32,49 @@ const HomeMessageBox = () => {
   const { data, error, isLoading } = useGetMessagesQuery(
     {
       roomId: chatRoom?.id || "",
-      num: 20,
+      num: numOfMessages,
     },
     {
       skip: !isOpen,
     }
   );
-  return (
+
+  useEffect(() => {
+    const height = messageBoxRef.current?.scrollHeight;
+    if (messageBoxRef.current && height) {
+      messageBoxRef.current.scrollTop = height;
+    }
+  }, [data]);
+
+  useEffect(() => {
+    const messageBox = messageBoxRef.current;
+    const handleScroll = () => {
+      // const messageBoxHeight = messageBox?.scrollHeight;
+      if (messageBox?.scrollTop === 0) {
+        setNumofMessages((prev) => prev + 5);
+      }
+    };
+    if (messageBox) {
+      messageBox.addEventListener("scroll", handleScroll);
+    }
+
+    return () => {
+      if (messageBox) {
+        messageBox.removeEventListener("scroll", handleScroll);
+      }
+    };
+  });
+
+  return chatRoom ? (
     <AnimatePresence>
       <motion.div
-        className={`border-2   w-fit rounded-lg fixed bottom-4  bg-base-100 right-48 shadow-lg`}
+        className={`border   w-fit rounded-lg fixed bottom-4  bg-base-100 right-48 shadow-lg`}
         animate={isOpen ? "open" : "closed"}
         transition={{ ease: "easeOut", duration: 0.5 }}
         variants={variants}
       >
         <motion.div
-          className="flex flex-col w-full overflow-hidden h-full gap-1 bg-base-300 rounded-lg"
+          className="flex flex-col w-full overflow-hidden h-full gap-1 bg-base-300 rounded-lg relative"
           animate={expand ? "open" : "closed"}
           transition={{ ease: "easeOut", duration: 0.5 }}
           variants={variants2}
@@ -86,7 +118,7 @@ const HomeMessageBox = () => {
             </div>
           </header>
           {/* message display section */}
-          <motion.section
+          <motion.div
             className="flex-1 p-2 overflow-y-auto bg-base-100"
             animate={expand ? "open" : "closed"}
             transition={{ ease: "easeOut", duration: 0.5 }}
@@ -94,6 +126,7 @@ const HomeMessageBox = () => {
               open: { opacity: 1 },
               closed: { opacity: 0 },
             }}
+            ref={messageBoxRef}
           >
             {error ? (
               <>Error </>
@@ -108,7 +141,8 @@ const HomeMessageBox = () => {
                 userId={chatRoom?.userId as string}
               />
             )}
-          </motion.section>
+            <UserIsTyping />
+          </motion.div>
 
           {/* message input */}
 
@@ -121,20 +155,16 @@ const HomeMessageBox = () => {
             }}
             className=" bg-base-100  flex flex-col "
           >
-            <div className="p-2 border-b">
-              <textarea
-                className="textarea textarea-bordered  w-full bg-base-300  h-[100px]"
-                placeholder="Write a message..."
-              />
-            </div>
-            <div className="flex justify-between p-2">
-              <button className="btn btn-xs">send</button>
-            </div>
+            <MessageInput
+              email={chatRoom.email}
+              roomId={chatRoom.id}
+              userId={chatRoom.userId}
+            />
           </motion.section>
         </motion.div>
       </motion.div>
     </AnimatePresence>
-  );
+  ) : null;
 };
 
 export default HomeMessageBox;

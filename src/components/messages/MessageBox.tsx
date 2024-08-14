@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useAppSelector } from "../../hook";
 import { FaArrowUp } from "react-icons/fa";
 import { useGetMessagesQuery } from "../../redux";
@@ -7,26 +7,18 @@ import { IChatRoom, IUser } from "../../types";
 import UserIsTyping from "./UserIsTyping";
 import MessageDisplay from "./MessageDisplay";
 import envelope from "../../assets/images/envelope.svg";
+import useMessageHook from "../../hooks/useMessage.hook";
 
-function MessageBox({
-  userId,
-  isError,
-  isSendingMessageLoading,
-  message,
-  userName,
-  preview,
-}: messageBoxProps) {
-  console.log(isError);
+function MessageBox({ userId, userName }: messageBoxProps) {
+  const { message, messageStatus, preview } = useMessageHook();
   const { currentRoom } = useAppSelector((store) => store.rooms);
   const { user } = useAppSelector((store) => store.user);
   const { isTyping } = useAppSelector((store) => store.socket);
-
-  const [numberOfMessageToDisplay, setNumberOfMessageToDisplay] = useState(10);
-
+  const { numOfMessages, setNumofMessages } = useMessageHook();
   const sectionRef = useRef<HTMLDivElement>(null);
   const { data, error, isLoading } = useGetMessagesQuery({
     roomId: currentRoom?.id || "",
-    num: numberOfMessageToDisplay,
+    num: numOfMessages,
   });
 
   useEffect(() => {
@@ -34,7 +26,7 @@ function MessageBox({
     if (sectionRef.current && height) {
       sectionRef.current.scrollTop = height;
     }
-  }, [data]);
+  }, [data, isTyping]);
 
   return error ? (
     <>Unexpected Error Occured</>
@@ -42,14 +34,14 @@ function MessageBox({
     <section className="skeleton w-full h-full bg-base-300 flex-1 max-h-fit " />
   ) : data?.result._count.messages ? (
     <section
-      className="p-2 flex flex-col   border-b-base-300  h-[650px]   flex-1 md:flex-none overflow-y-auto  mt-14  pb-16"
+      className="p-2 flex flex-col   h-[400px] md:h-[465px]   overflow-y-auto   scroll-smooth"
       ref={sectionRef}
     >
-      {numberOfMessageToDisplay < data.result._count.messages && (
+      {numOfMessages < data.result._count.messages && (
         <button
           className="animate-bounce mb-5 w-full  flex items-center justify-center"
           onClick={() => {
-            setNumberOfMessageToDisplay(numberOfMessageToDisplay + 5);
+            setNumofMessages((prev) => prev + 5);
           }}
         >
           <FaArrowUp />
@@ -63,16 +55,14 @@ function MessageBox({
         userId={userId}
       />
 
-      <UserIsTyping
-        currentRoom={currentRoom as IChatRoom}
-        isTyping={isTyping}
-      />
+      <UserIsTyping />
       <MessageLoadingState
         message={message}
-        messageLoading={isSendingMessageLoading}
+        messageLoading={messageStatus.isLoading}
         preview={preview}
         user={user as IUser}
       />
+      <div>{preview}</div>
     </section>
   ) : (
     <section className="flex-1 flex items-center justify-center flex-col gap-2">
@@ -85,9 +75,5 @@ function MessageBox({
 export default MessageBox;
 type messageBoxProps = {
   userName: string;
-  message: string;
   userId: string;
-  isError: boolean;
-  isSendingMessageLoading: boolean;
-  preview: string;
 };

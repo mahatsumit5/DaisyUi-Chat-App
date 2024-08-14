@@ -1,38 +1,29 @@
 import { PiTelegramLogoFill } from "react-icons/pi";
-import {
-  ChangeEvent,
-  Dispatch,
-  FormEvent,
-  SetStateAction,
-  useEffect,
-} from "react";
-import { LuPaperclip } from "react-icons/lu";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useSendMessageMutation } from "../../redux";
 import { useAppDispatch, useAppSelector } from "../../hook";
+import { CiImageOn } from "react-icons/ci";
+import LoadingButton from "../loading/LoadingButton";
+import useMessageHook from "../../hooks/useMessage.hook";
+import { RxCross1 } from "react-icons/rx";
+import { motion } from "framer-motion";
+import EmojiBox from "../Emoji/EmojiBox";
+function MessageInput({ email, roomId, userId }: messageInputProps) {
+  const dispatch = useAppDispatch();
+  const [emojiOpen, setEmojiOpen] = useState<boolean>(false);
+  const {
+    file,
+    message,
+    preview,
+    numOfMessages,
+    setFile,
+    setMessage,
+    setPreview,
+    setMessageStatus,
+  } = useMessageHook();
 
-function MessageInput({
-  email,
-  message,
-  setMessage,
-  id,
-  setStatus,
-  userId,
-  file,
-  setFile,
-  preview,
-  setPreview,
-}: messageInputProps) {
   const [sendMessage, { isLoading, isError }] = useSendMessageMutation();
   const { socket } = useAppSelector((store) => store.socket);
-
-  useEffect(() => {
-    if (!file) return;
-    const url = URL.createObjectURL(file as Blob);
-    setPreview(url);
-    return () => URL.revokeObjectURL(url);
-  }, [file, setPreview]);
-  const dispatch = useAppDispatch();
-
   async function handleSend(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
@@ -40,104 +31,123 @@ function MessageInput({
     const { result } = await sendMessage({
       author: userId,
       content: file ? file : message,
-      roomId: id,
+      roomId,
+      numOfMessages,
     }).unwrap();
     setFile(undefined);
     setPreview("");
     if (!isLoading && !isError) {
-      socket.emit("send_message", result, id);
+      socket.emit("send_message", result, roomId);
       setMessage("");
     }
   }
+  useEffect(() => {
+    if (!file) return;
+    const url = URL.createObjectURL(file as Blob);
+    console.log(url);
+    setPreview(url);
+    return () => URL.revokeObjectURL(url);
+  }, [file, setPreview]);
 
   useEffect(() => {
-    setStatus({ isError, isLoading });
-  }, [isError, isLoading, setStatus, dispatch, id]);
+    setMessageStatus({ isError, isLoading });
+  }, [isError, isLoading, setMessageStatus, dispatch]);
+
   return (
     <>
-      <section className=" min-h-14 h-auto flex bg-base-100   w-full  p-2 fixed bottom-0 md:absolute">
-        <form onSubmit={handleSend} className="flex  w-full gap-2">
-          <label className="flex input p-2 focus:border-primary focus:outline-primary w-full  rounded-md  h-full bg-base-300 text-base-content">
-            {file ? (
-              <div className="avatar">
-                <div className="w-24 rounded">
-                  <img
-                    src={
-                      preview ||
-                      "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                    }
-                  />
-                </div>
-              </div>
-            ) : (
-              <input
-                type="text"
-                placeholder="Enter your message"
-                className="   w-full h-full  "
-                onFocusCapture={() => socket.emit("typing", id, email)}
-                value={message}
-                onChange={(e: FormEvent<HTMLInputElement>) => {
-                  setMessage(e.currentTarget.value);
-                }}
-                onBlur={() => socket.emit("stopped_typing", id, email)}
-              />
-            )}
+      <form
+        onSubmit={handleSend}
+        className="flex  w-full gap-2 flex-col p-2 border-t-2 overflow-y-hidden "
+      >
+        <textarea
+          placeholder="Enter your message"
+          className="   w-full  textarea textarea-bordered textarea-ghost h-24 text-[16px] focus:outline-none  focus:shadow-lg focus:border-primary"
+          onFocusCapture={() => socket.emit("typing", roomId, email)}
+          value={message}
+          onChange={(e: FormEvent<HTMLTextAreaElement>) => {
+            setMessage(e.currentTarget.value);
+          }}
+          onBlur={() => socket.emit("stopped_typing", roomId, email)}
+        />
 
-            <label
-              htmlFor="file"
-              className="flex items-center justify-center w-8"
-            >
-              <LuPaperclip />
-            </label>
-            <input
-              type="file"
-              className="hidden"
-              id="file"
-              accept=".jpg,.avif,.png,.jpeg"
-              onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                const { files } = e.target;
-                setFile(files ? (files[0] as File) : undefined);
-              }}
-            />
+        {/* buttons */}
+        <div className="flex  gap-3 ">
+          <label htmlFor="file" className="btn-sm btn-square btn">
+            <CiImageOn size={20} />
           </label>
-
           <button
-            className="btn btn-primary text-primary-content btn-outline disabled:btn-disabled"
-            disabled={isLoading || (!message && !file)}
+            className="btn-sm btn-square btn text-xl"
+            onClick={() => setEmojiOpen(!emojiOpen)}
+            type="button"
           >
-            {isLoading ? (
-              <svg
-                width="30"
-                height="30"
-                fill="currentColor"
-                className="mr-2 animate-spin"
-                viewBox="0 0 1792 1792"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M526 1394q0 53-37.5 90.5t-90.5 37.5q-52 0-90-38t-38-90q0-53 37.5-90.5t90.5-37.5 90.5 37.5 37.5 90.5zm498 206q0 53-37.5 90.5t-90.5 37.5-90.5-37.5-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm-704-704q0 53-37.5 90.5t-90.5 37.5-90.5-37.5-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm1202 498q0 52-38 90t-90 38q-53 0-90.5-37.5t-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm-964-996q0 66-47 113t-113 47-113-47-47-113 47-113 113-47 113 47 47 113zm1170 498q0 53-37.5 90.5t-90.5 37.5-90.5-37.5-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm-640-704q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm530 206q0 93-66 158.5t-158 65.5q-93 0-158.5-65.5t-65.5-158.5q0-92 65.5-158t158.5-66q92 0 158 66t66 158z"></path>
-              </svg>
-            ) : (
-              <>
-                <PiTelegramLogoFill className="" size={20} />
-              </>
-            )}
+            {String.fromCodePoint(0x1f60a)}
           </button>
-        </form>
-      </section>
+          <div className="flex-1 text-end">
+            <button
+              className="btn btn-primary btm-nav-sm text-primary-content btn-outline disabled:btn-disabled"
+              disabled={isLoading || (!message && !file)}
+            >
+              {isLoading ? (
+                <LoadingButton />
+              ) : (
+                <>
+                  Send <PiTelegramLogoFill className="" size={20} />
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* image */}
+        <motion.div
+          className="flex gap-2 items-center w-full  p-2 border-t bg-base-200 rounded-md hover:shadow-md"
+          animate={file?.name ? "open" : "closed"}
+          transition={{ ease: "easeIn", duration: 0.7 }}
+          variants={{
+            open: { x: 0, opacity: 1, height: "auto", display: "flex" },
+            closed: { x: -500, opacity: 0, height: 0, display: "hidden" },
+          }}
+        >
+          <img src={preview} alt="preview" height={50} width={50} />
+          <p className="text-sm font-semibold">{file?.name}</p>
+          <div className="flex-1 text-end">
+            <button
+              className="btn btn-sm btn-circle btn-ghost"
+              onClick={() => {
+                setFile(undefined);
+              }}
+            >
+              <RxCross1 />
+            </button>
+          </div>
+        </motion.div>
+
+        {/* emoji */}
+
+        <EmojiBox
+          isOpen={emojiOpen}
+          setEmojiOpen={setEmojiOpen}
+          setMessage={setMessage}
+        />
+      </form>
+
+      <input
+        type="file"
+        className="hidden"
+        id="file"
+        accept=".jpg,.avif,.png,.jpeg"
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
+          const { files } = e.target;
+          setFile(files ? (files[0] as File) : undefined);
+        }}
+      />
     </>
   );
 }
 
 export default MessageInput;
 type messageInputProps = {
-  setMessage: Dispatch<SetStateAction<string>>;
-  message: string;
-  id: string;
+  roomId: string;
   userId: string;
   email: string;
-  setStatus: Dispatch<SetStateAction<{ isLoading: boolean; isError: boolean }>>;
-  setFile: Dispatch<SetStateAction<File | undefined>>;
-  file: File | undefined;
-  preview: string;
-  setPreview: Dispatch<SetStateAction<string>>;
 };

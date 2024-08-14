@@ -1,15 +1,17 @@
 import { IChatRoom } from "../../types";
-import { useAppDispatch, useAppSelector } from "../../hook";
+import { useAppDispatch } from "../../hook";
 import { setCurrentRoom } from "../../redux/reducer/room.slice";
 import { IoChevronBackSharp } from "react-icons/io5";
 import { MdDeleteOutline, MdPhoneEnabled } from "react-icons/md";
 import { useDeleteChatRoomMutation } from "../../redux";
+import { Avatar } from "../Avatar/Avatar";
+import { extractInitial } from "../../utils";
 
 function MessageHeader({ currentRoom }: { currentRoom: IChatRoom }) {
   const dispatch = useAppDispatch();
   const [deleteChatRoom] = useDeleteChatRoomMutation();
 
-  const { onlineUsers } = useAppSelector((store) => store.onlineUsers);
+  // const { onlineUsers } = useAppSelector((store) => store.onlineUsers);
   function deleteRoomHandle() {
     deleteChatRoom(currentRoom.id)
       .unwrap()
@@ -20,7 +22,7 @@ function MessageHeader({ currentRoom }: { currentRoom: IChatRoom }) {
       });
   }
   return (
-    <header className=" w-full  border-b-2 shadow-sm p-2 flex justify-between fixed top-0 md:absolute  md:top-0   bg-base-100 z-[5]">
+    <header className=" w-full  border-b-2 shadow-sm p-2 flex justify-between bg-base-100    z-[5]">
       <div className="flex gap-5">
         <button
           onClick={() => {
@@ -30,36 +32,14 @@ function MessageHeader({ currentRoom }: { currentRoom: IChatRoom }) {
         >
           <IoChevronBackSharp size={24} />
         </button>
-        {currentRoom.profile ? (
-          <div
-            className={`avatar ${
-              onlineUsers.includes(currentRoom.userId) ? "online" : "offline"
-            }`}
-            onClick={() => {}}
-          >
-            <div className="w-10 rounded-full">
-              <img
-                src={
-                  currentRoom.profile ||
-                  "https://gratisography.com/wp-content/uploads/2024/01/gratisography-cyber-kitty-800x525.jpg"
-                }
-              />
-            </div>
-          </div>
-        ) : (
-          <div className="avatar placeholder">
-            <div className="bg-neutral/70 text-neutral-content w-12 rounded-full">
-              <span className="text-xl">
-                {currentRoom.fName.slice(0, 1)}
-                {currentRoom.lName.slice(0, 1)}
-              </span>
-            </div>
-          </div>
-        )}
+        <Avatar
+          initial={extractInitial(currentRoom.fName, currentRoom.lName)}
+          url={currentRoom.profile}
+          classname="h-12"
+        />
         <div className="flex flex-col items-center justify-center">
-          <p className="text-base-content font-bold ">
-            {currentRoom.fName}&nbsp;
-            {currentRoom.lName}
+          <p className="text-base-content font-bold text-sm">
+            {currentRoom.fName} {currentRoom.lName}
           </p>
         </div>
       </div>

@@ -26,6 +26,7 @@ export const rtkQueryErrorLogger: Middleware =
         errorResponse.data.message === "jwt malformed" ||
         errorResponse.data.message === `"exp" claim timestamp check failed`
       ) {
+        console.log(errorResponse.data.message);
         errorResponse.data.message = "Session expired.Please log in again.";
         return next(action);
       }
@@ -43,6 +44,16 @@ export const rtkQueryErrorLogger: Middleware =
           return next(action);
 
         case "Invalid Compact JWS":
+          return next(action);
+
+        case `"exp" claim timestamp check failed`:
+          api.dispatch(
+            toggleDialog({
+              heading: "Session Expired.",
+              content: "Session expired. Please login again",
+              type: "login",
+            })
+          );
           return next(action);
         default:
           break;

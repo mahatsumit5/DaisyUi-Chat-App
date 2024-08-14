@@ -1,8 +1,10 @@
 import { GoDotFill } from "react-icons/go";
-import { IChatRoom } from "../../types";
+import { useAppSelector } from "../../hook";
 
-type props = { isTyping: boolean; currentRoom: IChatRoom };
-const UserIsTyping = ({ currentRoom, isTyping }: props) => {
+const UserIsTyping = () => {
+  const { isTyping } = useAppSelector((store) => store.socket);
+  const { currentRoom } = useAppSelector((store) => store.rooms);
+  console.log(isTyping);
   return isTyping ? (
     <div className="flex flex-col gap-2 mt-5">
       <div className="flex">

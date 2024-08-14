@@ -8,6 +8,7 @@ type sendMessagePArams = {
   content: string | File;
   roomId: string;
   author: string;
+  numOfMessages: number;
 };
 
 type keys = "author" | "roomId" | "content";
@@ -47,7 +48,7 @@ export const messageApi = createApi({
             messageApi.util.updateQueryData(
               "getMessages",
               {
-                num: 10,
+                num: arg.numOfMessages,
                 roomId: arg.roomId,
               },
               (draft) => {
@@ -81,7 +82,6 @@ export const messageApi = createApi({
           // update our query result with the received message
           socket.on("send_message_client", (data: IMessage) => {
             if (data.chatRoomId !== arg.roomId) return;
-            console.log(data);
             notification.play();
             updateCachedData((draft) => {
               draft.result.messages.push(data);
