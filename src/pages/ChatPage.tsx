@@ -7,18 +7,12 @@ function ChatPage() {
   const { currentRoom } = useAppSelector((store) => store.rooms);
 
   return (
-    <div className="flex  relative border shadow-lg  h-full">
-      <div
-        className={`   h-full  ${
-          currentRoom?.id ? "hidden lg:flex " : "flex w-full overflow-y-scroll "
-        } `}
-      >
-        <ChatMenu />
-      </div>
+    <div className="flex  gap-1 h-[90dvh]  ">
+      <ChatMenu />
 
       {currentRoom?.id ? (
         <div
-          className={` ${
+          className={` h-full ${
             currentRoom?.id ? "w-full  fixed top-0 md:static  " : ""
           }  `}
         >
@@ -26,7 +20,7 @@ function ChatPage() {
         </div>
       ) : (
         <div
-          className={` hidden md:flex w-full flex-col justify-center items-center gap-2 `}
+          className={` hidden md:flex w-full flex-col justify-center items-center gap-2  rounded-md bg-base-100 `}
         >
           <p className="text-2xl">Select a Room</p>
           <p>or</p>

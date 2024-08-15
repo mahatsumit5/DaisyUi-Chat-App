@@ -26,6 +26,8 @@ const HomeMessageBox = () => {
   const { numOfMessages, setNumofMessages } = useMessageHook();
   const messageBoxRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
+  const { isTyping } = useAppSelector((store) => store.socket);
+
   const [expand, setExpand] = useState<boolean>(false);
   const { isOpen, chatRoom } = useAppSelector((state) => state.messageBox);
   const { user } = useAppSelector((state) => state.user);
@@ -44,7 +46,7 @@ const HomeMessageBox = () => {
     if (messageBoxRef.current && height) {
       messageBoxRef.current.scrollTop = height;
     }
-  }, [data]);
+  }, [data, isTyping]);
 
   useEffect(() => {
     const messageBox = messageBoxRef.current;
@@ -63,7 +65,7 @@ const HomeMessageBox = () => {
         messageBox.removeEventListener("scroll", handleScroll);
       }
     };
-  });
+  }, [setNumofMessages]);
 
   return chatRoom ? (
     <AnimatePresence>
@@ -119,7 +121,7 @@ const HomeMessageBox = () => {
           </header>
           {/* message display section */}
           <motion.div
-            className="flex-1 p-2 overflow-y-auto bg-base-100"
+            className="flex-1 p-2 overflow-y-auto bg-base-100 scroll-smooth"
             animate={expand ? "open" : "closed"}
             transition={{ ease: "easeOut", duration: 0.5 }}
             variants={{
@@ -138,7 +140,7 @@ const HomeMessageBox = () => {
                 messages={data?.result.messages || []}
                 user={user as IUser}
                 currentRoom={chatRoom as IChatRoom}
-                userId={chatRoom?.userId as string}
+                userId={user?.id as string}
               />
             )}
             <UserIsTyping />
@@ -158,7 +160,7 @@ const HomeMessageBox = () => {
             <MessageInput
               email={chatRoom.email}
               roomId={chatRoom.id}
-              userId={chatRoom.userId}
+              userId={user?.id as string}
             />
           </motion.section>
         </motion.div>

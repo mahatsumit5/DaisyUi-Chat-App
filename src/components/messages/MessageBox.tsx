@@ -34,7 +34,7 @@ function MessageBox({ userId, userName }: messageBoxProps) {
     <section className="skeleton w-full h-full bg-base-300 flex-1 max-h-fit " />
   ) : data?.result._count.messages ? (
     <section
-      className="p-2 flex flex-col   h-[400px] md:h-[465px]   overflow-y-auto   scroll-smooth"
+      className="p-1 flex flex-col h-full overflow-y-auto   scroll-smooth border-b-2"
       ref={sectionRef}
     >
       {numOfMessages < data.result._count.messages && (

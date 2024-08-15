@@ -13,6 +13,8 @@ import {
 import { TiDelete, TiTick } from "react-icons/ti";
 import { setCurrentRoom } from "../../redux/reducer/room.slice";
 import { setQueryType } from "../../redux/reducer/search.slice";
+import { Avatar } from "../Avatar/Avatar";
+import { extractInitial } from "../../utils";
 type keys = "peoples" | "friends" | "request" | "SentRequest";
 
 const FriendCard = ({
@@ -31,26 +33,15 @@ const FriendCard = ({
     SentRequest: <SentRequest user={user} />,
   };
   return (
-    <div className="  w-full sm:w-[200px] md:rounded-lg md:border-none flex md:flex-col border-b-2  border-b-primary bg-base-100 md:p-4   items-center justify-start gap-2  md:shadow-lg  py-2 ">
+    <div className="  w-full sm:w-[200px]  p-4 rounded-lg  flex md:flex-col   bg-base-100    items-center justify-start gap-2   shadow-md   ">
       {/* Avatar and name */}
-      {user.profile ? (
-        <div className="avatar ">
-          <div className="w-12 h-full md:w-24">
-            <img src={user.profile} className="rounded-full " />
-          </div>
-        </div>
-      ) : (
-        <div className="avatar placeholder">
-          <div className="bg-neutral/70 text-neutral-content w-16 md:w-24 rounded-full">
-            <span className="text-3xl">
-              {user.fName.slice(0, 1)}
-              {user.lName.slice(0, 1)}
-            </span>
-          </div>
-        </div>
-      )}
 
-      <div className="flex flex-col items-start  md:items-center justify-center">
+      <Avatar
+        initial={extractInitial(user.fName, user.lName)}
+        url={user.profile}
+        classname="w-10 md:w-24 text-xl"
+      />
+      <div className="flex flex-col items-start  md:items-center justify-center ">
         <span className="flex  sm:flex-row gap-1">
           <h1 className="text-base">{user?.fName}</h1>
 
@@ -100,7 +91,7 @@ const AllPeoples = ({ user }: { user: IChatRoom }) => {
       .catch((err) => console.log(err));
   }
   function sentReqCheck(email: string): boolean {
-    if (!data) return false;
+    if (!data?.data) return false;
     const result = data.data.find(
       (item: IFriendReq) => item.to.email === email
     );

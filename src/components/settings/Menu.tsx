@@ -32,7 +32,7 @@ function Menu<T>({
     }
   }
   return (
-    <ul className="menu gap-2 menu-horizontal rounded-b-md w-full">
+    <ul className="menu gap-2 menu-horizontal w-full border-b-2  bg-base-100 rounded-lg ">
       {links.map((item) => (
         <li
           key={item.id}

@@ -4,7 +4,6 @@ import { useAppSelector } from "../../hook";
 const UserIsTyping = () => {
   const { isTyping } = useAppSelector((store) => store.socket);
   const { currentRoom } = useAppSelector((store) => store.rooms);
-  console.log(isTyping);
   return isTyping ? (
     <div className="flex flex-col gap-2 mt-5">
       <div className="flex">

@@ -22,7 +22,7 @@ function MessageHeader({ currentRoom }: { currentRoom: IChatRoom }) {
       });
   }
   return (
-    <header className=" w-full  border-b-2 shadow-sm p-2 flex justify-between bg-base-100    z-[5]">
+    <header className=" w-full  border-b-2  p-2 flex justify-between    z-[5] ">
       <div className="flex gap-5">
         <button
           onClick={() => {

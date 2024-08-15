@@ -25,7 +25,7 @@ function AllPeoples() {
       // pollingInterval: 2000, refetch every 2 seconds
     }
   );
-
+  console.log(data);
   return (
     <>
       {error ? (

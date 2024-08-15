@@ -29,7 +29,7 @@ const HomeAllUsers: React.FC<{
     }
   };
   return (
-    <div className="flex justify-between items-center  w-full  p-2  border-b-2 bg-base-100 rounded-md">
+    <div className="flex justify-between items-center  w-full  p-2  hover:bg-base-200 rounded-md">
       <div className="flex gap-2 items-center">
         <Avatar
           initial={extractInitial(user.fName, user.lName)}

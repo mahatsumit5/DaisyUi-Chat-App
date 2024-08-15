@@ -57,11 +57,11 @@ function MessageInput({ email, roomId, userId }: messageInputProps) {
     <>
       <form
         onSubmit={handleSend}
-        className="flex  w-full gap-2 flex-col p-2 border-t-2 overflow-y-hidden "
+        className="flex  w-full gap-2 flex-col p-1  overflow-y-hidden "
       >
         <textarea
           placeholder="Enter your message"
-          className="   w-full  textarea textarea-bordered textarea-ghost h-24 text-[16px] focus:outline-none  focus:shadow-lg focus:border-primary"
+          className=" resize-none w-full  textarea textarea-bordered textarea-ghost h-28 text-[16px] focus:outline-none  focus:shadow-lg focus:border-primary bg-base-200"
           onFocusCapture={() => socket.emit("typing", roomId, email)}
           value={message}
           onChange={(e: FormEvent<HTMLTextAreaElement>) => {
@@ -84,14 +84,15 @@ function MessageInput({ email, roomId, userId }: messageInputProps) {
           </button>
           <div className="flex-1 text-end">
             <button
-              className="btn btn-primary btm-nav-sm text-primary-content btn-outline disabled:btn-disabled"
+              className="btn btn-primary btn-square btn-sm  text-primary-content btn-outline disabled:btn-disabled"
               disabled={isLoading || (!message && !file)}
+              type="submit"
             >
               {isLoading ? (
                 <LoadingButton />
               ) : (
                 <>
-                  Send <PiTelegramLogoFill className="" size={20} />
+                  <PiTelegramLogoFill className="" size={16} />
                 </>
               )}
             </button>

@@ -28,7 +28,7 @@ const EmojiBox: React.FC<{
   const [display, setDisplay] = useState<keys>("cats");
   return (
     <motion.div
-      className="absolute top-52 w-[400px]  bg-base-100 border rounded-md shadow-md  flex flex-col z-50"
+      className="absolute top-52 l w-[350px] md:w-[400px] bg-base-100 border rounded-md shadow-md  flex flex-col z-50"
       animate={isOpen ? "open" : "closed"}
       variants={{
         open: {
@@ -61,7 +61,7 @@ const EmojiBox: React.FC<{
       </header>
 
       <nav className="bg-base-300 h-10 p-2">
-        <ul className="flex gap-2">
+        <ul className="flex gap-2 overflow-x-scroll md:overflow-x-hidden">
           {navigationMenu.map((item) => (
             <li key={item}>
               <button

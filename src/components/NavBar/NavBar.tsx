@@ -27,7 +27,7 @@ const NavBar = () => {
     socket.close();
   }
   return user ? (
-    <header className="sticky w-full top-0 z-50 border-b-2 shadow-md bg-base-100">
+    <header className="sticky w-full top-0 z-50 border-b-2 shadow-md bg-base-100 border-primary/50">
       <div
         className={`navbar  rounded-t-md    max-w-7xl mx-auto  ${
           currentRoom?.id ? "hidden md:flex" : "flex"
@@ -37,7 +37,7 @@ const NavBar = () => {
           <span className="hidden md:block">
             <img src={icon} className="" alt="logo" height={25} width={25} />
           </span>
-          <p className="font-bold hidden md:block text-lg text-primary">
+          <p className="font-bold hidden md:block text-xl text-primary font-courgette ">
             Chat App
           </p>
           <MobileDrawer />

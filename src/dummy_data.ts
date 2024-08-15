@@ -70,7 +70,7 @@ export const users = [
   },
   {
     email: "jane.smith@example.com",
-    password: "abc123",
+    password: "abc123@x",
     fName: "Jane",
     lName: "Smith",
   },

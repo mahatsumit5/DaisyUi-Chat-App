@@ -11,9 +11,10 @@ import {
 import { useAppDispatch, useAppSelector } from "../hook";
 import { setSkip } from "../redux/reducer/post.slice";
 import { LoadingButton } from "../components";
-import { useRef } from "react";
-
+import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 const Home = () => {
+  const [position, setPostion] = useState((window.innerWidth - 1280) / 2);
   const btnRef = useRef<HTMLButtonElement>(null);
   const dispatch = useAppDispatch();
   const { skip } = useAppSelector((state) => state.post);
@@ -50,10 +51,27 @@ const Home = () => {
   //     window.removeEventListener("scroll", handleScroll);
   //   };
   // }, [dispatch, skip, posts?.totalNumberOfPosts]);
+
+  useEffect(() => {
+    const handlOnResize = () => {
+      const newPosition = (window.innerWidth - 1280) / 2;
+      console.log(newPosition);
+      if (newPosition > 0) {
+        setPostion(newPosition);
+      } else {
+        setPostion(5);
+      }
+    };
+    window.addEventListener("resize", handlOnResize);
+    return () => {
+      window.removeEventListener("resize", handlOnResize);
+    };
+  }, []);
   return (
-    <div className=" h-full flex relative">
+    <div className=" h-full flex  lg:mr-[310px] ">
       <div className={` px-2 w-full lg:w-full flex flex-col gap-3   `}>
         <CreatePost />
+
         {isError ? (
           <Alert message="Error occured while fetching posts" />
         ) : (
@@ -82,7 +100,10 @@ const Home = () => {
         )}
       </div>
       {/* Side Bar */}
-      <div className="hidden lg:flex  lg:w-[350px]  py-4    bg-base-100 rounded-lg   h-fit  sticky top-0 right-0">
+      <div
+        className="hidden lg:flex  lg:w-[300px]  py-4    bg-base-100 rounded-lg   h-fit fixed w-[100dvw]    "
+        style={{ right: position }}
+      >
         <div className="flex flex-col gap-4 w-full px-2">
           <span className="mx-2 text-sm font-bold">Friends</span>
 
@@ -92,21 +113,34 @@ const Home = () => {
             <>Loading....</>
           ) : (
             <div className="max-h-60 overflow-y-auto flex flex-col gap-2">
-              {friends?.data.map((item) => (
-                <HomeAllUsers
-                  key={item.id}
-                  user={{
-                    email: item.email,
-                    fName: item.fName,
-                    id: item.userId,
-                    lName: item.lName,
-                    profile: item.profile,
-                    isActive: item.isActive,
-                  }}
-                  type="friends"
-                  room={item}
-                />
-              ))}
+              {friends?.data.length ? (
+                friends?.data.map((item) => (
+                  <HomeAllUsers
+                    key={item.id}
+                    user={{
+                      email: item.email,
+                      fName: item.fName,
+                      id: item.userId,
+                      lName: item.lName,
+                      profile: item.profile,
+                      isActive: item.isActive,
+                    }}
+                    type="friends"
+                    room={item}
+                  />
+                ))
+              ) : (
+                <span className="flex flex-col gap-5">
+                  <p className="text-base-content font-poppins font-semibold">
+                    You do not have any friends.
+                  </p>
+                  <Link to={"/friends"}>
+                    <button className="btn btn-primary btn-outline">
+                      Find Friends
+                    </button>
+                  </Link>
+                </span>
+              )}
             </div>
           )}
           <span className="mx-2 text-sm font-bold">People you may know</span>

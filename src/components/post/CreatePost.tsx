@@ -38,7 +38,7 @@ const CreatePost = () => {
 
   return user ? (
     <motion.form
-      className="bg-base-100 rounded-lg p-4 flex flex-col gap-5 overflow-hidden min-h-20 sticky top-0"
+      className="bg-base-100 rounded-lg p-4 flex flex-col gap-5 overflow-hidden min-h-20 "
       initial={{ opacity: 0, height: "80px" }}
       animate={{ opacity: 1, height: expandInput ? "auto" : "80px" }}
       onSubmit={handleCreatePost}
