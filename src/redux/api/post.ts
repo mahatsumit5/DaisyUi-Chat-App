@@ -63,7 +63,7 @@ export const postApi = createApi({
       { posts: IPost[]; totalNumberOfPosts: number },
       number
     >({
-      query: (skip) => `?skip=${skip}&&take=4`,
+      query: (page) => `?page=${page}&&take=10`,
       onCacheEntryAdded: async (
         arg,
         { cacheDataLoaded, cacheEntryRemoved }

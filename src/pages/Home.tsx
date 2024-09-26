@@ -9,7 +9,7 @@ import {
   useGetPostsQuery,
 } from "../redux";
 import { useAppDispatch, useAppSelector } from "../hook";
-import { setSkip } from "../redux/reducer/post.slice";
+import { setPage } from "../redux/reducer/post.slice";
 import { LoadingButton } from "../components";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
@@ -17,8 +17,8 @@ const Home = () => {
   const [position, setPostion] = useState((window.innerWidth - 1280) / 2);
   const btnRef = useRef<HTMLButtonElement>(null);
   const dispatch = useAppDispatch();
-  const { skip } = useAppSelector((state) => state.post);
-  const { isError, isLoading: loading, data: posts } = useGetPostsQuery(skip);
+  const { page } = useAppSelector((state) => state.post);
+  const { isError, isFetching: loading, data: posts } = useGetPostsQuery(page);
   const {
     isLoading,
     isError: usersError,
@@ -55,7 +55,6 @@ const Home = () => {
   useEffect(() => {
     const handlOnResize = () => {
       const newPosition = (window.innerWidth - 1280) / 2;
-      console.log(newPosition);
       if (newPosition > 0) {
         setPostion(newPosition);
       } else {
@@ -88,10 +87,10 @@ const Home = () => {
                 ref={btnRef}
                 className="btn btn-sm btn-primary btn-ghost w-40 "
                 onClick={() => {
-                  dispatch(setSkip(skip + 4));
+                  dispatch(setPage(page + 1));
                   btnRef.current?.scrollIntoView();
                 }}
-                disabled={(posts?.totalNumberOfPosts as number) - skip < 4}
+                disabled={(posts?.totalNumberOfPosts as number) - page < 4}
               >
                 {loading ? <LoadingButton /> : "Show More"}
               </button>

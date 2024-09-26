@@ -48,7 +48,7 @@ export const messageApi = createApi({
             messageApi.util.updateQueryData(
               "getMessages",
               {
-                num: arg.numOfMessages,
+                take: arg.numOfMessages,
                 roomId: arg.roomId,
               },
               (draft) => {
@@ -66,9 +66,10 @@ export const messageApi = createApi({
 
     getMessages: builder.query<
       IMessageResponse,
-      { roomId: string; num: number }
+      { roomId: string; take: number }
     >({
-      query: ({ roomId, num }) => `?id=${roomId}&&num=${num}`,
+      query: ({ roomId, take }) =>
+        `?id=${roomId}&&take=${take}&&skip=0&&platform=web`,
       onCacheEntryAdded: async (
         arg,
         { cacheDataLoaded, cacheEntryRemoved, updateCachedData }

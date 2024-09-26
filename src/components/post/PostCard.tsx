@@ -59,7 +59,11 @@ const PostCard = ({ post }: { post: IPost }) => {
 
     // only send if the post is created by someone else except you.
     if (data.userId !== post.author.id) {
-      socket.emit("send_like_notification", { ...data, to: post.author.id });
+      socket.emit("send_like_notification", {
+        to: post.author.id,
+        user,
+        postId: data.postId,
+      });
     }
   };
 

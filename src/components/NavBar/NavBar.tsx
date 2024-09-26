@@ -26,7 +26,7 @@ const NavBar = () => {
     window.location.reload();
     socket.close();
   }
-  return user ? (
+  return (
     <header className="sticky w-full top-0 z-50 border-b-2 shadow-md bg-base-100 border-primary/50">
       <div
         className={`navbar  rounded-t-md    max-w-7xl mx-auto  ${
@@ -72,18 +72,8 @@ const NavBar = () => {
               role="button"
               className="btn btn-ghost btn-circle avatar"
             >
-              {/* <div className="w-10 rounded-full">
-              <img
-                alt="Tailwind CSS Navbar component"
-                src={
-                  user?.profile ||
-                  "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                }
-                loading="lazy"
-              />
-            </div> */}
               <Avatar
-                initial={extractInitial(user?.fName, user?.lName)}
+                initial={extractInitial(user?.fName || "", user?.lName || "")}
                 url={user?.profile as string}
                 classname="w-10"
               />
@@ -109,7 +99,7 @@ const NavBar = () => {
         </div>
       </div>
     </header>
-  ) : null;
+  );
 };
 
 export default NavBar;

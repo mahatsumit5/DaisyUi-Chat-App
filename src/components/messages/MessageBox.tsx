@@ -18,7 +18,7 @@ function MessageBox({ userId, userName }: messageBoxProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const { data, error, isLoading } = useGetMessagesQuery({
     roomId: currentRoom?.id || "",
-    num: numOfMessages,
+    take: numOfMessages,
   });
 
   useEffect(() => {

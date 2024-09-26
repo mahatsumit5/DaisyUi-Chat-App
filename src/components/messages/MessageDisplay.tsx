@@ -46,9 +46,7 @@ const MessageDisplay = ({
                   {getTime(createdAt).slice(0, 5)}
                 </time>
               </div>
-              {content.includes(
-                "https://cfw-image-bucket.s3.ap-southeast-2.amazonaws.com"
-              ) ? (
+              {content.includes("https://cfw-image-bucket.s3") ? (
                 <div className="avatar">
                   <div className="w-52 rounded">
                     <img src={content} loading="lazy" />
