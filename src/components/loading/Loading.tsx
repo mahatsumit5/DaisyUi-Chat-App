@@ -1,8 +1,8 @@
 import { useAppSelector } from "../../hook";
-
+import { createPortal } from "react-dom";
 const Loading = () => {
   const { content, isLoading } = useAppSelector((store) => store.loader);
-  return (
+  return createPortal(
     <div
       className={`absolute w-screen h-screen justify-center items-center z-50 bg-slate-900/35 text-primary ${
         isLoading ? "flex flex-col gap-2" : "hidden"
@@ -10,7 +10,8 @@ const Loading = () => {
     >
       <span className=" p-4 border-x-blue-500 animate-spin border-y-purple-900 rounded-full border-4 "></span>
       {content}
-    </div>
+    </div>,
+    document.body
   );
 };
 

@@ -26,7 +26,6 @@ export const rtkQueryErrorLogger: Middleware =
         errorResponse.data.message === "jwt malformed" ||
         errorResponse.data.message === `"exp" claim timestamp check failed`
       ) {
-        console.log(errorResponse.data.message);
         errorResponse.data.message = "Session expired.Please log in again.";
         return next(action);
       }
@@ -59,17 +58,17 @@ export const rtkQueryErrorLogger: Middleware =
           break;
       }
 
-      api.dispatch(
-        toggleToast({
-          isOpen: true,
-          content: {
-            id: Math.ceil(Math.random() * 10000000),
-            message: errorResponse.data.message,
+      // api.dispatch(
+      //   toggleToast({
+      //     isOpen: true,
+      //     content: {
+      //       id: Math.ceil(Math.random() * 10000000),
+      //       message: errorResponse.data.message,
 
-            type: "error",
-          },
-        })
-      );
+      //       type: "error",
+      //     },
+      //   })
+      // );
     }
 
     return next(action);

@@ -113,16 +113,10 @@ const userApi = createApi({
 
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
-          dispatch(
-            toggleLoader({ isLoading: true, content: "Please Wait..." })
-          );
-
           const { data } = await queryFulfilled;
           dispatch(setUser(data as IUser));
           socket.connect();
-          dispatch(toggleLoader({ isLoading: false }));
         } catch (error) {
-          dispatch(toggleLoader({ isLoading: false }));
           // if (error) return window.location.replace("/");
         }
       },
