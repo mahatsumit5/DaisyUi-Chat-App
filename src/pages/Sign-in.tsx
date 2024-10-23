@@ -13,6 +13,13 @@ const randomUserLogin = users.map((item) => {
   return { email: item.email, password: item.password };
 });
 export function SignIn() {
+  let x = 10;
+  function example() {
+    x += 20;
+    console.log(x);
+  }
+  example();
+
   useGetLoggedInUserQuery();
   const [passwordVisibility, setPasswordVisibility] = useState<
     "text" | "password"
