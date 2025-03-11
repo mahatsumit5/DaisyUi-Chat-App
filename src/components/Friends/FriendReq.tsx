@@ -24,10 +24,10 @@ function FriendReq() {
             </div>
           ) : (
             <>
-              {data?.data.result.length ? (
+              {data?.data.length ? (
                 <div className="flex flex-col gap-5 w-full">
                   <div className="flex justify-around flex-wrap gap-5 ">
-                    {data?.data.result.map((item, index) => (
+                    {data?.data.map((item, index) => (
                       <FriendCard
                         type="request"
                         user={item.from as IUser}
@@ -38,7 +38,7 @@ function FriendReq() {
 
                   <Pagination
                     numberOfContentPerPage={4}
-                    totalNumberOfAvaibleContent={data.data.friendReqCount}
+                    totalNumberOfAvaibleContent={data.count}
                   />
                 </div>
               ) : (

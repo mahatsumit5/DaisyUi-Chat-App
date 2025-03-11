@@ -171,7 +171,9 @@ export interface IFriendReq {
 
 export interface IFriendReqRes {
   status: boolean;
-  data: { result: IFriendReq[]; friendReqCount: number };
+  data: IFriendReq[];
+  count: number;
+  message: string;
 }
 export interface IFriendReqAccRes {
   status: string;

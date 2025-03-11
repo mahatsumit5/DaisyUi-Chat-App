@@ -48,7 +48,7 @@ export const friendApi = createApi({
               "getFriendRequest",
               null,
               (draft) => {
-                draft.data.result = draft.data.result.filter(
+                draft.data = draft.data.filter(
                   (item) => item.from.email !== data.friendRequest.from.email
                 );
               }
@@ -79,9 +79,9 @@ export const friendApi = createApi({
 
           socket.on("getFriendRequest", (data: IFriendReq) => {
             updateCachedData((draft) => {
-              draft.data.friendReqCount = ++draft.data.friendReqCount;
+              draft.count = ++draft.count;
 
-              draft.data.result.push(data);
+              draft.data.push(data);
             });
             dispatch(
               toggleDialog({
@@ -95,8 +95,8 @@ export const friendApi = createApi({
 
           socket.on("getRequestDeleted", (data: IFriendReq) => {
             updateCachedData((draft) => {
-              draft.data.friendReqCount = --draft.data.friendReqCount;
-              draft.data.result = draft.data.result.filter(
+              draft.count = --draft.count;
+              draft.data = draft.data.filter(
                 (item) => item.from.id !== data.from.id
               );
             });
@@ -250,13 +250,11 @@ export const friendApi = createApi({
               "getFriendRequest",
               null,
               (draft) => {
-                draft.data.result = draft.data.result.filter(
+                draft.data = draft.data.filter(
                   (item) => item.from.email !== data.data.from.email
                 );
-                draft.data.friendReqCount =
-                  arg.type === "received"
-                    ? --draft.data.friendReqCount
-                    : draft.data.friendReqCount;
+                draft.count =
+                  arg.type === "received" ? --draft.count : draft.count;
               }
             )
           );

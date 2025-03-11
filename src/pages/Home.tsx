@@ -107,7 +107,7 @@ const Home = () => {
           <span className="mx-2 text-sm font-bold">Friends</span>
 
           {friendError ? (
-            <>Error Ocurred</>
+            <>No Friends Available</>
           ) : friendLoading ? (
             <>Loading....</>
           ) : (

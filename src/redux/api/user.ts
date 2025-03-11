@@ -107,7 +107,7 @@ const userApi = createApi({
     }),
 
     getLoggedInUser: builder.query<IUser, void>({
-      query: () => "",
+      query: () => "loggedin",
       transformResponse: (response: { status: boolean; data: IUser }) =>
         response.data,
 
