@@ -8,18 +8,31 @@ import { useGetLoggedInUserQuery, useLoginMutation } from "../redux";
 import { users } from "../dummy_data";
 import icon from "../assets/images/icon.png";
 import { LoadingButton } from "../components";
+import { gql, useMutation, useSubscription } from "@apollo/client";
 
 const randomUserLogin = users.map((item) => {
   return { email: item.email, password: item.password };
 });
-export function SignIn() {
-  let x = 10;
-  function example() {
-    x += 20;
-    console.log(x);
+const signIn = gql`
+  mutation SignIn($input: SignInUser) {
+    signIn(input: $input) {
+      status
+      message
+      token {
+        accessJWT
+      }
+    }
   }
-  example();
-
+`;
+const POST_SUBS = gql`
+  subscription PostCreated {
+    postCreated {
+      id
+    }
+  }
+`;
+export function SignIn() {
+  useSubscription(POST_SUBS);
   useGetLoggedInUserQuery();
   const [passwordVisibility, setPasswordVisibility] = useState<
     "text" | "password"
@@ -29,9 +42,18 @@ export function SignIn() {
   const location = useLocation();
   const [login, { isLoading, isError }] = useLoginMutation();
   const [form, setform] = useState<{ email: string; password: string }>({
-    email: "",
-    password: "",
+    email: "alice@example.com",
+    password: "password@123",
   });
+  const [test] = useMutation(signIn, {
+    variables: {
+      input: {
+        email: form.email,
+        password: form.password,
+      },
+    },
+  });
+
   function onChange(e: FormEvent<HTMLInputElement>) {
     const { name, value } = e.currentTarget;
     let lowerCase = value;
@@ -44,6 +66,7 @@ export function SignIn() {
     sessionStorage.setItem("email", form.email);
 
     e.preventDefault();
+
     await login(form).unwrap();
   }
 
