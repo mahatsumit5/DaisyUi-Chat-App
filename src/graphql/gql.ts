@@ -14,12 +14,10 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 type Documents = {
-    "\n  mutation SignIn($input: SignInUser) {\n    signIn(input: $input) {\n      status\n      message\n      token {\n        accessJWT\n      }\n    }\n  }\n": typeof types.SignInDocument,
-    "\n  subscription PostCreated {\n    postCreated {\n      id\n    }\n  }\n": typeof types.PostCreatedDocument,
+    "\n  mutation Mutation($body: PostInput) {\n    uploadPost(body: $body) {\n      status\n      message\n      result {\n        createdAt\n        title\n        id\n        content\n        author {\n          id\n          email\n          fName\n          lName\n          profile\n        }\n      }\n    }\n  }\n": typeof types.MutationDocument,
 };
 const documents: Documents = {
-    "\n  mutation SignIn($input: SignInUser) {\n    signIn(input: $input) {\n      status\n      message\n      token {\n        accessJWT\n      }\n    }\n  }\n": types.SignInDocument,
-    "\n  subscription PostCreated {\n    postCreated {\n      id\n    }\n  }\n": types.PostCreatedDocument,
+    "\n  mutation Mutation($body: PostInput) {\n    uploadPost(body: $body) {\n      status\n      message\n      result {\n        createdAt\n        title\n        id\n        content\n        author {\n          id\n          email\n          fName\n          lName\n          profile\n        }\n      }\n    }\n  }\n": types.MutationDocument,
 };
 
 /**
@@ -39,11 +37,7 @@ export function gql(source: string): unknown;
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  mutation SignIn($input: SignInUser) {\n    signIn(input: $input) {\n      status\n      message\n      token {\n        accessJWT\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation SignIn($input: SignInUser) {\n    signIn(input: $input) {\n      status\n      message\n      token {\n        accessJWT\n      }\n    }\n  }\n"];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
-export function gql(source: "\n  subscription PostCreated {\n    postCreated {\n      id\n    }\n  }\n"): (typeof documents)["\n  subscription PostCreated {\n    postCreated {\n      id\n    }\n  }\n"];
+export function gql(source: "\n  mutation Mutation($body: PostInput) {\n    uploadPost(body: $body) {\n      status\n      message\n      result {\n        createdAt\n        title\n        id\n        content\n        author {\n          id\n          email\n          fName\n          lName\n          profile\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation Mutation($body: PostInput) {\n    uploadPost(body: $body) {\n      status\n      message\n      result {\n        createdAt\n        title\n        id\n        content\n        author {\n          id\n          email\n          fName\n          lName\n          profile\n        }\n      }\n    }\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

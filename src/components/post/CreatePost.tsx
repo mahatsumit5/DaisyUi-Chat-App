@@ -9,7 +9,30 @@ import { MdOutlineCreate } from "react-icons/md";
 import { TiDelete } from "react-icons/ti";
 import { Avatar } from "../Avatar/Avatar";
 import { extractInitial } from "../../utils";
+import { gql, useMutation } from "@apollo/client";
+const CREATE_POST = gql`
+  mutation Mutation($body: PostInput) {
+    uploadPost(body: $body) {
+      status
+      message
+      result {
+        createdAt
+        title
+        id
+        content
+        author {
+          id
+          email
+          fName
+          lName
+          profile
+        }
+      }
+    }
+  }
+`;
 const CreatePost = () => {
+  const [createPostGQL] = useMutation(CREATE_POST);
   const [images, setImages] = useState<File[]>([]);
   const [createPost, { isLoading }] = useCreatePostMutation();
   const [form, setForm] = useState({ title: "", content: "" });
@@ -29,7 +52,12 @@ const CreatePost = () => {
   }
   async function handleCreatePost(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
+    createPostGQL({
+      variables: {
+        body: { ...form, id: user?.id },
+      },
+    });
+    return;
     await createPost({ ...form, id: user?.id as string, images }).unwrap();
     setForm({ title: "", content: "" });
     setImages([]);

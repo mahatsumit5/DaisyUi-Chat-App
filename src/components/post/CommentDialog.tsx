@@ -30,12 +30,14 @@ const CommentDialog = ({
   const [likeComment] = useLikeCommentMutation();
   const [unlikeComment] = useUnlikeCommentMutation();
 
-  const { data: comments } = useGetCommentsQuery(postId);
-
   const dispatch = useAppDispatch();
 
   const { isOpen, postId: id } = useAppSelector((store) => store.comment);
   const { user } = useAppSelector((store) => store.user);
+
+  const { data: comments } = useGetCommentsQuery(postId, {
+    skip: !isOpen,
+  });
 
   const inputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
@@ -73,7 +75,7 @@ const CommentDialog = ({
       inputRef.current.value = comment.content;
     }
   };
-  return user?.id ? (
+  return postId ? (
     <motion.div
       className=" w-full   rounded-lg     overflow-hidden flex flex-col gap-3"
       animate={isOpen && postId === id ? "open" : "closed"}

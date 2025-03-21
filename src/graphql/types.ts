@@ -117,6 +117,13 @@ export type GetMessageByUserResponse = {
   status: Scalars['Boolean']['output'];
 };
 
+export type GetPostByUserIdResponse = {
+  __typename?: 'GetPostByUserIdResponse';
+  message: Scalars['String']['output'];
+  posts?: Maybe<Post>;
+  status: Scalars['Boolean']['output'];
+};
+
 export type LogInResponse = {
   __typename?: 'LogInResponse';
   data?: Maybe<User>;
@@ -143,6 +150,8 @@ export type Mutation = {
   /** Delete Friend Request */
   deleteFriendRequest?: Maybe<SentRequestResponse>;
   deleteMessage?: Maybe<Response>;
+  deletePost: GetPostByUserIdResponse;
+  likePost: GetPostByUserIdResponse;
   logout?: Maybe<Response>;
   newJwt?: Maybe<Response>;
   resetPassword?: Maybe<Response>;
@@ -153,8 +162,9 @@ export type Mutation = {
   signIn?: Maybe<SignInResponse>;
   /** Create a new user */
   signUp?: Maybe<Response>;
+  unlikePost: GetPostByUserIdResponse;
   updateUser?: Maybe<Response>;
-  uploadPost: Response;
+  uploadPost: UploadAPostResponse;
   uploadProfile?: Maybe<Response>;
 };
 
@@ -171,6 +181,16 @@ export type MutationDeleteFriendRequestArgs = {
 
 export type MutationDeleteMessageArgs = {
   messageId: Scalars['String']['input'];
+};
+
+
+export type MutationDeletePostArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type MutationLikePostArgs = {
+  postId: Scalars['String']['input'];
 };
 
 
@@ -198,6 +218,16 @@ export type MutationSignUpArgs = {
   input?: InputMaybe<SignUpUser>;
 };
 
+
+export type MutationUnlikePostArgs = {
+  postId: Scalars['String']['input'];
+};
+
+
+export type MutationUploadPostArgs = {
+  body?: InputMaybe<PostInput>;
+};
+
 export enum Order {
   Asc = 'asc',
   Desc = 'desc'
@@ -205,16 +235,22 @@ export enum Order {
 
 export type Post = {
   __typename?: 'Post';
-  author: User;
-  authorId: Scalars['String']['output'];
-  comments: Array<Comment>;
+  _count?: Maybe<_Count>;
+  author?: Maybe<User>;
   content: Scalars['String']['output'];
   createdAt: Scalars['String']['output'];
+  hasLiked: Scalars['Boolean']['output'];
   id: Scalars['ID']['output'];
   images: Array<Scalars['String']['output']>;
-  likes: Array<PostLike>;
   title: Scalars['String']['output'];
   updatedAt: Scalars['String']['output'];
+};
+
+export type PostInput = {
+  content: Scalars['String']['input'];
+  id: Scalars['String']['input'];
+  images?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  title: Scalars['String']['input'];
 };
 
 export type PostLike = {
@@ -230,10 +266,11 @@ export type Query = {
   __typename?: 'Query';
   /** a list of all the users */
   allUsers?: Maybe<AllUsersResponse>;
+  getAllPosts?: Maybe<GetAllPostsResponse>;
   /** Get all incoming request */
   getFriendRequest?: Maybe<FriendRequestResponse>;
   getMessagesByUsers?: Maybe<GetMessageByUserResponse>;
-  getPosts?: Maybe<GetAllPostsResponse>;
+  getPostByUserId?: Maybe<GetPostByUserIdResponse>;
   /** Get list of ALL SENT request */
   getSentFriendRequest?: Maybe<FriendRequestResponse>;
   /** a list of all the users */
@@ -246,8 +283,19 @@ export type QueryAllUsersArgs = {
 };
 
 
+export type QueryGetAllPostsArgs = {
+  page: Scalars['Int']['input'];
+  take: Scalars['Int']['input'];
+};
+
+
 export type QueryGetMessagesByUsersArgs = {
   input?: InputMaybe<GetMessageByUser>;
+};
+
+
+export type QueryGetPostByUserIdArgs = {
+  userId: Scalars['String']['input'];
 };
 
 
@@ -316,12 +364,19 @@ export enum Status {
 
 export type Subscription = {
   __typename?: 'Subscription';
-  postCreated?: Maybe<Post>;
+  newPost?: Maybe<Post>;
 };
 
 export type Token = {
   __typename?: 'Token';
   accessJWT: Scalars['String']['output'];
+};
+
+export type UploadAPostResponse = {
+  __typename?: 'UploadAPostResponse';
+  message: Scalars['String']['output'];
+  result?: Maybe<Post>;
+  status: Scalars['Boolean']['output'];
 };
 
 export type User = {
@@ -346,6 +401,12 @@ export type User = {
   session: Array<Session>;
 };
 
+export type _Count = {
+  __typename?: '_count';
+  comments: Scalars['Int']['output'];
+  likes: Scalars['Int']['output'];
+};
+
 export type AllUser = {
   order: Order;
   page: Scalars['Int']['input'];
@@ -359,14 +420,9 @@ export type QueryParamsSentReq = {
   take: Scalars['Int']['input'];
 };
 
-export type SignInMutationVariables = Exact<{
-  input?: InputMaybe<SignInUser>;
+export type MutationMutationVariables = Exact<{
+  body?: InputMaybe<PostInput>;
 }>;
 
 
-export type SignInMutation = { __typename?: 'Mutation', signIn?: { __typename?: 'SignInResponse', status: boolean, message: string, token?: { __typename?: 'Token', accessJWT: string } | null } | null };
-
-export type PostCreatedSubscriptionVariables = Exact<{ [key: string]: never; }>;
-
-
-export type PostCreatedSubscription = { __typename?: 'Subscription', postCreated?: { __typename?: 'Post', id: string } | null };
+export type MutationMutation = { __typename?: 'Mutation', uploadPost: { __typename?: 'UploadAPostResponse', status: boolean, message: string, result?: { __typename?: 'Post', createdAt: string, title: string, id: string, content: string, author?: { __typename?: 'User', id: string, email: string, fName: string, lName: string, profile?: string | null } | null } | null } };

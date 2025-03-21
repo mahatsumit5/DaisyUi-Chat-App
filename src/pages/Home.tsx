@@ -13,11 +13,24 @@ import { setPage } from "../redux/reducer/post.slice";
 import { LoadingButton } from "../components";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { GET_ALL_POSTS } from "../graphql/queries";
+import { useQuery } from "@apollo/client";
+import { GetAllPostsResponse, QueryGetAllPostsArgs } from "../graphql/types";
 const Home = () => {
   const [position, setPostion] = useState((window.innerWidth - 1280) / 2);
   const btnRef = useRef<HTMLButtonElement>(null);
   const dispatch = useAppDispatch();
   const { page } = useAppSelector((state) => state.post);
+
+  const { data } = useQuery<
+    { data: GetAllPostsResponse },
+    QueryGetAllPostsArgs
+  >(GET_ALL_POSTS, {
+    variables: {
+      page,
+      take: 10,
+    },
+  });
   const { isError, isFetching: loading, data: posts } = useGetPostsQuery(page);
   const {
     isLoading,
