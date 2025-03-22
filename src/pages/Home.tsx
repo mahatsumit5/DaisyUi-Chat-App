@@ -43,27 +43,6 @@ const Home = () => {
     isLoading: friendLoading,
     data: friends,
   } = useGetAllChatRoomQuery({ page: 1, search: "", take: 10 });
-  // useEffect(() => {
-  //   console.log(skip);
-  //   if (posts?.totalNumberOfPosts - skip < 4) return;
-  //   const handleScroll = () => {
-  //     // Calculate the scroll position
-  //     const scrollTop = window.scrollY || document.documentElement.scrollTop;
-  //     const scrollHeight = document.documentElement.scrollHeight;
-  //     const clientHeight = document.documentElement.clientHeight;
-  //     // Check if scrolled to the bottom
-  //     if (scrollTop + clientHeight >= scrollHeight - 4) {
-  //       // -1 for a little buffer
-
-  //       dispatch(setSkip(skip + 4));
-  //     }
-  //   };
-  //   window.addEventListener("scroll", handleScroll);
-
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, [dispatch, skip, posts?.totalNumberOfPosts]);
 
   useEffect(() => {
     const handlOnResize = () => {
