@@ -22,15 +22,6 @@ const Home = () => {
   const dispatch = useAppDispatch();
   const { page } = useAppSelector((state) => state.post);
 
-  const { data } = useQuery<
-    { data: GetAllPostsResponse },
-    QueryGetAllPostsArgs
-  >(GET_ALL_POSTS, {
-    variables: {
-      page,
-      take: 10,
-    },
-  });
   const { isError, isFetching: loading, data: posts } = useGetPostsQuery(page);
   const {
     isLoading,
