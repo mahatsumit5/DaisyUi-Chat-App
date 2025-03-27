@@ -1,0 +1,38 @@
+mutation SignIn($input: SignInMutationVariables) {
+  signIn(input: $input) {
+    status
+    message
+    token {
+      accessJWT
+    }
+  }
+}
+
+query GetAllPosts($args: GetAllPostsQueryVariables) {
+  getAllPosts(args: $args) {
+    status
+    message
+    totalNumberOfPosts
+    posts {
+      id
+      title
+      content
+      hasLiked
+      _count {
+        likes
+        comments
+      }
+      author {
+        fName
+        email
+        id
+        lName
+        isActive
+        profile
+      }
+      createdAt
+      updatedAt
+      images
+    }
+  }
+}

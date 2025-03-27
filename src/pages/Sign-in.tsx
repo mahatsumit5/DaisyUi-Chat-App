@@ -7,7 +7,7 @@ import { useGetLoggedInUserQuery, useLoginMutation } from "../redux";
 import { users } from "../dummy_data";
 import icon from "../assets/images/icon.png";
 import { LoadingButton } from "../components";
-import { gql, useMutation, useSubscription } from "@apollo/client";
+import { useMutation, useSubscription } from "@apollo/client";
 import { SignInResponse } from "../graphql/graphql";
 import { SignInMutationVariables } from "../graphql/graphql";
 import { SIGN_IN } from "../graphql/queries";
@@ -30,12 +30,12 @@ export function SignIn() {
     email: "alice@example.com",
     password: "password@123",
   });
-  // const [test, response] = useMutation<
-  //   Promise<SignInResponse>,
-  //   SignInMutationVariables
-  // >(SIGN_IN, {
-  //   variables: { input: form },
-  // });
+  const [test, response] = useMutation<
+    Promise<SignInResponse>,
+    SignInMutationVariables
+  >(SIGN_IN, {
+    variables: { input: form },
+  });
   function onChange(e: FormEvent<HTMLInputElement>) {
     const { name, value } = e.currentTarget;
     let lowerCase = value;

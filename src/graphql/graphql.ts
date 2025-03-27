@@ -98,12 +98,17 @@ export type FriendRequests = {
   toId: Scalars['String']['output'];
 };
 
-export type GetAllPostsResponse = {
-  __typename?: 'GetAllPostsResponse';
+export type GetAllPostsQuery = {
+  __typename?: 'GetAllPostsQuery';
   message: Scalars['String']['output'];
   posts?: Maybe<Array<Post>>;
   status: Scalars['Boolean']['output'];
   totalNumberOfPosts?: Maybe<Scalars['Int']['output']>;
+};
+
+export type GetAllPostsQueryVariables = {
+  page: Scalars['Int']['input'];
+  take: Scalars['Int']['input'];
 };
 
 export type GetMessageByUser = {
@@ -161,7 +166,7 @@ export type Mutation = {
   /** Send friend request to other user */
   sendRequest?: Maybe<SentRequestResponse>;
   /** login to your account */
-  signIn?: Maybe<SignInResponse>;
+  signIn?: Maybe<SignInMutation>;
   /** Create a new user */
   signUp?: Maybe<Response>;
   unlikePost: GetPostByUserIdResponse;
@@ -212,7 +217,7 @@ export type MutationSendRequestArgs = {
 
 
 export type MutationSignInArgs = {
-  input?: InputMaybe<SignInUser>;
+  input?: InputMaybe<SignInMutationVariables>;
 };
 
 
@@ -268,7 +273,7 @@ export type Query = {
   __typename?: 'Query';
   /** a list of all the users */
   allUsers?: Maybe<AllUsersResponse>;
-  getAllPosts?: Maybe<GetAllPostsResponse>;
+  getAllPosts?: Maybe<GetAllPostsQuery>;
   /** Get all incoming request */
   getFriendRequest?: Maybe<FriendRequestResponse>;
   getMessagesByUsers?: Maybe<GetMessageByUserResponse>;
@@ -286,8 +291,7 @@ export type QueryAllUsersArgs = {
 
 
 export type QueryGetAllPostsArgs = {
-  page: Scalars['Int']['input'];
-  take: Scalars['Int']['input'];
+  args?: InputMaybe<GetAllPostsQueryVariables>;
 };
 
 
@@ -339,14 +343,14 @@ export type Session = {
   userEmail: Scalars['String']['output'];
 };
 
-export type SignInResponse = {
-  __typename?: 'SignInResponse';
+export type SignInMutation = {
+  __typename?: 'SignInMutation';
   message: Scalars['String']['output'];
   status: Scalars['Boolean']['output'];
   token?: Maybe<Token>;
 };
 
-export type SignInUser = {
+export type SignInMutationVariables = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
 };

@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit"
 
 import {
   friendApi,
@@ -20,9 +20,10 @@ import {
   commentApi,
   postReducer,
   HomeMessageBox,
-} from "./index";
-import { setupListeners } from "@reduxjs/toolkit/query";
-import { rtkQueryErrorLogger } from "../utils/errorHandler";
+} from "./index"
+import { setupListeners } from "@reduxjs/toolkit/query"
+import { rtkQueryErrorLogger } from "../utils/errorHandler"
+import { baseApiWithGraphql } from "../graphql/baseApi"
 export const store = configureStore({
   reducer: {
     messageBox: HomeMessageBox,
@@ -44,8 +45,9 @@ export const store = configureStore({
     [messageApi.reducerPath]: messageApi.reducer,
     [postApi.reducerPath]: postApi.reducer,
     [commentApi.reducerPath]: commentApi.reducer,
+    [baseApiWithGraphql.reducerPath]: baseApiWithGraphql.reducer,
   },
-  middleware: (getDefaultMiddleware) =>
+  middleware: getDefaultMiddleware =>
     getDefaultMiddleware({ serializableCheck: false }).concat([
       friendApi.middleware,
       userApi.middleware,
@@ -55,13 +57,13 @@ export const store = configureStore({
       commentApi.middleware,
       rtkQueryErrorLogger,
     ]),
-});
+})
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof store.getState>
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
-export type AppDispatch = typeof store.dispatch;
+export type AppDispatch = typeof store.dispatch
 
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors
 // see `setupListeners` docs - takes an optional callback as the 2nd arg for customization
-setupListeners(store.dispatch);
+setupListeners(store.dispatch)

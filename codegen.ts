@@ -1,18 +1,9 @@
-import { CodegenConfig } from "@graphql-codegen/cli";
+import { CodegenConfig } from "@graphql-codegen/cli"
 
 const config: CodegenConfig = {
   schema: "http://localhost:8000/graphql",
-  documents: ["src/**/*.tsx"],
+  documents: "./src/graphql/document.graphql",
   generates: {
-    "./src/graphql/": {
-      preset: "client",
-      presetConfig: {
-        gqlTagName: "gql",
-      },
-    },
-    "./src/graphql/types.ts": {
-      plugins: ["typescript", "typescript-operations"],
-    },
     "./src/graphql/generated.ts": {
       plugins: ["typescript", "typescript-resolvers", "typescript-rtk-query"],
 
@@ -23,6 +14,6 @@ const config: CodegenConfig = {
       },
     },
   },
-};
+}
 
-export default config;
+export default config
