@@ -13,7 +13,6 @@ import { socket } from "../reducer/socket.slice";
 import { toggleLoader } from "../reducer/loader.slice";
 import { toggleToast } from "../reducer/toast.slice";
 import { setUser } from "../reducer/user.slice";
-
 const userApi = createApi({
   reducerPath: "UserApi",
   tagTypes: ["Users", "CurrentUser"],

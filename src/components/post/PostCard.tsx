@@ -20,41 +20,39 @@ import { Avatar } from "../Avatar/Avatar";
 import { socket } from "../../redux/reducer/socket.slice";
 
 const PostCard = ({ post }: { post: IPost }) => {
+  const formObj = {
+    title: post.title,
+    content: post.content,
+  };
   const dispatch = useAppDispatch();
+  const { user } = useAppSelector((store) => store.user);
+
   const [likePost] = useLikePostMutation();
   const [removeLike] = useRemoveLikeMutation();
   const [updatePost] = useUpdatePostMutation();
   const [deletePost] = useDeletePostMutation();
 
   const [editing, setEditing] = useState(false);
-  const [form, setForm] = useState({
-    title: post.title,
-    content: post.content,
-  });
+  const [form, setForm] = useState(formObj);
 
   const cardRef = useRef<HTMLDivElement>(null);
   const InputRef = useRef<HTMLInputElement>(null);
   const TextAreaRef = useRef<HTMLTextAreaElement>(null);
   const ContainerRef = useRef<HTMLDivElement>(null);
+
   const isInView = useInView(cardRef);
 
-  const { user } = useAppSelector((store) => store.user);
-
-  // check whether currentUser has liked the post
-  const userHasLiked = post.likes.find(
-    (like) => like.userId === user?.id || ""
-  );
-  const handleDeletePost = async () => {
+  async function handleDeletePost() {
     await deletePost(post.id).unwrap();
-  };
+  }
 
-  const handleInputChange = (
+  function handleInputChange(
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  ) {
     setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  }
 
-  const handleOnLike = async () => {
+  async function handleOnLike() {
     const data = await likePost(post.id).unwrap();
 
     // only send if the post is created by someone else except you.
@@ -65,14 +63,12 @@ const PostCard = ({ post }: { post: IPost }) => {
         postId: data.postId,
       });
     }
-  };
+  }
 
-  const handleOnRemoveLike = async () => {
-    await removeLike(userHasLiked?.id as string);
-  };
-  const handleUpdatePost = async (
-    e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  async function handleOnRemoveLike() {
+    await removeLike(post.id);
+  }
+  async function handleUpdatePost(e: handlePostEvent) {
     if (e.key === "Enter") {
       e.preventDefault();
       setEditing(false);
@@ -83,7 +79,7 @@ const PostCard = ({ post }: { post: IPost }) => {
         console.log(error);
       }
     }
-  };
+  }
   useEffect(() => {
     if (post.title === form.title && post.content === form.content) return;
     const handleOutSideClick = (e: MouseEvent) => {
@@ -190,11 +186,11 @@ const PostCard = ({ post }: { post: IPost }) => {
       </div>
       {/* like and comment counts */}
       <p className="text-xs text-base-content/55">
-        {post.likes.length} likes {post._count.comments} comments
+        {post._count.likes} likes {post._count.comments} comments
       </p>
       {/* Reaction Buttons */}
       <div className="flex gap-2">
-        {userHasLiked ? (
+        {post.hasLiked ? (
           <button className="btn btn-xs btn-ghost" onClick={handleOnRemoveLike}>
             <FcLike size={20} />
           </button>
@@ -224,3 +220,7 @@ const PostCard = ({ post }: { post: IPost }) => {
 };
 
 export default PostCard;
+
+type handlePostEvent = React.KeyboardEvent<
+  HTMLInputElement | HTMLTextAreaElement
+>;

@@ -210,12 +210,13 @@ export interface IPost {
   author: IUser;
   createdAt: string;
   updatedAt: string;
-  likes: ILikedPost[];
+
   images: string[];
-  comments: { id: string }[];
   _count: {
     comments: number;
+    likes: number;
   };
+  hasLiked: boolean;
 }
 
 export interface IComment {

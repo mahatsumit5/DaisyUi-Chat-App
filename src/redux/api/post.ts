@@ -138,7 +138,14 @@ export const postApi = createApi({
                 ...draft,
                 posts: draft.posts.map((post) => {
                   if (post.id === data.postId) {
-                    return { ...post, likes: [...post.likes, data] };
+                    return {
+                      ...post,
+                      hasLiked: true,
+                      _count: {
+                        comments: post._count.comments,
+                        likes: post._count.likes + 1,
+                      },
+                    };
                   } else {
                     return post;
                   }
@@ -152,11 +159,11 @@ export const postApi = createApi({
       },
     }),
     removeLike: builder.mutation<ILikedPost, string>({
-      query: (likeId) => {
+      query: (postId) => {
         return {
           url: `remove-like`,
           method: "put",
-          body: { likeId },
+          body: { postId },
         };
       },
       transformResponse: (res: IRemovedLikeRes) => res.deletedLike,
@@ -172,7 +179,11 @@ export const postApi = createApi({
                   if (post.id === data.postId) {
                     return {
                       ...post,
-                      likes: post.likes.filter((like) => like.id !== data.id),
+                      hasLiked: false,
+                      _count: {
+                        comments: post._count.comments,
+                        likes: post._count.likes - 1,
+                      },
                     };
                   } else {
                     return post;

@@ -19,7 +19,6 @@ import PageNotFound from "./components/PageNotFound";
 import { SocketProvider } from "./contexts/SocketProvider";
 import Home from "./pages/Home";
 import HomeMessageBox from "./components/HomeMessageBoc/HomeMessageBox";
-
 export default function App() {
   const location = useLocation();
 

@@ -13,11 +13,15 @@ import { setPage } from "../redux/reducer/post.slice";
 import { LoadingButton } from "../components";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { GET_ALL_POSTS } from "../graphql/queries";
+import { useQuery } from "@apollo/client";
+import { GetAllPostsResponse, QueryGetAllPostsArgs } from "../graphql/types";
 const Home = () => {
   const [position, setPostion] = useState((window.innerWidth - 1280) / 2);
   const btnRef = useRef<HTMLButtonElement>(null);
   const dispatch = useAppDispatch();
   const { page } = useAppSelector((state) => state.post);
+
   const { isError, isFetching: loading, data: posts } = useGetPostsQuery(page);
   const {
     isLoading,
@@ -30,27 +34,6 @@ const Home = () => {
     isLoading: friendLoading,
     data: friends,
   } = useGetAllChatRoomQuery({ page: 1, search: "", take: 10 });
-  // useEffect(() => {
-  //   console.log(skip);
-  //   if (posts?.totalNumberOfPosts - skip < 4) return;
-  //   const handleScroll = () => {
-  //     // Calculate the scroll position
-  //     const scrollTop = window.scrollY || document.documentElement.scrollTop;
-  //     const scrollHeight = document.documentElement.scrollHeight;
-  //     const clientHeight = document.documentElement.clientHeight;
-  //     // Check if scrolled to the bottom
-  //     if (scrollTop + clientHeight >= scrollHeight - 4) {
-  //       // -1 for a little buffer
-
-  //       dispatch(setSkip(skip + 4));
-  //     }
-  //   };
-  //   window.addEventListener("scroll", handleScroll);
-
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, [dispatch, skip, posts?.totalNumberOfPosts]);
 
   useEffect(() => {
     const handlOnResize = () => {
