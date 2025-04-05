@@ -5,23 +5,27 @@ const config: CodegenConfig = {
   schema: "http://localhost:8000/graphql",
   documents: "./src/graphql/queries/**.graphql",
   generates: {
-    "./src/graphql/generated.ts": {
-      preset: "import-types",
-      plugins: [
-        "typescript-operations",
-        {
-          "typescript-rtk-query": {
-            importBaseApiFrom: "./baseApi",
-            importBaseApiAlternateName: "baseApiWithGraphql",
-            exportHooks: true,
-          },
-        },
-      ],
+    // Use the following line to generate types for the GraphQL schema and operations
+    // and save them in the specified path.
+    // This is create all the queries in the same file
 
-      presetConfig: {
-        typesPath: "../types/types.ts",
-      },
-    },
+    // "./src/graphql/generated.ts": {
+    //   preset: "import-types",
+    //   plugins: [
+    //     "typescript-operations",
+    //     {
+    //       "typescript-rtk-query": {
+    //         importBaseApiFrom: "./baseApi",
+    //         importBaseApiAlternateName: "baseApiWithGraphql",
+    //         exportHooks: true,
+    //       },
+    //     },
+    //   ],
+
+    //   presetConfig: {
+    //     typesPath: "../types/types.ts",
+    //   },
+    // },
 
     "./src/types/types.ts": {
       plugins: ["typescript", "typescript-operations"],
