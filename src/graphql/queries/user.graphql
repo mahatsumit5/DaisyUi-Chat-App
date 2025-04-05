@@ -10,10 +10,9 @@ mutation SignUp($input: SignUpUserParams) {
       email
       id
     }
-    response {
-      message
-      status
-    }
+
+    message
+    status
   }
 }
 mutation SignIn($input: SignInParams) {
@@ -21,10 +20,9 @@ mutation SignIn($input: SignInParams) {
     data {
       accessJWT
     }
-    response {
-      message
-      status
-    }
+
+    message
+    status
   }
 }
 
@@ -40,9 +38,15 @@ query LoggedInUser {
       isActive
       profile
     }
-    response {
-      message
-      status
-    }
+
+    message
+    status
+  }
+}
+
+mutation Logout($email: String!) {
+  data: logout(email: $email) {
+    status
+    message
   }
 }

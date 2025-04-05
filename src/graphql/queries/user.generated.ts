@@ -6,19 +6,26 @@ export type SignUpMutationVariables = Types.Exact<{
 }>;
 
 
-export type SignUpMutation = { __typename?: 'Mutation', data?: { __typename?: 'SignUpResponse', data?: { __typename?: 'User', lName: string, fName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null, email: string, id: string } | null, response?: { __typename?: 'Response', message: string, status: boolean } | null } | null };
+export type SignUpMutation = { __typename?: 'Mutation', data?: { __typename?: 'SignUpResponse', message: string, status: boolean, data?: { __typename?: 'User', lName: string, fName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null, email: string, id: string } | null } | null };
 
 export type SignInMutationVariables = Types.Exact<{
   input?: Types.InputMaybe<Types.SignInParams>;
 }>;
 
 
-export type SignInMutation = { __typename?: 'Mutation', data?: { __typename?: 'SignInMutation', data?: { __typename?: 'Token', accessJWT: string } | null, response?: { __typename?: 'Response', message: string, status: boolean } | null } | null };
+export type SignInMutation = { __typename?: 'Mutation', data?: { __typename?: 'SignInResponse', message: string, status: boolean, data?: { __typename?: 'Token', accessJWT: string } | null } | null };
 
 export type LoggedInUserQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type LoggedInUserQuery = { __typename?: 'Query', data?: { __typename?: 'LoggedInUserResponse', data?: { __typename?: 'User', bio?: string | null, coverPicture?: string | null, email: string, id: string, fName: string, lName: string, isActive: boolean, profile?: string | null } | null, response?: { __typename?: 'Response', message: string, status: boolean } | null } | null };
+export type LoggedInUserQuery = { __typename?: 'Query', data?: { __typename?: 'LoggedInUserResponse', message: string, status: boolean, data?: { __typename?: 'User', bio?: string | null, coverPicture?: string | null, email: string, id: string, fName: string, lName: string, isActive: boolean, profile?: string | null } | null } | null };
+
+export type LogoutMutationVariables = Types.Exact<{
+  email: Types.Scalars['String']['input'];
+}>;
+
+
+export type LogoutMutation = { __typename?: 'Mutation', data?: { __typename?: 'Response', status: boolean, message: string } | null };
 
 
 export const SignUpDocument = `
@@ -34,10 +41,8 @@ export const SignUpDocument = `
       email
       id
     }
-    response {
-      message
-      status
-    }
+    message
+    status
   }
 }
     `;
@@ -47,10 +52,8 @@ export const SignInDocument = `
     data {
       accessJWT
     }
-    response {
-      message
-      status
-    }
+    message
+    status
   }
 }
     `;
@@ -67,10 +70,16 @@ export const LoggedInUserDocument = `
       isActive
       profile
     }
-    response {
-      message
-      status
-    }
+    message
+    status
+  }
+}
+    `;
+export const LogoutDocument = `
+    mutation Logout($email: String!) {
+  data: logout(email: $email) {
+    status
+    message
   }
 }
     `;
@@ -86,9 +95,12 @@ const injectedRtkApi = baseApiWithGraphql.injectEndpoints({
     LoggedInUser: build.query<LoggedInUserQuery, LoggedInUserQueryVariables | void>({
       query: (variables) => ({ document: LoggedInUserDocument, variables })
     }),
+    Logout: build.mutation<LogoutMutation, LogoutMutationVariables>({
+      query: (variables) => ({ document: LogoutDocument, variables })
+    }),
   }),
 });
 
 export { injectedRtkApi as api };
-export const { useSignUpMutation, useSignInMutation, useLoggedInUserQuery, useLazyLoggedInUserQuery } = injectedRtkApi;
+export const { useSignUpMutation, useSignInMutation, useLoggedInUserQuery, useLazyLoggedInUserQuery, useLogoutMutation } = injectedRtkApi;
 

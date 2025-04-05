@@ -1,4 +1,4 @@
-import { api as generatedApi } from "../../graphql/generated"
+import { api as generatedApi } from "../queries/post.generated"
 const postGraphqlApi = generatedApi.enhanceEndpoints({
   addTagTypes: ["Posts"],
   endpoints: {
@@ -13,9 +13,6 @@ const postGraphqlApi = generatedApi.enhanceEndpoints({
           console.log(error)
         }
         await cacheEntryRemoved
-      },
-      serializeQueryArgs: ({ queryArgs }) => {
-        return queryArgs
       },
 
       merge: (cacheData, incomingData) => {

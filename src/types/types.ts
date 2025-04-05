@@ -132,7 +132,8 @@ export type GetPostByUserIdResponse = {
 export type LoggedInUserResponse = {
   __typename?: 'LoggedInUserResponse';
   data?: Maybe<User>;
-  response?: Maybe<Response>;
+  message: Scalars['String']['output'];
+  status: Scalars['Boolean']['output'];
 };
 
 export type Message = {
@@ -156,14 +157,16 @@ export type Mutation = {
   deleteMessage?: Maybe<Response>;
   deletePost: GetPostByUserIdResponse;
   likePost: GetPostByUserIdResponse;
+  /** logout from your account */
   logout?: Maybe<Response>;
   newJwt?: Maybe<Response>;
+  /** Rest your password */
   resetPassword?: Maybe<Response>;
   sendMessage?: Maybe<SendMessageResponse>;
   /** Send friend request to other user */
   sendRequest?: Maybe<SentRequestResponse>;
   /** login to your account */
-  signIn?: Maybe<SignInMutation>;
+  signIn?: Maybe<SignInResponse>;
   /** Create a new user */
   signUp?: Maybe<SignUpResponse>;
   unlikePost: GetPostByUserIdResponse;
@@ -195,6 +198,11 @@ export type MutationDeletePostArgs = {
 
 export type MutationLikePostArgs = {
   postId: Scalars['String']['input'];
+};
+
+
+export type MutationLogoutArgs = {
+  email: Scalars['String']['input'];
 };
 
 
@@ -340,21 +348,23 @@ export type Session = {
   userEmail: Scalars['String']['output'];
 };
 
-export type SignInMutation = {
-  __typename?: 'SignInMutation';
-  data?: Maybe<Token>;
-  response?: Maybe<Response>;
-};
-
 export type SignInParams = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
 };
 
+export type SignInResponse = {
+  __typename?: 'SignInResponse';
+  data?: Maybe<Token>;
+  message: Scalars['String']['output'];
+  status: Scalars['Boolean']['output'];
+};
+
 export type SignUpResponse = {
   __typename?: 'SignUpResponse';
   data?: Maybe<User>;
-  response?: Maybe<Response>;
+  message: Scalars['String']['output'];
+  status: Scalars['Boolean']['output'];
 };
 
 export type SignUpUserParams = {
@@ -430,16 +440,23 @@ export type SignUpMutationVariables = Exact<{
 }>;
 
 
-export type SignUpMutation = { __typename?: 'Mutation', data?: { __typename?: 'SignUpResponse', data?: { __typename?: 'User', lName: string, fName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null, email: string, id: string } | null, response?: { __typename?: 'Response', message: string, status: boolean } | null } | null };
+export type SignUpMutation = { __typename?: 'Mutation', data?: { __typename?: 'SignUpResponse', message: string, status: boolean, data?: { __typename?: 'User', lName: string, fName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null, email: string, id: string } | null } | null };
 
 export type SignInMutationVariables = Exact<{
   input?: InputMaybe<SignInParams>;
 }>;
 
 
-export type SignInMutation = { __typename?: 'Mutation', data?: { __typename?: 'SignInMutation', data?: { __typename?: 'Token', accessJWT: string } | null, response?: { __typename?: 'Response', message: string, status: boolean } | null } | null };
+export type SignInMutation = { __typename?: 'Mutation', data?: { __typename?: 'SignInResponse', message: string, status: boolean, data?: { __typename?: 'Token', accessJWT: string } | null } | null };
 
 export type LoggedInUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LoggedInUserQuery = { __typename?: 'Query', data?: { __typename?: 'LoggedInUserResponse', data?: { __typename?: 'User', bio?: string | null, coverPicture?: string | null, email: string, id: string, fName: string, lName: string, isActive: boolean, profile?: string | null } | null, response?: { __typename?: 'Response', message: string, status: boolean } | null } | null };
+export type LoggedInUserQuery = { __typename?: 'Query', data?: { __typename?: 'LoggedInUserResponse', message: string, status: boolean, data?: { __typename?: 'User', bio?: string | null, coverPicture?: string | null, email: string, id: string, fName: string, lName: string, isActive: boolean, profile?: string | null } | null } | null };
+
+export type LogoutMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+}>;
+
+
+export type LogoutMutation = { __typename?: 'Mutation', data?: { __typename?: 'Response', status: boolean, message: string } | null };

@@ -17,8 +17,8 @@ import paginationReducer from "./reducer/pagination.slice"
 import searchReducer from "./reducer/search.slice"
 import postReducer from "./reducer/post.slice"
 import HomeMessageBox from "./reducer/HomeMessageBox"
-import { userGraphqlApi } from "./api/userGraphql.api"
-import { postGraphqlApi } from "./api/postGraphql.api"
+import { userGraphqlApi } from "../graphql/api/userGraphql.api"
+import { postGraphqlApi } from "../graphql/api/postGraphql.api"
 export const {
   useAcceptFriendReqMutation,
   useGetFriendRequestQuery,
@@ -43,8 +43,12 @@ export const {
   useChangePasswordMutation,
   useUploadImageMutation,
 } = userApi
-export const { useSignInMutation, useLoggedInUserQuery, useSignUpMutation } =
-  userGraphqlApi
+export const {
+  useSignInMutation,
+  useLoggedInUserQuery,
+  useSignUpMutation,
+  useLogoutMutation,
+} = userGraphqlApi
 export const { useGetAllChatRoomQuery, useDeleteChatRoomMutation } = roomApi
 
 export const { useSendMessageMutation, useGetMessagesQuery } = messageApi
