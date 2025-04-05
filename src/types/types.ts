@@ -1,5 +1,3 @@
-/* eslint-disable */
-import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -98,17 +96,17 @@ export type FriendRequests = {
   toId: Scalars['String']['output'];
 };
 
+export type GetAllPostArgs = {
+  page: Scalars['Int']['input'];
+  take: Scalars['Int']['input'];
+};
+
 export type GetAllPostsQuery = {
   __typename?: 'GetAllPostsQuery';
   message: Scalars['String']['output'];
   posts?: Maybe<Array<Post>>;
   status: Scalars['Boolean']['output'];
   totalNumberOfPosts?: Maybe<Scalars['Int']['output']>;
-};
-
-export type GetAllPostsQueryVariables = {
-  page: Scalars['Int']['input'];
-  take: Scalars['Int']['input'];
 };
 
 export type GetMessageByUser = {
@@ -131,11 +129,10 @@ export type GetPostByUserIdResponse = {
   status: Scalars['Boolean']['output'];
 };
 
-export type LogInResponse = {
-  __typename?: 'LogInResponse';
+export type LoggedInUserResponse = {
+  __typename?: 'LoggedInUserResponse';
   data?: Maybe<User>;
-  message: Scalars['String']['output'];
-  status: Scalars['Boolean']['output'];
+  response?: Maybe<Response>;
 };
 
 export type Message = {
@@ -168,7 +165,7 @@ export type Mutation = {
   /** login to your account */
   signIn?: Maybe<SignInMutation>;
   /** Create a new user */
-  signUp?: Maybe<Response>;
+  signUp?: Maybe<SignUpResponse>;
   unlikePost: GetPostByUserIdResponse;
   updateUser?: Maybe<Response>;
   uploadPost: UploadAPostResponse;
@@ -217,12 +214,12 @@ export type MutationSendRequestArgs = {
 
 
 export type MutationSignInArgs = {
-  input?: InputMaybe<SignInMutationVariables>;
+  input?: InputMaybe<SignInParams>;
 };
 
 
 export type MutationSignUpArgs = {
-  input?: InputMaybe<SignUpUser>;
+  input?: InputMaybe<SignUpUserParams>;
 };
 
 
@@ -281,7 +278,7 @@ export type Query = {
   /** Get list of ALL SENT request */
   getSentFriendRequest?: Maybe<FriendRequestResponse>;
   /** a list of all the users */
-  loggedInUser?: Maybe<LogInResponse>;
+  loggedInUser?: Maybe<LoggedInUserResponse>;
 };
 
 
@@ -291,7 +288,7 @@ export type QueryAllUsersArgs = {
 
 
 export type QueryGetAllPostsArgs = {
-  args?: InputMaybe<GetAllPostsQueryVariables>;
+  args?: InputMaybe<GetAllPostArgs>;
 };
 
 
@@ -345,17 +342,22 @@ export type Session = {
 
 export type SignInMutation = {
   __typename?: 'SignInMutation';
-  message: Scalars['String']['output'];
-  status: Scalars['Boolean']['output'];
-  token?: Maybe<Token>;
+  data?: Maybe<Token>;
+  response?: Maybe<Response>;
 };
 
-export type SignInMutationVariables = {
+export type SignInParams = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
 };
 
-export type SignUpUser = {
+export type SignUpResponse = {
+  __typename?: 'SignUpResponse';
+  data?: Maybe<User>;
+  response?: Maybe<Response>;
+};
+
+export type SignUpUserParams = {
   email: Scalars['String']['input'];
   fName: Scalars['String']['input'];
   lName: Scalars['String']['input'];
@@ -388,23 +390,13 @@ export type UploadAPostResponse = {
 export type User = {
   __typename?: 'User';
   bio?: Maybe<Scalars['String']['output']>;
-  chatRoom: Array<ChatRoom>;
-  comment: Array<Comment>;
   coverPicture?: Maybe<Scalars['String']['output']>;
   email: Scalars['String']['output'];
   fName: Scalars['String']['output'];
-  friendRequests: Array<FriendRequests>;
   id: Scalars['ID']['output'];
   isActive: Scalars['Boolean']['output'];
   lName: Scalars['String']['output'];
-  likedComments: Array<CommentLikes>;
-  likedPosts: Array<PostLike>;
-  messages: Array<Message>;
-  password: Scalars['String']['output'];
-  post: Array<Post>;
   profile?: Maybe<Scalars['String']['output']>;
-  sentRequests: Array<FriendRequests>;
-  session: Array<Session>;
 };
 
 export type _Count = {
@@ -426,12 +418,28 @@ export type QueryParamsSentReq = {
   take: Scalars['Int']['input'];
 };
 
-export type MutationMutationVariables = Exact<{
-  body?: InputMaybe<PostInput>;
+export type GetAllPostsQueryVariables = Exact<{
+  args?: InputMaybe<GetAllPostArgs>;
 }>;
 
 
-export type MutationMutation = { __typename?: 'Mutation', uploadPost: { __typename?: 'UploadAPostResponse', status: boolean, message: string, result?: { __typename?: 'Post', createdAt: string, title: string, id: string, content: string, author?: { __typename?: 'User', id: string, email: string, fName: string, lName: string, profile?: string | null } | null } | null } };
+export type GetAllPostsQuery = { __typename?: 'Query', data?: { __typename?: 'GetAllPostsQuery', status: boolean, message: string, totalNumberOfPosts?: number | null, posts?: Array<{ __typename?: 'Post', id: string, title: string, content: string, createdAt: string, updatedAt: string, images: Array<string>, hasLiked: boolean, author?: { __typename?: 'User', id: string, email: string, fName: string, lName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null } | null, _count?: { __typename?: '_count', comments: number, likes: number } | null }> | null } | null };
+
+export type SignUpMutationVariables = Exact<{
+  input?: InputMaybe<SignUpUserParams>;
+}>;
 
 
-export const MutationDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"Mutation"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"body"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"PostInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"uploadPost"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"body"},"value":{"kind":"Variable","name":{"kind":"Name","value":"body"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"result"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"author"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"fName"}},{"kind":"Field","name":{"kind":"Name","value":"lName"}},{"kind":"Field","name":{"kind":"Name","value":"profile"}}]}}]}}]}}]}}]} as unknown as DocumentNode<MutationMutation, MutationMutationVariables>;
+export type SignUpMutation = { __typename?: 'Mutation', data?: { __typename?: 'SignUpResponse', data?: { __typename?: 'User', lName: string, fName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null, email: string, id: string } | null, response?: { __typename?: 'Response', message: string, status: boolean } | null } | null };
+
+export type SignInMutationVariables = Exact<{
+  input?: InputMaybe<SignInParams>;
+}>;
+
+
+export type SignInMutation = { __typename?: 'Mutation', data?: { __typename?: 'SignInMutation', data?: { __typename?: 'Token', accessJWT: string } | null, response?: { __typename?: 'Response', message: string, status: boolean } | null } | null };
+
+export type LoggedInUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LoggedInUserQuery = { __typename?: 'Query', data?: { __typename?: 'LoggedInUserResponse', data?: { __typename?: 'User', bio?: string | null, coverPicture?: string | null, email: string, id: string, fName: string, lName: string, isActive: boolean, profile?: string | null } | null, response?: { __typename?: 'Response', message: string, status: boolean } | null } | null };

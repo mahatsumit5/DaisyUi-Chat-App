@@ -20,10 +20,10 @@ import {
   commentApi,
   postReducer,
   HomeMessageBox,
-} from "./index"
+} from "./redux/index"
 import { setupListeners } from "@reduxjs/toolkit/query"
-import { rtkQueryErrorLogger } from "../utils/errorHandler"
-import { baseApiWithGraphql } from "../graphql/baseApi"
+import { rtkQueryErrorLogger } from "./utils/errorHandler"
+import { baseApiWithGraphql } from "./graphql/baseApi"
 export const store = configureStore({
   reducer: {
     messageBox: HomeMessageBox,

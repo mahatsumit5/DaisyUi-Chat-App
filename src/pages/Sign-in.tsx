@@ -38,7 +38,9 @@ export function SignIn() {
     sessionStorage.setItem("email", form.email)
 
     e.preventDefault()
-    await login({ input: form }).unwrap()
+    await login({
+      input: form,
+    }).unwrap()
   }
 
   useEffect(() => {

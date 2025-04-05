@@ -1,67 +1,62 @@
-import { RxCross2 } from "react-icons/rx";
-import { useAppSelector } from "../../hook";
-import { ChangeEvent, FormEvent, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { FcAddImage, FcImageFile } from "react-icons/fc";
-import { useCreatePostMutation } from "../../redux";
-import LoadingButton from "../loading/LoadingButton";
-import { MdOutlineCreate } from "react-icons/md";
-import { TiDelete } from "react-icons/ti";
-import { Avatar } from "../Avatar/Avatar";
-import { extractInitial } from "../../utils";
-import { gql, useMutation } from "@apollo/client";
-const CREATE_POST = gql`
-  mutation Mutation($body: PostInput) {
-    uploadPost(body: $body) {
-      status
-      message
-      result {
-        createdAt
-        title
-        id
-        content
-        author {
-          id
-          email
-          fName
-          lName
-          profile
-        }
-      }
-    }
-  }
-`;
+import { RxCross2 } from "react-icons/rx"
+import { useAppSelector } from "../../hook"
+import { ChangeEvent, FormEvent, useState } from "react"
+import { AnimatePresence, motion } from "framer-motion"
+import { FcAddImage, FcImageFile } from "react-icons/fc"
+import { useCreatePostMutation } from "../../redux"
+import LoadingButton from "../loading/LoadingButton"
+import { MdOutlineCreate } from "react-icons/md"
+import { TiDelete } from "react-icons/ti"
+import { Avatar } from "../Avatar/Avatar"
+import { extractInitial } from "../../utils"
+// import { gql, useMutation } from "@apollo/client"
+// const CREATE_POST = gql`
+//   mutation Mutation($body: PostInput) {
+//     uploadPost(body: $body) {
+//       status
+//       message
+//       result {
+//         createdAt
+//         title
+//         id
+//         content
+//         author {
+//           id
+//           email
+//           fName
+//           lName
+//           profile
+//         }
+//       }
+//     }
+//   }
+// `
 const CreatePost = () => {
-  const [createPostGQL] = useMutation(CREATE_POST);
-  const [images, setImages] = useState<File[]>([]);
-  const [createPost, { isLoading }] = useCreatePostMutation();
-  const [form, setForm] = useState({ title: "", content: "" });
-  const { user } = useAppSelector((store) => store.user);
-  const [expandInput, setExpandInput] = useState<boolean>(false);
+  // const [createPostGQL] = useMutation(CREATE_POST)
+  const [images, setImages] = useState<File[]>([])
+  const [createPost, { isLoading }] = useCreatePostMutation()
+  const [form, setForm] = useState({ title: "", content: "" })
+  const { user } = useAppSelector(store => store.user)
+  const [expandInput, setExpandInput] = useState<boolean>(false)
 
   function handleInputChange(
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
-    const { name, value } = e.currentTarget;
-    setForm({ ...form, [name]: value });
+    const { name, value } = e.currentTarget
+    setForm({ ...form, [name]: value })
   }
 
   function handleRemoveImage(file: File) {
-    if (!images) return;
-    setImages(images.filter((item) => item.name !== file.name));
+    if (!images) return
+    setImages(images.filter(item => item.name !== file.name))
   }
   async function handleCreatePost(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    createPostGQL({
-      variables: {
-        body: { ...form, id: user?.id },
-      },
-    });
-    return;
-    await createPost({ ...form, id: user?.id as string, images }).unwrap();
-    setForm({ title: "", content: "" });
-    setImages([]);
-    setExpandInput(false);
+    e.preventDefault()
+
+    await createPost({ ...form, id: user?.id as string, images }).unwrap()
+    setForm({ title: "", content: "" })
+    setImages([])
+    setExpandInput(false)
   }
 
   return user ? (
@@ -128,9 +123,9 @@ const CreatePost = () => {
           accept=".jpg,.avif,.png,.jpeg"
           multiple
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            const { files } = e.target;
-            if (!files?.length) return;
-            setImages(Object.values(files));
+            const { files } = e.target
+            if (!files?.length) return
+            setImages(Object.values(files))
           }}
         />
         <label
@@ -171,7 +166,7 @@ const CreatePost = () => {
                   className="btn btn-sm btn-circle text-right"
                   type="button"
                   onClick={() => {
-                    handleRemoveImage(item);
+                    handleRemoveImage(item)
                   }}
                 >
                   <TiDelete size={20} className=" text-error" />
@@ -182,7 +177,7 @@ const CreatePost = () => {
         </div>
       ) : null}
     </motion.form>
-  ) : null;
-};
+  ) : null
+}
 
-export default CreatePost;
+export default CreatePost

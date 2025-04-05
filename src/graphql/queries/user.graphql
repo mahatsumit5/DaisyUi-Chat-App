@@ -1,0 +1,48 @@
+mutation SignUp($input: SignUpUserParams) {
+  data: signUp(input: $input) {
+    data {
+      lName
+      fName
+      isActive
+      profile
+      bio
+      coverPicture
+      email
+      id
+    }
+    response {
+      message
+      status
+    }
+  }
+}
+mutation SignIn($input: SignInParams) {
+  data: signIn(input: $input) {
+    data {
+      accessJWT
+    }
+    response {
+      message
+      status
+    }
+  }
+}
+
+query LoggedInUser {
+  data: loggedInUser {
+    data {
+      bio
+      coverPicture
+      email
+      id
+      fName
+      lName
+      isActive
+      profile
+    }
+    response {
+      message
+      status
+    }
+  }
+}

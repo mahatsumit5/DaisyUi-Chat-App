@@ -1,54 +1,63 @@
-import Alert from "../components/Alert/Alert";
-import HomeAllUsers from "../components/Friends/HomeAllUsers";
-import CreatePost from "../components/post/CreatePost";
-import PostCard from "../components/post/PostCard";
-import PostLoading from "../components/post/PostLoading";
+import Alert from "../components/Alert/Alert"
+import HomeAllUsers from "../components/Friends/HomeAllUsers"
+import CreatePost from "../components/post/CreatePost"
+import PostCard from "../components/post/PostCard"
+import PostLoading from "../components/post/PostLoading"
 import {
   useGetAllChatRoomQuery,
+  useGetAllPostsQuery,
   useGetAllUsersQuery,
-  useGetPostsQuery,
-} from "../redux";
-import { useAppDispatch, useAppSelector } from "../hook";
-import { setPage } from "../redux/reducer/post.slice";
-import { LoadingButton } from "../components";
-import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
-import { GET_ALL_POSTS } from "../graphql/queries";
-import { useQuery } from "@apollo/client";
-import { GetAllPostsResponse, QueryGetAllPostsArgs } from "../graphql/types";
-const Home = () => {
-  const [position, setPostion] = useState((window.innerWidth - 1280) / 2);
-  const btnRef = useRef<HTMLButtonElement>(null);
-  const dispatch = useAppDispatch();
-  const { page } = useAppSelector((state) => state.post);
+} from "../redux"
+import { useAppDispatch, useAppSelector } from "../hook"
+import { setPage } from "../redux/reducer/post.slice"
+import { LoadingButton } from "../components"
+import { useEffect, useRef, useState } from "react"
+import { Link } from "react-router-dom"
+import { IPost } from "../types"
 
-  const { isError, isFetching: loading, data: posts } = useGetPostsQuery(page);
+const Home = () => {
+  const [position, setPostion] = useState((window.innerWidth - 1280) / 2)
+  const btnRef = useRef<HTMLButtonElement>(null)
+  const dispatch = useAppDispatch()
+  const { page } = useAppSelector(state => state.post)
+  const {
+    isError,
+    isFetching: loading,
+    data: posts,
+  } = useGetAllPostsQuery(
+    { args: { page: 1, take: 10 } },
+    {
+      refetchOnMountOrArgChange: true,
+      refetchOnReconnect: true,
+    }
+  )
+  // const { isError, isFetching: loading, data: posts } = useGetPostsQuery(page)
   const {
     isLoading,
     isError: usersError,
     data: users,
-  } = useGetAllUsersQuery({ order: "asc", page: 1, take: 10, search: "" });
+  } = useGetAllUsersQuery({ order: "asc", page: 1, take: 10, search: "" })
 
   const {
     isError: friendError,
     isLoading: friendLoading,
     data: friends,
-  } = useGetAllChatRoomQuery({ page: 1, search: "", take: 10 });
+  } = useGetAllChatRoomQuery({ page: 1, search: "", take: 10 })
 
   useEffect(() => {
     const handlOnResize = () => {
-      const newPosition = (window.innerWidth - 1280) / 2;
+      const newPosition = (window.innerWidth - 1280) / 2
       if (newPosition > 0) {
-        setPostion(newPosition);
+        setPostion(newPosition)
       } else {
-        setPostion(5);
+        setPostion(5)
       }
-    };
-    window.addEventListener("resize", handlOnResize);
+    }
+    window.addEventListener("resize", handlOnResize)
     return () => {
-      window.removeEventListener("resize", handlOnResize);
-    };
-  }, []);
+      window.removeEventListener("resize", handlOnResize)
+    }
+  }, [])
   return (
     <div className=" h-full flex  lg:mr-[310px] ">
       <div className={` px-2 w-full lg:w-full flex flex-col gap-3   `}>
@@ -62,18 +71,20 @@ const Home = () => {
               ? Array(5)
                   .fill("")
                   .map((item, index) => <PostLoading key={index} />)
-              : posts?.posts?.map((item) => (
-                  <PostCard post={item} key={item.id} />
+              : posts?.data?.posts?.map(item => (
+                  <PostCard post={item as IPost} key={item.id} />
                 ))}
             <div className="w-full items-center flex justify-center">
               <button
                 ref={btnRef}
                 className="btn btn-sm btn-primary btn-ghost w-40 "
                 onClick={() => {
-                  dispatch(setPage(page + 1));
-                  btnRef.current?.scrollIntoView();
+                  dispatch(setPage(page + 1))
+                  btnRef.current?.scrollIntoView()
                 }}
-                disabled={(posts?.totalNumberOfPosts as number) - page < 4}
+                disabled={
+                  (posts?.data?.totalNumberOfPosts as number) - page < 4
+                }
               >
                 {loading ? <LoadingButton /> : "Show More"}
               </button>
@@ -96,7 +107,7 @@ const Home = () => {
           ) : (
             <div className="max-h-60 overflow-y-auto flex flex-col gap-2">
               {friends?.data.length ? (
-                friends?.data.map((item) => (
+                friends?.data.map(item => (
                   <HomeAllUsers
                     key={item.id}
                     user={{
@@ -134,7 +145,7 @@ const Home = () => {
               .map((item, index) => <PostLoading key={index} />)
           ) : (
             <div className=" max-h-60 overflow-y-auto flex flex-col gap-2">
-              {users?.data.map((user) => (
+              {users?.data.map(user => (
                 <HomeAllUsers key={user.id} user={user} type="users" />
               ))}
             </div>
@@ -142,7 +153,7 @@ const Home = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

@@ -1,5 +1,5 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { userApiUrl } from "./serverUrl";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+import { userApiUrl } from "./serverUrl"
 import {
   IAllUsersResponse,
   IGetAllUsersParams,
@@ -8,11 +8,11 @@ import {
   IResponse,
   ISignUpParams,
   IUser,
-} from "../../types";
-import { socket } from "../reducer/socket.slice";
-import { toggleLoader } from "../reducer/loader.slice";
-import { toggleToast } from "../reducer/toast.slice";
-import { setUser } from "../reducer/user.slice";
+} from "../../types"
+import { socket } from "../reducer/socket.slice"
+import { toggleLoader } from "../reducer/loader.slice"
+import { toggleToast } from "../reducer/toast.slice"
+import { setUser } from "../reducer/user.slice"
 const userApi = createApi({
   reducerPath: "UserApi",
   tagTypes: ["Users", "CurrentUser"],
@@ -20,18 +20,18 @@ const userApi = createApi({
 
   baseQuery: fetchBaseQuery({
     baseUrl: userApiUrl,
-    prepareHeaders: (headers) => {
+    prepareHeaders: headers => {
       headers.set(
         "Authorization",
         `Bearer ${sessionStorage.getItem("accessJWT") as string}`
-      );
-      return headers;
+      )
+      return headers
     },
     credentials: "include",
   }),
-  endpoints: (builder) => ({
+  endpoints: builder => ({
     getAllUsers: builder.query<IAllUsersResponse, IGetAllUsersParams | null>({
-      query: (params) =>
+      query: params =>
         `all-users?order=${params?.order}&&page=${params?.page}&&take=${params?.take}&&search=${params?.search}`,
 
       providesTags: ["Users"],
@@ -40,50 +40,46 @@ const userApi = createApi({
         { cacheDataLoaded, cacheEntryRemoved }
       ) => {
         try {
-          await cacheDataLoaded;
+          await cacheDataLoaded
         } catch (error) {
-          console.log(error);
+          console.log(error)
         }
-        await cacheEntryRemoved;
+        await cacheEntryRemoved
       },
     }),
     logoutUser: builder.mutation<{ status: boolean }, void>({
       query: () => ({ url: "logout", method: "POST" }),
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
-          dispatch(
-            toggleLoader({ isLoading: true, content: "Please Wait..." })
-          );
-          await queryFulfilled;
-          dispatch(toggleLoader({ isLoading: false }));
-          socket.close();
+          dispatch(toggleLoader({ isLoading: true, content: "Please Wait..." }))
+          await queryFulfilled
+          dispatch(toggleLoader({ isLoading: false }))
+          socket.close()
         } catch (error) {
-          dispatch(toggleLoader({ isLoading: false }));
+          dispatch(toggleLoader({ isLoading: false }))
         }
       },
     }),
     login: builder.mutation<ILogin, { email: string; password: string }>({
-      query: (data) => ({
+      query: data => ({
         url: "sign-in",
         method: "POST",
         body: data,
       }),
       transformResponse(baseQueryReturnValue: ILogin) {
-        return baseQueryReturnValue;
+        return baseQueryReturnValue
       },
 
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
-          dispatch(
-            toggleLoader({ isLoading: true, content: "Please Wait..." })
-          );
-          const { data } = await queryFulfilled;
+          dispatch(toggleLoader({ isLoading: true, content: "Please Wait..." }))
+          const { data } = await queryFulfilled
           if (data.status) {
-            sessionStorage.setItem("accessJWT", data.token.accessJWT); ///active for 5mins
-            localStorage.setItem("refreshJWT", data.token.refreshJWT); //active for 30days
-            await dispatch(userApi.endpoints.getLoggedInUser.initiate());
+            sessionStorage.setItem("accessJWT", data.token.accessJWT) ///active for 5mins
+            localStorage.setItem("refreshJWT", data.token.refreshJWT) //active for 30days
+            await dispatch(userApi.endpoints.getLoggedInUser.initiate())
           }
-          dispatch(toggleLoader({ isLoading: false }));
+          dispatch(toggleLoader({ isLoading: false }))
 
           dispatch(
             toggleToast({
@@ -94,11 +90,11 @@ const userApi = createApi({
                 type: "info",
               },
             })
-          );
+          )
         } catch (error) {
-          console.log(error);
+          console.log(error)
 
-          dispatch(toggleLoader({ isLoading: false }));
+          dispatch(toggleLoader({ isLoading: false }))
         }
       },
 
@@ -112,9 +108,9 @@ const userApi = createApi({
 
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
-          const { data } = await queryFulfilled;
-          dispatch(setUser(data as IUser));
-          socket.connect();
+          const { data } = await queryFulfilled
+          dispatch(setUser(data as IUser))
+          socket.connect()
         } catch (error) {
           // if (error) return window.location.replace("/");
         }
@@ -123,19 +119,17 @@ const userApi = createApi({
       providesTags: ["CurrentUser"],
     }),
     signUpUser: builder.mutation<IResponse, ISignUpParams>({
-      query: (data) => ({
+      query: data => ({
         url: "sign-up",
         method: "POST",
         body: data,
       }),
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
-          dispatch(
-            toggleLoader({ isLoading: true, content: "Please Wait..." })
-          );
-          await queryFulfilled;
-          dispatch(toggleLoader({ isLoading: false }));
-          socket.emit("disconnect");
+          dispatch(toggleLoader({ isLoading: true, content: "Please Wait..." }))
+          await queryFulfilled
+          dispatch(toggleLoader({ isLoading: false }))
+          socket.emit("disconnect")
 
           dispatch(
             toggleToast({
@@ -146,9 +140,9 @@ const userApi = createApi({
                 type: "info",
               },
             })
-          );
+          )
         } catch (error) {
-          dispatch(toggleLoader({ isLoading: false }));
+          dispatch(toggleLoader({ isLoading: false }))
         }
       },
     }),
@@ -166,10 +160,10 @@ const userApi = createApi({
       { status: boolean; message: string },
       { password: string }
     >({
-      query: (data) => ({ url: "reset-password", method: "PUT", body: data }),
+      query: data => ({ url: "reset-password", method: "PUT", body: data }),
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
-          await queryFulfilled;
+          await queryFulfilled
           dispatch(
             toggleToast({
               isOpen: true,
@@ -179,25 +173,25 @@ const userApi = createApi({
                 type: "success",
               },
             })
-          );
+          )
         } catch (error) {
-          console.log(error);
+          console.log(error)
         }
       },
     }),
     uploadImage: builder.mutation<unknown, File>({
-      query: (image) => {
-        const formData = new FormData();
-        formData.append("profile", image);
+      query: image => {
+        const formData = new FormData()
+        formData.append("profile", image)
         return {
           url: "upload-profile",
           body: formData,
           method: "PUT",
-        };
+        }
       },
       invalidatesTags: ["CurrentUser"],
     }),
   }),
-});
+})
 
-export { userApi };
+export { userApi }
