@@ -17,7 +17,7 @@ const graphqlBaseQuery = graphqlRequestBaseQuery({
   prepareHeaders: headers => {
     headers.set(
       "Authorization",
-      `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVWbWpMSWhKNWpsYU44WUFPN2hFYSJ9.eyJpc3MiOiJodHRwczovL2Rldi1ma3AzNGYxeWZhanVvcWo3LmF1LmF1dGgwLmNvbS8iLCJzdWIiOiJoYW5XRlIzdnppY2Jxbk5IN2d5dDJHWmluamNVVnE3Q0BjbGllbnRzIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwIiwiaWF0IjoxNzQyNTYyODE4LCJleHAiOjE3NDI2NDkyMTgsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyIsImF6cCI6ImhhbldGUjN2emljYnFuTkg3Z3l0MkdaaW5qY1VWcTdDIn0.qexv5sbwtnwvhDR_5Qu4SY24fH-Uzd0WsguUK4xniSynOtP07tsgpus5hQVbGA_hBWbpaXt3DE6_F4fceYppMwja5fW0ancZdLJY4KmtBHmOAmQgHSO7FVvixRggg7XXb07f_wefyL3G_7w_xU3Cr8yR_t5Jvs9GCPTYB7_E82jfWlopdsx-kIsmgBhmx71j7HCJa3aVmPfTIjWjkDAGVUZWxmLHkNwgY6EqVZNPyunMwWj_8tjR7D-6nCSNYb4gEwz9y20ZqpKJBlcm4EsCQn9GBpVpffDChasdmnvpVwENKzNK8tfy0Ey4ByxDqCxQB0kmtKFvM3mhF8V-Md3shQ`
+      `Bearer ${sessionStorage.getItem("accessJWT") as string}`
     )
     return headers
   },

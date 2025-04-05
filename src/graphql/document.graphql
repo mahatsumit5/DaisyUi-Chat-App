@@ -1,38 +1,59 @@
 mutation SignIn($input: SignInMutationVariables) {
   signIn(input: $input) {
-    status
-    message
-    token {
+    data {
       accessJWT
+    }
+    response {
+      message
+      status
     }
   }
 }
 
-query GetAllPosts($args: GetAllPostsQueryVariables) {
-  getAllPosts(args: $args) {
-    status
-    message
-    totalNumberOfPosts
-    posts {
+query LoggedInUser {
+  loggedInUser {
+    data {
+      bio
+      coverPicture
+      email
       id
-      title
-      content
-      hasLiked
-      _count {
-        likes
-        comments
-      }
-      author {
-        fName
-        email
-        id
-        lName
-        isActive
-        profile
-      }
-      createdAt
-      updatedAt
-      images
+      fName
+      lName
+      isActive
+      profile
+    }
+    response {
+      message
+      status
     }
   }
 }
+
+# query GetAllPosts($args: GetAllPostsQueryVariables) {
+#   getAllPosts(args: $args) {
+#     status
+#     message
+#     totalNumberOfPosts
+#     posts {
+#       id
+#       title
+#       content
+#       hasLiked
+#       _count {
+#         likes
+#         comments
+#       }
+#       author {
+#         fName
+#         email
+#         id
+#         lName
+#         isActive
+#         profile
+#       }
+#       createdAt
+#       updatedAt
+#       images
+#     }
+#   }
+# }

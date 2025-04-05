@@ -55,6 +55,7 @@ export const store = configureStore({
       messageApi.middleware,
       postApi.middleware,
       commentApi.middleware,
+      baseApiWithGraphql.middleware,
       rtkQueryErrorLogger,
     ]),
 })
