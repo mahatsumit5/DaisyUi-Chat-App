@@ -3,13 +3,12 @@ import { useAppSelector } from "../../hooks/hook"
 import { ChangeEvent, FormEvent, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { FcAddImage, FcImageFile } from "react-icons/fc"
-import { useCreatePostMutation } from "../../redux"
+import { useCreatePostMutation, useUploadFileMutation } from "../../redux"
 import LoadingButton from "../loading/LoadingButton"
 import { MdOutlineCreate } from "react-icons/md"
 import { TiDelete } from "react-icons/ti"
 import { Avatar } from "../Avatar/Avatar"
 import { extractInitial } from "../../utils"
-import { useUploadFileMutation } from "../../redux/api/fileUpload.api"
 // import { gql, useMutation } from "@apollo/client"
 // const CREATE_POST = gql`
 //   mutation Mutation($body: PostInput) {
@@ -153,9 +152,9 @@ const CreatePost = () => {
         <div className="flex flex-col gap-2">
           <span className="">{images.length} images selected.</span>
           {images.map((item, index) => (
-            <AnimatePresence>
+            <AnimatePresence key={item.name}>
               <motion.div
-                key={index}
+                key={item.name}
                 className="flex gap-2 items-center bg-base-200 p-2 rounded-md justify-between"
                 initial={{ y: -100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}

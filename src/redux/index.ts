@@ -58,6 +58,7 @@ export const {
   useUpdatePostMutation,
   useLikePostMutation,
   useRemoveLikeMutation,
+  useUploadFileMutation,
 } = postApi
 
 export const { useGetAllPostsQuery } = postGraphqlApi

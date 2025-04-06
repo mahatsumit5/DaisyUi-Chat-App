@@ -27,6 +27,20 @@ export const postApi = createApi({
     },
   }),
   endpoints: builder => ({
+    uploadFile: builder.mutation<any, { images: File[] }>({
+      query: ({ images }) => {
+        console.log(images)
+        const formData = new FormData()
+
+        if (images.length) {
+          for (let index = 0; index < images.length; index++) {
+            const element = images[index]
+            formData.append("images", element)
+          }
+        }
+        return { url: "", method: "post", body: formData }
+      },
+    }),
     createPost: builder.mutation<ICreatePostRes, createPostParams>({
       query: data => {
         const formData = new FormData()
