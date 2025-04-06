@@ -24,6 +24,7 @@ import {
 import { setupListeners } from "@reduxjs/toolkit/query"
 import { rtkQueryErrorLogger } from "../utils/errorHandler"
 import { baseApiWithGraphql } from "../graphql/baseApi"
+import { baseApiWithRestAPI } from "../redux/api/restBaseApi"
 export const store = configureStore({
   reducer: {
     messageBox: HomeMessageBox,
@@ -45,6 +46,7 @@ export const store = configureStore({
     [messageApi.reducerPath]: messageApi.reducer,
     [postApi.reducerPath]: postApi.reducer,
     [commentApi.reducerPath]: commentApi.reducer,
+    [baseApiWithRestAPI.reducerPath]: baseApiWithRestAPI.reducer,
     [baseApiWithGraphql.reducerPath]: baseApiWithGraphql.reducer,
   },
   middleware: getDefaultMiddleware =>
@@ -55,6 +57,7 @@ export const store = configureStore({
       messageApi.middleware,
       postApi.middleware,
       commentApi.middleware,
+      baseApiWithRestAPI.middleware,
       baseApiWithGraphql.middleware,
       rtkQueryErrorLogger,
     ]),

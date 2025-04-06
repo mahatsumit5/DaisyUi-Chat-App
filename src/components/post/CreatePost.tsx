@@ -32,8 +32,9 @@ import { extractInitial } from "../../utils"
 //   }
 // `
 const CreatePost = () => {
-  const [uploadImage] = useUploadFileMutation()
-  // const [createPostGQL] = useMutation(CREATE_POST)
+  const [uploadImage, { data, isLoading: isUploadingImages }] =
+    useUploadFileMutation()
+  console.log(data)
   const [images, setImages] = useState<File[]>([])
   const [createPost, { isLoading }] = useCreatePostMutation()
   const [form, setForm] = useState({ title: "", content: "" })
@@ -53,9 +54,8 @@ const CreatePost = () => {
   }
   async function handleCreatePost(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    uploadImage({ images })
-    console.log(images)
-    return
+    uploadImage({ images }).unwrap
+
     await createPost({ ...form, id: user?.id as string, images }).unwrap()
     setForm({ title: "", content: "" })
     setImages([])
@@ -151,7 +151,7 @@ const CreatePost = () => {
       {images?.length ? (
         <div className="flex flex-col gap-2">
           <span className="">{images.length} images selected.</span>
-          {images.map((item, index) => (
+          {images.map(item => (
             <AnimatePresence key={item.name}>
               <motion.div
                 key={item.name}

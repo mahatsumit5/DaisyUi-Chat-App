@@ -27,9 +27,15 @@ export const postApi = createApi({
     },
   }),
   endpoints: builder => ({
-    uploadFile: builder.mutation<any, { images: File[] }>({
+    uploadFile: builder.mutation<string[], { images: File[] }>({
+      transformResponse(baseQueryReturnValue: {
+        status: boolean
+        message: string
+        data: { location: string }[]
+      }) {
+        return baseQueryReturnValue.data.map(item => item.location)
+      },
       query: ({ images }) => {
-        console.log(images)
         const formData = new FormData()
 
         if (images.length) {

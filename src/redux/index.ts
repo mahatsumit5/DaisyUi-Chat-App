@@ -43,11 +43,7 @@ export const {
   useChangePasswordMutation,
   useUploadImageMutation,
 } = userApi
-export const {
-  useLoggedInUserQuery,
-
-  useLogoutMutation,
-} = userGraphqlApi
+export const { useLoggedInUserQuery } = userGraphqlApi
 export const { useGetAllChatRoomQuery, useDeleteChatRoomMutation } = roomApi
 
 export const { useSendMessageMutation, useGetMessagesQuery } = messageApi
