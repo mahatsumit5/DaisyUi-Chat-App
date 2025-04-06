@@ -3,7 +3,7 @@ import { FaFacebookSquare, FaRegEye, FaRegEyeSlash } from "react-icons/fa"
 import { FcGoogle } from "react-icons/fc"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useAppSelector } from "../hooks/hook"
-import { useSignInMutation } from "../redux"
+import { useLoginMutation } from "../redux"
 import { users } from "../dummy_data"
 import icon from "../assets/images/icon.png"
 import { LoadingButton } from "../components"
@@ -19,7 +19,7 @@ export function SignIn() {
   const { user } = useAppSelector(store => store.user)
   const navigate = useNavigate()
   const location = useLocation()
-  const [login, { isLoading, isError }] = useSignInMutation()
+  const [login, { isLoading, isError }] = useLoginMutation()
   const [form, setform] = useState<{ email: string; password: string }>({
     email: "alice@example.com",
     password: "password@123",
@@ -37,9 +37,7 @@ export function SignIn() {
     sessionStorage.setItem("email", form.email)
 
     e.preventDefault()
-    await login({
-      input: form,
-    }).unwrap()
+    await login(form).unwrap()
   }
 
   useEffect(() => {

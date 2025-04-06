@@ -13,6 +13,7 @@ import { socket } from "../reducer/socket.slice"
 import { toggleLoader } from "../reducer/loader.slice"
 import { toggleToast } from "../reducer/toast.slice"
 import { setUser } from "../reducer/user.slice"
+import { userGraphqlApi } from "../../graphql/api/userGraphql.api"
 const userApi = createApi({
   reducerPath: "UserApi",
   tagTypes: ["Users", "CurrentUser"],
@@ -75,9 +76,8 @@ const userApi = createApi({
           dispatch(toggleLoader({ isLoading: true, content: "Please Wait..." }))
           const { data } = await queryFulfilled
           if (data.status) {
-            sessionStorage.setItem("accessJWT", data.token.accessJWT) ///active for 5mins
-            localStorage.setItem("refreshJWT", data.token.refreshJWT) //active for 30days
-            await dispatch(userApi.endpoints.getLoggedInUser.initiate())
+            sessionStorage.setItem("accessJWT", data.token.accessJWT)
+            await dispatch(userGraphqlApi.endpoints.LoggedInUser.initiate())
           }
           dispatch(toggleLoader({ isLoading: false }))
 

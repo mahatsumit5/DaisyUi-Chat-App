@@ -34,7 +34,7 @@ const HomeMessageBox = () => {
   const { data, error, isLoading } = useGetMessagesQuery(
     {
       roomId: chatRoom?.id || "",
-      num: numOfMessages,
+      take: numOfMessages,
     },
     {
       skip: !isOpen,

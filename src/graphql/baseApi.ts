@@ -88,5 +88,6 @@ export const baseQueryWithReauthGraphql: any = async (
 export const baseApiWithGraphql = createApi({
   baseQuery: baseQueryWithReauthGraphql,
   endpoints: () => ({}),
+
   tagTypes: [],
 })

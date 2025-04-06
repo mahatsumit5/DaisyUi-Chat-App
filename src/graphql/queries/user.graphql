@@ -1,31 +1,3 @@
-mutation SignUp($input: SignUpUserParams) {
-  data: signUp(input: $input) {
-    data {
-      lName
-      fName
-      isActive
-      profile
-      bio
-      coverPicture
-      email
-      id
-    }
-
-    message
-    status
-  }
-}
-mutation SignIn($input: SignInParams) {
-  data: signIn(input: $input) {
-    data {
-      accessJWT
-    }
-
-    message
-    status
-  }
-}
-
 query LoggedInUser {
   data: loggedInUser {
     data {

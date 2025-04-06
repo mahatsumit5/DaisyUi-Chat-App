@@ -125,7 +125,7 @@ const CommentDialog = ({
 
                 {/*like update delete */}
                 <div className="flex gap-2 flex-1 justify-end">
-                  {comment.likes.find(({ userId }) => userId === user.id) ? (
+                  {comment.likes.find(({ userId }) => userId === user?.id) ? (
                     <button
                       className="btn btn-xs btn-circle"
                       onClick={() => {
