@@ -1,19 +1,19 @@
-import { FormEvent, useState } from "react";
-import { IoLockClosed } from "react-icons/io5";
-import { useAppDispatch } from "../../hook";
-import { toggleDialog } from "../../redux/reducer/dialog.slice";
-import { useChangePasswordMutation } from "../../redux";
-import LoadingButton from "../loading/LoadingButton";
+import { FormEvent, useState } from "react"
+import { IoLockClosed } from "react-icons/io5"
+import { useAppDispatch } from "../../hooks/hook"
+import { toggleDialog } from "../../redux/reducer/dialog.slice"
+import { useChangePasswordMutation } from "../../redux"
+import LoadingButton from "../loading/LoadingButton"
 
 const ChangePassword = () => {
-  const dispatch = useAppDispatch();
-  const [changePassword, { isLoading }] = useChangePasswordMutation();
+  const dispatch = useAppDispatch()
+  const [changePassword, { isLoading }] = useChangePasswordMutation()
   const [passwords, setPassword] = useState({
     newPassword: "",
     confirmPassword: "",
-  });
+  })
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+    e.preventDefault()
     if (passwords.confirmPassword !== passwords.newPassword) {
       return dispatch(
         toggleDialog({
@@ -21,9 +21,9 @@ const ChangePassword = () => {
           heading: "Alert",
           type: "password",
         })
-      );
+      )
     }
-    changePassword({ password: passwords.newPassword });
+    changePassword({ password: passwords.newPassword })
   }
   return (
     <div className="flex justify-start items-center w-full ">
@@ -50,7 +50,7 @@ const ChangePassword = () => {
                 setPassword({
                   confirmPassword: passwords.confirmPassword,
                   newPassword: e.currentTarget.value,
-                });
+                })
               }}
             />
           </label>
@@ -70,7 +70,7 @@ const ChangePassword = () => {
                 setPassword({
                   confirmPassword: e.currentTarget.value,
                   newPassword: passwords.newPassword,
-                });
+                })
               }}
             />
           </label>
@@ -84,7 +84,7 @@ const ChangePassword = () => {
         </button>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default ChangePassword;
+export default ChangePassword

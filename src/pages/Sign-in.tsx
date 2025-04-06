@@ -2,8 +2,8 @@ import { FormEvent, useEffect, useState } from "react"
 import { FaFacebookSquare, FaRegEye, FaRegEyeSlash } from "react-icons/fa"
 import { FcGoogle } from "react-icons/fc"
 import { Link, useLocation, useNavigate } from "react-router-dom"
-import { useAppSelector } from "../hook"
-import { useLoggedInUserQuery, useSignInMutation } from "../redux"
+import { useAppSelector } from "../hooks/hook"
+import { useSignInMutation } from "../redux"
 import { users } from "../dummy_data"
 import icon from "../assets/images/icon.png"
 import { LoadingButton } from "../components"
@@ -13,7 +13,6 @@ const randomUserLogin = users.map(item => {
 })
 
 export function SignIn() {
-  useLoggedInUserQuery({})
   const [passwordVisibility, setPasswordVisibility] = useState<
     "text" | "password"
   >("password")

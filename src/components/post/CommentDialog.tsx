@@ -1,56 +1,56 @@
-import { FormEvent, useRef } from "react";
-import { useAppDispatch, useAppSelector } from "../../hook";
-import { motion } from "framer-motion";
-import { toggleCommentDrawer } from "../../redux/reducer/comment.drawer";
-import { IoCloseCircleSharp } from "react-icons/io5";
+import { FormEvent, useRef } from "react"
+import { useAppDispatch, useAppSelector } from "../../hooks/hook"
+import { motion } from "framer-motion"
+import { toggleCommentDrawer } from "../../redux/reducer/comment.drawer"
+import { IoCloseCircleSharp } from "react-icons/io5"
 import {
   useGetCommentsQuery,
   useLikeCommentMutation,
   usePostCommentMutation,
   useUnlikeCommentMutation,
-} from "../../redux";
-import { IComment, IUser } from "../../types";
-import { dateConverter, extractInitial } from "../../utils";
-import { LuHeart } from "react-icons/lu";
-import { Avatar } from "../Avatar/Avatar";
-import CommentDropdown from "./CommentDropdown";
-import { RiHeartFill } from "react-icons/ri";
+} from "../../redux"
+import { IComment, IUser } from "../../types"
+import { dateConverter, extractInitial } from "../../utils"
+import { LuHeart } from "react-icons/lu"
+import { Avatar } from "../Avatar/Avatar"
+import CommentDropdown from "./CommentDropdown"
+import { RiHeartFill } from "react-icons/ri"
 const variants = {
   open: { opacity: 1, height: "auto", display: "block" },
   closed: { opacity: 0, height: 0, display: "hidden" },
-};
+}
 const CommentDialog = ({
   postId,
   author,
 }: {
-  author: IUser;
-  postId: string;
+  author: IUser
+  postId: string
 }) => {
-  const [postComment] = usePostCommentMutation();
-  const [likeComment] = useLikeCommentMutation();
-  const [unlikeComment] = useUnlikeCommentMutation();
+  const [postComment] = usePostCommentMutation()
+  const [likeComment] = useLikeCommentMutation()
+  const [unlikeComment] = useUnlikeCommentMutation()
 
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
-  const { isOpen, postId: id } = useAppSelector((store) => store.comment);
-  const { user } = useAppSelector((store) => store.user);
+  const { isOpen, postId: id } = useAppSelector(store => store.comment)
+  const { user } = useAppSelector(store => store.user)
 
   const { data: comments } = useGetCommentsQuery(postId, {
     skip: !isOpen,
-  });
+  })
 
-  const inputRef = useRef<HTMLInputElement>(null);
-  const formRef = useRef<HTMLFormElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null)
+  const formRef = useRef<HTMLFormElement>(null)
 
   const handleOnComment = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
     await postComment({
       content: inputRef.current?.value as string,
       postId,
       userId: user?.id as string,
-    });
-    formRef.current?.reset();
-  };
+    })
+    formRef.current?.reset()
+  }
 
   const handleLikeComment = async (
     commentId: string,
@@ -58,23 +58,23 @@ const CommentDialog = ({
   ) => {
     switch (type) {
       case "like":
-        await likeComment({ commentId, postId });
-        break;
+        await likeComment({ commentId, postId })
+        break
       case "unlike":
-        await unlikeComment({ commentId, postId });
-        break;
+        await unlikeComment({ commentId, postId })
+        break
       default:
-        break;
+        break
     }
-  };
+  }
 
   const handleOnEdit = (comment: IComment) => {
-    console.log(comment);
-    inputRef.current?.focus();
+    console.log(comment)
+    inputRef.current?.focus()
     if (inputRef.current?.value) {
-      inputRef.current.value = comment.content;
+      inputRef.current.value = comment.content
     }
-  };
+  }
   return postId ? (
     <motion.div
       className=" w-full   rounded-lg     overflow-hidden flex flex-col gap-3"
@@ -87,7 +87,7 @@ const CommentDialog = ({
         <p className="text-sm font-semibold">Comments</p>
         <button
           onClick={() => {
-            dispatch(toggleCommentDrawer(postId));
+            dispatch(toggleCommentDrawer(postId))
           }}
           className="btn btn-xs btn-primary btn-square"
         >
@@ -98,7 +98,7 @@ const CommentDialog = ({
 
       {comments?.length ? (
         <div className="py-4  flex-1 flex flex-col gap-4">
-          {comments.map((comment) => (
+          {comments.map(comment => (
             <div key={comment.id} className="flex flex-col gap-2 ">
               {/* Comment header profile name time */}
               <div className="flex gap-2 items-center justify-between">
@@ -129,7 +129,7 @@ const CommentDialog = ({
                     <button
                       className="btn btn-xs btn-circle"
                       onClick={() => {
-                        handleLikeComment(comment.id, "unlike");
+                        handleLikeComment(comment.id, "unlike")
                       }}
                     >
                       <RiHeartFill className="text-error" />
@@ -138,7 +138,7 @@ const CommentDialog = ({
                     <button
                       className="btn btn-xs btn-circle"
                       onClick={() => {
-                        handleLikeComment(comment.id, "like");
+                        handleLikeComment(comment.id, "like")
                       }}
                     >
                       <LuHeart />
@@ -192,7 +192,7 @@ const CommentDialog = ({
         <button></button>
       </form>
     </motion.div>
-  ) : null;
-};
+  ) : null
+}
 
-export default CommentDialog;
+export default CommentDialog

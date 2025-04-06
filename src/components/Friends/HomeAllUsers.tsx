@@ -1,33 +1,33 @@
-import React from "react";
-import { IChatRoom, IUser } from "../../types";
-import { Avatar } from "../Avatar/Avatar";
-import { extractInitial } from "../../utils";
-import { BiSolidMessageRounded } from "react-icons/bi";
-import { IoPersonAddSharp } from "react-icons/io5";
-import { useSendFriendRequestMutation } from "../../redux";
-import { useAppDispatch } from "../../hook";
-import { toggleMessageBox } from "../../redux/reducer/HomeMessageBox";
-import { setCurrentRoom } from "../../redux/reducer/room.slice";
+import React from "react"
+import { IChatRoom, IUser } from "../../types"
+import { Avatar } from "../Avatar/Avatar"
+import { extractInitial } from "../../utils"
+import { BiSolidMessageRounded } from "react-icons/bi"
+import { IoPersonAddSharp } from "react-icons/io5"
+import { useSendFriendRequestMutation } from "../../redux"
+import { useAppDispatch } from "../../hooks/hook"
+import { toggleMessageBox } from "../../redux/reducer/HomeMessageBox"
+import { setCurrentRoom } from "../../redux/reducer/room.slice"
 
 const HomeAllUsers: React.FC<{
-  user: IUser;
-  type: "users" | "friends";
-  room?: IChatRoom;
+  user: IUser
+  type: "users" | "friends"
+  room?: IChatRoom
 }> = ({ user, type, room }) => {
-  const [sendRequest] = useSendFriendRequestMutation();
-  const dispatch = useAppDispatch();
+  const [sendRequest] = useSendFriendRequestMutation()
+  const dispatch = useAppDispatch()
   const handleOnClick = () => {
     switch (type) {
       case "users":
-        sendRequest({ page: 1, to: user.id });
-        break;
+        sendRequest({ page: 1, to: user.id })
+        break
       case "friends":
         if (room?.id) {
-          dispatch(toggleMessageBox({ isOpen: true, chatRoom: room }));
-          dispatch(setCurrentRoom(room));
+          dispatch(toggleMessageBox({ isOpen: true, chatRoom: room }))
+          dispatch(setCurrentRoom(room))
         }
     }
-  };
+  }
   return (
     <div className="flex justify-between items-center  w-full  p-2  hover:bg-base-200 rounded-md">
       <div className="flex gap-2 items-center">
@@ -55,7 +55,7 @@ const HomeAllUsers: React.FC<{
         )}
       </button>
     </div>
-  );
-};
+  )
+}
 
-export default HomeAllUsers;
+export default HomeAllUsers

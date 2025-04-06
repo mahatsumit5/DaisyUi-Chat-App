@@ -1,9 +1,9 @@
-import { GoDotFill } from "react-icons/go";
-import { useAppSelector } from "../../hook";
+import { GoDotFill } from "react-icons/go"
+import { useAppSelector } from "../../hooks/hook"
 
 const UserIsTyping = () => {
-  const { isTyping } = useAppSelector((store) => store.socket);
-  const { currentRoom } = useAppSelector((store) => store.rooms);
+  const { isTyping } = useAppSelector(store => store.socket)
+  const { currentRoom } = useAppSelector(store => store.rooms)
   return isTyping ? (
     <div className="flex flex-col gap-2 mt-5">
       <div className="flex">
@@ -21,7 +21,7 @@ const UserIsTyping = () => {
       </div>
       <span>{currentRoom?.fName} is typing</span>
     </div>
-  ) : null;
-};
+  ) : null
+}
 
-export default UserIsTyping;
+export default UserIsTyping

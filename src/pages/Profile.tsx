@@ -1,7 +1,7 @@
-import { useAppSelector } from "../hook";
+import { useAppSelector } from "../hooks/hook"
 
 function ProfilePage() {
-  const { user } = useAppSelector((store) => store.user);
+  const { user } = useAppSelector(store => store.user)
 
   return (
     <div className="flex flex-col gap-5 w-full">
@@ -33,7 +33,7 @@ function ProfilePage() {
         <p className="text-gray-500">{user?.email}</p>
       </div>
     </div>
-  );
+  )
 }
 
-export default ProfilePage;
+export default ProfilePage

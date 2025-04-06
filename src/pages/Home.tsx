@@ -8,7 +8,7 @@ import {
   useGetAllPostsQuery,
   useGetAllUsersQuery,
 } from "../redux"
-import { useAppDispatch, useAppSelector } from "../hook"
+import { useAppDispatch, useAppSelector } from "../hooks/hook"
 import { setPage } from "../redux/reducer/post.slice"
 import { LoadingButton } from "../components"
 import { useEffect, useRef, useState } from "react"

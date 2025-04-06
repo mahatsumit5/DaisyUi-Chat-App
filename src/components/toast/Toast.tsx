@@ -1,28 +1,28 @@
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../hook";
-import { closeToast, removeToast } from "../../redux/reducer/toast.slice";
-import { motion, AnimatePresence } from "framer-motion";
-import { IoCloseCircle } from "react-icons/io5";
+import { useEffect } from "react"
+import { useAppDispatch, useAppSelector } from "../../hooks/hook"
+import { closeToast, removeToast } from "../../redux/reducer/toast.slice"
+import { motion, AnimatePresence } from "framer-motion"
+import { IoCloseCircle } from "react-icons/io5"
 const variants = {
   open: { y: 0 },
   closed: { y: 100 },
-};
+}
 function Toast() {
   const { position, align, isOpen, content } = useAppSelector(
-    (store) => store.toast
-  );
-  const dispatch = useAppDispatch();
+    store => store.toast
+  )
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (!content.length) return;
+    if (!content.length) return
     const closeDialog = setTimeout(() => {
-      dispatch(closeToast());
+      dispatch(closeToast())
 
       return () => {
-        clearTimeout(closeDialog);
-      };
-    }, 5000);
-  }, [content.length, dispatch]);
+        clearTimeout(closeDialog)
+      }
+    }, 5000)
+  }, [content.length, dispatch])
 
   return (
     <AnimatePresence>
@@ -40,7 +40,7 @@ function Toast() {
             <span>{message}</span>
             <button
               onClick={() => {
-                dispatch(removeToast(id));
+                dispatch(removeToast(id))
               }}
             >
               <IoCloseCircle size={25} className={`text-${type}-content`} />
@@ -49,7 +49,7 @@ function Toast() {
         ))}
       </motion.div>
     </AnimatePresence>
-  );
+  )
 }
 
-export default Toast;
+export default Toast

@@ -1,16 +1,16 @@
-import { useAppDispatch, useAppSelector } from "../hook";
-import { IChatRoom } from "../types";
+import { useAppDispatch, useAppSelector } from "../hooks/hook"
+import { IChatRoom } from "../types"
 
-import { setCurrentRoom } from "../redux/reducer/room.slice";
+import { setCurrentRoom } from "../redux/reducer/room.slice"
 
-import { Link } from "react-router-dom";
-import { useGetAllChatRoomQuery } from "../redux";
-import ErrorMessage from "./error/ErrorMessage";
+import { Link } from "react-router-dom"
+import { useGetAllChatRoomQuery } from "../redux"
+import ErrorMessage from "./error/ErrorMessage"
 
 function ChatMenu() {
-  const { user } = useAppSelector((store) => store.user);
-  const { currentRoom } = useAppSelector((store) => store.rooms);
-  const { query, type } = useAppSelector((store) => store.search);
+  const { user } = useAppSelector(store => store.user)
+  const { currentRoom } = useAppSelector(store => store.rooms)
+  const { query, type } = useAppSelector(store => store.search)
 
   const { data, error, isFetching } = useGetAllChatRoomQuery(
     {
@@ -24,12 +24,12 @@ function ChatMenu() {
       refetchOnReconnect: true,
       // refetchOnMountOrArgChange: true,
     }
-  );
-  const { onlineUsers } = useAppSelector((store) => store.onlineUsers);
-  const dispatch = useAppDispatch();
+  )
+  const { onlineUsers } = useAppSelector(store => store.onlineUsers)
+  const dispatch = useAppDispatch()
 
   function handleClick(room: IChatRoom) {
-    dispatch(setCurrentRoom(room));
+    dispatch(setCurrentRoom(room))
   }
 
   return (
@@ -65,7 +65,7 @@ function ChatMenu() {
                   currentRoom?.id === item.id ? "bg-base-200 " : ""
                 }`}
                 onClick={() => {
-                  handleClick(item);
+                  handleClick(item)
                 }}
               >
                 <div className="flex gap-3">
@@ -132,7 +132,7 @@ function ChatMenu() {
         </section>
       )}
     </div>
-  );
+  )
 }
 const LoadingRoom = () => {
   return (
@@ -144,6 +144,6 @@ const LoadingRoom = () => {
       </section>
       <section className="skeleton w-10 bg-base-300 h-2"></section>
     </section>
-  );
-};
-export default ChatMenu;
+  )
+}
+export default ChatMenu

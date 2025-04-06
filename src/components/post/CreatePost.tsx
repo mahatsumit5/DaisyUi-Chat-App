@@ -1,5 +1,5 @@
 import { RxCross2 } from "react-icons/rx"
-import { useAppSelector } from "../../hook"
+import { useAppSelector } from "../../hooks/hook"
 import { ChangeEvent, FormEvent, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { FcAddImage, FcImageFile } from "react-icons/fc"

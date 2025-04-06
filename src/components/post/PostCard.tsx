@@ -1,59 +1,59 @@
-import { FcLike } from "react-icons/fc";
-import { IPost } from "../../types";
-import { FaRegComment } from "react-icons/fa";
-import { IoIosHeartEmpty, IoMdMore, IoMdShareAlt } from "react-icons/io";
-import { useAppDispatch, useAppSelector } from "../../hook";
-import { toggleCommentDrawer } from "../../redux/reducer/comment.drawer";
-import { dateConverter, extractInitial } from "../../utils";
-import { MdDeleteOutline, MdOutlineEdit } from "react-icons/md";
-import React, { ChangeEvent, useEffect, useRef, useState } from "react";
-import ImageCarousel from "./ImageCarousel";
+import { FcLike } from "react-icons/fc"
+import { IPost } from "../../types"
+import { FaRegComment } from "react-icons/fa"
+import { IoIosHeartEmpty, IoMdMore, IoMdShareAlt } from "react-icons/io"
+import { useAppDispatch, useAppSelector } from "../../hooks/hook"
+import { toggleCommentDrawer } from "../../redux/reducer/comment.drawer"
+import { dateConverter, extractInitial } from "../../utils"
+import { MdDeleteOutline, MdOutlineEdit } from "react-icons/md"
+import React, { ChangeEvent, useEffect, useRef, useState } from "react"
+import ImageCarousel from "./ImageCarousel"
 import {
   useDeletePostMutation,
   useLikePostMutation,
   useRemoveLikeMutation,
   useUpdatePostMutation,
-} from "../../redux";
-import CommentDialog from "./CommentDialog";
-import { motion, useInView } from "framer-motion";
-import { Avatar } from "../Avatar/Avatar";
-import { socket } from "../../redux/reducer/socket.slice";
+} from "../../redux"
+import CommentDialog from "./CommentDialog"
+import { motion, useInView } from "framer-motion"
+import { Avatar } from "../Avatar/Avatar"
+import { socket } from "../../redux/reducer/socket.slice"
 
 const PostCard = ({ post }: { post: IPost }) => {
   const formObj = {
     title: post.title,
     content: post.content,
-  };
-  const dispatch = useAppDispatch();
-  const { user } = useAppSelector((store) => store.user);
+  }
+  const dispatch = useAppDispatch()
+  const { user } = useAppSelector(store => store.user)
 
-  const [likePost] = useLikePostMutation();
-  const [removeLike] = useRemoveLikeMutation();
-  const [updatePost] = useUpdatePostMutation();
-  const [deletePost] = useDeletePostMutation();
+  const [likePost] = useLikePostMutation()
+  const [removeLike] = useRemoveLikeMutation()
+  const [updatePost] = useUpdatePostMutation()
+  const [deletePost] = useDeletePostMutation()
 
-  const [editing, setEditing] = useState(false);
-  const [form, setForm] = useState(formObj);
+  const [editing, setEditing] = useState(false)
+  const [form, setForm] = useState(formObj)
 
-  const cardRef = useRef<HTMLDivElement>(null);
-  const InputRef = useRef<HTMLInputElement>(null);
-  const TextAreaRef = useRef<HTMLTextAreaElement>(null);
-  const ContainerRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null)
+  const InputRef = useRef<HTMLInputElement>(null)
+  const TextAreaRef = useRef<HTMLTextAreaElement>(null)
+  const ContainerRef = useRef<HTMLDivElement>(null)
 
-  const isInView = useInView(cardRef);
+  const isInView = useInView(cardRef)
 
   async function handleDeletePost() {
-    await deletePost(post.id).unwrap();
+    await deletePost(post.id).unwrap()
   }
 
   function handleInputChange(
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm({ ...form, [e.target.name]: e.target.value })
   }
 
   async function handleOnLike() {
-    const data = await likePost(post.id).unwrap();
+    const data = await likePost(post.id).unwrap()
 
     // only send if the post is created by someone else except you.
     if (data.userId !== post.author.id) {
@@ -61,47 +61,47 @@ const PostCard = ({ post }: { post: IPost }) => {
         to: post.author.id,
         user,
         postId: data.postId,
-      });
+      })
     }
   }
 
   async function handleOnRemoveLike() {
-    await removeLike(post.id);
+    await removeLike(post.id)
   }
   async function handleUpdatePost(e: handlePostEvent) {
     if (e.key === "Enter") {
-      e.preventDefault();
-      setEditing(false);
+      e.preventDefault()
+      setEditing(false)
 
       try {
-        await updatePost({ ...form, id: post.id }).unwrap();
+        await updatePost({ ...form, id: post.id }).unwrap()
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     }
   }
   useEffect(() => {
-    if (post.title === form.title && post.content === form.content) return;
+    if (post.title === form.title && post.content === form.content) return
     const handleOutSideClick = (e: MouseEvent) => {
       if (
         ContainerRef.current &&
         !ContainerRef.current.contains(e.target as Node)
       ) {
-        setEditing(false);
-        console.log(form);
+        setEditing(false)
+        console.log(form)
       }
-    };
-    document.addEventListener("mousedown", handleOutSideClick);
+    }
+    document.addEventListener("mousedown", handleOutSideClick)
     return () => {
-      document.removeEventListener("mousedown", handleOutSideClick);
-    };
-  }, [form, post]);
+      document.removeEventListener("mousedown", handleOutSideClick)
+    }
+  }, [form, post])
 
   useEffect(() => {
     if (editing && InputRef.current) {
-      InputRef.current.focus();
+      InputRef.current.focus()
     }
-  }, [editing]);
+  }, [editing])
 
   return (
     <motion.div
@@ -138,7 +138,7 @@ const PostCard = ({ post }: { post: IPost }) => {
                   className="btn w-full justify-between btn-sm"
                   type="button"
                   onClick={() => {
-                    setEditing(true);
+                    setEditing(true)
                   }}
                 >
                   Edit
@@ -205,7 +205,7 @@ const PostCard = ({ post }: { post: IPost }) => {
         <button
           className="btn btn-xs btn-ghost"
           onClick={() => {
-            dispatch(toggleCommentDrawer(post.id));
+            dispatch(toggleCommentDrawer(post.id))
           }}
         >
           <FaRegComment size={20} />
@@ -216,11 +216,11 @@ const PostCard = ({ post }: { post: IPost }) => {
 
       <CommentDialog postId={post.id} key={post.id} author={post.author} />
     </motion.div>
-  );
-};
+  )
+}
 
-export default PostCard;
+export default PostCard
 
 type handlePostEvent = React.KeyboardEvent<
   HTMLInputElement | HTMLTextAreaElement
->;
+>

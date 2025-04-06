@@ -1,25 +1,25 @@
-import { ChangeEvent, useEffect, useState } from "react";
-import { useUploadImageMutation } from "../../redux";
-import LoadingButton from "../loading/LoadingButton";
-import { IoIosAddCircle } from "react-icons/io";
-import { useAppSelector } from "../../hook";
-import ChangePassword from "../user/ChangePassword";
+import { ChangeEvent, useEffect, useState } from "react"
+import { useUploadImageMutation } from "../../redux"
+import LoadingButton from "../loading/LoadingButton"
+import { IoIosAddCircle } from "react-icons/io"
+import { useAppSelector } from "../../hooks/hook"
+import ChangePassword from "../user/ChangePassword"
 
 const ProfileSettings = () => {
-  const { user } = useAppSelector((store) => store.user);
-  const [uploadImage, { isLoading }] = useUploadImageMutation();
-  const [file, setFile] = useState<File>();
-  const [preview, setPreview] = useState<string>("");
+  const { user } = useAppSelector(store => store.user)
+  const [uploadImage, { isLoading }] = useUploadImageMutation()
+  const [file, setFile] = useState<File>()
+  const [preview, setPreview] = useState<string>("")
   useEffect(() => {
-    if (!file) return;
-    const url = URL.createObjectURL(file as Blob);
-    setPreview(url);
-    return () => URL.revokeObjectURL(url);
-  }, [file]);
+    if (!file) return
+    const url = URL.createObjectURL(file as Blob)
+    setPreview(url)
+    return () => URL.revokeObjectURL(url)
+  }, [file])
 
   async function handleUpload() {
-    if (!file) return;
-    await uploadImage(file);
+    if (!file) return
+    await uploadImage(file)
   }
   return (
     <div className="flex items-start justify-start w-full flex-col  p-2 gap-1 rounded-md ">
@@ -42,8 +42,8 @@ const ProfileSettings = () => {
           type="file"
           id="file"
           onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            const { files } = e.target;
-            setFile(files ? (files[0] as File) : undefined);
+            const { files } = e.target
+            setFile(files ? (files[0] as File) : undefined)
           }}
         />
         <div className="flex flex-col items-start justify-center h-full gap-5 w-full">
@@ -75,7 +75,7 @@ const ProfileSettings = () => {
       </div>
       <ChangePassword />
     </div>
-  );
-};
+  )
+}
 
-export default ProfileSettings;
+export default ProfileSettings

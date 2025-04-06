@@ -1,11 +1,11 @@
-import { TiMessages, TiUserAddOutline } from "react-icons/ti";
-import { IoIosSettings, IoMdNotificationsOutline } from "react-icons/io";
-import { BsPeople } from "react-icons/bs";
-import { Link, useLocation } from "react-router-dom";
-import { useGetFriendRequestQuery } from "../redux";
-import { useAppDispatch } from "../hook";
-import { resetSearchBar, setQueryType } from "../redux/reducer/search.slice";
-import { IoHomeOutline } from "react-icons/io5";
+import { TiMessages, TiUserAddOutline } from "react-icons/ti"
+import { IoIosSettings, IoMdNotificationsOutline } from "react-icons/io"
+import { BsPeople } from "react-icons/bs"
+import { Link, useLocation } from "react-router-dom"
+import { useGetFriendRequestQuery } from "../redux"
+import { useAppDispatch } from "../hooks/hook"
+import { resetSearchBar, setQueryType } from "../redux/reducer/search.slice"
+import { IoHomeOutline } from "react-icons/io5"
 
 const links = [
   {
@@ -45,22 +45,22 @@ const links = [
     link: "/settings",
     icon: <IoIosSettings size={22} />,
   },
-];
+]
 function Sidebar() {
-  const dispatch = useAppDispatch();
-  const { pathname } = useLocation();
-  const { data } = useGetFriendRequestQuery(null);
+  const dispatch = useAppDispatch()
+  const { pathname } = useLocation()
+  const { data } = useGetFriendRequestQuery(null)
 
   function handleClick(name: string) {
-    dispatch(resetSearchBar());
+    dispatch(resetSearchBar())
     if (name === "Messages" || name === "Friends") {
-      dispatch(setQueryType(name));
-      return;
+      dispatch(setQueryType(name))
+      return
     }
   }
   return (
     <div className=" flex flex-col gap-4  py-4   justify-start items-center ">
-      {links.map((link) => (
+      {links.map(link => (
         <Link to={link.link} key={link.id}>
           <button
             className={`relative w-36 ${
@@ -69,7 +69,7 @@ function Sidebar() {
                 : ""
             }  text-base-content flex gap-2 items-center justify-start font-semibold p-2`}
             onClick={() => {
-              handleClick(link.text);
+              handleClick(link.text)
             }}
           >
             {link.icon} <p className="block "> {link.text}</p>
@@ -82,7 +82,7 @@ function Sidebar() {
         </Link>
       ))}
     </div>
-  );
+  )
 }
 
-export default Sidebar;
+export default Sidebar

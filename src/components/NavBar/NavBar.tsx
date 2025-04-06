@@ -1,5 +1,5 @@
 import { FormEvent } from "react"
-import { useAppDispatch, useAppSelector } from "../../hook"
+import { useAppDispatch, useAppSelector } from "../../hooks/hook"
 import MobileDrawer from "../MobileDrawer"
 import { setQuery } from "../../redux/reducer/search.slice"
 import { Link } from "react-router-dom"

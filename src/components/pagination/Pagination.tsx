@@ -1,24 +1,24 @@
-import { useEffect, useState } from "react";
-import { getNumberOfRequiredPagination } from "../../utils";
-import { useAppDispatch, useAppSelector } from "../../hook";
-import { setPage } from "../../redux/reducer/pagination.slice";
+import { useEffect, useState } from "react"
+import { getNumberOfRequiredPagination } from "../../utils"
+import { useAppDispatch, useAppSelector } from "../../hooks/hook"
+import { setPage } from "../../redux/reducer/pagination.slice"
 
 type PaginationProps = {
-  numberOfContentPerPage: number;
-  totalNumberOfAvaibleContent: number;
-};
+  numberOfContentPerPage: number
+  totalNumberOfAvaibleContent: number
+}
 function Pagination({
   numberOfContentPerPage,
   totalNumberOfAvaibleContent,
 }: PaginationProps) {
-  const dispatch = useAppDispatch();
-  const { page } = useAppSelector((store) => store.pagination);
-  const [paginationArray, setPaginationArray] = useState<number[]>([]);
+  const dispatch = useAppDispatch()
+  const { page } = useAppSelector(store => store.pagination)
+  const [paginationArray, setPaginationArray] = useState<number[]>([])
   const totalNumberofPages = Math.ceil(
     totalNumberOfAvaibleContent
       ? totalNumberOfAvaibleContent / numberOfContentPerPage
       : 0
-  );
+  )
 
   //   useEffect(() => {
   //     // 6 is maximum number of pagination
@@ -43,8 +43,8 @@ function Pagination({
   //   }, [page, totalNumberofPages]);
 
   useEffect(() => {
-    setPaginationArray(getNumberOfRequiredPagination(totalNumberofPages));
-  }, [totalNumberofPages]);
+    setPaginationArray(getNumberOfRequiredPagination(totalNumberofPages))
+  }, [totalNumberofPages])
   //   content is grater than miminum amount to displaying content
   return totalNumberOfAvaibleContent > numberOfContentPerPage ? (
     <div className="flex justify-center flex-col items-center gap-2">
@@ -55,7 +55,7 @@ function Pagination({
         <button
           className="join-item btn btn-square btn-primary disabled:text-white"
           onClick={() => {
-            dispatch(setPage(page - 1));
+            dispatch(setPage(page - 1))
           }}
           disabled={page === 1}
         >
@@ -64,7 +64,7 @@ function Pagination({
 
         {paginationArray
           .sort(function (a, b) {
-            return a - b;
+            return a - b
           })
           .map((item, index) => {
             return (
@@ -75,18 +75,18 @@ function Pagination({
                 key={index}
                 value={item}
                 onClick={() => {
-                  dispatch(setPage(item));
+                  dispatch(setPage(item))
                 }}
               >
                 {item}
               </button>
-            );
+            )
           })}
 
         <button
           className="join-item btn btn-square btn-primary "
           onClick={() => {
-            dispatch(setPage(page + 1));
+            dispatch(setPage(page + 1))
           }}
           disabled={page === totalNumberofPages}
         >
@@ -94,7 +94,7 @@ function Pagination({
         </button>
       </div>
     </div>
-  ) : null;
+  ) : null
 }
 
-export default Pagination;
+export default Pagination

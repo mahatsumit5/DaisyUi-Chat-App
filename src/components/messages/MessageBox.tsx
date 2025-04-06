@@ -1,32 +1,32 @@
-import { useEffect, useRef } from "react";
-import { useAppSelector } from "../../hook";
-import { FaArrowUp } from "react-icons/fa";
-import { useGetMessagesQuery } from "../../redux";
-import MessageLoadingState from "./MessageLoadingState";
-import { IChatRoom, IUser } from "../../types";
-import UserIsTyping from "./UserIsTyping";
-import MessageDisplay from "./MessageDisplay";
-import envelope from "../../assets/images/envelope.svg";
-import useMessageHook from "../../hooks/useMessage.hook";
+import { useEffect, useRef } from "react"
+import { useAppSelector } from "../../hooks/hook"
+import { FaArrowUp } from "react-icons/fa"
+import { useGetMessagesQuery } from "../../redux"
+import MessageLoadingState from "./MessageLoadingState"
+import { IChatRoom, IUser } from "../../types"
+import UserIsTyping from "./UserIsTyping"
+import MessageDisplay from "./MessageDisplay"
+import envelope from "../../assets/images/envelope.svg"
+import useMessageHook from "../../hooks/useMessage.hook"
 
 function MessageBox({ userId, userName }: messageBoxProps) {
-  const { message, messageStatus, preview } = useMessageHook();
-  const { currentRoom } = useAppSelector((store) => store.rooms);
-  const { user } = useAppSelector((store) => store.user);
-  const { isTyping } = useAppSelector((store) => store.socket);
-  const { numOfMessages, setNumofMessages } = useMessageHook();
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const { message, messageStatus, preview } = useMessageHook()
+  const { currentRoom } = useAppSelector(store => store.rooms)
+  const { user } = useAppSelector(store => store.user)
+  const { isTyping } = useAppSelector(store => store.socket)
+  const { numOfMessages, setNumofMessages } = useMessageHook()
+  const sectionRef = useRef<HTMLDivElement>(null)
   const { data, error, isLoading } = useGetMessagesQuery({
     roomId: currentRoom?.id || "",
     take: numOfMessages,
-  });
+  })
 
   useEffect(() => {
-    const height = sectionRef.current?.scrollHeight;
+    const height = sectionRef.current?.scrollHeight
     if (sectionRef.current && height) {
-      sectionRef.current.scrollTop = height;
+      sectionRef.current.scrollTop = height
     }
-  }, [data, isTyping]);
+  }, [data, isTyping])
 
   return error ? (
     <>Unexpected Error Occured</>
@@ -41,7 +41,7 @@ function MessageBox({ userId, userName }: messageBoxProps) {
         <button
           className="animate-bounce mb-5 w-full  flex items-center justify-center"
           onClick={() => {
-            setNumofMessages((prev) => prev + 5);
+            setNumofMessages(prev => prev + 5)
           }}
         >
           <FaArrowUp />
@@ -69,11 +69,11 @@ function MessageBox({ userId, userName }: messageBoxProps) {
       <img src={envelope} className="w-28 md:w-40" />
       <p className="text-2xl font-semibold text-primary">No new messages</p>
     </section>
-  );
+  )
 }
 
-export default MessageBox;
+export default MessageBox
 type messageBoxProps = {
-  userName: string;
-  userId: string;
-};
+  userName: string
+  userId: string
+}

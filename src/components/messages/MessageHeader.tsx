@@ -1,32 +1,32 @@
-import { IChatRoom } from "../../types";
-import { useAppDispatch } from "../../hook";
-import { setCurrentRoom } from "../../redux/reducer/room.slice";
-import { IoChevronBackSharp } from "react-icons/io5";
-import { MdDeleteOutline, MdPhoneEnabled } from "react-icons/md";
-import { useDeleteChatRoomMutation } from "../../redux";
-import { Avatar } from "../Avatar/Avatar";
-import { extractInitial } from "../../utils";
+import { IChatRoom } from "../../types"
+import { useAppDispatch } from "../../hooks/hook"
+import { setCurrentRoom } from "../../redux/reducer/room.slice"
+import { IoChevronBackSharp } from "react-icons/io5"
+import { MdDeleteOutline, MdPhoneEnabled } from "react-icons/md"
+import { useDeleteChatRoomMutation } from "../../redux"
+import { Avatar } from "../Avatar/Avatar"
+import { extractInitial } from "../../utils"
 
 function MessageHeader({ currentRoom }: { currentRoom: IChatRoom }) {
-  const dispatch = useAppDispatch();
-  const [deleteChatRoom] = useDeleteChatRoomMutation();
+  const dispatch = useAppDispatch()
+  const [deleteChatRoom] = useDeleteChatRoomMutation()
 
   // const { onlineUsers } = useAppSelector((store) => store.onlineUsers);
   function deleteRoomHandle() {
     deleteChatRoom(currentRoom.id)
       .unwrap()
-      .then((response) => {
+      .then(response => {
         if (response) {
-          dispatch(setCurrentRoom(null));
+          dispatch(setCurrentRoom(null))
         }
-      });
+      })
   }
   return (
     <header className=" w-full  border-b-2  p-2 flex justify-between    z-[5] ">
       <div className="flex gap-5">
         <button
           onClick={() => {
-            dispatch(setCurrentRoom(null));
+            dispatch(setCurrentRoom(null))
           }}
           className="lg:hidden"
         >
@@ -53,7 +53,7 @@ function MessageHeader({ currentRoom }: { currentRoom: IChatRoom }) {
         </button>
       </div>
     </header>
-  );
+  )
 }
 
-export default MessageHeader;
+export default MessageHeader
