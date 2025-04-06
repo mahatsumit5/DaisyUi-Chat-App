@@ -1,0 +1,30 @@
+query GetAllPosts($args: GetAllPostArgs) {
+  data: getAllPosts(args: $args) {
+    status
+    message
+    posts {
+      id
+      title
+      content
+      createdAt
+      updatedAt
+      images
+      author {
+        id
+        email
+        fName
+        lName
+        isActive
+        profile
+        bio
+        coverPicture
+      }
+      hasLiked
+      _count {
+        comments
+        likes
+      }
+    }
+    totalNumberOfPosts
+  }
+}

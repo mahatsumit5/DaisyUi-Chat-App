@@ -1,30 +1,32 @@
-import { FormEvent } from "react";
-import { useAppDispatch, useAppSelector } from "../../hook";
-import MobileDrawer from "../MobileDrawer";
-import { setQuery } from "../../redux/reducer/search.slice";
-import { Link } from "react-router-dom";
-import { useLogoutUserMutation } from "../../redux";
-import { setUser } from "../../redux/reducer/user.slice";
-import { useSocket } from "../../hooks/socket.hook";
-import icon from "../../assets/images/icon.png";
-import { Avatar } from "../Avatar/Avatar";
-import { extractInitial } from "../../utils";
+import { FormEvent } from "react"
+import { useAppDispatch, useAppSelector } from "../../hooks/hook"
+import MobileDrawer from "../MobileDrawer"
+import { setQuery } from "../../redux/reducer/search.slice"
+import { Link } from "react-router-dom"
+import { useLogoutMutation } from "../../redux"
+import { setUser } from "../../redux/reducer/user.slice"
+import { useSocket } from "../../hooks/socket.hook"
+import icon from "../../assets/images/icon.png"
+import { Avatar } from "../Avatar/Avatar"
+import { extractInitial } from "../../utils"
 
 const NavBar = () => {
-  const { currentRoom } = useAppSelector((store) => store.rooms);
-  const { user } = useAppSelector((store) => store.user);
-  const { query } = useAppSelector((s) => s.search);
-  const dispatch = useAppDispatch();
-  const [logoutUser] = useLogoutUserMutation();
-  const socket = useSocket();
+  const { currentRoom } = useAppSelector(store => store.rooms)
+  const { user } = useAppSelector(store => store.user)
+  const { query } = useAppSelector(s => s.search)
+  const dispatch = useAppDispatch()
+  const [logoutUser] = useLogoutMutation()
+  const socket = useSocket()
 
   async function handleLogout() {
-    await logoutUser();
-    sessionStorage.clear();
-    localStorage.clear();
-    dispatch(setUser(null));
-    window.location.reload();
-    socket.close();
+    const { data } = await logoutUser({ email: user?.email! }).unwrap()
+    if (data?.status) {
+      sessionStorage.clear()
+      localStorage.clear()
+      dispatch(setUser(null))
+      window.location.reload()
+      socket.close()
+    }
   }
   return (
     <header className="sticky w-full top-0 z-50 border-b-2 shadow-md bg-base-100 border-primary/50">
@@ -48,7 +50,7 @@ const NavBar = () => {
               type="text"
               placeholder="Search"
               onChange={(e: FormEvent<HTMLInputElement>) => {
-                dispatch(setQuery({ query: e.currentTarget.value }));
+                dispatch(setQuery({ query: e.currentTarget.value }))
               }}
               className="text-[16px] text-primary-content placeholder:text-primary-content/70"
               value={query}
@@ -99,7 +101,7 @@ const NavBar = () => {
         </div>
       </div>
     </header>
-  );
-};
+  )
+}
 
-export default NavBar;
+export default NavBar

@@ -96,8 +96,13 @@ export type FriendRequests = {
   toId: Scalars['String']['output'];
 };
 
-export type GetAllPostsResponse = {
-  __typename?: 'GetAllPostsResponse';
+export type GetAllPostArgs = {
+  page: Scalars['Int']['input'];
+  take: Scalars['Int']['input'];
+};
+
+export type GetAllPostsQuery = {
+  __typename?: 'GetAllPostsQuery';
   message: Scalars['String']['output'];
   posts?: Maybe<Array<Post>>;
   status: Scalars['Boolean']['output'];
@@ -124,8 +129,8 @@ export type GetPostByUserIdResponse = {
   status: Scalars['Boolean']['output'];
 };
 
-export type LogInResponse = {
-  __typename?: 'LogInResponse';
+export type LoggedInUserResponse = {
+  __typename?: 'LoggedInUserResponse';
   data?: Maybe<User>;
   message: Scalars['String']['output'];
   status: Scalars['Boolean']['output'];
@@ -152,8 +157,10 @@ export type Mutation = {
   deleteMessage?: Maybe<Response>;
   deletePost: GetPostByUserIdResponse;
   likePost: GetPostByUserIdResponse;
+  /** logout from your account */
   logout?: Maybe<Response>;
   newJwt?: Maybe<Response>;
+  /** Rest your password */
   resetPassword?: Maybe<Response>;
   sendMessage?: Maybe<SendMessageResponse>;
   /** Send friend request to other user */
@@ -161,7 +168,7 @@ export type Mutation = {
   /** login to your account */
   signIn?: Maybe<SignInResponse>;
   /** Create a new user */
-  signUp?: Maybe<Response>;
+  signUp?: Maybe<SignUpResponse>;
   unlikePost: GetPostByUserIdResponse;
   updateUser?: Maybe<Response>;
   uploadPost: UploadAPostResponse;
@@ -194,6 +201,11 @@ export type MutationLikePostArgs = {
 };
 
 
+export type MutationLogoutArgs = {
+  email: Scalars['String']['input'];
+};
+
+
 export type MutationResetPasswordArgs = {
   newPassword: Scalars['String']['input'];
 };
@@ -210,12 +222,12 @@ export type MutationSendRequestArgs = {
 
 
 export type MutationSignInArgs = {
-  input?: InputMaybe<SignInUser>;
+  input?: InputMaybe<SignInParams>;
 };
 
 
 export type MutationSignUpArgs = {
-  input?: InputMaybe<SignUpUser>;
+  input?: InputMaybe<SignUpUserParams>;
 };
 
 
@@ -266,7 +278,7 @@ export type Query = {
   __typename?: 'Query';
   /** a list of all the users */
   allUsers?: Maybe<AllUsersResponse>;
-  getAllPosts?: Maybe<GetAllPostsResponse>;
+  getAllPosts?: Maybe<GetAllPostsQuery>;
   /** Get all incoming request */
   getFriendRequest?: Maybe<FriendRequestResponse>;
   getMessagesByUsers?: Maybe<GetMessageByUserResponse>;
@@ -274,7 +286,7 @@ export type Query = {
   /** Get list of ALL SENT request */
   getSentFriendRequest?: Maybe<FriendRequestResponse>;
   /** a list of all the users */
-  loggedInUser?: Maybe<LogInResponse>;
+  loggedInUser?: Maybe<LoggedInUserResponse>;
 };
 
 
@@ -284,8 +296,7 @@ export type QueryAllUsersArgs = {
 
 
 export type QueryGetAllPostsArgs = {
-  page: Scalars['Int']['input'];
-  take: Scalars['Int']['input'];
+  args?: InputMaybe<GetAllPostArgs>;
 };
 
 
@@ -337,19 +348,26 @@ export type Session = {
   userEmail: Scalars['String']['output'];
 };
 
-export type SignInResponse = {
-  __typename?: 'SignInResponse';
-  message: Scalars['String']['output'];
-  status: Scalars['Boolean']['output'];
-  token?: Maybe<Token>;
-};
-
-export type SignInUser = {
+export type SignInParams = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
 };
 
-export type SignUpUser = {
+export type SignInResponse = {
+  __typename?: 'SignInResponse';
+  data?: Maybe<Token>;
+  message: Scalars['String']['output'];
+  status: Scalars['Boolean']['output'];
+};
+
+export type SignUpResponse = {
+  __typename?: 'SignUpResponse';
+  data?: Maybe<User>;
+  message: Scalars['String']['output'];
+  status: Scalars['Boolean']['output'];
+};
+
+export type SignUpUserParams = {
   email: Scalars['String']['input'];
   fName: Scalars['String']['input'];
   lName: Scalars['String']['input'];
@@ -382,23 +400,13 @@ export type UploadAPostResponse = {
 export type User = {
   __typename?: 'User';
   bio?: Maybe<Scalars['String']['output']>;
-  chatRoom: Array<ChatRoom>;
-  comment: Array<Comment>;
   coverPicture?: Maybe<Scalars['String']['output']>;
   email: Scalars['String']['output'];
   fName: Scalars['String']['output'];
-  friendRequests: Array<FriendRequests>;
   id: Scalars['ID']['output'];
   isActive: Scalars['Boolean']['output'];
   lName: Scalars['String']['output'];
-  likedComments: Array<CommentLikes>;
-  likedPosts: Array<PostLike>;
-  messages: Array<Message>;
-  password: Scalars['String']['output'];
-  post: Array<Post>;
   profile?: Maybe<Scalars['String']['output']>;
-  sentRequests: Array<FriendRequests>;
-  session: Array<Session>;
 };
 
 export type _Count = {
@@ -420,9 +428,35 @@ export type QueryParamsSentReq = {
   take: Scalars['Int']['input'];
 };
 
-export type MutationMutationVariables = Exact<{
-  body?: InputMaybe<PostInput>;
+export type GetAllPostsQueryVariables = Exact<{
+  args?: InputMaybe<GetAllPostArgs>;
 }>;
 
 
-export type MutationMutation = { __typename?: 'Mutation', uploadPost: { __typename?: 'UploadAPostResponse', status: boolean, message: string, result?: { __typename?: 'Post', createdAt: string, title: string, id: string, content: string, author?: { __typename?: 'User', id: string, email: string, fName: string, lName: string, profile?: string | null } | null } | null } };
+export type GetAllPostsQuery = { __typename?: 'Query', data?: { __typename?: 'GetAllPostsQuery', status: boolean, message: string, totalNumberOfPosts?: number | null, posts?: Array<{ __typename?: 'Post', id: string, title: string, content: string, createdAt: string, updatedAt: string, images: Array<string>, hasLiked: boolean, author?: { __typename?: 'User', id: string, email: string, fName: string, lName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null } | null, _count?: { __typename?: '_count', comments: number, likes: number } | null }> | null } | null };
+
+export type SignUpMutationVariables = Exact<{
+  input?: InputMaybe<SignUpUserParams>;
+}>;
+
+
+export type SignUpMutation = { __typename?: 'Mutation', data?: { __typename?: 'SignUpResponse', message: string, status: boolean, data?: { __typename?: 'User', lName: string, fName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null, email: string, id: string } | null } | null };
+
+export type SignInMutationVariables = Exact<{
+  input?: InputMaybe<SignInParams>;
+}>;
+
+
+export type SignInMutation = { __typename?: 'Mutation', data?: { __typename?: 'SignInResponse', message: string, status: boolean, data?: { __typename?: 'Token', accessJWT: string } | null } | null };
+
+export type LoggedInUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LoggedInUserQuery = { __typename?: 'Query', data?: { __typename?: 'LoggedInUserResponse', message: string, status: boolean, data?: { __typename?: 'User', bio?: string | null, coverPicture?: string | null, email: string, id: string, fName: string, lName: string, isActive: boolean, profile?: string | null } | null } | null };
+
+export type LogoutMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+}>;
+
+
+export type LogoutMutation = { __typename?: 'Mutation', data?: { __typename?: 'Response', status: boolean, message: string } | null };

@@ -1,54 +1,45 @@
-import { FormEvent, useEffect, useState } from "react";
-import { FaFacebookSquare, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useAppSelector } from "../hook";
-import { useGetLoggedInUserQuery, useLoginMutation } from "../redux";
-import { users } from "../dummy_data";
-import icon from "../assets/images/icon.png";
-import { LoadingButton } from "../components";
-import { gql, useMutation, useSubscription } from "@apollo/client";
-import { SignInResponse } from "../graphql/graphql";
-import { SignInMutationVariables } from "../graphql/graphql";
-import { SIGN_IN } from "../graphql/queries";
+import { FormEvent, useEffect, useState } from "react"
+import { FaFacebookSquare, FaRegEye, FaRegEyeSlash } from "react-icons/fa"
+import { FcGoogle } from "react-icons/fc"
+import { Link, useLocation, useNavigate } from "react-router-dom"
+import { useAppSelector } from "../hooks/hook"
+import { useSignInMutation } from "../redux"
+import { users } from "../dummy_data"
+import icon from "../assets/images/icon.png"
+import { LoadingButton } from "../components"
 
-const randomUserLogin = users.map((item) => {
-  return { email: item.email, password: item.password };
-});
+const randomUserLogin = users.map(item => {
+  return { email: item.email, password: item.password }
+})
 
 export function SignIn() {
-  // useSubscription(POST_SUBS);
-  useGetLoggedInUserQuery();
   const [passwordVisibility, setPasswordVisibility] = useState<
     "text" | "password"
-  >("password");
-  const { user } = useAppSelector((store) => store.user);
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [login, { isLoading, isError }] = useLoginMutation();
+  >("password")
+  const { user } = useAppSelector(store => store.user)
+  const navigate = useNavigate()
+  const location = useLocation()
+  const [login, { isLoading, isError }] = useSignInMutation()
   const [form, setform] = useState<{ email: string; password: string }>({
     email: "alice@example.com",
     password: "password@123",
-  });
-  // const [test, response] = useMutation<
-  //   Promise<SignInResponse>,
-  //   SignInMutationVariables
-  // >(SIGN_IN, {
-  //   variables: { input: form },
-  // });
+  })
+
   function onChange(e: FormEvent<HTMLInputElement>) {
-    const { name, value } = e.currentTarget;
-    let lowerCase = value;
+    const { name, value } = e.currentTarget
+    let lowerCase = value
     if (name === "email") {
-      lowerCase = value.toLowerCase();
+      lowerCase = value.toLowerCase()
     }
-    setform({ ...form, [name]: lowerCase });
+    setform({ ...form, [name]: lowerCase })
   }
   async function onSubmit(e: FormEvent) {
-    sessionStorage.setItem("email", form.email);
+    sessionStorage.setItem("email", form.email)
 
-    e.preventDefault();
-    await login(form).unwrap();
+    e.preventDefault()
+    await login({
+      input: form,
+    }).unwrap()
   }
 
   useEffect(() => {
@@ -57,9 +48,9 @@ export function SignIn() {
         location.state?.from.location.pathname
           ? location.state.from.location.pathname
           : "/home"
-      );
+      )
     }
-  }, [navigate, user, location]);
+  }, [navigate, user, location])
   return (
     <div className=" w-full  flex  flex-col items-center justify-center p-2 h-[100dvh] gap-5 ">
       <span className="text-4xl w-24 md:w-32">
@@ -105,7 +96,7 @@ export function SignIn() {
           onClick={() => {
             setPasswordVisibility(
               passwordVisibility === "password" ? "text" : "password"
-            );
+            )
           }}
         >
           {passwordVisibility === "password" ? (
@@ -135,5 +126,5 @@ export function SignIn() {
         <button className="btn  btn-outline btn-primary ">Register Now</button>
       </Link>
     </div>
-  );
+  )
 }

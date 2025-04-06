@@ -1,16 +1,16 @@
-import { PiTelegramLogoFill } from "react-icons/pi";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { useSendMessageMutation } from "../../redux";
-import { useAppDispatch, useAppSelector } from "../../hook";
-import { CiImageOn } from "react-icons/ci";
-import LoadingButton from "../loading/LoadingButton";
-import useMessageHook from "../../hooks/useMessage.hook";
-import { RxCross1 } from "react-icons/rx";
-import { motion } from "framer-motion";
-import EmojiBox from "../Emoji/EmojiBox";
+import { PiTelegramLogoFill } from "react-icons/pi"
+import { ChangeEvent, FormEvent, useEffect, useState } from "react"
+import { useSendMessageMutation } from "../../redux"
+import { useAppDispatch, useAppSelector } from "../../hooks/hook"
+import { CiImageOn } from "react-icons/ci"
+import LoadingButton from "../loading/LoadingButton"
+import useMessageHook from "../../hooks/useMessage.hook"
+import { RxCross1 } from "react-icons/rx"
+import { motion } from "framer-motion"
+import EmojiBox from "../Emoji/EmojiBox"
 function MessageInput({ email, roomId, userId }: messageInputProps) {
-  const dispatch = useAppDispatch();
-  const [emojiOpen, setEmojiOpen] = useState<boolean>(false);
+  const dispatch = useAppDispatch()
+  const [emojiOpen, setEmojiOpen] = useState<boolean>(false)
   const {
     file,
     message,
@@ -20,38 +20,38 @@ function MessageInput({ email, roomId, userId }: messageInputProps) {
     setMessage,
     setPreview,
     setMessageStatus,
-  } = useMessageHook();
+  } = useMessageHook()
 
-  const [sendMessage, { isLoading, isError }] = useSendMessageMutation();
-  const { socket } = useAppSelector((store) => store.socket);
+  const [sendMessage, { isLoading, isError }] = useSendMessageMutation()
+  const { socket } = useAppSelector(store => store.socket)
   async function handleSend(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+    e.preventDefault()
 
-    if (!message && !file) return;
+    if (!message && !file) return
     const { result } = await sendMessage({
       author: userId,
       content: file ? file : message,
       roomId,
       numOfMessages,
-    }).unwrap();
-    setFile(undefined);
-    setPreview("");
+    }).unwrap()
+    setFile(undefined)
+    setPreview("")
     if (!isLoading && !isError) {
-      socket.emit("send_message", result, roomId);
-      setMessage("");
+      socket.emit("send_message", result, roomId)
+      setMessage("")
     }
   }
   useEffect(() => {
-    if (!file) return;
-    const url = URL.createObjectURL(file as Blob);
-    console.log(url);
-    setPreview(url);
-    return () => URL.revokeObjectURL(url);
-  }, [file, setPreview]);
+    if (!file) return
+    const url = URL.createObjectURL(file as Blob)
+    console.log(url)
+    setPreview(url)
+    return () => URL.revokeObjectURL(url)
+  }, [file, setPreview])
 
   useEffect(() => {
-    setMessageStatus({ isError, isLoading });
-  }, [isError, isLoading, setMessageStatus, dispatch]);
+    setMessageStatus({ isError, isLoading })
+  }, [isError, isLoading, setMessageStatus, dispatch])
 
   return (
     <>
@@ -65,7 +65,7 @@ function MessageInput({ email, roomId, userId }: messageInputProps) {
           onFocusCapture={() => socket.emit("typing", roomId, email)}
           value={message}
           onChange={(e: FormEvent<HTMLTextAreaElement>) => {
-            setMessage(e.currentTarget.value);
+            setMessage(e.currentTarget.value)
           }}
           onBlur={() => socket.emit("stopped_typing", roomId, email)}
         />
@@ -115,7 +115,7 @@ function MessageInput({ email, roomId, userId }: messageInputProps) {
             <button
               className="btn btn-sm btn-circle btn-ghost"
               onClick={() => {
-                setFile(undefined);
+                setFile(undefined)
               }}
             >
               <RxCross1 />
@@ -138,17 +138,17 @@ function MessageInput({ email, roomId, userId }: messageInputProps) {
         id="file"
         accept=".jpg,.avif,.png,.jpeg"
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
-          const { files } = e.target;
-          setFile(files ? (files[0] as File) : undefined);
+          const { files } = e.target
+          setFile(files ? (files[0] as File) : undefined)
         }}
       />
     </>
-  );
+  )
 }
 
-export default MessageInput;
+export default MessageInput
 type messageInputProps = {
-  roomId: string;
-  userId: string;
-  email: string;
-};
+  roomId: string
+  userId: string
+  email: string
+}

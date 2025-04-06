@@ -1,15 +1,15 @@
-import { IUser } from "../../types";
+import { IUser } from "../../types"
 
-import { useGetAllUsersQuery } from "../../redux";
-import { useAppSelector } from "../../hook";
-import LoaderCard from "./LoaderCard";
-import FriendCard from "./FriendCard";
-import Pagination from "../pagination/Pagination";
+import { useGetAllUsersQuery } from "../../redux"
+import { useAppSelector } from "../../hooks/hook"
+import LoaderCard from "./LoaderCard"
+import FriendCard from "./FriendCard"
+import Pagination from "../pagination/Pagination"
 
 function AllPeoples() {
-  const numberOfContentPerPage = 8;
-  const { page } = useAppSelector((store) => store.pagination);
-  const { query, type } = useAppSelector((store) => store.search);
+  const numberOfContentPerPage = 8
+  const { page } = useAppSelector(store => store.pagination)
+  const { query, type } = useAppSelector(store => store.search)
 
   const { data, error, isFetching } = useGetAllUsersQuery(
     {
@@ -24,8 +24,8 @@ function AllPeoples() {
       // refetchOnMountOrArgChange: true,
       // pollingInterval: 2000, refetch every 2 seconds
     }
-  );
-  console.log(data);
+  )
+  console.log(data)
   return (
     <>
       {error ? (
@@ -34,7 +34,7 @@ function AllPeoples() {
           <button
             className="btn btn-outline btn-primary w-36"
             onClick={() => {
-              window.location.reload();
+              window.location.reload()
             }}
           >
             Try again
@@ -62,7 +62,7 @@ function AllPeoples() {
         </div>
       ) : null}
     </>
-  );
+  )
 }
 
-export default AllPeoples;
+export default AllPeoples

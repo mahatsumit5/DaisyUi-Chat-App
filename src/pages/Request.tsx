@@ -1,11 +1,9 @@
-import { AllPeoples, FriendRequest, SentRequest } from "../components";
-import { MenuLayout } from "../components/index";
-import { FaAffiliatetheme } from "react-icons/fa";
-import { CgProfile } from "react-icons/cg";
-export type displayComponentKeys =
-  | "Friend Request"
-  | "Sent Request"
-  | "Peoples";
+import { AllPeoples, FriendRequest, SentRequest } from "../components"
+import { MenuLayout } from "../components/index"
+import { FaAffiliatetheme } from "react-icons/fa"
+import { CgProfile } from "react-icons/cg"
+import React from "react"
+export type displayComponentKeys = "Friend Request" | "Sent Request" | "Peoples"
 
 const links = [
   {
@@ -24,20 +22,20 @@ const links = [
     text: "Peoples" as displayComponentKeys,
     icon: <CgProfile />,
   },
-];
-const Request = () => {
-  const display: Record<displayComponentKeys, JSX.Element> = {
+]
+const RequestPage = () => {
+  const display: Record<displayComponentKeys, React.JSX.Element> = {
     "Friend Request": <FriendRequest />,
     "Sent Request": <SentRequest />,
     Peoples: <AllPeoples />,
-  };
+  }
   return (
     <MenuLayout<displayComponentKeys>
       links={links}
       display={display}
       key={"request"}
     />
-  );
-};
+  )
+}
 
-export default Request;
+export default RequestPage

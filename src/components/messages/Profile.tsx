@@ -1,19 +1,19 @@
-import { Dispatch, SetStateAction } from "react";
-import { AiFillMessage } from "react-icons/ai";
-import { LiaUserFriendsSolid } from "react-icons/lia";
-import { useAppSelector } from "../../hook";
-import { IUser } from "../../types";
+import { Dispatch, SetStateAction } from "react"
+import { AiFillMessage } from "react-icons/ai"
+import { LiaUserFriendsSolid } from "react-icons/lia"
+import { useAppSelector } from "../../hooks/hook"
+import { IUser } from "../../types"
 
 export default function Profile({
   setComponent,
   type,
 }: {
-  setComponent?: Dispatch<SetStateAction<"message" | "profile">>;
-  type: "friend" | "allUsers";
+  setComponent?: Dispatch<SetStateAction<"message" | "profile">>
+  type: "friend" | "allUsers"
 }) {
-  const { currentRoom } = useAppSelector((store) => store.rooms);
-  const { currentUser } = useAppSelector((store) => store.rooms);
-  const user = type === "friend" ? currentRoom : (currentUser as IUser);
+  const { currentRoom } = useAppSelector(store => store.rooms)
+  const { currentUser } = useAppSelector(store => store.rooms)
+  const user = type === "friend" ? currentRoom : (currentUser as IUser)
   return (
     <div className="flex-1 bg-white rounded-md  flex flex-col items-center justify-start gap-5">
       {/* background and image */}
@@ -31,7 +31,7 @@ export default function Profile({
         <button
           className="btn btn-outline"
           onClick={() => {
-            if (setComponent) setComponent("message");
+            if (setComponent) setComponent("message")
           }}
         >
           <AiFillMessage size={30} color="pink" />
@@ -58,5 +58,5 @@ export default function Profile({
         Explore
       </button>
     </div>
-  );
+  )
 }

@@ -1,28 +1,50 @@
-import { CodegenConfig } from "@graphql-codegen/cli";
+import { CodegenConfig } from "@graphql-codegen/cli"
 
 const config: CodegenConfig = {
+  overwrite: true,
   schema: "http://localhost:8000/graphql",
-  documents: ["src/**/*.tsx"],
+  documents: "./src/graphql/queries/**.graphql",
   generates: {
-    "./src/graphql/": {
-      preset: "client",
-      presetConfig: {
-        gqlTagName: "gql",
-      },
-    },
-    "./src/graphql/types.ts": {
+    // Use the following line to generate types for the GraphQL schema and operations
+    // and save them in the specified path.
+    // This is create all the queries in the same file
+
+    // "./src/graphql/generated.ts": {
+    //   preset: "import-types",
+    //   plugins: [
+    //     "typescript-operations",
+    //     {
+    //       "typescript-rtk-query": {
+    //         importBaseApiFrom: "./baseApi",
+    //         importBaseApiAlternateName: "baseApiWithGraphql",
+    //         exportHooks: true,
+    //       },
+    //     },
+    //   ],
+
+    //   presetConfig: {
+    //     typesPath: "../types/types.ts",
+    //   },
+    // },
+
+    "./src/types/types.ts": {
       plugins: ["typescript", "typescript-operations"],
     },
-    "./src/graphql/generated.ts": {
-      plugins: ["typescript", "typescript-resolvers", "typescript-rtk-query"],
 
+    "src/graphql/file.ts": {
+      preset: "near-operation-file",
+      plugins: ["typescript-operations", "typescript-rtk-query"],
+      presetConfig: {
+        baseTypesPath: "../../types/types.ts",
+        extension: ".generated.ts",
+      },
       config: {
-        importBaseApiFrom: "./baseApi",
+        importBaseApiFrom: "../baseApi",
         importBaseApiAlternateName: "baseApiWithGraphql",
         exportHooks: true,
       },
     },
   },
-};
+}
 
-export default config;
+export default config

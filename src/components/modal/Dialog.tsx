@@ -1,15 +1,15 @@
-import { RxCross1 } from "react-icons/rx";
-import { useAppDispatch, useAppSelector } from "../../hook";
-import { closeDialog } from "../../redux/reducer/dialog.slice";
-import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { RxCross1 } from "react-icons/rx"
+import { useAppDispatch, useAppSelector } from "../../hooks/hook"
+import { closeDialog } from "../../redux/reducer/dialog.slice"
+import { motion, AnimatePresence } from "framer-motion"
+import { useNavigate } from "react-router-dom"
 const variants = {
   open: { opacity: 1, scale: 1 },
   closed: { opacity: 0, scale: 0 },
-};
+}
 const Dialog = () => {
-  const dispatch = useAppDispatch();
-  const { open, content, heading } = useAppSelector((store) => store.dialog);
+  const dispatch = useAppDispatch()
+  const { open, content, heading } = useAppSelector(store => store.dialog)
   return (
     <AnimatePresence>
       <motion.div
@@ -29,7 +29,7 @@ const Dialog = () => {
             <button
               className="btn btn-circle btn-ghost hover:bg-primary"
               onClick={() => {
-                dispatch(closeDialog());
+                dispatch(closeDialog())
               }}
             >
               <RxCross1 />
@@ -43,7 +43,7 @@ const Dialog = () => {
             <button
               className="btn btn-sm btn-error"
               onClick={() => {
-                dispatch(closeDialog());
+                dispatch(closeDialog())
               }}
             >
               Cancel
@@ -52,45 +52,45 @@ const Dialog = () => {
         </motion.div>
       </motion.div>
     </AnimatePresence>
-  );
-};
+  )
+}
 
 const Button = () => {
-  const { type } = useAppSelector((store) => store.dialog);
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  const { type } = useAppSelector(store => store.dialog)
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   switch (type) {
     case "request":
       return (
         <button
           className="btn btn-sm btn-primary"
           onClick={() => {
-            navigate("/friend-request");
-            dispatch(closeDialog());
+            navigate("/friend-request")
+            dispatch(closeDialog())
           }}
         >
           View
         </button>
-      );
+      )
     case "login":
       return (
         <button
           className="btn btn-sm btn-primary"
           onClick={() => {
-            navigate("/");
-            dispatch(closeDialog());
-            sessionStorage.clear();
+            navigate("/")
+            dispatch(closeDialog())
+            sessionStorage.clear()
           }}
         >
           Login
         </button>
-      );
+      )
 
     case "password":
-      return null;
+      return null
     default:
-      return null;
+      return null
   }
-};
+}
 
-export default Dialog;
+export default Dialog

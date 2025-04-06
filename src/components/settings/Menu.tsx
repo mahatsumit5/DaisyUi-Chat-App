@@ -1,39 +1,39 @@
-import { Dispatch, SetStateAction } from "react";
-import { useAppDispatch } from "../../hook";
-import { setQueryType } from "../../redux/reducer/search.slice";
-import { setPage } from "../../redux/reducer/pagination.slice";
+import { Dispatch, SetStateAction } from "react"
+import { useAppDispatch } from "../../hooks/hook"
+import { setQueryType } from "../../redux/reducer/search.slice"
+import { setPage } from "../../redux/reducer/pagination.slice"
 
 function Menu<T>({
   setDisplayComponent,
   displayComponent,
   links,
 }: {
-  displayComponent: T;
-  setDisplayComponent: Dispatch<SetStateAction<T>>;
-  links: { id: number; text: T; icon: JSX.Element }[];
+  displayComponent: T
+  setDisplayComponent: Dispatch<SetStateAction<T>>
+  links: { id: number; text: T; icon: JSX.Element }[]
 }) {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
   function handleClick(name: T) {
-    console.log(name);
-    setDisplayComponent(name as T);
+    console.log(name)
+    setDisplayComponent(name as T)
     switch (name) {
       case "Friend Request":
-        dispatch(setQueryType("Friend-Request"));
-        dispatch(setPage(1));
-        break;
+        dispatch(setQueryType("Friend-Request"))
+        dispatch(setPage(1))
+        break
       case "Sent Request":
-        dispatch(setQueryType("Sent-Request"));
-        dispatch(setPage(1));
-        break;
+        dispatch(setQueryType("Sent-Request"))
+        dispatch(setPage(1))
+        break
       case "Peoples":
-        dispatch(setQueryType("Peoples"));
-        dispatch(setPage(1));
-        break;
+        dispatch(setQueryType("Peoples"))
+        dispatch(setPage(1))
+        break
     }
   }
   return (
     <ul className="menu gap-2 menu-horizontal w-full border-b-2  bg-base-100 rounded-lg ">
-      {links.map((item) => (
+      {links.map(item => (
         <li
           key={item.id}
           className={`${
@@ -44,7 +44,7 @@ function Menu<T>({
         >
           <a
             onClick={() => {
-              handleClick(item.text);
+              handleClick(item.text)
             }}
           >
             {item.icon}
@@ -53,7 +53,7 @@ function Menu<T>({
         </li>
       ))}
     </ul>
-  );
+  )
 }
 
-export default Menu;
+export default Menu

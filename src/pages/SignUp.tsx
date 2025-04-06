@@ -1,30 +1,31 @@
-import { FormEvent, useState } from "react";
-import { MdOutlineArrowBackIosNew } from "react-icons/md";
-import { Link, useNavigate } from "react-router-dom";
-import { useSignUpUserMutation } from "../redux";
+import { FormEvent, useState } from "react"
+import { MdOutlineArrowBackIosNew } from "react-icons/md"
+import { Link, useNavigate } from "react-router-dom"
+import { useSignUpMutation } from "../redux"
 
 export function SignUp() {
-  const [signUpUser] = useSignUpUserMutation();
-  const navigate = useNavigate();
+  const [signup] = useSignUpMutation()
+  // const [signUpUser] = useSignUpUserMutation()
+  const navigate = useNavigate()
   const [form, setForm] = useState({
     fName: "",
     email: "",
     password: "",
     ConfirmPassword: "",
     lName: "",
-  });
+  })
   function onChange(e: FormEvent<HTMLInputElement>) {
-    const { name, value } = e.currentTarget;
-    setForm({ ...form, [name]: value });
+    const { name, value } = e.currentTarget
+    setForm({ ...form, [name]: value })
   }
   async function handleSubmit(e: FormEvent) {
-    e.preventDefault();
-    const { ConfirmPassword, ...rest } = form;
+    e.preventDefault()
+    const { ConfirmPassword, ...rest } = form
     if (ConfirmPassword !== rest.password) {
-      window.alert("Password do not match");
+      window.alert("Password do not match")
     }
-    const { status } = await signUpUser(rest).unwrap();
-    status && navigate("/");
+    const { data } = await signup({ input: rest }).unwrap()
+    data?.response?.status && navigate("/")
   }
 
   return (
@@ -90,5 +91,5 @@ export function SignUp() {
       </div>
       <div className="bg-[url('assets/images/chat2.jpg')] h-screen w-full rouned-md sm:bg-cover hidden sm:block   "></div>
     </div>
-  );
+  )
 }

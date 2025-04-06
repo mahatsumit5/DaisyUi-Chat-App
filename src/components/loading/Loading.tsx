@@ -1,7 +1,7 @@
-import { useAppSelector } from "../../hook";
-import { createPortal } from "react-dom";
+import { useAppSelector } from "../../hooks/hook"
+import { createPortal } from "react-dom"
 const Loading = () => {
-  const { content, isLoading } = useAppSelector((store) => store.loader);
+  const { content, isLoading } = useAppSelector(store => store.loader)
   return createPortal(
     <div
       className={`absolute w-screen h-screen justify-center items-center z-50 bg-slate-900/35 text-primary ${
@@ -12,7 +12,7 @@ const Loading = () => {
       {content}
     </div>,
     document.body
-  );
-};
+  )
+}
 
-export default Loading;
+export default Loading

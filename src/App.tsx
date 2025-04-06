@@ -1,33 +1,41 @@
-import { Route, Routes, useLocation } from "react-router-dom";
-import { userApi } from "./redux";
+import { Route, Routes, useLocation } from "react-router-dom"
+import { useLoggedInUserQuery, userApi } from "./redux"
 import {
   ChatPage,
   ForgotPassword,
   Friends,
-  Notification,
-  Request,
+  NotificationPage,
+  RequestPage,
   Settings,
   SignIn,
   SignUp,
-} from "./pages";
-import ProfilePage from "./pages/Profile";
-import Privatelayout from "./components/Privatelayout";
-import { Dialog, Loading, Toast } from "./components";
-import { useEffect } from "react";
-import { useAppDispatch } from "./hook";
-import PageNotFound from "./components/PageNotFound";
-import { SocketProvider } from "./contexts/SocketProvider";
-import Home from "./pages/Home";
-import HomeMessageBox from "./components/HomeMessageBoc/HomeMessageBox";
-export default function App() {
-  const location = useLocation();
+} from "./pages"
+import ProfilePage from "./pages/Profile"
+import Privatelayout from "./components/Privatelayout"
+import { Dialog, Loading, Toast } from "./components"
+import { useEffect } from "react"
+import { useAppDispatch } from "./hooks/hook"
+import PageNotFound from "./components/PageNotFound"
+import { SocketProvider } from "./contexts/SocketProvider"
+import Home from "./pages/Home"
+import HomeMessageBox from "./components/HomeMessageBoc/HomeMessageBox"
 
-  const dispatch = useAppDispatch();
+export default function App() {
+  useLoggedInUserQuery(
+    {},
+    {
+      pollingInterval: 5 * 60 * 1000, // 5 minutes
+    }
+  )
+
+  const location = useLocation()
+
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (location.pathname === "/" || location.pathname === "/sign-up") return;
-    dispatch(userApi.endpoints.getLoggedInUser.initiate());
-  }, [location, dispatch]);
+    if (location.pathname === "/" || location.pathname === "/sign-up") return
+    dispatch(userApi.endpoints.getLoggedInUser.initiate())
+  }, [location, dispatch])
 
   return (
     <SocketProvider email={JSON.stringify(sessionStorage.getItem("email"))}>
@@ -76,7 +84,7 @@ export default function App() {
             path="/friend-request"
             element={
               <Privatelayout>
-                <Request />
+                <RequestPage />
               </Privatelayout>
             }
           />
@@ -84,7 +92,7 @@ export default function App() {
             path="/notification"
             element={
               <Privatelayout>
-                <Notification />
+                <NotificationPage />
               </Privatelayout>
             }
           />
@@ -105,5 +113,5 @@ export default function App() {
         <HomeMessageBox />
       </div>
     </SocketProvider>
-  );
+  )
 }

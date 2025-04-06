@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
 
-import { useAppSelector } from "../hook";
-import { ChatBox, ChatMenu } from "../components";
+import { useAppSelector } from "../hooks/hook"
+import { ChatBox, ChatMenu } from "../components"
 
 function ChatPage() {
-  const { currentRoom } = useAppSelector((store) => store.rooms);
+  const { currentRoom } = useAppSelector(store => store.rooms)
 
   return (
     <div className="flex  gap-1 h-[90dvh]  ">
@@ -32,7 +32,7 @@ function ChatPage() {
         </div>
       )}
     </div>
-  );
+  )
 }
 
-export default ChatPage;
+export default ChatPage

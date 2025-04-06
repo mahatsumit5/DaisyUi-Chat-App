@@ -1,36 +1,36 @@
-import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { useAppDispatch, useAppSelector } from "../../hook";
-import { IoMdClose } from "react-icons/io";
-import { toggleMessageBox } from "../../redux/reducer/HomeMessageBox";
-import { FaExpandAlt } from "react-icons/fa";
-import { Avatar } from "../Avatar/Avatar";
-import { extractInitial } from "../../utils";
-import MessageDisplay from "../messages/MessageDisplay";
-import { IChatRoom, IUser } from "../../types";
-import { useGetMessagesQuery } from "../../redux";
-import MessageInput from "../messages/MessageInput";
-import useMessageHook from "../../hooks/useMessage.hook";
-import UserIsTyping from "../messages/UserIsTyping";
+import { useEffect, useRef, useState } from "react"
+import { AnimatePresence, motion } from "framer-motion"
+import { useAppDispatch, useAppSelector } from "../../hooks/hook"
+import { IoMdClose } from "react-icons/io"
+import { toggleMessageBox } from "../../redux/reducer/HomeMessageBox"
+import { FaExpandAlt } from "react-icons/fa"
+import { Avatar } from "../Avatar/Avatar"
+import { extractInitial } from "../../utils"
+import MessageDisplay from "../messages/MessageDisplay"
+import { IChatRoom, IUser } from "../../types"
+import { useGetMessagesQuery } from "../../redux"
+import MessageInput from "../messages/MessageInput"
+import useMessageHook from "../../hooks/useMessage.hook"
+import UserIsTyping from "../messages/UserIsTyping"
 
 const variants = {
   open: { opacity: 1, display: "block" },
   closed: { opacity: 0, display: "hidden" },
-};
+}
 const variants2 = {
   open: { height: "700px", width: "500px" },
   closed: { height: "50px", width: "350px" },
-};
+}
 
 const HomeMessageBox = () => {
-  const { numOfMessages, setNumofMessages } = useMessageHook();
-  const messageBoxRef = useRef<HTMLDivElement>(null);
-  const dispatch = useAppDispatch();
-  const { isTyping } = useAppSelector((store) => store.socket);
+  const { numOfMessages, setNumofMessages } = useMessageHook()
+  const messageBoxRef = useRef<HTMLDivElement>(null)
+  const dispatch = useAppDispatch()
+  const { isTyping } = useAppSelector(store => store.socket)
 
-  const [expand, setExpand] = useState<boolean>(false);
-  const { isOpen, chatRoom } = useAppSelector((state) => state.messageBox);
-  const { user } = useAppSelector((state) => state.user);
+  const [expand, setExpand] = useState<boolean>(false)
+  const { isOpen, chatRoom } = useAppSelector(state => state.messageBox)
+  const { user } = useAppSelector(state => state.user)
   const { data, error, isLoading } = useGetMessagesQuery(
     {
       roomId: chatRoom?.id || "",
@@ -39,33 +39,33 @@ const HomeMessageBox = () => {
     {
       skip: !isOpen,
     }
-  );
+  )
 
   useEffect(() => {
-    const height = messageBoxRef.current?.scrollHeight;
+    const height = messageBoxRef.current?.scrollHeight
     if (messageBoxRef.current && height) {
-      messageBoxRef.current.scrollTop = height;
+      messageBoxRef.current.scrollTop = height
     }
-  }, [data, isTyping]);
+  }, [data, isTyping])
 
   useEffect(() => {
-    const messageBox = messageBoxRef.current;
+    const messageBox = messageBoxRef.current
     const handleScroll = () => {
       // const messageBoxHeight = messageBox?.scrollHeight;
       if (messageBox?.scrollTop === 0) {
-        setNumofMessages((prev) => prev + 5);
+        setNumofMessages(prev => prev + 5)
       }
-    };
+    }
     if (messageBox) {
-      messageBox.addEventListener("scroll", handleScroll);
+      messageBox.addEventListener("scroll", handleScroll)
     }
 
     return () => {
       if (messageBox) {
-        messageBox.removeEventListener("scroll", handleScroll);
+        messageBox.removeEventListener("scroll", handleScroll)
       }
-    };
-  }, [setNumofMessages]);
+    }
+  }, [setNumofMessages])
 
   return chatRoom ? (
     <AnimatePresence>
@@ -104,7 +104,7 @@ const HomeMessageBox = () => {
               <button
                 className="btn btn-xs btn-circle "
                 onClick={() => {
-                  setExpand(!expand);
+                  setExpand(!expand)
                 }}
               >
                 <FaExpandAlt />
@@ -112,7 +112,7 @@ const HomeMessageBox = () => {
               <button
                 className="btn btn-xs btn-circle  "
                 onClick={() => {
-                  dispatch(toggleMessageBox({ isOpen: false, chatRoom: null }));
+                  dispatch(toggleMessageBox({ isOpen: false, chatRoom: null }))
                 }}
               >
                 <IoMdClose />
@@ -166,7 +166,7 @@ const HomeMessageBox = () => {
         </motion.div>
       </motion.div>
     </AnimatePresence>
-  ) : null;
-};
+  ) : null
+}
 
-export default HomeMessageBox;
+export default HomeMessageBox

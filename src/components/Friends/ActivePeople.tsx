@@ -1,32 +1,32 @@
-import { AiTwotoneMessage } from "react-icons/ai";
-import { useAppDispatch, useAppSelector } from "../../hook";
-import { IChatRoom } from "../../types";
-import { setCurrentRoom } from "../../redux/reducer/room.slice";
-import { useNavigate } from "react-router-dom";
+import { AiTwotoneMessage } from "react-icons/ai"
+import { useAppDispatch, useAppSelector } from "../../hooks/hook"
+import { IChatRoom } from "../../types"
+import { setCurrentRoom } from "../../redux/reducer/room.slice"
+import { useNavigate } from "react-router-dom"
 
 const ActivePeople = () => {
-  const { onlineUsers } = useAppSelector((store) => store.onlineUsers);
-  const { chatRoom } = useAppSelector((store) => store.rooms);
+  const { onlineUsers } = useAppSelector(store => store.onlineUsers)
+  const { chatRoom } = useAppSelector(store => store.rooms)
 
   return (
     <>
       {chatRoom.map((item, index) => {
         if (item.email === onlineUsers[index]) {
-          return <OnlineUser user={item} key={item.id} />;
+          return <OnlineUser user={item} key={item.id} />
         } else {
-          return null;
+          return null
         }
       })}
     </>
-  );
-};
+  )
+}
 
 const OnlineUser = ({ user }: { user: IChatRoom }) => {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   function handleOnMessage() {
-    dispatch(setCurrentRoom(user));
-    navigate("/chat");
+    dispatch(setCurrentRoom(user))
+    navigate("/chat")
   }
 
   return (
@@ -47,6 +47,6 @@ const OnlineUser = ({ user }: { user: IChatRoom }) => {
         <AiTwotoneMessage size={25} /> Message
       </button>
     </div>
-  );
-};
-export default ActivePeople;
+  )
+}
+export default ActivePeople
