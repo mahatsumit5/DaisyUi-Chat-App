@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 import { IChatRoom, IFriendReq, IUser } from "../../types"
 import { AiFillDelete, AiFillMessage } from "react-icons/ai"
 import { useAppDispatch, useAppSelector } from "../../hooks/hook"
-import { useState } from "react"
+import React, { useState } from "react"
 import { IoIosPersonAdd } from "react-icons/io"
 import {
   useAcceptFriendReqMutation,
@@ -15,18 +15,13 @@ import { setCurrentRoom } from "../../redux/reducer/room.slice"
 import { setQueryType } from "../../redux/reducer/search.slice"
 import { Avatar } from "../Avatar/Avatar"
 import { extractInitial } from "../../utils"
+import { User } from "../../types/types"
 type keys = "peoples" | "friends" | "request" | "SentRequest"
 
-const FriendCard = ({
-  user,
-  type,
-}: {
-  user: IChatRoom | IUser
-  type: keys
-}) => {
+const FriendCard = ({ user, type }: { user: IChatRoom | User; type: keys }) => {
   const [display] = useState<keys>(type)
 
-  const displayComponent: Record<keys, JSX.Element> = {
+  const displayComponent: Record<keys, React.JSX.Element> = {
     friends: <Friends user={user as IChatRoom} />,
     peoples: <AllPeoples user={user as IChatRoom} />,
     request: <FriendReq user={user as IUser} />,
@@ -38,7 +33,7 @@ const FriendCard = ({
 
       <Avatar
         initial={extractInitial(user.fName, user.lName)}
-        url={user.profile}
+        url={user.profile!}
         classname="w-10 md:w-24 text-xl"
       />
       <div className="flex flex-col items-start  md:items-center justify-center ">
@@ -166,7 +161,7 @@ const FriendReq = ({ user }: { user: IUser }) => {
     </div>
   )
 }
-const SentRequest = ({ user }: { user: IUser }) => {
+const SentRequest = ({ user }: { user: User }) => {
   const [deleteSentRequest] = useDeleteSentRequestMutation()
   const loggedInUser = useAppSelector(store => store.user)
 

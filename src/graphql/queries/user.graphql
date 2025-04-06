@@ -22,3 +22,39 @@ mutation Logout($email: String!) {
     message
   }
 }
+
+query GetAllUsers($params: allUser) {
+  allUsers(params: $params) {
+    status
+    message
+    data {
+      id
+      fName
+      lName
+      email
+      profile
+      isActive
+    }
+    totalUsers
+  }
+}
+mutation Mutation($password: String!, $profile: String, $coverPicture: String) {
+  data: updateUser(
+    password: $password
+    profile: $profile
+    coverPicture: $coverPicture
+  ) {
+    status
+    message
+    data {
+      id
+      email
+      fName
+      lName
+      isActive
+      profile
+      bio
+      coverPicture
+    }
+  }
+}

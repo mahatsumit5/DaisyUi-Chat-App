@@ -13,7 +13,8 @@ import { setPage } from "../redux/reducer/post.slice"
 import { LoadingButton } from "../components"
 import { useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom"
-import { IPost } from "../types"
+import { IPost, IUser } from "../types"
+import { Order } from "../types/types"
 
 const Home = () => {
   const [position, setPostion] = useState((window.innerWidth - 1280) / 2)
@@ -36,7 +37,9 @@ const Home = () => {
     isLoading,
     isError: usersError,
     data: users,
-  } = useGetAllUsersQuery({ order: "asc", page: 1, take: 10, search: "" })
+  } = useGetAllUsersQuery({
+    params: { page: 1, take: 10, search: "", order: Order.Asc },
+  })
 
   const {
     isError: friendError,
@@ -145,9 +148,14 @@ const Home = () => {
               .map((item, index) => <PostLoading key={index} />)
           ) : (
             <div className=" max-h-60 overflow-y-auto flex flex-col gap-2">
-              {users?.data.map(user => (
-                <HomeAllUsers key={user.id} user={user} type="users" />
-              ))}
+              {users?.allUsers?.data &&
+                users.allUsers.data.map(user => (
+                  <HomeAllUsers
+                    key={user.id}
+                    user={user as IUser}
+                    type="users"
+                  />
+                ))}
             </div>
           )}
         </div>

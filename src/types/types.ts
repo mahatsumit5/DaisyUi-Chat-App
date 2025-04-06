@@ -62,11 +62,19 @@ export type DeleteRequestParams = {
   toId: Scalars['String']['input'];
 };
 
+export type File = {
+  __typename?: 'File';
+  encoding: Scalars['String']['output'];
+  fileName: Scalars['String']['output'];
+  mimeType: Scalars['String']['output'];
+};
+
 export type Friend = {
   __typename?: 'Friend';
   email: Scalars['String']['output'];
   fName: Scalars['String']['output'];
   id: Scalars['ID']['output'];
+  isActive: Scalars['Boolean']['output'];
   lName: Scalars['String']['output'];
   profile?: Maybe<Scalars['String']['output']>;
 };
@@ -163,7 +171,7 @@ export type Mutation = {
   /** Send friend request to other user */
   sendRequest?: Maybe<SentRequestResponse>;
   unlikePost: GetPostByUserIdResponse;
-  updateUser?: Maybe<Response>;
+  updateUser?: Maybe<UpdateUserResponse>;
   uploadPost: UploadAPostResponse;
   uploadProfile?: Maybe<Response>;
 };
@@ -211,6 +219,13 @@ export type MutationSendRequestArgs = {
 
 export type MutationUnlikePostArgs = {
   postId: Scalars['String']['input'];
+};
+
+
+export type MutationUpdateUserArgs = {
+  coverPicture?: InputMaybe<Scalars['String']['input']>;
+  password?: InputMaybe<Scalars['String']['input']>;
+  profile?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -344,6 +359,13 @@ export type Subscription = {
   newPost?: Maybe<Post>;
 };
 
+export type UpdateUserResponse = {
+  __typename?: 'UpdateUserResponse';
+  data?: Maybe<User>;
+  message: Scalars['String']['output'];
+  status: Scalars['Boolean']['output'];
+};
+
 export type UploadAPostResponse = {
   __typename?: 'UploadAPostResponse';
   message: Scalars['String']['output'];
@@ -400,3 +422,19 @@ export type LogoutMutationVariables = Exact<{
 
 
 export type LogoutMutation = { __typename?: 'Mutation', data?: { __typename?: 'Response', status: boolean, message: string } | null };
+
+export type GetAllUsersQueryVariables = Exact<{
+  params?: InputMaybe<AllUser>;
+}>;
+
+
+export type GetAllUsersQuery = { __typename?: 'Query', allUsers?: { __typename?: 'AllUsersResponse', status: boolean, message: string, totalUsers?: number | null, data?: Array<{ __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean }> | null } | null };
+
+export type MutationMutationVariables = Exact<{
+  password: Scalars['String']['input'];
+  profile?: InputMaybe<Scalars['String']['input']>;
+  coverPicture?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type MutationMutation = { __typename?: 'Mutation', data?: { __typename?: 'UpdateUserResponse', status: boolean, message: string, data?: { __typename?: 'User', id: string, email: string, fName: string, lName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null } | null } | null };

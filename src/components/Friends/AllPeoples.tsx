@@ -1,10 +1,9 @@
-import { IUser } from "../../types"
-
 import { useGetAllUsersQuery } from "../../redux"
 import { useAppSelector } from "../../hooks/hook"
 import LoaderCard from "./LoaderCard"
 import FriendCard from "./FriendCard"
 import Pagination from "../pagination/Pagination"
+import { Order, User } from "../../types/types"
 
 function AllPeoples() {
   const numberOfContentPerPage = 8
@@ -13,19 +12,21 @@ function AllPeoples() {
 
   const { data, error, isFetching } = useGetAllUsersQuery(
     {
-      order: "asc",
-      page: page,
-      take: numberOfContentPerPage,
-      search: query,
+      params: {
+        order: Order.Asc,
+        page: page,
+        take: numberOfContentPerPage,
+        search: query,
+      },
     },
     {
       skip: type !== "Peoples" ? true : false,
       refetchOnReconnect: true,
-      // refetchOnMountOrArgChange: true,
+      refetchOnMountOrArgChange: true,
       // pollingInterval: 2000, refetch every 2 seconds
     }
   )
-  console.log(data)
+
   return (
     <>
       {error ? (
@@ -48,16 +49,16 @@ function AllPeoples() {
               <LoaderCard key={Math.random()} />
             ))}
         </div>
-      ) : data?.data.length ? (
+      ) : data?.allUsers?.data?.length ? (
         <div className="flex flex-col gap-5">
           <div className="flex justify-around flex-wrap gap-5 w-full">
-            {data.data.map((user: IUser) => (
-              <FriendCard user={user} type="peoples" key={user.id} />
+            {data.allUsers.data.map(user => (
+              <FriendCard user={user as User} type="peoples" key={user.id} />
             ))}
           </div>
           <Pagination
             numberOfContentPerPage={numberOfContentPerPage}
-            totalNumberOfAvaibleContent={data.totalUsers}
+            totalNumberOfAvaibleContent={data.allUsers?.totalUsers!}
           />
         </div>
       ) : null}

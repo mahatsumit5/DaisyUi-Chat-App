@@ -45,6 +45,20 @@ const userGraphqlApi = generatedApi.enhanceEndpoints({
       },
       invalidatesTags: ["CurrentUser"],
     },
+    GetAllUsers: {
+      providesTags: ["Users"],
+      onCacheEntryAdded: async (
+        arg,
+        { cacheDataLoaded, cacheEntryRemoved }
+      ) => {
+        try {
+          await cacheDataLoaded
+        } catch (error) {
+          console.log(error)
+        }
+        await cacheEntryRemoved
+      },
+    },
   },
 })
 
