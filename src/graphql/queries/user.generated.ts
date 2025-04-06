@@ -74,8 +74,4 @@ const injectedRtkApi = baseApiWithGraphql.injectEndpoints({
 })
 
 export { injectedRtkApi as api }
-export const {
-  useLoggedInUserQuery,
-  useLazyLoggedInUserQuery,
-  useLogoutMutation,
-} = injectedRtkApi
+export const { useLoggedInUserQuery, useLogoutMutation } = injectedRtkApi

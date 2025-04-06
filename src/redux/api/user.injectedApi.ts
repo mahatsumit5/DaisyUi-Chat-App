@@ -5,11 +5,10 @@ import { toggleToast } from "../reducer/toast.slice"
 import { baseApiWithRestAPI as api } from "./restBaseApi"
 
 const injectedRtkApi = api.injectEndpoints({
-  overrideExisting: true,
   endpoints: builder => ({
     login: builder.mutation<ILogin, { email: string; password: string }>({
       query: data => ({
-        url: "sign-in",
+        url: "/user/sign-in",
         method: "POST",
         body: data,
       }),
@@ -54,5 +53,4 @@ const userApi = injectedRtkApi.enhanceEndpoints({
     },
   },
 })
-
 export { userApi as userEnhancedApi }

@@ -19,6 +19,7 @@ import postReducer from "./reducer/post.slice"
 import HomeMessageBox from "./reducer/HomeMessageBox"
 import { userGraphqlApi } from "../graphql/api/userGraphql.api"
 import { postGraphqlApi } from "../graphql/api/postGraphql.api"
+import { userEnhancedApi } from "./api/user.injectedApi"
 export const {
   useAcceptFriendReqMutation,
   useGetFriendRequestQuery,
@@ -36,14 +37,16 @@ export const {
 export const {
   useGetAllUsersQuery,
   useLogoutUserMutation,
-  useLoginMutation,
+
   useGetLoggedInUserQuery,
   useSignUpUserMutation,
   useGetNewAccessJWTMutation,
   useChangePasswordMutation,
   useUploadImageMutation,
 } = userApi
-export const { useLoggedInUserQuery } = userGraphqlApi
+
+export const { useLoginMutation } = userEnhancedApi
+export const { useLoggedInUserQuery, useLogoutMutation } = userGraphqlApi
 export const { useGetAllChatRoomQuery, useDeleteChatRoomMutation } = roomApi
 
 export const { useSendMessageMutation, useGetMessagesQuery } = messageApi

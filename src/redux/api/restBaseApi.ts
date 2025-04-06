@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query"
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 
 export const baseApiWithRestAPI = createApi({
   reducerPath: "RESTBaseAPI",
@@ -10,7 +10,6 @@ export const baseApiWithRestAPI = createApi({
         `Bearer ${sessionStorage.getItem("accessJWT") as string}`
       )
     },
-    credentials: "include",
   }),
   endpoints: () => ({}),
   tagTypes: [],

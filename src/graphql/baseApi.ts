@@ -86,6 +86,7 @@ export const baseQueryWithReauthGraphql: any = async (
 }
 
 export const baseApiWithGraphql = createApi({
+  reducerPath: "GraphQlApi",
   baseQuery: baseQueryWithReauthGraphql,
   endpoints: () => ({}),
 
