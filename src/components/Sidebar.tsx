@@ -75,7 +75,7 @@ function Sidebar() {
             {link.icon} <p className="block "> {link.text}</p>
             {link.text === "Request" && (
               <span className="text-primary  rounded-badge absolute -right-2 -top-2">
-                {data?.data.friendReqCount}
+                {/* {data?.data.friendReqCount} */}
               </span>
             )}
           </button>

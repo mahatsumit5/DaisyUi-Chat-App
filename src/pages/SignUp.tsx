@@ -25,7 +25,7 @@ export function SignUp() {
       window.alert("Password do not match")
     }
     const { data } = await signup({ input: rest }).unwrap()
-    data?.response?.status && navigate("/")
+    data?.status && navigate("/")
   }
 
   return (
