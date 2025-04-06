@@ -1,13 +1,15 @@
 import { ChangeEvent, useEffect, useState } from "react"
-import { useUploadImageMutation } from "../../redux"
+import { useUpdateUserMutation, useUploadFileMutation } from "../../redux"
 import LoadingButton from "../loading/LoadingButton"
 import { IoIosAddCircle } from "react-icons/io"
 import { useAppSelector } from "../../hooks/hook"
 import ChangePassword from "../user/ChangePassword"
 
 const ProfileSettings = () => {
+  const [updateUser] = useUpdateUserMutation()
+
   const { user } = useAppSelector(store => store.user)
-  const [uploadImage, { isLoading }] = useUploadImageMutation()
+  const [uploadImage, { isLoading }] = useUploadFileMutation()
   const [file, setFile] = useState<File>()
   const [preview, setPreview] = useState<string>("")
   useEffect(() => {
@@ -19,7 +21,8 @@ const ProfileSettings = () => {
 
   async function handleUpload() {
     if (!file) return
-    await uploadImage(file)
+    const location = await uploadImage({ images: [file] }).unwrap()
+    await updateUser({ profile: location[0] }).unwrap()
   }
   return (
     <div className="flex items-start justify-start w-full flex-col  p-2 gap-1 rounded-md ">

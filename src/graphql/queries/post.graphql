@@ -28,3 +28,56 @@ query GetAllPosts($args: GetAllPostArgs) {
     totalNumberOfPosts
   }
 }
+
+mutation CreateAPost {
+  data: uploadPost {
+    status
+    result {
+      id
+      title
+      content
+      createdAt
+      updatedAt
+      images
+      author {
+        id
+        email
+        fName
+        lName
+        profile
+        coverPicture
+        bio
+        isActive
+      }
+      _count {
+        likes
+        comments
+      }
+      hasLiked
+    }
+  }
+}
+mutation UpdatePost(
+  $updatePostId: String!
+  $title: String
+  $content: String
+  $images: [String!]
+) {
+  data: updatePost(
+    id: $updatePostId
+    title: $title
+    content: $content
+    images: $images
+  ) {
+    status
+    result {
+      id
+      images
+      title
+      updatedAt
+      createdAt
+      content
+    }
+    message
+  }
+}

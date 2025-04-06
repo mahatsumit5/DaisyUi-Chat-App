@@ -133,7 +133,7 @@ export type GetMessageByUserResponse = {
 export type GetPostByUserIdResponse = {
   __typename?: 'GetPostByUserIdResponse';
   message: Scalars['String']['output'];
-  posts?: Maybe<Post>;
+  posts?: Maybe<Array<Post>>;
   status: Scalars['Boolean']['output'];
 };
 
@@ -166,14 +166,13 @@ export type Mutation = {
   deletePost: GetPostByUserIdResponse;
   likePost: GetPostByUserIdResponse;
   logout?: Maybe<Response>;
-  newJwt?: Maybe<Response>;
   sendMessage?: Maybe<SendMessageResponse>;
   /** Send friend request to other user */
   sendRequest?: Maybe<SentRequestResponse>;
   unlikePost: GetPostByUserIdResponse;
+  updatePost?: Maybe<UploadAPostResponse>;
   updateUser?: Maybe<UpdateUserResponse>;
   uploadPost: UploadAPostResponse;
-  uploadProfile?: Maybe<Response>;
 };
 
 
@@ -222,8 +221,19 @@ export type MutationUnlikePostArgs = {
 };
 
 
+export type MutationUpdatePostArgs = {
+  content?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
+  images?: InputMaybe<Array<Scalars['String']['input']>>;
+  title?: InputMaybe<Scalars['String']['input']>;
+};
+
+
 export type MutationUpdateUserArgs = {
+  bio?: InputMaybe<Scalars['String']['input']>;
   coverPicture?: InputMaybe<Scalars['String']['input']>;
+  fName?: InputMaybe<Scalars['String']['input']>;
+  lName?: InputMaybe<Scalars['String']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
   profile?: InputMaybe<Scalars['String']['input']>;
 };
@@ -411,6 +421,21 @@ export type GetAllPostsQueryVariables = Exact<{
 
 export type GetAllPostsQuery = { __typename?: 'Query', data?: { __typename?: 'GetAllPostResponse', status: boolean, message: string, totalNumberOfPosts?: number | null, posts?: Array<{ __typename?: 'Post', id: string, title: string, content: string, createdAt: string, updatedAt: string, images: Array<string>, hasLiked: boolean, author?: { __typename?: 'User', id: string, email: string, fName: string, lName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null } | null, _count?: { __typename?: '_count', comments: number, likes: number } | null }> | null } | null };
 
+export type CreateAPostMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CreateAPostMutation = { __typename?: 'Mutation', data: { __typename?: 'UploadAPostResponse', status: boolean, result?: { __typename?: 'Post', id: string, title: string, content: string, createdAt: string, updatedAt: string, images: Array<string>, hasLiked: boolean, author?: { __typename?: 'User', id: string, email: string, fName: string, lName: string, profile?: string | null, coverPicture?: string | null, bio?: string | null, isActive: boolean } | null, _count?: { __typename?: '_count', likes: number, comments: number } | null } | null } };
+
+export type UpdatePostMutationVariables = Exact<{
+  updatePostId: Scalars['String']['input'];
+  title?: InputMaybe<Scalars['String']['input']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  images?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+}>;
+
+
+export type UpdatePostMutation = { __typename?: 'Mutation', data?: { __typename?: 'UploadAPostResponse', status: boolean, message: string, result?: { __typename?: 'Post', id: string, images: Array<string>, title: string, updatedAt: string, createdAt: string, content: string } | null } | null };
+
 export type LoggedInUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -430,11 +455,11 @@ export type GetAllUsersQueryVariables = Exact<{
 
 export type GetAllUsersQuery = { __typename?: 'Query', allUsers?: { __typename?: 'AllUsersResponse', status: boolean, message: string, totalUsers?: number | null, data?: Array<{ __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean }> | null } | null };
 
-export type MutationMutationVariables = Exact<{
-  password: Scalars['String']['input'];
+export type UpdateUserMutationVariables = Exact<{
+  password?: InputMaybe<Scalars['String']['input']>;
   profile?: InputMaybe<Scalars['String']['input']>;
   coverPicture?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type MutationMutation = { __typename?: 'Mutation', data?: { __typename?: 'UpdateUserResponse', status: boolean, message: string, data?: { __typename?: 'User', id: string, email: string, fName: string, lName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null } | null } | null };
+export type UpdateUserMutation = { __typename?: 'Mutation', data?: { __typename?: 'UpdateUserResponse', status: boolean, message: string, data?: { __typename?: 'User', id: string, email: string, fName: string, lName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null } | null } | null };

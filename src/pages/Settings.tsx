@@ -1,8 +1,9 @@
-import { FaAffiliatetheme } from "react-icons/fa";
-import { CgProfile } from "react-icons/cg";
-import MenuPageLayout from "../components/MenuPageLayout";
-import { ProfileSettings, Theme } from "../components";
-export type displayComponentKeys = "Theme" | "Profile";
+import { FaAffiliatetheme } from "react-icons/fa"
+import { CgProfile } from "react-icons/cg"
+import MenuPageLayout from "../components/MenuPageLayout"
+import { ProfileSettings, Theme } from "../components"
+import React from "react"
+export type displayComponentKeys = "Theme" | "Profile"
 
 const links = [
   {
@@ -16,20 +17,20 @@ const links = [
     text: "Profile" as displayComponentKeys,
     icon: <CgProfile />,
   },
-];
+]
 
 const Settings = () => {
-  const display: Record<displayComponentKeys, JSX.Element> = {
+  const display: Record<displayComponentKeys, React.JSX.Element> = {
     Theme: <Theme />,
     Profile: <ProfileSettings />,
-  };
+  }
   return (
     <MenuPageLayout<displayComponentKeys>
       links={links}
       display={display}
       key={"settings"}
     />
-  );
-};
+  )
+}
 
-export default Settings;
+export default Settings

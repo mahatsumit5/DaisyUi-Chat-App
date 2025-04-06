@@ -20,14 +20,14 @@ export type GetAllUsersQueryVariables = Types.Exact<{
 
 export type GetAllUsersQuery = { __typename?: 'Query', allUsers?: { __typename?: 'AllUsersResponse', status: boolean, message: string, totalUsers?: number | null, data?: Array<{ __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean }> | null } | null };
 
-export type MutationMutationVariables = Types.Exact<{
-  password: Types.Scalars['String']['input'];
+export type UpdateUserMutationVariables = Types.Exact<{
+  password?: Types.InputMaybe<Types.Scalars['String']['input']>;
   profile?: Types.InputMaybe<Types.Scalars['String']['input']>;
   coverPicture?: Types.InputMaybe<Types.Scalars['String']['input']>;
 }>;
 
 
-export type MutationMutation = { __typename?: 'Mutation', data?: { __typename?: 'UpdateUserResponse', status: boolean, message: string, data?: { __typename?: 'User', id: string, email: string, fName: string, lName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null } | null } | null };
+export type UpdateUserMutation = { __typename?: 'Mutation', data?: { __typename?: 'UpdateUserResponse', status: boolean, message: string, data?: { __typename?: 'User', id: string, email: string, fName: string, lName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null } | null } | null };
 
 
 export const LoggedInUserDocument = `
@@ -73,8 +73,8 @@ export const GetAllUsersDocument = `
   }
 }
     `;
-export const MutationDocument = `
-    mutation Mutation($password: String!, $profile: String, $coverPicture: String) {
+export const UpdateUserDocument = `
+    mutation UpdateUser($password: String, $profile: String, $coverPicture: String) {
   data: updateUser(
     password: $password
     profile: $profile
@@ -107,12 +107,12 @@ const injectedRtkApi = baseApiWithGraphql.injectEndpoints({
     GetAllUsers: build.query<GetAllUsersQuery, GetAllUsersQueryVariables | void>({
       query: (variables) => ({ document: GetAllUsersDocument, variables })
     }),
-    Mutation: build.mutation<MutationMutation, MutationMutationVariables>({
-      query: (variables) => ({ document: MutationDocument, variables })
+    UpdateUser: build.mutation<UpdateUserMutation, UpdateUserMutationVariables | void>({
+      query: (variables) => ({ document: UpdateUserDocument, variables })
     }),
   }),
 });
 
 export { injectedRtkApi as api };
-export const { useLoggedInUserQuery, useLazyLoggedInUserQuery, useLogoutMutation, useGetAllUsersQuery, useLazyGetAllUsersQuery, useMutationMutation } = injectedRtkApi;
+export const { useLoggedInUserQuery, useLazyLoggedInUserQuery, useLogoutMutation, useGetAllUsersQuery, useLazyGetAllUsersQuery, useUpdateUserMutation } = injectedRtkApi;
 

@@ -59,6 +59,7 @@ const userGraphqlApi = generatedApi.enhanceEndpoints({
         await cacheEntryRemoved
       },
     },
+    UpdateUser: {},
   },
 })
 

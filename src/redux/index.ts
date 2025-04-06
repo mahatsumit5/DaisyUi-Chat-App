@@ -45,8 +45,12 @@ export const {
 } = userApi
 
 export const { useLoginMutation } = userEnhancedApi
-export const { useLoggedInUserQuery, useLogoutMutation, useGetAllUsersQuery } =
-  userGraphqlApi
+export const {
+  useLoggedInUserQuery,
+  useLogoutMutation,
+  useGetAllUsersQuery,
+  useUpdateUserMutation,
+} = userGraphqlApi
 export const { useGetAllChatRoomQuery, useDeleteChatRoomMutation } = roomApi
 
 export const { useSendMessageMutation, useGetMessagesQuery } = messageApi

@@ -2,12 +2,12 @@ import { FormEvent, useState } from "react"
 import { IoLockClosed } from "react-icons/io5"
 import { useAppDispatch } from "../../hooks/hook"
 import { toggleDialog } from "../../redux/reducer/dialog.slice"
-import { useChangePasswordMutation } from "../../redux"
 import LoadingButton from "../loading/LoadingButton"
+import { useUpdateUserMutation } from "../../redux"
 
 const ChangePassword = () => {
   const dispatch = useAppDispatch()
-  const [changePassword, { isLoading }] = useChangePasswordMutation()
+  const [changePassword, { isLoading }] = useUpdateUserMutation()
   const [passwords, setPassword] = useState({
     newPassword: "",
     confirmPassword: "",

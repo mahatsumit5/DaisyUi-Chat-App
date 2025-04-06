@@ -38,7 +38,11 @@ query GetAllUsers($params: allUser) {
     totalUsers
   }
 }
-mutation Mutation($password: String!, $profile: String, $coverPicture: String) {
+mutation UpdateUser(
+  $password: String
+  $profile: String
+  $coverPicture: String
+) {
   data: updateUser(
     password: $password
     profile: $profile

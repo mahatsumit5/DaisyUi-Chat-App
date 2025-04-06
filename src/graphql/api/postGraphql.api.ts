@@ -25,6 +25,9 @@ const postGraphqlApi = generatedApi.enhanceEndpoints({
         return currentArg !== previousArg
       },
     },
+    CreateAPost: {
+      invalidatesTags: ["Posts"],
+    },
   },
 })
 
