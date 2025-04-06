@@ -2,16 +2,14 @@ import { useAppDispatch } from "../hooks/hook"
 import { Navigate, useLocation } from "react-router-dom"
 import Sidebar from "./Sidebar"
 import NavBar from "./NavBar/NavBar"
-import { useEffect } from "react"
+import React, { useEffect } from "react"
 import { setTyping, socket } from "../redux/reducer/socket.slice"
 import { setOnlineUsers } from "../redux/reducer/AllUsers.slice"
-import { useGetLoggedInUserQuery } from "../redux"
 import { toggleDialog } from "../redux/reducer/dialog.slice"
 
 function Privatelayout({ children }: { children: React.ReactNode }) {
   const location = useLocation()
   const dispatch = useAppDispatch()
-  useGetLoggedInUserQuery()
 
   useEffect(() => {
     socket.on("connect_error", err => {

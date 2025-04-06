@@ -1,5 +1,5 @@
 import { Route, Routes, useLocation } from "react-router-dom"
-import { useLoggedInUserQuery, userApi } from "./redux"
+import { useLoggedInUserQuery } from "./redux"
 import {
   ChatPage,
   ForgotPassword,
@@ -19,6 +19,7 @@ import PageNotFound from "./components/PageNotFound"
 import { SocketProvider } from "./contexts/SocketProvider"
 import Home from "./pages/Home"
 import HomeMessageBox from "./components/HomeMessageBoc/HomeMessageBox"
+import { userGraphqlApi } from "./graphql/api/userGraphql.api"
 
 export default function App() {
   useLoggedInUserQuery(
@@ -34,7 +35,7 @@ export default function App() {
 
   useEffect(() => {
     if (location.pathname === "/" || location.pathname === "/sign-up") return
-    dispatch(userApi.endpoints.getLoggedInUser.initiate())
+    dispatch(userGraphqlApi.endpoints.LoggedInUser.initiate())
   }, [location, dispatch])
 
   return (

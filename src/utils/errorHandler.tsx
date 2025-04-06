@@ -1,6 +1,7 @@
 import { isRejectedWithValue } from "@reduxjs/toolkit"
 import type { MiddlewareAPI, Middleware } from "@reduxjs/toolkit"
 import { toggleDialog } from "../redux/reducer/dialog.slice"
+import { toggleToast } from "../redux/reducer/toast.slice"
 
 /**
  * Log a warning and show a toast!
@@ -57,17 +58,17 @@ export const rtkQueryErrorLogger: Middleware =
           break
       }
 
-      // api.dispatch(
-      //   toggleToast({
-      //     isOpen: true,
-      //     content: {
-      //       id: Math.ceil(Math.random() * 10000000),
-      //       message: errorResponse.data.message,
+      api.dispatch(
+        toggleToast({
+          isOpen: true,
+          content: {
+            id: Math.ceil(Math.random() * 10000000),
+            message: errorResponse.data.message,
 
-      //       type: "error",
-      //     },
-      //   })
-      // );
+            type: "error",
+          },
+        })
+      )
     }
 
     return next(action)

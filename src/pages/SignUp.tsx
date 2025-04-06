@@ -1,10 +1,10 @@
 import { FormEvent, useState } from "react"
 import { MdOutlineArrowBackIosNew } from "react-icons/md"
 import { Link, useNavigate } from "react-router-dom"
-import { useSignUpMutation } from "../redux"
+import { useSignUpUserMutation } from "../redux"
 
 export function SignUp() {
-  const [signup] = useSignUpMutation()
+  const [signup] = useSignUpUserMutation()
   // const [signUpUser] = useSignUpUserMutation()
   const navigate = useNavigate()
   const [form, setForm] = useState({
@@ -24,8 +24,8 @@ export function SignUp() {
     if (ConfirmPassword !== rest.password) {
       window.alert("Password do not match")
     }
-    const { data } = await signup({ input: rest }).unwrap()
-    data?.status && navigate("/")
+    const { status } = await signup(rest).unwrap()
+    status && navigate("/")
   }
 
   return (
