@@ -9,6 +9,7 @@ import { MdOutlineCreate } from "react-icons/md"
 import { TiDelete } from "react-icons/ti"
 import { Avatar } from "../Avatar/Avatar"
 import { extractInitial } from "../../utils"
+import { useUploadFileMutation } from "../../redux/api/fileUpload.api"
 // import { gql, useMutation } from "@apollo/client"
 // const CREATE_POST = gql`
 //   mutation Mutation($body: PostInput) {
@@ -32,6 +33,7 @@ import { extractInitial } from "../../utils"
 //   }
 // `
 const CreatePost = () => {
+  const [uploadImage] = useUploadFileMutation()
   // const [createPostGQL] = useMutation(CREATE_POST)
   const [images, setImages] = useState<File[]>([])
   const [createPost, { isLoading }] = useCreatePostMutation()
@@ -52,7 +54,9 @@ const CreatePost = () => {
   }
   async function handleCreatePost(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-
+    uploadImage({ images })
+    console.log(images)
+    return
     await createPost({ ...form, id: user?.id as string, images }).unwrap()
     setForm({ title: "", content: "" })
     setImages([])
