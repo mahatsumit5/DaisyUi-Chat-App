@@ -8,10 +8,12 @@ export type GetAllPostsQueryVariables = Types.Exact<{
 
 export type GetAllPostsQuery = { __typename?: 'Query', data?: { __typename?: 'GetAllPostResponse', status: boolean, message: string, totalNumberOfPosts?: number | null, posts?: Array<{ __typename?: 'Post', id: string, title: string, content: string, createdAt: string, updatedAt: string, images: Array<string>, hasLiked: boolean, author?: { __typename?: 'User', id: string, email: string, fName: string, lName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null } | null, _count?: { __typename?: '_count', comments: number, likes: number } | null }> | null } | null };
 
-export type CreateAPostMutationVariables = Types.Exact<{ [key: string]: never; }>;
+export type CreatePostMutationVariables = Types.Exact<{
+  body?: Types.InputMaybe<Types.PostInput>;
+}>;
 
 
-export type CreateAPostMutation = { __typename?: 'Mutation', data: { __typename?: 'UploadAPostResponse', status: boolean, result?: { __typename?: 'Post', id: string, title: string, content: string, createdAt: string, updatedAt: string, images: Array<string>, hasLiked: boolean, author?: { __typename?: 'User', id: string, email: string, fName: string, lName: string, profile?: string | null, coverPicture?: string | null, bio?: string | null, isActive: boolean } | null, _count?: { __typename?: '_count', likes: number, comments: number } | null } | null } };
+export type CreatePostMutation = { __typename?: 'Mutation', uploadPost: { __typename?: 'UploadAPostResponse', status: boolean, message: string, result?: { __typename?: 'Post', id: string, title: string, content: string, createdAt: string, updatedAt: string, images: Array<string>, author?: { __typename?: 'User', id: string, email: string, fName: string, lName: string, profile?: string | null, coverPicture?: string | null, bio?: string | null, isActive: boolean } | null, _count?: { __typename?: '_count', comments: number } | null } | null } };
 
 export type UpdatePostMutationVariables = Types.Exact<{
   updatePostId: Types.Scalars['String']['input'];
@@ -56,10 +58,11 @@ export const GetAllPostsDocument = `
   }
 }
     `;
-export const CreateAPostDocument = `
-    mutation CreateAPost {
-  data: uploadPost {
+export const CreatePostDocument = `
+    mutation CreatePost($body: PostInput) {
+  uploadPost(body: $body) {
     status
+    message
     result {
       id
       title
@@ -78,10 +81,8 @@ export const CreateAPostDocument = `
         isActive
       }
       _count {
-        likes
         comments
       }
-      hasLiked
     }
   }
 }
@@ -113,8 +114,8 @@ const injectedRtkApi = baseApiWithGraphql.injectEndpoints({
     GetAllPosts: build.query<GetAllPostsQuery, GetAllPostsQueryVariables | void>({
       query: (variables) => ({ document: GetAllPostsDocument, variables })
     }),
-    CreateAPost: build.mutation<CreateAPostMutation, CreateAPostMutationVariables | void>({
-      query: (variables) => ({ document: CreateAPostDocument, variables })
+    CreatePost: build.mutation<CreatePostMutation, CreatePostMutationVariables | void>({
+      query: (variables) => ({ document: CreatePostDocument, variables })
     }),
     UpdatePost: build.mutation<UpdatePostMutation, UpdatePostMutationVariables>({
       query: (variables) => ({ document: UpdatePostDocument, variables })
@@ -123,5 +124,5 @@ const injectedRtkApi = baseApiWithGraphql.injectEndpoints({
 });
 
 export { injectedRtkApi as api };
-export const { useGetAllPostsQuery, useLazyGetAllPostsQuery, useCreateAPostMutation, useUpdatePostMutation } = injectedRtkApi;
+export const { useGetAllPostsQuery, useLazyGetAllPostsQuery, useCreatePostMutation, useUpdatePostMutation } = injectedRtkApi;
 

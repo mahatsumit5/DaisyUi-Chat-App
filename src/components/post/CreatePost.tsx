@@ -13,9 +13,9 @@ import { extractInitial } from "../../utils"
 const CreatePost = () => {
   const [uploadImage, { data, isLoading: isUploadingImages }] =
     useUploadFileMutation()
+  const [createPost, { isLoading }] = useCreatePostMutation()
   console.log(data)
   const [images, setImages] = useState<File[]>([])
-  const [createPost, { isLoading }] = useCreatePostMutation()
   const [form, setForm] = useState({ title: "", content: "" })
   const { user } = useAppSelector(store => store.user)
   const [expandInput, setExpandInput] = useState<boolean>(false)
@@ -33,9 +33,14 @@ const CreatePost = () => {
   }
   async function handleCreatePost(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    uploadImage({ images }).unwrap
-
-    await createPost({ ...form, id: user?.id as string, images }).unwrap()
+    await uploadImage({ images })
+    // await createPost({ ...form, id: user?.id as string, images }).unwrap()
+    await createPost({
+      body: {
+        ...form,
+        images: data,
+      },
+    }).unwrap()
     setForm({ title: "", content: "" })
     setImages([])
     setExpandInput(false)
@@ -120,9 +125,9 @@ const CreatePost = () => {
         <button
           className="btn btn-square btn-primary w-28 text-lg"
           type="submit"
-          disabled={!form.title}
+          disabled={!form.title || isUploadingImages}
         >
-          {isLoading ? <LoadingButton /> : "Post"}
+          {isLoading || isUploadingImages ? <LoadingButton /> : "Post"}
         </button>
       </div>
 

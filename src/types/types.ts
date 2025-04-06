@@ -263,7 +263,6 @@ export type Post = {
 
 export type PostInput = {
   content: Scalars['String']['input'];
-  id: Scalars['String']['input'];
   images?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   title: Scalars['String']['input'];
 };
@@ -421,10 +420,12 @@ export type GetAllPostsQueryVariables = Exact<{
 
 export type GetAllPostsQuery = { __typename?: 'Query', data?: { __typename?: 'GetAllPostResponse', status: boolean, message: string, totalNumberOfPosts?: number | null, posts?: Array<{ __typename?: 'Post', id: string, title: string, content: string, createdAt: string, updatedAt: string, images: Array<string>, hasLiked: boolean, author?: { __typename?: 'User', id: string, email: string, fName: string, lName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null } | null, _count?: { __typename?: '_count', comments: number, likes: number } | null }> | null } | null };
 
-export type CreateAPostMutationVariables = Exact<{ [key: string]: never; }>;
+export type CreatePostMutationVariables = Exact<{
+  body?: InputMaybe<PostInput>;
+}>;
 
 
-export type CreateAPostMutation = { __typename?: 'Mutation', data: { __typename?: 'UploadAPostResponse', status: boolean, result?: { __typename?: 'Post', id: string, title: string, content: string, createdAt: string, updatedAt: string, images: Array<string>, hasLiked: boolean, author?: { __typename?: 'User', id: string, email: string, fName: string, lName: string, profile?: string | null, coverPicture?: string | null, bio?: string | null, isActive: boolean } | null, _count?: { __typename?: '_count', likes: number, comments: number } | null } | null } };
+export type CreatePostMutation = { __typename?: 'Mutation', uploadPost: { __typename?: 'UploadAPostResponse', status: boolean, message: string, result?: { __typename?: 'Post', id: string, title: string, content: string, createdAt: string, updatedAt: string, images: Array<string>, author?: { __typename?: 'User', id: string, email: string, fName: string, lName: string, profile?: string | null, coverPicture?: string | null, bio?: string | null, isActive: boolean } | null, _count?: { __typename?: '_count', comments: number } | null } | null } };
 
 export type UpdatePostMutationVariables = Exact<{
   updatePostId: Scalars['String']['input'];

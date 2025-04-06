@@ -55,16 +55,18 @@ export const { useGetAllChatRoomQuery, useDeleteChatRoomMutation } = roomApi
 
 export const { useSendMessageMutation, useGetMessagesQuery } = messageApi
 export const {
-  useCreatePostMutation,
   useGetPostsQuery,
   useDeletePostMutation,
-  useUpdatePostMutation,
   useLikePostMutation,
   useRemoveLikeMutation,
   useUploadFileMutation,
 } = postApi
 
-export const { useGetAllPostsQuery } = postGraphqlApi
+export const {
+  useGetAllPostsQuery,
+  useCreatePostMutation,
+  useUpdatePostMutation,
+} = postGraphqlApi
 export {
   userApi,
   friendApi,

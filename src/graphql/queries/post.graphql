@@ -29,9 +29,10 @@ query GetAllPosts($args: GetAllPostArgs) {
   }
 }
 
-mutation CreateAPost {
-  data: uploadPost {
+mutation CreatePost($body: PostInput) {
+  uploadPost(body: $body) {
     status
+    message
     result {
       id
       title
@@ -50,10 +51,8 @@ mutation CreateAPost {
         isActive
       }
       _count {
-        likes
         comments
       }
-      hasLiked
     }
   }
 }
