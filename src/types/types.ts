@@ -57,11 +57,6 @@ export type CommentReply = {
   replyId: Scalars['String']['output'];
 };
 
-export type DeleteRequestParams = {
-  fromId: Scalars['String']['input'];
-  toId: Scalars['String']['input'];
-};
-
 export type File = {
   __typename?: 'File';
   encoding: Scalars['String']['output'];
@@ -84,24 +79,14 @@ export type FriendRequest = {
   from: Friend;
   status: Status;
   to: Friend;
-  toId: Scalars['String']['output'];
 };
 
 export type FriendRequestResponse = {
   __typename?: 'FriendRequestResponse';
-  count?: Maybe<Scalars['Int']['output']>;
-  data?: Maybe<Array<FriendRequest>>;
+  count: Scalars['Int']['output'];
+  data: Array<FriendRequest>;
   message: Scalars['String']['output'];
   status: Scalars['Boolean']['output'];
-};
-
-export type FriendRequests = {
-  __typename?: 'FriendRequests';
-  from: User;
-  fromId: Scalars['String']['output'];
-  status: Status;
-  to: User;
-  toId: Scalars['String']['output'];
 };
 
 export type GetAllPostArgs = {
@@ -177,12 +162,14 @@ export type Mutation = {
 
 
 export type MutationAcceptFriendRequestArgs = {
-  body?: InputMaybe<DeleteRequestParams>;
+  fromId: Scalars['String']['input'];
+  toId: Scalars['String']['input'];
 };
 
 
 export type MutationDeleteFriendRequestArgs = {
-  params?: InputMaybe<DeleteRequestParams>;
+  fromId: Scalars['String']['input'];
+  toId: Scalars['String']['input'];
 };
 
 
@@ -438,12 +425,12 @@ export type SendFriendRequestMutationVariables = Exact<{
 }>;
 
 
-export type SendFriendRequestMutation = { __typename?: 'Mutation', data?: { __typename?: 'SentRequestResponse', status: boolean, message: string, data?: { __typename?: 'FriendRequest', status: Status, toId: string, from: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean }, to: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean } } | null } | null };
+export type SendFriendRequestMutation = { __typename?: 'Mutation', sendRequest?: { __typename?: 'SentRequestResponse', status: boolean, message: string, data?: { __typename?: 'FriendRequest', status: Status, from: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean }, to: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean } } | null } | null };
 
 export type GetFriendRequestQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetFriendRequestQuery = { __typename?: 'Query', data?: { __typename?: 'FriendRequestResponse', status: boolean, message: string, count?: number | null, data?: Array<{ __typename?: 'FriendRequest', status: Status, toId: string, from: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean }, to: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean } }> | null } | null };
+export type GetFriendRequestQuery = { __typename?: 'Query', data?: { __typename?: 'FriendRequestResponse', status: boolean, message: string, count: number, data: Array<{ __typename?: 'FriendRequest', status: Status, from: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean }, to: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean } }> } | null };
 
 export type GetSentFriendRequestQueryVariables = Exact<{
   page: Scalars['Int']['input'];
@@ -452,7 +439,15 @@ export type GetSentFriendRequestQueryVariables = Exact<{
 }>;
 
 
-export type GetSentFriendRequestQuery = { __typename?: 'Query', getSentFriendRequest?: { __typename?: 'FriendRequestResponse', status: boolean, message: string, count?: number | null, data?: Array<{ __typename?: 'FriendRequest', status: Status, toId: string, from: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean }, to: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean } }> | null } | null };
+export type GetSentFriendRequestQuery = { __typename?: 'Query', getSentFriendRequest?: { __typename?: 'FriendRequestResponse', status: boolean, message: string, count: number, data: Array<{ __typename?: 'FriendRequest', status: Status, from: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean }, to: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean } }> } | null };
+
+export type DeleteFriendReqMutationVariables = Exact<{
+  fromId: Scalars['String']['input'];
+  toId: Scalars['String']['input'];
+}>;
+
+
+export type DeleteFriendReqMutation = { __typename?: 'Mutation', deleteFriendRequest?: { __typename?: 'SentRequestResponse', status: boolean, message: string, data?: { __typename?: 'FriendRequest', status: Status, from: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean }, to: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean } } | null } | null };
 
 export type LoggedInUserQueryVariables = Exact<{ [key: string]: never; }>;
 

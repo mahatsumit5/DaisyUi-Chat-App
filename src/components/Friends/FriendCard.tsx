@@ -15,6 +15,7 @@ import { setQueryType } from "../../redux/reducer/search.slice"
 import { Avatar } from "../Avatar/Avatar"
 import { extractInitial } from "../../utils"
 import { User } from "../../types/types"
+import { useDeleteFriendReqMutation } from "../../graphql/queries/request.generated"
 type keys = "peoples" | "friends" | "request" | "SentRequest"
 
 const FriendCard = ({ user, type }: { user: IChatRoom | User; type: keys }) => {
@@ -126,16 +127,14 @@ const FriendReq = ({ user }: { user: IUser }) => {
   )
 }
 const SentRequest = ({ user }: { user: User }) => {
-  const [deleteSentRequest] = useDeleteSentRequestMutation()
+  const [deleteSentRequest] = useDeleteFriendReqMutation()
   const loggedInUser = useAppSelector(store => store.user)
 
   async function handleCancelReq(to: string) {
     await deleteSentRequest({
       fromId: loggedInUser.user?.id || "",
       toId: to,
-      receiverId: to,
-      type: "sent",
-    })
+    }).unwrap()
   }
   return (
     <div className="flex w-full justify-end md:justify-center">

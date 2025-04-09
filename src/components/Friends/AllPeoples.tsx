@@ -14,14 +14,14 @@ function AllPeoples() {
     {
       params: {
         order: Order.Asc,
-        page: page,
-        take: numberOfContentPerPage,
-        search: query,
+        page: 1,
+        take: 8,
+        search: "",
       },
     },
     {
       // skip: type !== "Peoples" ? true : false,
-      refetchOnReconnect: true,
+      // refetchOnReconnect: true,
       // refetchOnMountOrArgChange: true,
       // pollingInterval: 2000, refetch every 2 seconds
     }

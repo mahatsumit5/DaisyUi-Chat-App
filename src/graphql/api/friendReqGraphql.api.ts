@@ -1,3 +1,4 @@
+import { Order } from "../../types/types"
 import { api as generatedApi } from "../queries/request.generated"
 import { userGraphqlApi } from "./userGraphql.api"
 export const friendReqGraphqlApi = generatedApi.enhanceEndpoints({
@@ -16,28 +17,48 @@ export const friendReqGraphqlApi = generatedApi.enhanceEndpoints({
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
           const { data } = await queryFulfilled
-          if (data.data?.status) {
-            // 1st approach recall the data after the request is sent
-            dispatch(userGraphqlApi.util.invalidateTags(["Users"]))
-            dispatch(
-              friendReqGraphqlApi.endpoints.GetSentFriendRequest.initiate({
-                page: 1,
-                search: "",
-                take: 10,
-              })
-            )
-            // 2nd approach simply remove the data that is sent from
-            // the cache
-
+          if (data.sendRequest?.status) {
+            // Update sent request after seding the request without calling the api
             dispatch(
               friendReqGraphqlApi.util.updateQueryData(
                 "GetSentFriendRequest",
                 { page: 1, search: "", take: 10 },
                 draft => {
-                  return draft
+                  if (draft.getSentFriendRequest) {
+                    draft.getSentFriendRequest.count = ++draft
+                      .getSentFriendRequest.count!
+                    draft.getSentFriendRequest.data = [
+                      ...draft.getSentFriendRequest.data!,
+                      data.sendRequest?.data!,
+                    ]
+                  }
                 }
               )
             )
+
+            // Removing users from the list after the list is sent
+            dispatch(
+              userGraphqlApi.util.updateQueryData(
+                "GetAllUsers",
+                {
+                  params: {
+                    order: Order.Asc,
+                    page: 1,
+                    take: 8,
+                    search: "",
+                  },
+                },
+                draft => {
+                  draft.allUsers?.data !=
+                    draft.allUsers?.data?.filter(
+                      user => user.id !== data.sendRequest?.data?.to.id
+                    )
+                },
+                true
+              )
+            )
+
+            dispatch(userGraphqlApi.util.invalidateTags(["Users"]))
           }
         } catch (error) {
           console.log(error)
@@ -56,6 +77,72 @@ export const friendReqGraphqlApi = generatedApi.enhanceEndpoints({
         }
         await cacheEntryRemoved
       },
+    },
+    DeleteFriendReq: {
+      async onCacheEntryAdded(arg, { cacheDataLoaded, cacheEntryRemoved }) {
+        try {
+          await cacheDataLoaded
+        } catch (error) {
+          console.log(error)
+        }
+        await cacheEntryRemoved
+      },
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled
+
+          // Remove deleted friend request from the list wihout calling the api
+          dispatch(
+            friendReqGraphqlApi.util.updateQueryData(
+              "GetSentFriendRequest",
+              { page: 1, search: "", take: 10 },
+              draft => {
+                if (draft?.getSentFriendRequest) {
+                  draft.getSentFriendRequest.count = --draft
+                    .getSentFriendRequest.count!
+                  draft.getSentFriendRequest.data =
+                    draft.getSentFriendRequest.data!.filter(
+                      request => request.to.id !== arg.toId
+                    )
+                } else {
+                  return draft
+                }
+              },
+              true
+            )
+          )
+
+          // Removing users from the list after the list is sent
+          dispatch(
+            userGraphqlApi.util.updateQueryData(
+              "GetAllUsers",
+              {
+                params: {
+                  order: Order.Asc,
+                  page: 1,
+                  take: 8,
+                  search: "",
+                },
+              },
+              draft => {
+                if (draft?.allUsers?.data) {
+                  draft.allUsers.data = [
+                    data.deleteFriendRequest?.data?.to,
+                    ...draft.allUsers.data,
+                  ].filter(
+                    (user): user is NonNullable<typeof user> =>
+                      user !== undefined
+                  )
+                }
+              },
+              true
+            )
+          )
+        } catch (error) {
+          console.log(error)
+        }
+      },
+      // invalidatesTags: ["SentFriendRequest"],
     },
   },
 })

@@ -6,12 +6,12 @@ export type SendFriendRequestMutationVariables = Types.Exact<{
 }>;
 
 
-export type SendFriendRequestMutation = { __typename?: 'Mutation', data?: { __typename?: 'SentRequestResponse', status: boolean, message: string, data?: { __typename?: 'FriendRequest', status: Types.Status, toId: string, from: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean }, to: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean } } | null } | null };
+export type SendFriendRequestMutation = { __typename?: 'Mutation', sendRequest?: { __typename?: 'SentRequestResponse', status: boolean, message: string, data?: { __typename?: 'FriendRequest', status: Types.Status, from: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean }, to: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean } } | null } | null };
 
 export type GetFriendRequestQueryVariables = Types.Exact<{ [key: string]: never; }>;
 
 
-export type GetFriendRequestQuery = { __typename?: 'Query', data?: { __typename?: 'FriendRequestResponse', status: boolean, message: string, count?: number | null, data?: Array<{ __typename?: 'FriendRequest', status: Types.Status, toId: string, from: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean }, to: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean } }> | null } | null };
+export type GetFriendRequestQuery = { __typename?: 'Query', data?: { __typename?: 'FriendRequestResponse', status: boolean, message: string, count: number, data: Array<{ __typename?: 'FriendRequest', status: Types.Status, from: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean }, to: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean } }> } | null };
 
 export type GetSentFriendRequestQueryVariables = Types.Exact<{
   page: Types.Scalars['Int']['input'];
@@ -20,17 +20,24 @@ export type GetSentFriendRequestQueryVariables = Types.Exact<{
 }>;
 
 
-export type GetSentFriendRequestQuery = { __typename?: 'Query', getSentFriendRequest?: { __typename?: 'FriendRequestResponse', status: boolean, message: string, count?: number | null, data?: Array<{ __typename?: 'FriendRequest', status: Types.Status, toId: string, from: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean }, to: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean } }> | null } | null };
+export type GetSentFriendRequestQuery = { __typename?: 'Query', getSentFriendRequest?: { __typename?: 'FriendRequestResponse', status: boolean, message: string, count: number, data: Array<{ __typename?: 'FriendRequest', status: Types.Status, from: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean }, to: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean } }> } | null };
+
+export type DeleteFriendReqMutationVariables = Types.Exact<{
+  fromId: Types.Scalars['String']['input'];
+  toId: Types.Scalars['String']['input'];
+}>;
+
+
+export type DeleteFriendReqMutation = { __typename?: 'Mutation', deleteFriendRequest?: { __typename?: 'SentRequestResponse', status: boolean, message: string, data?: { __typename?: 'FriendRequest', status: Types.Status, from: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean }, to: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean } } | null } | null };
 
 
 export const SendFriendRequestDocument = `
     mutation SendFriendRequest($toId: String!) {
-  data: sendRequest(toId: $toId) {
+  sendRequest(toId: $toId) {
     status
     message
     data {
       status
-      toId
       from {
         id
         fName
@@ -74,7 +81,6 @@ export const GetFriendRequestDocument = `
         isActive
       }
       status
-      toId
     }
     count
   }
@@ -103,9 +109,35 @@ export const GetSentFriendRequestDocument = `
         isActive
       }
       status
-      toId
     }
     count
+  }
+}
+    `;
+export const DeleteFriendReqDocument = `
+    mutation DeleteFriendReq($fromId: String!, $toId: String!) {
+  deleteFriendRequest(fromId: $fromId, toId: $toId) {
+    status
+    message
+    data {
+      from {
+        id
+        fName
+        lName
+        email
+        profile
+        isActive
+      }
+      to {
+        id
+        fName
+        lName
+        email
+        profile
+        isActive
+      }
+      status
+    }
   }
 }
     `;
@@ -121,9 +153,12 @@ const injectedRtkApi = baseApiWithGraphql.injectEndpoints({
     GetSentFriendRequest: build.query<GetSentFriendRequestQuery, GetSentFriendRequestQueryVariables>({
       query: (variables) => ({ document: GetSentFriendRequestDocument, variables })
     }),
+    DeleteFriendReq: build.mutation<DeleteFriendReqMutation, DeleteFriendReqMutationVariables>({
+      query: (variables) => ({ document: DeleteFriendReqDocument, variables })
+    }),
   }),
 });
 
 export { injectedRtkApi as api };
-export const { useSendFriendRequestMutation, useGetFriendRequestQuery, useLazyGetFriendRequestQuery, useGetSentFriendRequestQuery, useLazyGetSentFriendRequestQuery } = injectedRtkApi;
+export const { useSendFriendRequestMutation, useGetFriendRequestQuery, useLazyGetFriendRequestQuery, useGetSentFriendRequestQuery, useLazyGetSentFriendRequestQuery, useDeleteFriendReqMutation } = injectedRtkApi;
 

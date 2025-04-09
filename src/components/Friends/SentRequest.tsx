@@ -22,7 +22,7 @@ const SentRequest = () => {
       refetchOnReconnect: true,
     }
   )
-  data?.getSentFriendRequest?.data
+
   return (
     <>
       {error ? (

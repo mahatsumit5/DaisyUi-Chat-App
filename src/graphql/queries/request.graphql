@@ -1,10 +1,9 @@
 mutation SendFriendRequest($toId: String!) {
-  data: sendRequest(toId: $toId) {
+  sendRequest(toId: $toId) {
     status
     message
     data {
       status
-      toId
       from {
         id
         fName
@@ -47,7 +46,6 @@ query GetFriendRequest {
         isActive
       }
       status
-      toId
     }
     count
   }
@@ -75,8 +73,32 @@ query GetSentFriendRequest($page: Int!, $take: Int!, $search: String!) {
         isActive
       }
       status
-      toId
     }
     count
+  }
+}
+mutation DeleteFriendReq($fromId: String!, $toId: String!) {
+  deleteFriendRequest(fromId: $fromId, toId: $toId) {
+    status
+    message
+    data {
+      from {
+        id
+        fName
+        lName
+        email
+        profile
+        isActive
+      }
+      to {
+        id
+        fName
+        lName
+        email
+        profile
+        isActive
+      }
+      status
+    }
   }
 }
