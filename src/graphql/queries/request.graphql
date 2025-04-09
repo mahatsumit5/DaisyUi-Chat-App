@@ -1,0 +1,26 @@
+mutation SendFriendRequest($toId: String!) {
+  data: sendRequest(toId: $toId) {
+    status
+    message
+    data {
+      status
+      toId
+      from {
+        id
+        fName
+        lName
+        email
+        profile
+        isActive
+      }
+      to {
+        id
+        fName
+        lName
+        email
+        profile
+        isActive
+      }
+    }
+  }
+}

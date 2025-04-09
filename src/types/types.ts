@@ -90,7 +90,7 @@ export type FriendRequest = {
 export type FriendRequestResponse = {
   __typename?: 'FriendRequestResponse';
   count?: Maybe<Scalars['Int']['output']>;
-  data: Array<FriendRequest>;
+  data?: Maybe<Array<FriendRequest>>;
   message: Scalars['String']['output'];
   status: Scalars['Boolean']['output'];
 };
@@ -212,7 +212,7 @@ export type MutationSendMessageArgs = {
 
 
 export type MutationSendRequestArgs = {
-  toID: Scalars['String']['input'];
+  toId: Scalars['String']['input'];
 };
 
 
@@ -436,6 +436,13 @@ export type UpdatePostMutationVariables = Exact<{
 
 
 export type UpdatePostMutation = { __typename?: 'Mutation', data?: { __typename?: 'UploadAPostResponse', status: boolean, message: string, result?: { __typename?: 'Post', id: string, images: Array<string>, title: string, updatedAt: string, createdAt: string, content: string } | null } | null };
+
+export type SendFriendRequestMutationVariables = Exact<{
+  toId: Scalars['String']['input'];
+}>;
+
+
+export type SendFriendRequestMutation = { __typename?: 'Mutation', data?: { __typename?: 'SentRequestResponse', status: boolean, message: string, data?: { __typename?: 'FriendRequest', status: Status, toId: string, from: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean }, to: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean } } | null } | null };
 
 export type LoggedInUserQueryVariables = Exact<{ [key: string]: never; }>;
 

@@ -80,7 +80,7 @@ const AllPeoples = ({ user }: { user: IChatRoom }) => {
   const [deleteSentRequest] = useDeleteSentRequestMutation()
   const { page } = useAppSelector(store => store.pagination)
   function handleAddFriend(id: string) {
-    sendFriendRequest({ to: id, page })
+    sendFriendRequest({ toId: id })
       .unwrap()
       .then(() => {})
       .catch(err => console.log(err))

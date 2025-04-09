@@ -21,6 +21,10 @@ const Home = () => {
   const btnRef = useRef<HTMLButtonElement>(null)
   const dispatch = useAppDispatch()
   const { page } = useAppSelector(state => state.post)
+  const { page: pagination } = useAppSelector(store => store.pagination)
+
+  const { query } = useAppSelector(store => store.search)
+
   const {
     isError,
     isFetching: loading,
@@ -38,7 +42,7 @@ const Home = () => {
     isError: usersError,
     data: users,
   } = useGetAllUsersQuery({
-    params: { page: 1, take: 10, search: "", order: Order.Asc },
+    params: { page: pagination, take: 10, search: query, order: Order.Asc },
   })
 
   const {

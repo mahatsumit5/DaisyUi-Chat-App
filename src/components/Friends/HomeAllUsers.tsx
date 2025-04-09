@@ -16,10 +16,10 @@ const HomeAllUsers: React.FC<{
 }> = ({ user, type, room }) => {
   const [sendRequest] = useSendFriendRequestMutation()
   const dispatch = useAppDispatch()
-  const handleOnClick = () => {
+  const handleOnClick = async () => {
     switch (type) {
       case "users":
-        sendRequest({ page: 1, to: user.id })
+        await sendRequest({ toId: user.id }).unwrap()
         break
       case "friends":
         if (room?.id) {
