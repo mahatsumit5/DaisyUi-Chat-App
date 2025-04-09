@@ -313,7 +313,9 @@ export type QueryGetPostByUserIdArgs = {
 
 
 export type QueryGetSentFriendRequestArgs = {
-  queryParams?: InputMaybe<QueryParamsSentReq>;
+  page: Scalars['Int']['input'];
+  search: Scalars['String']['input'];
+  take: Scalars['Int']['input'];
 };
 
 export type Response = {
@@ -407,12 +409,6 @@ export type AllUser = {
   take: Scalars['Int']['input'];
 };
 
-export type QueryParamsSentReq = {
-  page: Scalars['Int']['input'];
-  search: Scalars['String']['input'];
-  take: Scalars['Int']['input'];
-};
-
 export type GetAllPostsQueryVariables = Exact<{
   args?: InputMaybe<GetAllPostArgs>;
 }>;
@@ -443,6 +439,20 @@ export type SendFriendRequestMutationVariables = Exact<{
 
 
 export type SendFriendRequestMutation = { __typename?: 'Mutation', data?: { __typename?: 'SentRequestResponse', status: boolean, message: string, data?: { __typename?: 'FriendRequest', status: Status, toId: string, from: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean }, to: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean } } | null } | null };
+
+export type GetFriendRequestQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetFriendRequestQuery = { __typename?: 'Query', data?: { __typename?: 'FriendRequestResponse', status: boolean, message: string, count?: number | null, data?: Array<{ __typename?: 'FriendRequest', status: Status, toId: string, from: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean }, to: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean } }> | null } | null };
+
+export type GetSentFriendRequestQueryVariables = Exact<{
+  page: Scalars['Int']['input'];
+  take: Scalars['Int']['input'];
+  search: Scalars['String']['input'];
+}>;
+
+
+export type GetSentFriendRequestQuery = { __typename?: 'Query', getSentFriendRequest?: { __typename?: 'FriendRequestResponse', status: boolean, message: string, count?: number | null, data?: Array<{ __typename?: 'FriendRequest', status: Status, toId: string, from: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean }, to: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean } }> | null } | null };
 
 export type LoggedInUserQueryVariables = Exact<{ [key: string]: never; }>;
 

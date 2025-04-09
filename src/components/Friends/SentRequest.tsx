@@ -1,5 +1,5 @@
+import { useGetSentFriendRequestQuery } from "../../graphql/queries/request.generated"
 import { useAppSelector } from "../../hooks/hook"
-import { useGetSentFriendRequestQuery } from "../../redux"
 import { IUser } from "../../types"
 import Pagination from "../pagination/Pagination"
 import FriendCard from "./FriendCard"
@@ -11,8 +11,9 @@ const SentRequest = () => {
 
   const { isFetching, error, data } = useGetSentFriendRequestQuery(
     {
+      page,
       search: query,
-      page: page,
+      take: 10,
     },
     {
       skip: type !== "Sent-Request" ? true : false,
@@ -21,7 +22,7 @@ const SentRequest = () => {
       refetchOnReconnect: true,
     }
   )
-
+  data?.getSentFriendRequest?.data
   return (
     <>
       {error ? (
@@ -38,10 +39,10 @@ const SentRequest = () => {
             </div>
           ) : (
             <>
-              {data?.data.length ? (
+              {data?.getSentFriendRequest?.data?.length ? (
                 <div className="flex flex-col gap-5 ">
                   <div className="flex justify-around flex-wrap gap-5 w-full">
-                    {data?.data.map((item, index) => (
+                    {data?.getSentFriendRequest.data.map((item, index) => (
                       <FriendCard
                         type="SentRequest"
                         user={item.to as IUser}
@@ -52,7 +53,9 @@ const SentRequest = () => {
 
                   <Pagination
                     numberOfContentPerPage={7}
-                    totalNumberOfAvaibleContent={data.count}
+                    totalNumberOfAvaibleContent={
+                      data.getSentFriendRequest.count!
+                    }
                   />
                 </div>
               ) : (

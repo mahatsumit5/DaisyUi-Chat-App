@@ -8,7 +8,7 @@ import { Order, User } from "../../types/types"
 function AllPeoples() {
   const numberOfContentPerPage = 8
   const { page } = useAppSelector(store => store.pagination)
-  const { query, type } = useAppSelector(store => store.search)
+  const { query } = useAppSelector(store => store.search)
 
   const { data, error, isFetching } = useGetAllUsersQuery(
     {
@@ -20,9 +20,9 @@ function AllPeoples() {
       },
     },
     {
-      skip: type !== "Peoples" ? true : false,
+      // skip: type !== "Peoples" ? true : false,
       refetchOnReconnect: true,
-      refetchOnMountOrArgChange: true,
+      // refetchOnMountOrArgChange: true,
       // pollingInterval: 2000, refetch every 2 seconds
     }
   )

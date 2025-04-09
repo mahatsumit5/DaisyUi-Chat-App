@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { IChatRoom, IFriendReq, IUser } from "../../types"
+import { IChatRoom, IUser } from "../../types"
 import { AiFillDelete, AiFillMessage } from "react-icons/ai"
 import { useAppDispatch, useAppSelector } from "../../hooks/hook"
 import React, { useState } from "react"
@@ -7,7 +7,6 @@ import { IoIosPersonAdd } from "react-icons/io"
 import {
   useAcceptFriendReqMutation,
   useDeleteSentRequestMutation,
-  useGetSentFriendRequestQuery,
   useSendFriendRequestMutation,
 } from "../../redux"
 import { TiDelete, TiTick } from "react-icons/ti"
@@ -74,56 +73,21 @@ const Friends = ({ user }: { user: IChatRoom }) => {
 }
 
 const AllPeoples = ({ user }: { user: IChatRoom }) => {
-  const loggedInUser = useAppSelector(store => store.user)
-  const { data } = useGetSentFriendRequestQuery({ search: "", page: 1 })
   const [sendFriendRequest] = useSendFriendRequestMutation()
-  const [deleteSentRequest] = useDeleteSentRequestMutation()
-  const { page } = useAppSelector(store => store.pagination)
   function handleAddFriend(id: string) {
-    sendFriendRequest({ toId: id })
-      .unwrap()
-      .then(() => {})
-      .catch(err => console.log(err))
-  }
-  function sentReqCheck(email: string): boolean {
-    if (!data?.data) return false
-    const result = data.data.find((item: IFriendReq) => item.to.email === email)
-    if (result?.to) {
-      return true
-    } else {
-      return false
-    }
+    sendFriendRequest({ toId: id }).unwrap()
   }
 
-  async function handleCancelReq(to: string) {
-    await deleteSentRequest({
-      fromId: loggedInUser.user?.id || "",
-      toId: to,
-      receiverId: to,
-      type: "sent",
-    })
-  }
   return (
     <div className="flex justify-end md:justify-center w-full">
-      {sentReqCheck(user.email) ? (
-        <button
-          className="btn btn-outline btn-error btn-sm"
-          onClick={() => {
-            handleCancelReq(user.id)
-          }}
-        >
-          Cancel <AiFillDelete size={15} color="red" />
-        </button>
-      ) : (
-        <button
-          className="  btn btn-sm  btn-primary"
-          onClick={() => {
-            handleAddFriend(user.id)
-          }}
-        >
-          Add <IoIosPersonAdd size={15} className="text-primary-content" />
-        </button>
-      )}
+      <button
+        className="  btn btn-sm  btn-primary"
+        onClick={() => {
+          handleAddFriend(user.id)
+        }}
+      >
+        Add <IoIosPersonAdd size={15} className="text-primary-content" />
+      </button>
     </div>
   )
 }

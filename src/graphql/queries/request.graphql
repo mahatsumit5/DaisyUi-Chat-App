@@ -24,3 +24,59 @@ mutation SendFriendRequest($toId: String!) {
     }
   }
 }
+
+query GetFriendRequest {
+  data: getFriendRequest {
+    status
+    message
+    data {
+      from {
+        id
+        fName
+        lName
+        email
+        profile
+        isActive
+      }
+      to {
+        id
+        fName
+        lName
+        email
+        profile
+        isActive
+      }
+      status
+      toId
+    }
+    count
+  }
+}
+
+query GetSentFriendRequest($page: Int!, $take: Int!, $search: String!) {
+  getSentFriendRequest(page: $page, take: $take, search: $search) {
+    status
+    message
+    data {
+      from {
+        id
+        fName
+        lName
+        email
+        profile
+        isActive
+      }
+      to {
+        id
+        fName
+        lName
+        email
+        profile
+        isActive
+      }
+      status
+      toId
+    }
+    count
+  }
+}
