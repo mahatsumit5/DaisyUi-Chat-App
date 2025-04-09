@@ -57,6 +57,13 @@ export type CommentReply = {
   replyId: Scalars['String']['output'];
 };
 
+export type CreateChatRoomResponse = {
+  __typename?: 'CreateChatRoomResponse';
+  data?: Maybe<Scalars['String']['output']>;
+  message: Scalars['String']['output'];
+  status: Scalars['Boolean']['output'];
+};
+
 export type File = {
   __typename?: 'File';
   encoding: Scalars['String']['output'];
@@ -144,7 +151,7 @@ export type Message = {
 export type Mutation = {
   __typename?: 'Mutation';
   /** Accept incoming request */
-  acceptFriendRequest?: Maybe<Response>;
+  acceptFriendRequest?: Maybe<CreateChatRoomResponse>;
   /** Delete Friend Request */
   deleteFriendRequest?: Maybe<SentRequestResponse>;
   deleteMessage?: Maybe<Response>;
@@ -448,6 +455,14 @@ export type DeleteFriendReqMutationVariables = Exact<{
 
 
 export type DeleteFriendReqMutation = { __typename?: 'Mutation', deleteFriendRequest?: { __typename?: 'SentRequestResponse', status: boolean, message: string, data?: { __typename?: 'FriendRequest', status: Status, from: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean }, to: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean } } | null } | null };
+
+export type AcceptFriendRequestMutationVariables = Exact<{
+  fromId: Scalars['String']['input'];
+  toId: Scalars['String']['input'];
+}>;
+
+
+export type AcceptFriendRequestMutation = { __typename?: 'Mutation', acceptFriendRequest?: { __typename?: 'CreateChatRoomResponse', status: boolean, message: string, data?: string | null } | null };
 
 export type LoggedInUserQueryVariables = Exact<{ [key: string]: never; }>;
 

@@ -14,9 +14,9 @@ function AllPeoples() {
     {
       params: {
         order: Order.Asc,
-        page: 1,
+        page,
         take: 8,
-        search: "",
+        search: query,
       },
     },
     {

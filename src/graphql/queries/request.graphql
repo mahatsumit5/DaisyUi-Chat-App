@@ -102,3 +102,10 @@ mutation DeleteFriendReq($fromId: String!, $toId: String!) {
     }
   }
 }
+mutation AcceptFriendRequest($fromId: String!, $toId: String!) {
+  acceptFriendRequest(fromId: $fromId, toId: $toId) {
+    status
+    message
+    data
+  }
+}

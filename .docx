@@ -1,3 +1,7 @@
 to do
 
-fix server returning null data to empty array instead 
+fix server returning null data to empty array instead
+
+#################
+
+Fix issue with sending request to user when same user already sent you the request

@@ -30,6 +30,14 @@ export type DeleteFriendReqMutationVariables = Types.Exact<{
 
 export type DeleteFriendReqMutation = { __typename?: 'Mutation', deleteFriendRequest?: { __typename?: 'SentRequestResponse', status: boolean, message: string, data?: { __typename?: 'FriendRequest', status: Types.Status, from: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean }, to: { __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean } } | null } | null };
 
+export type AcceptFriendRequestMutationVariables = Types.Exact<{
+  fromId: Types.Scalars['String']['input'];
+  toId: Types.Scalars['String']['input'];
+}>;
+
+
+export type AcceptFriendRequestMutation = { __typename?: 'Mutation', acceptFriendRequest?: { __typename?: 'CreateChatRoomResponse', status: boolean, message: string, data?: string | null } | null };
+
 
 export const SendFriendRequestDocument = `
     mutation SendFriendRequest($toId: String!) {
@@ -141,6 +149,15 @@ export const DeleteFriendReqDocument = `
   }
 }
     `;
+export const AcceptFriendRequestDocument = `
+    mutation AcceptFriendRequest($fromId: String!, $toId: String!) {
+  acceptFriendRequest(fromId: $fromId, toId: $toId) {
+    status
+    message
+    data
+  }
+}
+    `;
 
 const injectedRtkApi = baseApiWithGraphql.injectEndpoints({
   endpoints: (build) => ({
@@ -156,9 +173,12 @@ const injectedRtkApi = baseApiWithGraphql.injectEndpoints({
     DeleteFriendReq: build.mutation<DeleteFriendReqMutation, DeleteFriendReqMutationVariables>({
       query: (variables) => ({ document: DeleteFriendReqDocument, variables })
     }),
+    AcceptFriendRequest: build.mutation<AcceptFriendRequestMutation, AcceptFriendRequestMutationVariables>({
+      query: (variables) => ({ document: AcceptFriendRequestDocument, variables })
+    }),
   }),
 });
 
 export { injectedRtkApi as api };
-export const { useSendFriendRequestMutation, useGetFriendRequestQuery, useLazyGetFriendRequestQuery, useGetSentFriendRequestQuery, useLazyGetSentFriendRequestQuery, useDeleteFriendReqMutation } = injectedRtkApi;
+export const { useSendFriendRequestMutation, useGetFriendRequestQuery, useLazyGetFriendRequestQuery, useGetSentFriendRequestQuery, useLazyGetSentFriendRequestQuery, useDeleteFriendReqMutation, useAcceptFriendRequestMutation } = injectedRtkApi;
 

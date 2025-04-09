@@ -15,7 +15,10 @@ import { setQueryType } from "../../redux/reducer/search.slice"
 import { Avatar } from "../Avatar/Avatar"
 import { extractInitial } from "../../utils"
 import { User } from "../../types/types"
-import { useDeleteFriendReqMutation } from "../../graphql/queries/request.generated"
+import {
+  useAcceptFriendRequestMutation,
+  useDeleteFriendReqMutation,
+} from "../../graphql/queries/request.generated"
 type keys = "peoples" | "friends" | "request" | "SentRequest"
 
 const FriendCard = ({ user, type }: { user: IChatRoom | User; type: keys }) => {
@@ -94,11 +97,14 @@ const AllPeoples = ({ user }: { user: IChatRoom }) => {
 }
 
 const FriendReq = ({ user }: { user: IUser }) => {
-  const [acceptFriendReq] = useAcceptFriendReqMutation()
+  const [acceptFriendReq] = useAcceptFriendRequestMutation()
   const [deleteSentRequest] = useDeleteSentRequestMutation()
   const loggedInUser = useAppSelector(store => store.user)
   async function acceptReqHandler(from: string) {
-    await acceptFriendReq({ fromId: from })
+    await acceptFriendReq({
+      fromId: from,
+      toId: loggedInUser.user?.id as string,
+    }).unwrap()
   }
   return (
     <div className="flex  justify-end md:justify-center w-full gap-2">
