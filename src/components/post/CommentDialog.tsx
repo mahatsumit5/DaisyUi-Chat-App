@@ -8,7 +8,7 @@ import {
   useLikeCommentMutation,
   usePostCommentMutation,
   useUnlikeCommentMutation,
-} from "../../redux"
+} from "../../redux/api"
 import { IComment, IUser } from "../../types"
 import { dateConverter, extractInitial } from "../../utils"
 import { LuHeart } from "react-icons/lu"

@@ -1,4 +1,4 @@
-import { useGetFriendRequestQuery } from "../../graphql/queries/request.generated"
+import { useGetFriendRequestQuery } from "../../redux/api"
 import { IUser } from "../../types"
 import Pagination from "../pagination/Pagination"
 

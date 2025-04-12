@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react"
 import { useAppSelector } from "../../hooks/hook"
 import { FaArrowUp } from "react-icons/fa"
-import { useGetMessagesQuery } from "../../redux"
+import { useGetMessagesQuery } from "../../redux/api"
 import MessageLoadingState from "./MessageLoadingState"
 import { IChatRoom, IUser } from "../../types"
 import UserIsTyping from "./UserIsTyping"

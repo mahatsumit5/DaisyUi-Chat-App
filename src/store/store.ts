@@ -20,7 +20,7 @@ import {
   commentApi,
   postReducer,
   HomeMessageBox,
-} from "../redux/index"
+} from "../redux/api/index"
 import { setupListeners } from "@reduxjs/toolkit/query"
 import { rtkQueryErrorLogger } from "../utils/errorHandler"
 import { baseApiWithGraphql } from "../graphql/baseApi"

@@ -13,7 +13,7 @@ import {
   useLikePostMutation,
   useRemoveLikeMutation,
   useUpdatePostMutation,
-} from "../../redux"
+} from "../../redux/api"
 import CommentDialog from "./CommentDialog"
 import { motion, useInView } from "framer-motion"
 import { Avatar } from "../Avatar/Avatar"

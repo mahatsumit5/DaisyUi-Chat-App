@@ -1,5 +1,5 @@
 import { Route, Routes, useLocation } from "react-router-dom"
-import { useLoggedInUserQuery } from "./redux"
+import { useLoggedInUserQuery } from "./redux/api"
 import {
   ChatPage,
   ForgotPassword,

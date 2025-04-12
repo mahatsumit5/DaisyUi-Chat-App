@@ -1,13 +1,13 @@
 import { CodegenConfig } from "@graphql-codegen/cli"
-
+const auth =
+  "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVWbWpMSWhKNWpsYU44WUFPN2hFYSJ9.eyJpc3MiOiJodHRwczovL2Rldi1ma3AzNGYxeWZhanVvcWo3LmF1LmF1dGgwLmNvbS8iLCJzdWIiOiJoYW5XRlIzdnppY2Jxbk5IN2d5dDJHWmluamNVVnE3Q0BjbGllbnRzIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwIiwiaWF0IjoxNzQ0NDI2NDgwLCJleHAiOjE3NDQ1MTI4ODAsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyIsImF6cCI6ImhhbldGUjN2emljYnFuTkg3Z3l0MkdaaW5qY1VWcTdDIn0.PXMqE7fWFWCU6Pb7NbC9MMGV4Nb2KCZNfPGlj7kH6juD7ePt9YSwJyTvYUb1g2PuglDdnciON67DJ8wKik0FLlTCexEc6N0i1XQn8j2HYlawF10nyEXU6s2ZaoO2qm4R5K7JV0YY0AjriRDKE7X1wyyhPfhAYZpFzHKGQ00R_vsDOrNBzOQtpPBHF5nFwEwIgKNk3J23K2f2XZAecfM3XY6Nwt57mRbzUnULBx9iTWnpFxDY2H84I_YGJw3WF5pQqGbe8xC0b37Uu_pjeNPUCIylSw2MwAMW2GC5Ij3Ue9aQhh0X4gcjRSw86Rso8bpi7TRyXeOSEO8_YqO1VQYtfA"
 const config: CodegenConfig = {
   overwrite: true,
   schema: [
     {
       "http://localhost:8000/graphql": {
         headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InVWbWpMSWhKNWpsYU44WUFPN2hFYSJ9.eyJpc3MiOiJodHRwczovL2Rldi1ma3AzNGYxeWZhanVvcWo3LmF1LmF1dGgwLmNvbS8iLCJzdWIiOiJoYW5XRlIzdnppY2Jxbk5IN2d5dDJHWmluamNVVnE3Q0BjbGllbnRzIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwIiwiaWF0IjoxNzQ0MTc5MzYxLCJleHAiOjE3NDQyNjU3NjEsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyIsImF6cCI6ImhhbldGUjN2emljYnFuTkg3Z3l0MkdaaW5qY1VWcTdDIn0.ec4q0y06y5xXTm7hKD0OIX3RGIarZSTG25BcrXraijJ2lUR3C1vnjHaB52bqP6fudJM1GKj4nv4k6c8KFGcax276T-aVEKlQwd63YeRUu6DYDzOlq3_3s_hI9cBvIjlb9a39TDH2Zm0wXp0p_9uHfYtYR09VcHUGaWp3VtWxjsCXaLNMRmZvuaiYcYo2_K4RCPft1d68LIeZ6jBPnwY9ZBk0RSS0M5VaXhKCQdLC6N7RZW1i_C2yG31dXZQQ1PY08dKaxnDtJXfn1I7VsZCaveV5QSHD0MyIh8bA5YCDkr-fF2aFRACPIHlkHWq2iLkf69_7GBpw2Mrvj939bXhGSw",
+          Authorization: `Bearer ${auth}`,
         },
       },
     },

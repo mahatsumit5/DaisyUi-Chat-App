@@ -1,6 +1,6 @@
 import { PiTelegramLogoFill } from "react-icons/pi"
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
-import { useSendMessageMutation } from "../../redux"
+import { useSendMessageMutation } from "../../redux/api"
 import { useAppDispatch, useAppSelector } from "../../hooks/hook"
 import { CiImageOn } from "react-icons/ci"
 import LoadingButton from "../loading/LoadingButton"

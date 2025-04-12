@@ -1,4 +1,4 @@
-import { useGetAllUsersQuery } from "../../redux"
+import { useGetAllUsersQuery } from "../../redux/api"
 import { useAppSelector } from "../../hooks/hook"
 import LoaderCard from "./LoaderCard"
 import FriendCard from "./FriendCard"

@@ -2,7 +2,6 @@ import { TiMessages, TiUserAddOutline } from "react-icons/ti"
 import { IoIosSettings, IoMdNotificationsOutline } from "react-icons/io"
 import { BsPeople } from "react-icons/bs"
 import { Link, useLocation } from "react-router-dom"
-import { useGetFriendRequestQuery } from "../redux"
 import { useAppDispatch } from "../hooks/hook"
 import { resetSearchBar, setQueryType } from "../redux/reducer/search.slice"
 import { IoHomeOutline } from "react-icons/io5"
@@ -49,7 +48,6 @@ const links = [
 function Sidebar() {
   const dispatch = useAppDispatch()
   const { pathname } = useLocation()
-  const { data } = useGetFriendRequestQuery(null)
 
   function handleClick(name: string) {
     dispatch(resetSearchBar())

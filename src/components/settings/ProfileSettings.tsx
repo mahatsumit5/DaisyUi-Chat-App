@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react"
-import { useUpdateUserMutation, useUploadFileMutation } from "../../redux"
+import { useUpdateUserMutation, useUploadFileMutation } from "../../redux/api"
 import LoadingButton from "../loading/LoadingButton"
 import { IoIosAddCircle } from "react-icons/io"
 import { useAppSelector } from "../../hooks/hook"

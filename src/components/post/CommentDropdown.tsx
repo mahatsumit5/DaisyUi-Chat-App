@@ -1,20 +1,20 @@
-import React from "react";
-import { FiMoreVertical } from "react-icons/fi";
-import { IComment } from "../../types";
-import { useDeleteCommentMutation } from "../../redux";
-import LoadingButton from "../loading/LoadingButton";
+import React from "react"
+import { FiMoreVertical } from "react-icons/fi"
+import { IComment } from "../../types"
+import { useDeleteCommentMutation } from "../../redux/api"
+import LoadingButton from "../loading/LoadingButton"
 
 const CommentDropdown: React.FC<{
-  Comment: IComment;
-  handleOnEdit: (comment: IComment) => void;
+  Comment: IComment
+  handleOnEdit: (comment: IComment) => void
 }> = ({ Comment, handleOnEdit }) => {
-  const [deleteComment, { isLoading }] = useDeleteCommentMutation();
+  const [deleteComment, { isLoading }] = useDeleteCommentMutation()
 
   async function handleDeleteComment() {
     await deleteComment({
       commentId: Comment.id,
       postId: Comment.postId,
-    }).unwrap();
+    }).unwrap()
   }
   return (
     <div className="dropdown dropdown-hover dropdown-left">
@@ -29,7 +29,7 @@ const CommentDropdown: React.FC<{
           <button
             className="btn btn-sm"
             onClick={() => {
-              handleOnEdit(Comment);
+              handleOnEdit(Comment)
             }}
           >
             Edit{" "}
@@ -46,7 +46,7 @@ const CommentDropdown: React.FC<{
         </li>
       </ul>
     </div>
-  );
-};
+  )
+}
 
-export default CommentDropdown;
+export default CommentDropdown

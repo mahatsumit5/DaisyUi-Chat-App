@@ -3,7 +3,7 @@ import { IoLockClosed } from "react-icons/io5"
 import { useAppDispatch } from "../../hooks/hook"
 import { toggleDialog } from "../../redux/reducer/dialog.slice"
 import LoadingButton from "../loading/LoadingButton"
-import { useUpdateUserMutation } from "../../redux"
+import { useUpdateUserMutation } from "../../redux/api"
 
 const ChangePassword = () => {
   const dispatch = useAppDispatch()

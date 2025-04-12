@@ -3,7 +3,7 @@ import { useAppDispatch } from "../../hooks/hook"
 import { setCurrentRoom } from "../../redux/reducer/room.slice"
 import { IoChevronBackSharp } from "react-icons/io5"
 import { MdDeleteOutline, MdPhoneEnabled } from "react-icons/md"
-import { useDeleteChatRoomMutation } from "../../redux"
+import { useDeleteChatRoomMutation } from "../../redux/api"
 import { Avatar } from "../Avatar/Avatar"
 import { extractInitial } from "../../utils"
 

@@ -5,10 +5,9 @@ import { useAppDispatch, useAppSelector } from "../../hooks/hook"
 import React, { useState } from "react"
 import { IoIosPersonAdd } from "react-icons/io"
 import {
-  useAcceptFriendReqMutation,
   useDeleteSentRequestMutation,
   useSendFriendRequestMutation,
-} from "../../redux"
+} from "../../redux/api"
 import { TiDelete, TiTick } from "react-icons/ti"
 import { setCurrentRoom } from "../../redux/reducer/room.slice"
 import { setQueryType } from "../../redux/reducer/search.slice"

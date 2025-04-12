@@ -4,7 +4,7 @@ import { IChatRoom } from "../types"
 import { setCurrentRoom } from "../redux/reducer/room.slice"
 
 import { Link } from "react-router-dom"
-import { useGetAllChatRoomQuery } from "../redux"
+import { useGetAllChatRoomQuery } from "../redux/api"
 import ErrorMessage from "./error/ErrorMessage"
 
 function ChatMenu() {

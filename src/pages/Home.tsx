@@ -7,7 +7,7 @@ import {
   useGetAllChatRoomQuery,
   useGetAllPostsQuery,
   useGetAllUsersQuery,
-} from "../redux"
+} from "../redux/api"
 import { useAppDispatch, useAppSelector } from "../hooks/hook"
 import { setPage } from "../redux/reducer/post.slice"
 import { LoadingButton } from "../components"
