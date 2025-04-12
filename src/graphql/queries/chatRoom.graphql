@@ -1,0 +1,19 @@
+query GetAllChatRooms($contains: String, $take: Int, $page: Int) {
+  getAllChatRooms(contains: $contains, take: $take, page: $page) {
+    status
+    message
+    data {
+      id
+      userId
+      fName
+      lName
+      profile
+      email
+      isActive
+      lastMessage
+      isLastMessageSeen
+      lastmessageAuthor
+      unSeenMessageCount
+    }
+  }
+}

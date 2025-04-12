@@ -4,17 +4,17 @@ import { IChatRoom } from "../types"
 import { setCurrentRoom } from "../redux/reducer/room.slice"
 
 import { Link } from "react-router-dom"
-import { useGetAllChatRoomQuery } from "../redux/api"
 import ErrorMessage from "./error/ErrorMessage"
+import { ChatRoom } from "../types/types"
+import { useGetAllChatRoomsQuery } from "../redux/api"
 
 function ChatMenu() {
   const { user } = useAppSelector(store => store.user)
   const { currentRoom } = useAppSelector(store => store.rooms)
   const { query, type } = useAppSelector(store => store.search)
-
-  const { data, error, isFetching } = useGetAllChatRoomQuery(
+  const { data, error, isFetching } = useGetAllChatRoomsQuery(
     {
-      search: query,
+      contains: query,
       page: 1,
       take: 10,
     },
@@ -55,17 +55,17 @@ function ChatMenu() {
               <LoadingRoom key={Math.random()} />
             ))}
         </section>
-      ) : data?.data.length ? (
+      ) : data?.getAllChatRooms.data.length ? (
         <>
           <section className=" h-full p-2  flex  flex-col gap-2 overflow-y-auto bg-base-100 text-base-content overflow-hidden">
-            {data.data.map((item: IChatRoom) => (
+            {data?.getAllChatRooms?.data?.map((item: ChatRoom) => (
               <div
                 key={item.id}
                 className={`flex justify-between border-b p-2 hover:bg-base-200 rounded-md ${
                   currentRoom?.id === item.id ? "bg-base-200 " : ""
                 }`}
                 onClick={() => {
-                  handleClick(item)
+                  handleClick(item as IChatRoom)
                 }}
               >
                 <div className="flex gap-3">

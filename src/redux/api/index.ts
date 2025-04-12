@@ -21,6 +21,7 @@ import { userGraphqlApi } from "../../graphql/api/userGraphql.api"
 import { postGraphqlApi } from "../../graphql/api/postGraphql.api"
 import { userEnhancedApi } from "./user.injectedApi"
 import { friendReqGraphqlApi } from "../../graphql/api/friendReqGraphql.api"
+import { chatRoomGraphqlApi } from "../../graphql/api/chatRoomGraphql.api"
 export const {
   useAcceptFriendReqMutation,
   useGetSentFriendRequestQuery,
@@ -61,13 +62,19 @@ export const {
   useGetAllUsersQuery,
   useUpdateUserMutation,
 } = userGraphqlApi
-export const { useSendFriendRequestMutation, useGetFriendRequestQuery } =
-  friendReqGraphqlApi
+export const {
+  useSendFriendRequestMutation,
+  useGetFriendRequestQuery,
+  useAcceptFriendRequestMutation,
+  useDeleteFriendReqMutation,
+} = friendReqGraphqlApi
 export const {
   useGetAllPostsQuery,
   useCreatePostMutation,
   useUpdatePostMutation,
 } = postGraphqlApi
+
+export const { useGetAllChatRoomsQuery } = chatRoomGraphqlApi
 export {
   userApi,
   friendApi,

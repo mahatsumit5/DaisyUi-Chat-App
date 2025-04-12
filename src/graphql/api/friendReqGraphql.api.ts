@@ -65,7 +65,18 @@ export const friendReqGraphqlApi = generatedApi.enhanceEndpoints({
         }
       },
     },
-    GetFriendRequest: {},
+    GetFriendRequest: {
+      providesTags: ["FriendRequest"],
+
+      onCacheEntryAdded: async (__, { cacheDataLoaded, cacheEntryRemoved }) => {
+        try {
+          await cacheDataLoaded
+        } catch (error) {
+          console.log(error)
+        }
+        await cacheEntryRemoved
+      },
+    },
     GetSentFriendRequest: {
       providesTags: ["SentFriendRequest"],
 
@@ -143,6 +154,18 @@ export const friendReqGraphqlApi = generatedApi.enhanceEndpoints({
         }
       },
       // invalidatesTags: ["SentFriendRequest"],
+    },
+    AcceptFriendRequest: {
+      async onQueryStarted(arg, { queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled
+
+          console.log(data)
+        } catch (error) {
+          console.log(error)
+        }
+      },
+      invalidatesTags: ["FriendRequest"],
     },
   },
 })

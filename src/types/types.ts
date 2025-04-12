@@ -24,9 +24,17 @@ export type AllUsersResponse = {
 
 export type ChatRoom = {
   __typename?: 'ChatRoom';
+  email: Scalars['String']['output'];
+  fName: Scalars['String']['output'];
   id: Scalars['ID']['output'];
-  messages: Array<Message>;
-  user: Array<User>;
+  isActive: Scalars['Boolean']['output'];
+  isLastMessageSeen: Scalars['Boolean']['output'];
+  lName: Scalars['String']['output'];
+  lastMessage?: Maybe<Scalars['String']['output']>;
+  lastmessageAuthor: Scalars['String']['output'];
+  profile?: Maybe<Scalars['String']['output']>;
+  unSeenMessageCount: Scalars['Int']['output'];
+  userId: Scalars['String']['output'];
 };
 
 export type Comment = {
@@ -109,6 +117,13 @@ export type GetAllPostResponse = {
   totalNumberOfPosts?: Maybe<Scalars['Int']['output']>;
 };
 
+export type GetChatRoomResponse = {
+  __typename?: 'GetChatRoomResponse';
+  data: Array<ChatRoom>;
+  message: Scalars['String']['output'];
+  status: Scalars['Boolean']['output'];
+};
+
 export type GetMessageByUser = {
   roomId: Scalars['String']['input'];
   skip: Scalars['Int']['input'];
@@ -143,7 +158,6 @@ export type Message = {
   chatRoomId: Scalars['String']['output'];
   content: Scalars['String']['output'];
   createdAt: Scalars['String']['output'];
-  creatorId: User;
   id: Scalars['ID']['output'];
   isSeen: Scalars['Boolean']['output'];
 };
@@ -274,7 +288,9 @@ export type Query = {
   __typename?: 'Query';
   /** a list of all the users */
   allUsers?: Maybe<AllUsersResponse>;
+  getAllChatRooms: GetChatRoomResponse;
   getAllPosts?: Maybe<GetAllPostResponse>;
+  getChatRoomById: ChatRoom;
   /** Get all incoming request */
   getFriendRequest?: Maybe<FriendRequestResponse>;
   getMessagesByUsers?: Maybe<GetMessageByUserResponse>;
@@ -291,8 +307,20 @@ export type QueryAllUsersArgs = {
 };
 
 
+export type QueryGetAllChatRoomsArgs = {
+  contains?: InputMaybe<Scalars['String']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  take?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
 export type QueryGetAllPostsArgs = {
   args?: InputMaybe<GetAllPostArgs>;
+};
+
+
+export type QueryGetChatRoomByIdArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -402,6 +430,15 @@ export type AllUser = {
   search: Scalars['String']['input'];
   take: Scalars['Int']['input'];
 };
+
+export type GetAllChatRoomsQueryVariables = Exact<{
+  contains?: InputMaybe<Scalars['String']['input']>;
+  take?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type GetAllChatRoomsQuery = { __typename?: 'Query', getAllChatRooms: { __typename?: 'GetChatRoomResponse', status: boolean, message: string, data: Array<{ __typename?: 'ChatRoom', id: string, userId: string, fName: string, lName: string, profile?: string | null, email: string, isActive: boolean, lastMessage?: string | null, isLastMessageSeen: boolean, lastmessageAuthor: string, unSeenMessageCount: number }> } };
 
 export type GetAllPostsQueryVariables = Exact<{
   args?: InputMaybe<GetAllPostArgs>;

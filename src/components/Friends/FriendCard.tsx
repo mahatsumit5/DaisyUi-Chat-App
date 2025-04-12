@@ -5,6 +5,8 @@ import { useAppDispatch, useAppSelector } from "../../hooks/hook"
 import React, { useState } from "react"
 import { IoIosPersonAdd } from "react-icons/io"
 import {
+  useAcceptFriendRequestMutation,
+  useDeleteFriendReqMutation,
   useDeleteSentRequestMutation,
   useSendFriendRequestMutation,
 } from "../../redux/api"
@@ -14,10 +16,7 @@ import { setQueryType } from "../../redux/reducer/search.slice"
 import { Avatar } from "../Avatar/Avatar"
 import { extractInitial } from "../../utils"
 import { User } from "../../types/types"
-import {
-  useAcceptFriendRequestMutation,
-  useDeleteFriendReqMutation,
-} from "../../graphql/queries/request.generated"
+
 type keys = "peoples" | "friends" | "request" | "SentRequest"
 
 const FriendCard = ({ user, type }: { user: IChatRoom | User; type: keys }) => {
