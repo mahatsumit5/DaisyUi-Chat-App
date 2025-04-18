@@ -1,6 +1,5 @@
 import { PiTelegramLogoFill } from "react-icons/pi"
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
-import { useSendMessageMutation } from "../../redux/api"
 import { useAppDispatch, useAppSelector } from "../../hooks/hook"
 import { CiImageOn } from "react-icons/ci"
 import LoadingButton from "../loading/LoadingButton"
@@ -8,6 +7,7 @@ import useMessageHook from "../../hooks/useMessage.hook"
 import { RxCross1 } from "react-icons/rx"
 import { motion } from "framer-motion"
 import EmojiBox from "../Emoji/EmojiBox"
+import { useSendMessageMutation } from "../../redux/api"
 function MessageInput({ email, roomId, userId }: messageInputProps) {
   const dispatch = useAppDispatch()
   const [emojiOpen, setEmojiOpen] = useState<boolean>(false)
@@ -15,7 +15,6 @@ function MessageInput({ email, roomId, userId }: messageInputProps) {
     file,
     message,
     preview,
-    numOfMessages,
     setFile,
     setMessage,
     setPreview,
@@ -27,13 +26,15 @@ function MessageInput({ email, roomId, userId }: messageInputProps) {
   async function handleSend(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
-    if (!message && !file) return
-    const { result } = await sendMessage({
+    const { sendMessage: result } = await sendMessage({
       author: userId,
-      content: file ? file : message,
       roomId,
-      numOfMessages,
+
+      content: message,
     }).unwrap()
+
+    if (!message && !file) return
+
     setFile(undefined)
     setPreview("")
     if (!isLoading && !isError) {

@@ -22,6 +22,7 @@ import { postGraphqlApi } from "../../graphql/api/postGraphql.api"
 import { userEnhancedApi } from "./user.injectedApi"
 import { friendReqGraphqlApi } from "../../graphql/api/friendReqGraphql.api"
 import { chatRoomGraphqlApi } from "../../graphql/api/chatRoomGraphql.api"
+import { messageGraphqlApi } from "../../graphql/api/messageGraphql.api"
 export const {
   useAcceptFriendReqMutation,
   useGetSentFriendRequestQuery,
@@ -46,7 +47,7 @@ export const {
 
 export const { useGetAllChatRoomQuery, useDeleteChatRoomMutation } = roomApi
 
-export const { useSendMessageMutation, useGetMessagesQuery } = messageApi
+export const { useGetMessagesQuery } = messageApi
 export const {
   useGetPostsQuery,
   useDeletePostMutation,
@@ -75,6 +76,8 @@ export const {
 } = postGraphqlApi
 
 export const { useGetAllChatRoomsQuery } = chatRoomGraphqlApi
+
+export const { useSendMessageMutation } = messageGraphqlApi
 export {
   userApi,
   friendApi,

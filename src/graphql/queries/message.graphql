@@ -1,0 +1,23 @@
+mutation SendMessage($content: String!, $author: String!, $roomId: String!) {
+  sendMessage(content: $content, author: $author, roomId: $roomId) {
+    status
+    message
+    data {
+      id
+      content
+      createdAt
+      isSeen
+
+      chatRoomId
+      author {
+        email
+        fName
+        lName
+        isActive
+        profile
+      }
+      authorId
+      groupChatId
+    }
+  }
+}

@@ -153,11 +153,12 @@ export type LoggedInUserResponse = {
 
 export type Message = {
   __typename?: 'Message';
-  author: Scalars['String']['output'];
-  chat: ChatRoom;
+  author: User;
+  authorId: Scalars['String']['output'];
   chatRoomId: Scalars['String']['output'];
   content: Scalars['String']['output'];
   createdAt: Scalars['String']['output'];
+  groupChatId?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   isSeen: Scalars['Boolean']['output'];
 };
@@ -215,7 +216,9 @@ export type MutationLogoutArgs = {
 
 
 export type MutationSendMessageArgs = {
-  input?: InputMaybe<SendMessageParams>;
+  author: Scalars['String']['input'];
+  content: Scalars['String']['input'];
+  roomId: Scalars['String']['input'];
 };
 
 
@@ -346,16 +349,10 @@ export type Response = {
   status: Scalars['Boolean']['output'];
 };
 
-export type SendMessageParams = {
-  author: Scalars['String']['input'];
-  content: Scalars['String']['input'];
-  roomId: Scalars['String']['input'];
-};
-
 export type SendMessageResponse = {
   __typename?: 'SendMessageResponse';
+  data?: Maybe<Message>;
   message: Scalars['String']['output'];
-  result?: Maybe<Message>;
   status: Scalars['Boolean']['output'];
 };
 
@@ -439,6 +436,15 @@ export type GetAllChatRoomsQueryVariables = Exact<{
 
 
 export type GetAllChatRoomsQuery = { __typename?: 'Query', getAllChatRooms: { __typename?: 'GetChatRoomResponse', status: boolean, message: string, data: Array<{ __typename?: 'ChatRoom', id: string, userId: string, fName: string, lName: string, profile?: string | null, email: string, isActive: boolean, lastMessage?: string | null, isLastMessageSeen: boolean, lastmessageAuthor: string, unSeenMessageCount: number }> } };
+
+export type SendMessageMutationVariables = Exact<{
+  content: Scalars['String']['input'];
+  author: Scalars['String']['input'];
+  roomId: Scalars['String']['input'];
+}>;
+
+
+export type SendMessageMutation = { __typename?: 'Mutation', sendMessage?: { __typename?: 'SendMessageResponse', status: boolean, message: string, data?: { __typename?: 'Message', id: string, content: string, createdAt: string, isSeen: boolean, chatRoomId: string, authorId: string, groupChatId?: string | null, author: { __typename?: 'User', email: string, fName: string, lName: string, isActive: boolean, profile?: string | null } } | null } | null };
 
 export type GetAllPostsQueryVariables = Exact<{
   args?: InputMaybe<GetAllPostArgs>;
