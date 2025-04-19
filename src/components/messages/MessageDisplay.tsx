@@ -1,12 +1,13 @@
-import { IChatRoom, IMessage, IUser } from "../../types";
+import { IChatRoom, IUser } from "../../types"
+import { Message } from "../../types/types"
 
 type props = {
-  userId: string;
-  messages: IMessage[];
-  userName: string;
-  user: IUser;
-  currentRoom: IChatRoom;
-};
+  userId: string
+  messages: Message[]
+  userName: string
+  user: IUser
+  currentRoom: IChatRoom
+}
 const MessageDisplay = ({
   messages,
   userId,
@@ -16,12 +17,12 @@ const MessageDisplay = ({
 }: props) => {
   return (
     <>
-      {messages.map(({ author, content, createdAt, id, isSeen }) => {
+      {messages.map(({ authorId, content, createdAt, id, isSeen }) => {
         return (
           <div key={id}>
             <div
               className={`chat ${
-                author === userId ? "chat-end" : "chat-start"
+                authorId === userId ? "chat-end" : "chat-start"
               }`}
               key={id}
             >
@@ -30,7 +31,7 @@ const MessageDisplay = ({
                   <img
                     alt="Tailwind CSS chat bubble component"
                     src={
-                      (author === userId
+                      (authorId === userId
                         ? user?.profile
                         : currentRoom?.profile) ||
                       "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
@@ -40,10 +41,10 @@ const MessageDisplay = ({
                 </div>
               </div>
               <div className="chat-header">
-                {author === userId ? userName : currentRoom?.fName}
+                {authorId === userId ? userName : currentRoom?.fName}
                 &nbsp;
                 <time className="text-xs opacity-50">
-                  {getTime(createdAt).slice(0, 5)}
+                  {getTime(new Date(createdAt)).slice(0, 5)}
                 </time>
               </div>
               {content.includes("https://cfw-image-bucket.s3") ? (
@@ -55,7 +56,7 @@ const MessageDisplay = ({
               ) : (
                 <div
                   className={`chat-bubble   ${
-                    author === userId
+                    authorId === userId
                       ? "bg-primary text-primary-content"
                       : " bg-gray-200 text-slate-600"
                   }`}
@@ -64,21 +65,21 @@ const MessageDisplay = ({
                 </div>
               )}
               <div className="chat-footer opacity-50">
-                {author === userId
+                {authorId === userId
                   ? isSeen
-                    ? `seen at ${getTime(createdAt).slice(0, 5)}`
+                    ? `seen at ${getTime(new Date(createdAt)).slice(0, 5)}`
                     : null
                   : "Deivered"}
               </div>
             </div>
           </div>
-        );
+        )
       })}
     </>
-  );
-};
+  )
+}
 
-export default MessageDisplay;
+export default MessageDisplay
 function getTime(time: Date) {
-  return new Date(time).toTimeString();
+  return new Date(time).toTimeString()
 }

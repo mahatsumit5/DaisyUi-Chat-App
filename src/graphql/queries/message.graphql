@@ -21,3 +21,30 @@ mutation SendMessage($content: String!, $author: String!, $roomId: String!) {
     }
   }
 }
+
+query GetMessages($input: MessageByRoomIdParams) {
+  getMessagesByRoomId(input: $input) {
+    status
+    message
+    data {
+      id
+      content
+      createdAt
+      isSeen
+      chatRoomId
+      author {
+        id
+        email
+        fName
+        lName
+        isActive
+        profile
+        bio
+        coverPicture
+      }
+      authorId
+      groupChatId
+    }
+    _count
+  }
+}

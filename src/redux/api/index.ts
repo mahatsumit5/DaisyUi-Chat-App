@@ -47,7 +47,6 @@ export const {
 
 export const { useGetAllChatRoomQuery, useDeleteChatRoomMutation } = roomApi
 
-export const { useGetMessagesQuery } = messageApi
 export const {
   useGetPostsQuery,
   useDeletePostMutation,
@@ -77,7 +76,7 @@ export const {
 
 export const { useGetAllChatRoomsQuery } = chatRoomGraphqlApi
 
-export const { useSendMessageMutation } = messageGraphqlApi
+export const { useSendMessageMutation, useGetMessagesQuery } = messageGraphqlApi
 export {
   userApi,
   friendApi,

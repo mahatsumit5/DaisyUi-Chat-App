@@ -7,7 +7,6 @@ import { Mutex } from "async-mutex"
 const HEADER_TYPE_APPLICATION_FORM = "application/x-www-form-urlencoded"
 export const client: any = new GraphQLClient("http://localhost:8000/graphql")
 const mutex = new Mutex()
-
 const authBaseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:8000/graphql",
 })

@@ -28,6 +28,7 @@ const Home = () => {
   const {
     isError,
     isFetching: loading,
+
     data: posts,
   } = useGetAllPostsQuery(
     { args: { page: 1, take: 10 } },

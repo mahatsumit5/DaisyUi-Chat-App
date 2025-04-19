@@ -124,16 +124,11 @@ export type GetChatRoomResponse = {
   status: Scalars['Boolean']['output'];
 };
 
-export type GetMessageByUser = {
-  roomId: Scalars['String']['input'];
-  skip: Scalars['Int']['input'];
-  take: Scalars['Int']['input'];
-};
-
-export type GetMessageByUserResponse = {
-  __typename?: 'GetMessageByUserResponse';
+export type GetMessageByRoomResponse = {
+  __typename?: 'GetMessageByRoomResponse';
+  _count?: Maybe<Scalars['Int']['output']>;
+  data: Array<Message>;
   message: Scalars['String']['output'];
-  result: Array<Message>;
   status: Scalars['Boolean']['output'];
 };
 
@@ -161,6 +156,12 @@ export type Message = {
   groupChatId?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   isSeen: Scalars['Boolean']['output'];
+};
+
+export type MessageByRoomIdParams = {
+  roomId: Scalars['String']['input'];
+  skip: Scalars['Int']['input'];
+  take: Scalars['Int']['input'];
 };
 
 export type Mutation = {
@@ -296,7 +297,7 @@ export type Query = {
   getChatRoomById: ChatRoom;
   /** Get all incoming request */
   getFriendRequest?: Maybe<FriendRequestResponse>;
-  getMessagesByUsers?: Maybe<GetMessageByUserResponse>;
+  getMessagesByRoomId?: Maybe<GetMessageByRoomResponse>;
   getPostByUserId?: Maybe<GetPostByUserIdResponse>;
   /** Get list of ALL SENT request */
   getSentFriendRequest?: Maybe<FriendRequestResponse>;
@@ -327,8 +328,8 @@ export type QueryGetChatRoomByIdArgs = {
 };
 
 
-export type QueryGetMessagesByUsersArgs = {
-  input?: InputMaybe<GetMessageByUser>;
+export type QueryGetMessagesByRoomIdArgs = {
+  input?: InputMaybe<MessageByRoomIdParams>;
 };
 
 
@@ -445,6 +446,13 @@ export type SendMessageMutationVariables = Exact<{
 
 
 export type SendMessageMutation = { __typename?: 'Mutation', sendMessage?: { __typename?: 'SendMessageResponse', status: boolean, message: string, data?: { __typename?: 'Message', id: string, content: string, createdAt: string, isSeen: boolean, chatRoomId: string, authorId: string, groupChatId?: string | null, author: { __typename?: 'User', email: string, fName: string, lName: string, isActive: boolean, profile?: string | null } } | null } | null };
+
+export type GetMessagesQueryVariables = Exact<{
+  input?: InputMaybe<MessageByRoomIdParams>;
+}>;
+
+
+export type GetMessagesQuery = { __typename?: 'Query', getMessagesByRoomId?: { __typename?: 'GetMessageByRoomResponse', status: boolean, message: string, _count?: number | null, data: Array<{ __typename?: 'Message', id: string, content: string, createdAt: string, isSeen: boolean, chatRoomId: string, authorId: string, groupChatId?: string | null, author: { __typename?: 'User', id: string, email: string, fName: string, lName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null } }> } | null };
 
 export type GetAllPostsQueryVariables = Exact<{
   args?: InputMaybe<GetAllPostArgs>;

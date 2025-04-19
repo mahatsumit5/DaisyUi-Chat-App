@@ -42,7 +42,9 @@ export interface IMessage {
   createdAt: Date
   isSeen: boolean
   chatRoomId: string
-  author: string
+  authorId: string
+  author: IUser
+  groupChatId: string
 }
 export interface Iroom extends IUser {
   messages: IMessage[]
@@ -114,10 +116,10 @@ export interface IRemovedLikeRes {
 }
 export interface IMessageResponse {
   status: boolean
-  result: {
-    messages: IMessage[]
-    _count: { messages: number }
-  }
+  message: string
+
+  data: IMessage[]
+  _count: number
 }
 export interface IDeletePost {
   status: boolean

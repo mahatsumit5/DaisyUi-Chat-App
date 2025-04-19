@@ -17,10 +17,12 @@ function MessageBox({ userId, userName }: messageBoxProps) {
   const { numOfMessages, setNumofMessages } = useMessageHook()
   const sectionRef = useRef<HTMLDivElement>(null)
   const { data, error, isLoading } = useGetMessagesQuery({
-    roomId: currentRoom?.id || "",
-    take: numOfMessages,
+    input: {
+      roomId: currentRoom?.id || "",
+      take: numOfMessages,
+      skip: 0,
+    },
   })
-
   useEffect(() => {
     const height = sectionRef.current?.scrollHeight
     if (sectionRef.current && height) {
@@ -32,12 +34,12 @@ function MessageBox({ userId, userName }: messageBoxProps) {
     <>Unexpected Error Occured</>
   ) : isLoading ? (
     <section className="skeleton w-full h-full bg-base-300 flex-1 max-h-fit " />
-  ) : data?.result._count.messages ? (
+  ) : data?.getMessagesByRoomId?._count ? (
     <section
       className="p-1 flex flex-col h-full overflow-y-auto   scroll-smooth border-b-2"
       ref={sectionRef}
     >
-      {numOfMessages < data.result._count.messages && (
+      {numOfMessages < data.getMessagesByRoomId._count && (
         <button
           className="animate-bounce mb-5 w-full  flex items-center justify-center"
           onClick={() => {
@@ -50,7 +52,7 @@ function MessageBox({ userId, userName }: messageBoxProps) {
       <MessageDisplay
         userName={userName}
         currentRoom={currentRoom as IChatRoom}
-        messages={data.result.messages}
+        messages={data.getMessagesByRoomId.data}
         user={user as IUser}
         userId={userId}
       />

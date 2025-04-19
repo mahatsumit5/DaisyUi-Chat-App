@@ -31,15 +31,13 @@ const HomeMessageBox = () => {
   const [expand, setExpand] = useState<boolean>(false)
   const { isOpen, chatRoom } = useAppSelector(state => state.messageBox)
   const { user } = useAppSelector(state => state.user)
-  const { data, error, isLoading } = useGetMessagesQuery(
-    {
+  const { data, error, isLoading } = useGetMessagesQuery({
+    input: {
       roomId: chatRoom?.id || "",
       take: numOfMessages,
+      skip: 0,
     },
-    {
-      skip: !isOpen,
-    }
-  )
+  })
 
   useEffect(() => {
     const height = messageBoxRef.current?.scrollHeight
@@ -137,7 +135,7 @@ const HomeMessageBox = () => {
             ) : (
               <MessageDisplay
                 userName={user?.fName as string}
-                messages={data?.result.messages || []}
+                messages={data?.getMessagesByRoomId?.data!}
                 user={user as IUser}
                 currentRoom={chatRoom as IChatRoom}
                 userId={user?.id as string}
