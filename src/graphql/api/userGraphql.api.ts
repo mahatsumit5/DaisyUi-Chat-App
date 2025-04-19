@@ -12,6 +12,7 @@ const userGraphqlApi = generatedApi.enhanceEndpoints({
         try {
           const { data } = await queryFulfilled
           dispatch(setUser(data.data?.data as IUser))
+          sessionStorage.setItem("userId", JSON.stringify(data?.data?.data?.id))
         } catch (error) {
           if (error) return window.location.replace("/")
         }

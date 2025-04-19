@@ -5,6 +5,7 @@ export type SendMessageMutationVariables = Types.Exact<{
   content: Types.Scalars['String']['input'];
   author: Types.Scalars['String']['input'];
   roomId: Types.Scalars['String']['input'];
+  receiverId: Types.Scalars['String']['input'];
 }>;
 
 
@@ -19,8 +20,13 @@ export type GetMessagesQuery = { __typename?: 'Query', getMessagesByRoomId?: { _
 
 
 export const SendMessageDocument = `
-    mutation SendMessage($content: String!, $author: String!, $roomId: String!) {
-  sendMessage(content: $content, author: $author, roomId: $roomId) {
+    mutation SendMessage($content: String!, $author: String!, $roomId: String!, $receiverId: String!) {
+  sendMessage(
+    content: $content
+    author: $author
+    roomId: $roomId
+    receiverId: $receiverId
+  ) {
     status
     message
     data {

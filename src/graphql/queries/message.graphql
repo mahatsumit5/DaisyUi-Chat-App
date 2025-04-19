@@ -1,5 +1,15 @@
-mutation SendMessage($content: String!, $author: String!, $roomId: String!) {
-  sendMessage(content: $content, author: $author, roomId: $roomId) {
+mutation SendMessage(
+  $content: String!
+  $author: String!
+  $roomId: String!
+  $receiverId: String!
+) {
+  sendMessage(
+    content: $content
+    author: $author
+    roomId: $roomId
+    receiverId: $receiverId
+  ) {
     status
     message
     data {

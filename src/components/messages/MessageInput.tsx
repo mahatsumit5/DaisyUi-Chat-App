@@ -8,7 +8,12 @@ import { RxCross1 } from "react-icons/rx"
 import { motion } from "framer-motion"
 import EmojiBox from "../Emoji/EmojiBox"
 import { useSendMessageMutation } from "../../redux/api"
-function MessageInput({ email, roomId, userId }: messageInputProps) {
+function MessageInput({
+  email,
+  roomId,
+  userId,
+  receiverId,
+}: messageInputProps) {
   const dispatch = useAppDispatch()
   const [emojiOpen, setEmojiOpen] = useState<boolean>(false)
   const {
@@ -29,7 +34,7 @@ function MessageInput({ email, roomId, userId }: messageInputProps) {
     const { sendMessage: result } = await sendMessage({
       author: userId,
       roomId,
-
+      receiverId,
       content: message,
     }).unwrap()
 
@@ -152,4 +157,5 @@ type messageInputProps = {
   roomId: string
   userId: string
   email: string
+  receiverId: string
 }

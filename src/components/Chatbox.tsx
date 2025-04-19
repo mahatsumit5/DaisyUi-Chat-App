@@ -16,6 +16,7 @@ function Chatbox() {
         roomId={currentRoom.id}
         userId={user?.id as string}
         email={user?.email || ""}
+        receiverId={currentRoom?.userId as string}
       />
     </div>
   ) : null

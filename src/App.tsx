@@ -20,6 +20,9 @@ import { SocketProvider } from "./contexts/SocketProvider"
 import Home from "./pages/Home"
 import HomeMessageBox from "./components/HomeMessageBoc/HomeMessageBox"
 import { userGraphqlApi } from "./graphql/api/userGraphql.api"
+import { SUBS_TO_YOUR_MESSAGE } from "./graphql/subscriptions/newMessageReceived"
+import useSubscriptionHook from "./hooks/useSubscription.hook"
+import { toggleDialog } from "./redux/reducer/dialog.slice"
 
 export default function App() {
   useLoggedInUserQuery(
@@ -28,11 +31,23 @@ export default function App() {
       pollingInterval: 5 * 60 * 1000, // 5 minutes
     }
   )
-
   const location = useLocation()
-
   const dispatch = useAppDispatch()
 
+  useSubscriptionHook(SUBS_TO_YOUR_MESSAGE, {
+    variables: {
+      yourUserId: JSON.parse(sessionStorage.getItem("userId") as string),
+    },
+    onData: () => {
+      dispatch(
+        toggleDialog({
+          content: "You  have a new message",
+          heading: "New Message",
+          type: "request",
+        })
+      )
+    },
+  })
   useEffect(() => {
     if (location.pathname === "/" || location.pathname === "/sign-up") return
     dispatch(userGraphqlApi.endpoints.LoggedInUser.initiate())

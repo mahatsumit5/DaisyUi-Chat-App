@@ -219,6 +219,7 @@ export type MutationLogoutArgs = {
 export type MutationSendMessageArgs = {
   author: Scalars['String']['input'];
   content: Scalars['String']['input'];
+  receiverId: Scalars['String']['input'];
   roomId: Scalars['String']['input'];
 };
 
@@ -387,7 +388,19 @@ export enum Status {
 
 export type Subscription = {
   __typename?: 'Subscription';
+  messageInRoom?: Maybe<Message>;
+  newMessageReceived?: Maybe<Message>;
   newPost?: Maybe<Post>;
+};
+
+
+export type SubscriptionMessageInRoomArgs = {
+  roomId: Scalars['ID']['input'];
+};
+
+
+export type SubscriptionNewMessageReceivedArgs = {
+  yourUserId: Scalars['ID']['input'];
 };
 
 export type UpdateUserResponse = {
@@ -442,6 +455,7 @@ export type SendMessageMutationVariables = Exact<{
   content: Scalars['String']['input'];
   author: Scalars['String']['input'];
   roomId: Scalars['String']['input'];
+  receiverId: Scalars['String']['input'];
 }>;
 
 
