@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react"
+import React, { Dispatch, SetStateAction } from "react"
 import { useAppDispatch } from "../../hooks/hook"
 import { setQueryType } from "../../redux/reducer/search.slice"
 import { setPage } from "../../redux/reducer/pagination.slice"
@@ -10,7 +10,7 @@ function Menu<T>({
 }: {
   displayComponent: T
   setDisplayComponent: Dispatch<SetStateAction<T>>
-  links: { id: number; text: T; icon: JSX.Element }[]
+  links: { id: number; text: T; icon: React.JSX.Element }[]
 }) {
   const dispatch = useAppDispatch()
   function handleClick(name: T) {
@@ -32,7 +32,7 @@ function Menu<T>({
     }
   }
   return (
-    <ul className="menu gap-2 menu-horizontal w-full border-b-2  bg-base-100 rounded-lg ">
+    <ul className="menu gap-2 menu-horizontal w-full  bg-base-100/10 rounded-lg ">
       {links.map(item => (
         <li
           key={item.id}

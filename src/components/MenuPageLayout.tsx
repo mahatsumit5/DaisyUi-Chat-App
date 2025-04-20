@@ -1,13 +1,13 @@
-import { useState } from "react";
-import Menu from "./settings/Menu";
+import React, { useState } from "react"
+import Menu from "./settings/Menu"
 function MenuPageLayout<T>({
   display,
   links,
 }: {
-  display: Record<string, JSX.Element>;
-  links: { id: number; text: T; icon: JSX.Element }[];
+  display: Record<string, React.JSX.Element>
+  links: { id: number; text: T; icon: React.JSX.Element }[]
 }) {
-  const [displayComponent, setDisplayComponent] = useState<T>(links[0].text);
+  const [displayComponent, setDisplayComponent] = useState<T>(links[0].text)
 
   return (
     <div className="flex flex-col  h-full   rounded-md min-h-[90dvh] gap-4 ">
@@ -20,7 +20,7 @@ function MenuPageLayout<T>({
         {display[displayComponent as string]}
       </div>
     </div>
-  );
+  )
 }
 
-export default MenuPageLayout;
+export default MenuPageLayout

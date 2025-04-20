@@ -57,11 +57,11 @@ function ChatMenu() {
         </section>
       ) : data?.getAllChatRooms.data.length ? (
         <>
-          <section className=" h-full p-2  flex  flex-col gap-2 overflow-y-auto bg-base-100 text-base-content overflow-hidden">
+          <section className=" h-full   flex  flex-col  overflow-y-auto bg-base-100 text-base-content overflow-hidden">
             {data?.getAllChatRooms?.data?.map((item: ChatRoom) => (
               <div
                 key={item.id}
-                className={`flex justify-between border-b p-2 hover:bg-base-200 rounded-md ${
+                className={`flex justify-between p-3 border-b border-b-primary/15 hover:bg-base-300  ${
                   currentRoom?.id === item.id ? "bg-base-200 " : ""
                 }`}
                 onClick={() => {
