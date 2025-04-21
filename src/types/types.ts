@@ -291,6 +291,8 @@ export type PostLike = {
 
 export type Query = {
   __typename?: 'Query';
+  /** a list of all the friends */
+  allFriends?: Maybe<AllUsersResponse>;
   /** a list of all the users */
   allUsers?: Maybe<AllUsersResponse>;
   getAllChatRooms: GetChatRoomResponse;
@@ -556,3 +558,8 @@ export type UpdateUserMutationVariables = Exact<{
 
 
 export type UpdateUserMutation = { __typename?: 'Mutation', data?: { __typename?: 'UpdateUserResponse', status: boolean, message: string, data?: { __typename?: 'User', id: string, email: string, fName: string, lName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null } | null } | null };
+
+export type GetListOfFriendsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetListOfFriendsQuery = { __typename?: 'Query', allFriends?: { __typename?: 'AllUsersResponse', status: boolean, message: string, data?: Array<{ __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean }> | null } | null };

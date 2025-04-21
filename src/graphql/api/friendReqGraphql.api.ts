@@ -49,16 +49,29 @@ export const friendReqGraphqlApi = generatedApi.enhanceEndpoints({
                   },
                 },
                 draft => {
-                  draft.allUsers?.data !=
-                    draft.allUsers?.data?.filter(
-                      user => user.id !== data.sendRequest?.data?.to.id
-                    )
+                  if (draft?.allUsers?.data) {
+                    draft.allUsers.data = draft.allUsers.data
+                      .filter(user => user.id !== arg.toId)
+                      .filter(
+                        (user): user is NonNullable<typeof user> =>
+                          user !== undefined
+                      )
+                  }
                 },
                 true
               )
             )
 
-            dispatch(userGraphqlApi.util.invalidateTags(["Users"]))
+            dispatch(
+              userGraphqlApi.endpoints.GetAllUsers.initiate({
+                params: {
+                  order: Order.Asc,
+                  page: 1,
+                  take: 8,
+                  search: "",
+                },
+              })
+            )
           }
         } catch (error) {
           console.log(error)

@@ -31,11 +31,11 @@ const themes = [
   "dim",
   "nord",
   "sunset",
-];
+]
 const ThemeChanger = () => {
   return (
     <div className="flex flex-wrap gap-2 p-2  w-full ">
-      {themes.map((item) => (
+      {themes.map(item => (
         <input
           data-theme={item}
           key={item}
@@ -44,14 +44,14 @@ const ThemeChanger = () => {
           className="btn bg-primary w-24  md:w-32 h-24 md:h-32 text-primary-content"
           aria-label={item}
           value={item}
-          onChangeCapture={(e) => {
-            localStorage.setItem("theme", e.currentTarget.value);
-            window.location.reload();
+          onChangeCapture={e => {
+            localStorage.setItem("theme", e.currentTarget.value)
+            window.location.reload()
           }}
         />
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default ThemeChanger;
+export default ThemeChanger

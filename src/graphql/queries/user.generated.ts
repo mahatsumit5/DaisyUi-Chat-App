@@ -29,6 +29,11 @@ export type UpdateUserMutationVariables = Types.Exact<{
 
 export type UpdateUserMutation = { __typename?: 'Mutation', data?: { __typename?: 'UpdateUserResponse', status: boolean, message: string, data?: { __typename?: 'User', id: string, email: string, fName: string, lName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null } | null } | null };
 
+export type GetListOfFriendsQueryVariables = Types.Exact<{ [key: string]: never; }>;
+
+
+export type GetListOfFriendsQuery = { __typename?: 'Query', allFriends?: { __typename?: 'AllUsersResponse', status: boolean, message: string, data?: Array<{ __typename?: 'Friend', id: string, fName: string, lName: string, email: string, profile?: string | null, isActive: boolean }> | null } | null };
+
 
 export const LoggedInUserDocument = `
     query LoggedInUser {
@@ -95,6 +100,22 @@ export const UpdateUserDocument = `
   }
 }
     `;
+export const GetListOfFriendsDocument = `
+    query GetListOfFriends {
+  allFriends {
+    status
+    message
+    data {
+      id
+      fName
+      lName
+      email
+      profile
+      isActive
+    }
+  }
+}
+    `;
 
 const injectedRtkApi = baseApiWithGraphql.injectEndpoints({
   endpoints: (build) => ({
@@ -110,9 +131,12 @@ const injectedRtkApi = baseApiWithGraphql.injectEndpoints({
     UpdateUser: build.mutation<UpdateUserMutation, UpdateUserMutationVariables | void>({
       query: (variables) => ({ document: UpdateUserDocument, variables })
     }),
+    GetListOfFriends: build.query<GetListOfFriendsQuery, GetListOfFriendsQueryVariables | void>({
+      query: (variables) => ({ document: GetListOfFriendsDocument, variables })
+    }),
   }),
 });
 
 export { injectedRtkApi as api };
-export const { useLoggedInUserQuery, useLazyLoggedInUserQuery, useLogoutMutation, useGetAllUsersQuery, useLazyGetAllUsersQuery, useUpdateUserMutation } = injectedRtkApi;
+export const { useLoggedInUserQuery, useLazyLoggedInUserQuery, useLogoutMutation, useGetAllUsersQuery, useLazyGetAllUsersQuery, useUpdateUserMutation, useGetListOfFriendsQuery, useLazyGetListOfFriendsQuery } = injectedRtkApi;
 

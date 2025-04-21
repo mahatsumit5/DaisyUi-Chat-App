@@ -61,6 +61,7 @@ export const {
   useLogoutMutation,
   useGetAllUsersQuery,
   useUpdateUserMutation,
+  useGetListOfFriendsQuery,
 } = userGraphqlApi
 export const {
   useSendFriendRequestMutation,

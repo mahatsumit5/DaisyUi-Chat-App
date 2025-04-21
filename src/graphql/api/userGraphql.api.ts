@@ -7,6 +7,7 @@ const userGraphqlApi = generatedApi.enhanceEndpoints({
   addTagTypes: ["Users", "CurrentUser"],
 
   endpoints: {
+    GetListOfFriends: {},
     LoggedInUser: {
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
