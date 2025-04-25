@@ -7,6 +7,7 @@ import {
   useGetAllChatRoomQuery,
   useGetAllPostsQuery,
   useGetAllUsersQuery,
+  useGetListOfFriendsQuery,
 } from "../redux/api"
 import { useAppDispatch, useAppSelector } from "../hooks/hook"
 import { setPage } from "../redux/reducer/post.slice"
@@ -50,7 +51,7 @@ const Home = () => {
     isError: friendError,
     isLoading: friendLoading,
     data: friends,
-  } = useGetAllChatRoomQuery({ page: 1, search: "", take: 10 })
+  } = useGetListOfFriendsQuery()
 
   useEffect(() => {
     const handlOnResize = () => {
@@ -114,20 +115,32 @@ const Home = () => {
             <>Loading....</>
           ) : (
             <div className="max-h-60 overflow-y-auto flex flex-col gap-2">
-              {friends?.data.length ? (
-                friends?.data.map(item => (
+              {friends?.allFriends?.data?.length ? (
+                friends?.allFriends.data.map(item => (
                   <HomeAllUsers
                     key={item.id}
                     user={{
                       email: item.email,
                       fName: item.fName,
-                      id: item.userId,
+                      id: item.id,
                       lName: item.lName,
-                      profile: item.profile,
+                      profile: item.profile!,
                       isActive: item.isActive,
                     }}
                     type="friends"
-                    room={item}
+                    room={{
+                      email: item.email,
+                      fName: item.fName,
+                      id: item.id,
+                      lName: item.lName,
+                      profile: item.profile!,
+                      isActive: item.isActive,
+                      userId: item.id,
+                      isLastMessageSeen: true,
+                      lastMessage: "",
+                      unSeenMessageCount: 2,
+                      lastmessageAuthor: "",
+                    }}
                   />
                 ))
               ) : (

@@ -119,7 +119,9 @@ const PostCard = ({ post }: { post: IPost }) => {
           initial={extractInitial(post.author.fName, post.author.lName)}
         />
         <p className="font-semibold text-sm flex-1">{`${post.author.fName} ${post.author.lName}`}</p>
-        <p className="text-base-content/85">{dateConverter(post.createdAt)}</p>
+        <p className="text-base-content/85">
+          {dateConverter(new Date(post.createdAt).toLocaleTimeString())}
+        </p>
         {user?.id === post?.author.id && (
           <div className="dropdown dropdown-end">
             <div

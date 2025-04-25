@@ -20,7 +20,10 @@ import { SocketProvider } from "./contexts/SocketProvider"
 import Home from "./pages/Home"
 import HomeMessageBox from "./components/HomeMessageBoc/HomeMessageBox"
 import { userGraphqlApi } from "./graphql/api/userGraphql.api"
-import { SUBS_TO_YOUR_MESSAGE } from "./graphql/subscriptions/newMessageReceived"
+import {
+  LIST_OF_ONLINE_USERS,
+  SUBS_TO_YOUR_MESSAGE,
+} from "./graphql/subscriptions/newMessageReceived"
 import useSubscriptionHook from "./hooks/useSubscription.hook"
 import { toggleDialog } from "./redux/reducer/dialog.slice"
 
@@ -48,6 +51,9 @@ export default function App() {
       )
     },
   })
+
+  const { data } = useSubscriptionHook(LIST_OF_ONLINE_USERS, {})
+  console.log("onlineUsers", data?.onlineUsers)
   useEffect(() => {
     if (location.pathname === "/" || location.pathname === "/sign-up") return
     dispatch(userGraphqlApi.endpoints.LoggedInUser.initiate())

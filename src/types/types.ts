@@ -393,6 +393,7 @@ export type Subscription = {
   messageInRoom?: Maybe<Message>;
   newMessageReceived?: Maybe<Message>;
   newPost?: Maybe<Post>;
+  onlineUsers: Array<Scalars['String']['output']>;
 };
 
 

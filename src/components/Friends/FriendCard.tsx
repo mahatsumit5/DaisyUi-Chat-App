@@ -32,6 +32,17 @@ const FriendCard = ({ user, type }: { user: IChatRoom | User; type: keys }) => {
     <div className="  w-full sm:w-[200px]  p-4 rounded-lg  flex md:flex-col   bg-base-100    items-center justify-start gap-2   shadow-md   ">
       {/* Avatar and name */}
 
+      <details className="dropdown relative w-full">
+        <summary className="btn m-1 btn-xs ">...</summary>
+        <ul className="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm z-50">
+          <li>
+            <a> Profile</a>
+          </li>
+          <li>
+            <a>Delete</a>
+          </li>
+        </ul>
+      </details>
       <Avatar
         initial={extractInitial(user.fName, user.lName)}
         url={user.profile!}
