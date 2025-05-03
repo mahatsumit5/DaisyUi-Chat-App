@@ -18,6 +18,7 @@ const graphqlBaseQuery = graphqlRequestBaseQuery({
       "Authorization",
       `Bearer ${sessionStorage.getItem("accessJWT") as string}`
     )
+    headers.set("test", "thisisatest")
     return headers
   },
 })

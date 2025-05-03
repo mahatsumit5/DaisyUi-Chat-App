@@ -37,7 +37,11 @@ export function SignIn() {
     sessionStorage.setItem("email", form.email)
 
     e.preventDefault()
-    await login(form).unwrap()
+    const { status } = await login(form).unwrap()
+    console.log(status)
+    if (status) {
+      window.location.replace("/home")
+    }
   }
 
   useEffect(() => {

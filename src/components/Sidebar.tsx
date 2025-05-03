@@ -63,7 +63,7 @@ function Sidebar() {
           <button
             className={`relative w-36 ${
               pathname === link.link
-                ? " bg-primary rounded-lg text-primary-content"
+                ? " bg-base-100 rounded-lg text-base-content scale-110 transition-all duration-200"
                 : ""
             }  text-base-content flex gap-2 items-center justify-start font-semibold p-2`}
             onClick={() => {

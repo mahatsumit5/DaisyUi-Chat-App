@@ -77,6 +77,7 @@ const userApi = createApi({
           const { data } = await queryFulfilled
           if (data.status) {
             sessionStorage.setItem("accessJWT", data.token.accessJWT)
+            console.log("inside if statement")
             await dispatch(userGraphqlApi.endpoints.LoggedInUser.initiate())
           }
           dispatch(toggleLoader({ isLoading: false }))

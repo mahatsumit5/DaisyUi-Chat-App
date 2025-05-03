@@ -4,13 +4,47 @@ import Sidebar from "./Sidebar"
 import NavBar from "./NavBar/NavBar"
 import React, { useEffect } from "react"
 import { setTyping, socket } from "../redux/reducer/socket.slice"
-import { setOnlineUsers } from "../redux/reducer/AllUsers.slice"
 import { toggleDialog } from "../redux/reducer/dialog.slice"
+import useSubscriptionHook from "../hooks/useSubscription.hook"
+import {
+  LIST_OF_ONLINE_USERS,
+  SUBS_TO_YOUR_MESSAGE,
+} from "../graphql/subscriptions/newMessageReceived"
+import { setOnlineUsers } from "../redux/reducer/AllUsers.slice"
+import { User } from "../types/types"
 
 function Privatelayout({ children }: { children: React.ReactNode }) {
   const location = useLocation()
   const dispatch = useAppDispatch()
+  useSubscriptionHook(SUBS_TO_YOUR_MESSAGE, {
+    variables: {
+      yourUserId: JSON.parse(sessionStorage.getItem("userId") as string),
+    },
+    onData: () => {
+      dispatch(
+        toggleDialog({
+          content: "You  have a new message",
+          heading: "New Message",
+          type: "request",
+        })
+      )
+    },
+  })
 
+  useSubscriptionHook(LIST_OF_ONLINE_USERS, {
+    onData(options) {
+      console.log(options.data.data.onlineUsers)
+      dispatch(
+        setOnlineUsers(
+          options.data.data.onlineUsers.map((user: User) => user.id)
+        )
+      )
+    },
+    onError(error) {
+      console.log("error", error)
+      dispatch(setOnlineUsers())
+    },
+  })
   useEffect(() => {
     socket.on("connect_error", err => {
       console.log(err)
@@ -25,9 +59,7 @@ function Privatelayout({ children }: { children: React.ReactNode }) {
     socket.on("stopped_typing", email => {
       dispatch(setTyping({ person: email, typing: false }))
     })
-    socket.on("getOnlineUsers", (onlineUsers: string[]) => {
-      dispatch(setOnlineUsers(onlineUsers))
-    })
+
     socket.on("getLikedNotification", data => {
       console.log(
         "user with id",
@@ -56,9 +88,9 @@ function Privatelayout({ children }: { children: React.ReactNode }) {
       <NavBar />
 
       <div
-        className={` w-full flex h-full overflow-y-auto max-w-7xl mx-auto mt-2  relative   `}
+        className={` w-full flex h-full overflow-y-auto max-w-7xl mx-auto   relative   `}
       >
-        <div className="hidden md:block   bg-base-100  w-[200px] rounded-md fixed h-full">
+        <div className="hidden md:block   w-[200px] fixed h-full">
           <Sidebar />
         </div>
         <div className="w-full flex flex-col  md:ml-[210px] relative">
