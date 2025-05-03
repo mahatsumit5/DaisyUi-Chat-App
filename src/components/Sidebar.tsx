@@ -11,38 +11,38 @@ const links = [
     id: 0,
     text: "Home",
     link: "/home",
-    icon: <IoHomeOutline size={22} />,
+    icon: <IoHomeOutline size={18} />,
   },
   {
     id: 1,
     text: "Messages",
     link: "/chat",
-    icon: <TiMessages size={22} />,
+    icon: <TiMessages size={18} />,
   },
   {
     id: 2,
     text: "Notification",
     link: "/notification",
-    icon: <IoMdNotificationsOutline size={22} />,
+    icon: <IoMdNotificationsOutline size={18} />,
   },
   {
     id: 3,
     text: "Friends",
     link: "/friends",
-    icon: <BsPeople size={22} />,
+    icon: <BsPeople size={18} />,
   },
 
   {
     id: 5,
     text: "Request",
     link: "/friend-request",
-    icon: <TiUserAddOutline size={22} />,
+    icon: <TiUserAddOutline size={18} />,
   },
   {
     id: 6,
     text: "Settings",
     link: "/settings",
-    icon: <IoIosSettings size={22} />,
+    icon: <IoIosSettings size={18} />,
   },
 ]
 function Sidebar() {
@@ -57,20 +57,21 @@ function Sidebar() {
     }
   }
   return (
-    <div className=" flex flex-col gap-4  py-4   justify-start items-center ">
+    <div className=" flex flex-col gap-2  py-2   justify-start items-center ">
       {links.map(link => (
         <Link to={link.link} key={link.id}>
           <button
-            className={`relative w-36 ${
+            className={`relative w-36 btn-sm btn-square flex px-2${
               pathname === link.link
-                ? " bg-base-100 rounded-lg text-base-content scale-110 transition-all duration-200"
-                : ""
-            }  text-base-content flex gap-2 items-center justify-start font-semibold p-2`}
+                ? " bg-primary rounded-lg text-primary-content scale-110 transition-all duration-200 shadow-md"
+                : "text-base-content"
+            }   flex gap-2 items-center justify-start font-semibold `}
             onClick={() => {
               handleClick(link.text)
             }}
           >
-            {link.icon} <p className="block "> {link.text}</p>
+            {link.icon}{" "}
+            <p className="font-sans hover:underline "> {link.text}</p>
             {link.text === "Request" && (
               <span className="text-primary  rounded-badge absolute -right-2 -top-2">
                 {/* {data?.data.friendReqCount} */}

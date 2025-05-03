@@ -24,7 +24,6 @@ const userGraphqlApi = generatedApi.enhanceEndpoints({
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
           dispatch(toggleLoader({ isLoading: true, content: "Please Wait..." }))
-          sessionStorage.removeItem("accessJWT")
 
           const { data } = await queryFulfilled
           if (data.data?.status) {

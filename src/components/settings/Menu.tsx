@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction } from "react"
 import { useAppDispatch } from "../../hooks/hook"
 import { setQueryType } from "../../redux/reducer/search.slice"
-import { setPage } from "../../redux/reducer/pagination.slice"
+import { setCurrentPage } from "../../redux/reducer/pagination.slice"
 
 function Menu<T>({
   setDisplayComponent,
@@ -13,24 +13,24 @@ function Menu<T>({
   links: { id: number; text: T; icon: React.JSX.Element }[]
 }) {
   const dispatch = useAppDispatch()
-  function handleClick(name: T) {
-    console.log(name)
-    setDisplayComponent(name as T)
-    switch (name) {
-      case "Friend Request":
-        dispatch(setQueryType("Friend-Request"))
-        dispatch(setPage(1))
-        break
-      case "Sent Request":
-        dispatch(setQueryType("Sent-Request"))
-        dispatch(setPage(1))
-        break
-      case "Peoples":
-        dispatch(setQueryType("Peoples"))
-        dispatch(setPage(1))
-        break
-    }
-  }
+  // function handleClick(name: T) {
+  //   console.log(name)
+  //   setDisplayComponent(name as T)
+  //   switch (name) {
+  //     case "Friend Request":
+  //       dispatch(setQueryType("Friend-Request"))
+  //       dispatch(setPage(1))
+  //       break
+  //     case "Sent Request":
+  //       dispatch(setQueryType("Sent-Request"))
+  //       dispatch(setPage(1))
+  //       break
+  //     case "Peoples":
+  //       dispatch(setQueryType("Peoples"))
+  //       dispatch(setPage(1))
+  //       break
+  //   }
+  // }
   return (
     <ul className="menu gap-2 menu-horizontal w-full  bg-base-100/10 rounded-lg ">
       {links.map(item => (
@@ -44,7 +44,7 @@ function Menu<T>({
         >
           <a
             onClick={() => {
-              handleClick(item.text)
+              // handleClick(item.text)
             }}
           >
             {item.icon}

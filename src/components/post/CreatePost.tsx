@@ -14,7 +14,6 @@ const CreatePost = () => {
   const [uploadImage, { data, isLoading: isUploadingImages }] =
     useUploadFileMutation()
   const [createPost, { isLoading }] = useCreatePostMutation()
-  console.log(data)
   const [images, setImages] = useState<File[]>([])
   const [form, setForm] = useState({ title: "", content: "" })
   const { user } = useAppSelector(store => store.user)

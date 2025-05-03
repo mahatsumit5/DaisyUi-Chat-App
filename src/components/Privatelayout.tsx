@@ -88,14 +88,12 @@ function Privatelayout({ children }: { children: React.ReactNode }) {
       <NavBar />
 
       <div
-        className={` w-full flex h-full overflow-y-auto max-w-7xl mx-auto   relative   `}
+        className={` w-full flex h-full overflow-y-auto max-w-6xl mx-auto mt-2  relative   `}
       >
-        <div className="hidden md:block   w-[200px] fixed h-full">
+        <div className="hidden md:block  bg-base-100 border-2 rounded-md w-[200px] fixed ">
           <Sidebar />
         </div>
-        <div className="w-full flex flex-col  md:ml-[210px] relative">
-          {children}
-        </div>
+        <div className="w-full   md:ml-[210px] relative ">{children}</div>
       </div>
     </div>
   ) : (

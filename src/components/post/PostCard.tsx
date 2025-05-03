@@ -183,7 +183,7 @@ const PostCard = ({ post }: { post: IPost }) => {
             ref={TextAreaRef}
           />
         </div>
-
+        {post.id}
         {post.images.length ? <ImageCarousel images={post.images} /> : null}
       </div>
       {/* like and comment counts */}

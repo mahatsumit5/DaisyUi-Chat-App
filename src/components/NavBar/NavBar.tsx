@@ -29,9 +29,9 @@ const NavBar = () => {
     }
   }
   return (
-    <header className="sticky w-full top-0 z-50 border-b-2 shadow-md bg-base-100 border-primary/50">
+    <header className="sticky w-full top-0 z-50  shadow-md bg-base-100 ">
       <div
-        className={`navbar  rounded-t-md    max-w-7xl mx-auto  ${
+        className={`navbar     max-w-7xl mx-auto  ${
           currentRoom?.id ? "hidden md:flex" : "flex"
         }`}
       >

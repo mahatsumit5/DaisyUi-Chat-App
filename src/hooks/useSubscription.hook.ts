@@ -14,7 +14,6 @@ const useSubscriptionHook = (
     Document,
     options
   )
-  console.log(error, "error in subscription")
   return {
     data,
     error,

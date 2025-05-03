@@ -6,7 +6,7 @@ function Chatbox() {
   const { currentRoom } = useAppSelector(store => store.rooms)
   const { user } = useAppSelector(store => store.user)
   return currentRoom?.id ? (
-    <div className="flex flex-col  w-full h-full   relative rounded-md bg-base-100">
+    <div className="flex flex-col  w-full h-full  mt-1 relative rounded-md bg-base-100">
       <MessageHeader currentRoom={currentRoom} />
       <MessageBox
         userId={user?.id as string}

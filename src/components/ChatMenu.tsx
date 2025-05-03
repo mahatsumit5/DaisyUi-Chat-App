@@ -1,6 +1,5 @@
 import { useAppDispatch, useAppSelector } from "../hooks/hook"
 import { IChatRoom } from "../types"
-
 import { setCurrentRoom } from "../redux/reducer/room.slice"
 
 import { Link } from "react-router-dom"
@@ -34,7 +33,7 @@ function ChatMenu() {
 
   return (
     <div
-      className={`  bg-base-100 flex flex-col gap-2 w-full  lg:w-[400px] h-full overflow-y-auto  rounded-md ${
+      className={`  bg-base-100  flex flex-col gap-2 w-full  lg:w-[400px] h-full overflow-y-auto   ${
         currentRoom?.id ? "hidden lg:flex " : "flex w-full  "
       } `}
     >
@@ -57,11 +56,37 @@ function ChatMenu() {
         </section>
       ) : data?.getAllChatRooms.data.length ? (
         <>
+          {/* search bar */}
+          <div className="p-2  w-full h-10 ">
+            <label className="input input-sm bg-primary w-full rounded-full  items-center gap-2 flex justify-between text-primary-content ">
+              <input
+                type="text"
+                placeholder="Search"
+                //  onChange={(e: FormEvent<HTMLInputElement>) => {
+                //    dispatch(setQuery({ query: e.currentTarget.value }))
+                //  }}
+                className="text-[16px] text-primary-content placeholder:text-primary-content/70"
+                value={query}
+              />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                className="w-4 h-4 opacity-70 hover:scale-125 hover:cursor-pointer transition-all"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </label>
+          </div>
           <section className=" h-full   flex  flex-col  overflow-y-auto bg-base-100 text-base-content overflow-hidden">
             {data?.getAllChatRooms?.data?.map((item: ChatRoom) => (
               <div
                 key={item.id}
-                className={`flex justify-between p-3 border-b border-b-primary/15 hover:bg-base-300  ${
+                className={`flex justify-between p-3 border-b-primary/15 hover:bg-base-300  ${
                   currentRoom?.id === item.id ? "bg-base-200 " : ""
                 }`}
                 onClick={() => {
@@ -91,7 +116,7 @@ function ChatMenu() {
                   )}
 
                   <div className="flex flex-col ">
-                    <p className=" font-bold text-sm ">
+                    <p className=" font-bold text-xs ">
                       {item.fName}&nbsp;
                       {item.lName}
                     </p>
@@ -113,7 +138,7 @@ function ChatMenu() {
                 </div>
                 {/* Date and notification */}
                 <div className="flex flex-col items-end">
-                  <p className="flex-1">10:27 AM</p>
+                  <p className="flex-1 text-xs font-bold">10:27 AM</p>
                   {!item.isLastMessageSeen &&
                     item.lastmessageAuthor !== user?.id && (
                       <span className="rounded-full  bg-red-400 text-sm  flex justify-center text-white w-6">

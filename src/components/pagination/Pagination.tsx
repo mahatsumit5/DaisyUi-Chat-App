@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { getNumberOfRequiredPagination } from "../../utils"
 import { useAppDispatch, useAppSelector } from "../../hooks/hook"
-import { setPage } from "../../redux/reducer/pagination.slice"
+import { setCurrentPage, Type } from "../../redux/reducer/pagination.slice"
 
 type PaginationProps = {
   numberOfContentPerPage: number
@@ -12,35 +12,14 @@ function Pagination({
   totalNumberOfAvaibleContent,
 }: PaginationProps) {
   const dispatch = useAppDispatch()
-  const { page } = useAppSelector(store => store.pagination)
+  const { users } = useAppSelector(store => store.pagination)
   const [paginationArray, setPaginationArray] = useState<number[]>([])
   const totalNumberofPages = Math.ceil(
     totalNumberOfAvaibleContent
       ? totalNumberOfAvaibleContent / numberOfContentPerPage
       : 0
   )
-
-  //   useEffect(() => {
-  //     // 6 is maximum number of pagination
-  //     if (page > 6) {
-  //       setPaginationArray((previousArray) => {
-  //         if (page > previousArray[previousArray.length - 1]) {
-  //           return previousArray.map((num) => num + 1);
-  //         } else {
-  //           return previousArray.map((num) => num - 1);
-  //         }
-  //       });
-  //     } else {
-  //       for (let i = 1; i <= 6; i++) {
-  //         setPaginationArray((previous) => {
-  //           if (previous.includes(i)) return [...previous];
-  //           // temporary solved
-  //           // make dynamic
-  //           return getNumberOfRequiredPagination(totalNumberofPages);
-  //         });
-  //       }
-  //     }
-  //   }, [page, totalNumberofPages]);
+  const page = users.currentPage
 
   useEffect(() => {
     setPaginationArray(getNumberOfRequiredPagination(totalNumberofPages))
@@ -55,7 +34,12 @@ function Pagination({
         <button
           className="join-item btn btn-square btn-primary disabled:text-white"
           onClick={() => {
-            dispatch(setPage(page - 1))
+            dispatch(
+              setCurrentPage({
+                currentPage: users.currentPage - 1,
+                type: Type.User,
+              })
+            )
           }}
           disabled={page === 1}
         >
@@ -75,7 +59,12 @@ function Pagination({
                 key={index}
                 value={item}
                 onClick={() => {
-                  dispatch(setPage(item))
+                  dispatch(
+                    setCurrentPage({
+                      currentPage: users.currentPage - 1,
+                      type: Type.User,
+                    })
+                  )
                 }}
               >
                 {item}
@@ -86,7 +75,12 @@ function Pagination({
         <button
           className="join-item btn btn-square btn-primary "
           onClick={() => {
-            dispatch(setPage(page + 1))
+            dispatch(
+              setCurrentPage({
+                currentPage: users.currentPage - 1,
+                type: Type.User,
+              })
+            )
           }}
           disabled={page === totalNumberofPages}
         >
