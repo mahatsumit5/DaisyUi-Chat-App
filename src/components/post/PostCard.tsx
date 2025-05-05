@@ -53,16 +53,7 @@ const PostCard = ({ post }: { post: IPost }) => {
   }
 
   async function handleOnLike() {
-    const data = await likePost(post.id).unwrap()
-
-    // only send if the post is created by someone else except you.
-    if (data.userId !== post.author.id) {
-      socket.emit("send_like_notification", {
-        to: post.author.id,
-        user,
-        postId: data.postId,
-      })
-    }
+    const data = await likePost({ postId: post.id }).unwrap()
   }
 
   async function handleOnRemoveLike() {
@@ -183,8 +174,9 @@ const PostCard = ({ post }: { post: IPost }) => {
             ref={TextAreaRef}
           />
         </div>
-        {post.id}
-        {post.images.length ? <ImageCarousel images={post.images} /> : null}
+        {post.images.length ? (
+          <ImageCarousel images={post.images} post={post} />
+        ) : null}
       </div>
       {/* like and comment counts */}
       <p className="text-xs text-base-content/55">

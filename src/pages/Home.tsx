@@ -9,15 +9,15 @@ import {
   useGetListOfFriendsQuery,
 } from "../redux/api"
 import { useAppDispatch, useAppSelector } from "../hooks/hook"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { IPost, IUser } from "../types"
 import { Order } from "../types/types"
 import { setCurrentPage, Type } from "../redux/reducer/pagination.slice"
+import ViewImg from "../components/post/ViewImg"
 
 const Home = () => {
   const [position, setPostion] = useState((window.innerWidth - 1280) / 2)
-  // const btnRef = useRef<HTMLButtonElement>(null)
   const dispatch = useAppDispatch()
   const { post, users: allUsers } = useAppSelector(store => store.pagination)
 
@@ -104,6 +104,24 @@ const Home = () => {
               : posts?.data?.posts?.map(item => (
                   <PostCard post={item as IPost} key={item.id} />
                 ))}
+            {fetchingPost && post.currentPage !== post.totalPages ? (
+              <div className="w-full h-20 flex flex-col items-center justify-center">
+                Fetching post...
+                <span className="h-5 w-5  border-x-primary border-y-white border-2 rounded-full animate-spin" />
+              </div>
+            ) : (
+              <div className="flex items-center justify-center py-3 flex-col">
+                <span className="font-sans"> End Reached</span>
+                <button
+                  className="btn btn-outline btn-primary btn-sm"
+                  onClick={() => {
+                    window.scrollTo({ top: 0, behavior: "smooth" })
+                  }}
+                >
+                  Go to top
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -184,6 +202,8 @@ const Home = () => {
           )}
         </div>
       </div>
+
+      {/* img Viewing box */}
     </div>
   )
 }

@@ -70,7 +70,7 @@ function Sidebar() {
               handleClick(link.text)
             }}
           >
-            {link.icon}{" "}
+            {link.icon}
             <p className="font-sans hover:underline "> {link.text}</p>
             {link.text === "Request" && (
               <span className="text-primary  rounded-badge absolute -right-2 -top-2">

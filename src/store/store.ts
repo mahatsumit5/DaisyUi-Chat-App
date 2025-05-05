@@ -20,6 +20,7 @@ import {
   commentApi,
   postReducer,
   HomeMessageBox,
+  viewImageReducer,
 } from "../redux/api/index"
 import { setupListeners } from "@reduxjs/toolkit/query"
 import { rtkQueryErrorLogger } from "../utils/errorHandler"
@@ -40,6 +41,7 @@ export const store = configureStore({
     socket: socketReducer,
     pagination: paginationReducer,
     toast: toastReducer,
+    viewImgBox: viewImageReducer,
     [friendApi.reducerPath]: friendApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
     [roomApi.reducerPath]: roomApi.reducer,

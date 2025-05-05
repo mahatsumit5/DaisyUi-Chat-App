@@ -11,7 +11,7 @@ import { Avatar } from "../Avatar/Avatar"
 import { extractInitial } from "../../utils"
 
 const CreatePost = () => {
-  const [uploadImage, { data, isLoading: isUploadingImages }] =
+  const [uploadImage, { isLoading: isUploadingImages }] =
     useUploadFileMutation()
   const [createPost, { isLoading }] = useCreatePostMutation()
   const [images, setImages] = useState<File[]>([])
@@ -32,8 +32,7 @@ const CreatePost = () => {
   }
   async function handleCreatePost(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    await uploadImage({ images })
-    // await createPost({ ...form, id: user?.id as string, images }).unwrap()
+    const data = await uploadImage({ images }).unwrap()
     await createPost({
       body: {
         ...form,

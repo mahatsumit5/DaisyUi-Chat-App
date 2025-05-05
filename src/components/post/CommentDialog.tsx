@@ -89,7 +89,7 @@ const CommentDialog = ({
           onClick={() => {
             dispatch(toggleCommentDrawer(postId))
           }}
-          className="btn btn-xs btn-primary btn-square"
+          className="btn btn-xs btn-primary btn-circle"
         >
           <IoCloseCircleSharp size={16} />
         </button>
@@ -167,8 +167,10 @@ const CommentDialog = ({
         </div>
       ) : (
         <div className="flex-1 flex items-center justify-center flex-col gap-3 h-40">
-          <p className="text-lg font-semibold">No comments yet</p>
-          <p>Start a conversation</p>
+          <p className="text-md font-semibold font-sans">No comments yet</p>
+          <p className="text-sm font-sans text-base-content">
+            Start a conversation
+          </p>
         </div>
       )}
       {/* Input Field */}

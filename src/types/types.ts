@@ -124,6 +124,13 @@ export type GetChatRoomResponse = {
   status: Scalars['Boolean']['output'];
 };
 
+export type GetLikedPostResponse = {
+  __typename?: 'GetLikedPostResponse';
+  likedPost?: Maybe<Scalars['String']['output']>;
+  message: Scalars['String']['output'];
+  status: Scalars['Boolean']['output'];
+};
+
 export type GetMessageByRoomResponse = {
   __typename?: 'GetMessageByRoomResponse';
   _count?: Maybe<Scalars['Int']['output']>;
@@ -172,7 +179,7 @@ export type Mutation = {
   deleteFriendRequest?: Maybe<SentRequestResponse>;
   deleteMessage?: Maybe<Response>;
   deletePost: GetPostByUserIdResponse;
-  likePost: GetPostByUserIdResponse;
+  likePost: GetLikedPostResponse;
   logout?: Maybe<Response>;
   sendMessage?: Maybe<SendMessageResponse>;
   /** Send friend request to other user */
@@ -393,7 +400,7 @@ export type Subscription = {
   messageInRoom?: Maybe<Message>;
   newMessageReceived?: Maybe<Message>;
   newPost?: Maybe<Post>;
-  onlineUsers: Array<Scalars['String']['output']>;
+  onlineUsers: Array<User>;
 };
 
 
@@ -494,6 +501,13 @@ export type UpdatePostMutationVariables = Exact<{
 
 
 export type UpdatePostMutation = { __typename?: 'Mutation', data?: { __typename?: 'UploadAPostResponse', status: boolean, message: string, result?: { __typename?: 'Post', id: string, images: Array<string>, title: string, updatedAt: string, createdAt: string, content: string } | null } | null };
+
+export type LikePostMutationVariables = Exact<{
+  postId: Scalars['String']['input'];
+}>;
+
+
+export type LikePostMutation = { __typename?: 'Mutation', likePost: { __typename?: 'GetLikedPostResponse', status: boolean, message: string, likedPost?: string | null } };
 
 export type SendFriendRequestMutationVariables = Exact<{
   toId: Scalars['String']['input'];

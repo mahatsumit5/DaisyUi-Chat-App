@@ -1,36 +1,45 @@
-import { useState } from "react";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { Slideshow } from "./SlideShow";
-const ImageCarousel = ({ images }: { images: string[] }) => {
-  const numberOfImages = images.length;
-  const [currentSlide, setCurrentSlide] = useState(0);
+import { useState } from "react"
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io"
+import { Slideshow } from "./SlideShow"
+import { useAppDispatch } from "../../hooks/hook"
+import { setPostToDisplay } from "../../redux/reducer/ViewImg.slice"
+import { IPost } from "../../types"
+const ImageCarousel = ({ images, post }: { images: string[]; post: IPost }) => {
+  const dispatch = useAppDispatch()
+  const numberOfImages = images.length
+  const [currentSlide, setCurrentSlide] = useState(0)
   function handlesSlide(type: "prev" | "next") {
     switch (type) {
       case "prev":
         if (currentSlide === 0) {
-          setCurrentSlide(numberOfImages - 1);
+          setCurrentSlide(numberOfImages - 1)
         } else {
-          setCurrentSlide((prev) => prev - 1);
+          setCurrentSlide(prev => prev - 1)
         }
 
-        break;
+        break
       case "next":
         if (currentSlide === numberOfImages - 1) {
-          setCurrentSlide(0);
+          setCurrentSlide(0)
         } else {
-          setCurrentSlide((prev) => prev + 1);
+          setCurrentSlide(prev => prev + 1)
         }
-        break;
+        break
       default:
-        setCurrentSlide(0);
-        break;
+        setCurrentSlide(0)
+        break
     }
   }
   return (
-    <div className=" gap-5 flex items-center overflow-hidden h-auto relative">
+    <div
+      className=" gap-5 flex items-center overflow-hidden h-auto relative hover:cursor-pointer"
+      onClick={() => {
+        dispatch(setPostToDisplay(post))
+      }}
+    >
       <button
         onClick={() => {
-          handlesSlide("prev");
+          handlesSlide("prev")
         }}
         className="btn btn-circle btn-sm btn-primary absolute left-0"
       >
@@ -41,14 +50,14 @@ const ImageCarousel = ({ images }: { images: string[] }) => {
       </div>
       <button
         onClick={() => {
-          handlesSlide("next");
+          handlesSlide("next")
         }}
         className="btn btn-circle btn-primary btn-sm absolute right-0"
       >
         <IoIosArrowForward />
       </button>
     </div>
-  );
-};
+  )
+}
 
-export default ImageCarousel;
+export default ImageCarousel

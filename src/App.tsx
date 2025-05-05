@@ -20,6 +20,7 @@ import { SocketProvider } from "./contexts/SocketProvider"
 import Home from "./pages/Home"
 import HomeMessageBox from "./components/HomeMessageBoc/HomeMessageBox"
 import { userGraphqlApi } from "./graphql/api/userGraphql.api"
+import ViewImg from "./components/post/ViewImg"
 
 export default function App() {
   useLoggedInUserQuery(
@@ -110,6 +111,7 @@ export default function App() {
         <Loading />
         <Toast />
         <HomeMessageBox />
+        <ViewImg />
       </div>
     </SocketProvider>
   )

@@ -80,3 +80,11 @@ mutation UpdatePost(
     message
   }
 }
+
+mutation LikePost($postId: String!) {
+  likePost(postId: $postId) {
+    status
+    message
+    likedPost
+  }
+}

@@ -32,7 +32,6 @@ const postGraphqlApi = generatedApi.enhanceEndpoints({
         }
       },
       serializeQueryArgs: ({ endpointName }) => {
-        console.log(endpointName)
         return endpointName
       },
       merge: (cacheData, incomingData) => {
@@ -62,6 +61,46 @@ const postGraphqlApi = generatedApi.enhanceEndpoints({
     },
     UpdatePost: {
       invalidatesTags: ["Posts"],
+    },
+    LikePost: {
+      invalidatesTags: ["Posts"],
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          const { data } = await queryFulfilled
+          dispatch(
+            postGraphqlApi.util.updateQueryData(
+              "GetAllPosts",
+              { args: { page: 1, take: 10 } },
+              draft => {
+                if (draft.data?.posts != null) {
+                  return {
+                    ...draft,
+                    posts: draft.data?.posts.map(post => {
+                      if (
+                        post.id === data.likePost.likedPost &&
+                        post._count != null
+                      ) {
+                        return {
+                          ...post,
+                          hasLiked: true,
+                          _count: {
+                            comments: post._count.comments,
+                            likes: post._count.likes + 1,
+                          },
+                        }
+                      } else {
+                        return post
+                      }
+                    }),
+                  }
+                }
+              }
+            )
+          )
+        } catch (error) {
+          console.log(error)
+        }
+      },
     },
   },
 })

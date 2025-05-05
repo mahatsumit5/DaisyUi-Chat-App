@@ -16,6 +16,7 @@ import loaderReducer from "../reducer/loader.slice"
 import paginationReducer from "../reducer/pagination.slice"
 import searchReducer from "../reducer/search.slice"
 import postReducer from "../reducer/post.slice"
+import viewImageReducer from "../reducer/ViewImg.slice"
 import HomeMessageBox from "../reducer/HomeMessageBox"
 import { userGraphqlApi } from "../../graphql/api/userGraphql.api"
 import { postGraphqlApi } from "../../graphql/api/postGraphql.api"
@@ -23,6 +24,7 @@ import { userEnhancedApi } from "./user.injectedApi"
 import { friendReqGraphqlApi } from "../../graphql/api/friendReqGraphql.api"
 import { chatRoomGraphqlApi } from "../../graphql/api/chatRoomGraphql.api"
 import { messageGraphqlApi } from "../../graphql/api/messageGraphql.api"
+
 export const {
   useAcceptFriendReqMutation,
   useGetSentFriendRequestQuery,
@@ -50,7 +52,6 @@ export const { useGetAllChatRoomQuery, useDeleteChatRoomMutation } = roomApi
 export const {
   useGetPostsQuery,
   useDeletePostMutation,
-  useLikePostMutation,
   useRemoveLikeMutation,
   useUploadFileMutation,
 } = postApi
@@ -73,6 +74,7 @@ export const {
   useGetAllPostsQuery,
   useCreatePostMutation,
   useUpdatePostMutation,
+  useLikePostMutation,
 } = postGraphqlApi
 
 export const { useGetAllChatRoomsQuery } = chatRoomGraphqlApi
@@ -98,4 +100,5 @@ export {
   searchReducer,
   HomeMessageBox,
   postReducer,
+  viewImageReducer,
 }
