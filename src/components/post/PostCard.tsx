@@ -17,7 +17,6 @@ import {
 import CommentDialog from "./CommentDialog"
 import { motion, useInView } from "framer-motion"
 import { Avatar } from "../Avatar/Avatar"
-import { socket } from "../../redux/reducer/socket.slice"
 
 const PostCard = ({ post }: { post: IPost }) => {
   const formObj = {
@@ -53,7 +52,7 @@ const PostCard = ({ post }: { post: IPost }) => {
   }
 
   async function handleOnLike() {
-    const data = await likePost({ postId: post.id }).unwrap()
+    await likePost({ postId: post.id }).unwrap()
   }
 
   async function handleOnRemoveLike() {
@@ -65,7 +64,7 @@ const PostCard = ({ post }: { post: IPost }) => {
       setEditing(false)
 
       try {
-        await updatePost({ ...form, id: post.id }).unwrap()
+        await updatePost({ ...form, updatePostId: post.id }).unwrap()
       } catch (error) {
         console.log(error)
       }

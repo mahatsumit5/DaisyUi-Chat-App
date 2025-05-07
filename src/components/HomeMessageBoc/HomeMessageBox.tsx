@@ -159,6 +159,7 @@ const HomeMessageBox = () => {
               email={chatRoom.email}
               roomId={chatRoom.id}
               userId={user?.id as string}
+              receiverId=""
             />
           </motion.section>
         </motion.div>

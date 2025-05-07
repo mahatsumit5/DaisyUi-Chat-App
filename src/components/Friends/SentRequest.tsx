@@ -7,11 +7,11 @@ import LoaderCard from "./LoaderCard"
 
 const SentRequest = () => {
   const { query, type } = useAppSelector(store => store.search)
-  const { page } = useAppSelector(store => store.pagination)
+  const { users } = useAppSelector(store => store.pagination)
 
   const { isFetching, error, data } = useGetSentFriendRequestQuery(
     {
-      page,
+      page: users.currentPage,
       search: query,
       take: 10,
     },

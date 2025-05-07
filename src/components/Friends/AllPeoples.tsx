@@ -7,14 +7,14 @@ import { Order, User } from "../../types/types"
 
 function AllPeoples() {
   const numberOfContentPerPage = 8
-  const { page } = useAppSelector(store => store.pagination)
+  const { users } = useAppSelector(store => store.pagination)
   const { query } = useAppSelector(store => store.search)
 
   const { data, error, isFetching } = useGetAllUsersQuery(
     {
       params: {
         order: Order.Asc,
-        page,
+        page: users.currentPage,
         take: 8,
         search: query,
       },
