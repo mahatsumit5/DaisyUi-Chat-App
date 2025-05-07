@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
+const apiUrl = import.meta.env.VITE_ROOTSERVER
 
 export const baseApiWithRestAPI = createApi({
   reducerPath: "RESTBaseAPI",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8000/api/v1/",
+    baseUrl: apiUrl,
     prepareHeaders: headers => {
       return headers.set(
         "Authorization",

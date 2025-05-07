@@ -3,12 +3,12 @@ import { fetchBaseQuery, createApi } from "@reduxjs/toolkit/query/react"
 import { graphqlRequestBaseQuery } from "@rtk-query/graphql-request-base-query"
 import { GraphQLClient } from "graphql-request" // Import type definitions from the generated file
 import { Mutex } from "async-mutex"
-
+const apiUrl = import.meta.env.VITE_ROOTSERVER
 const HEADER_TYPE_APPLICATION_FORM = "application/x-www-form-urlencoded"
-export const client: any = new GraphQLClient("http://localhost:8000/graphql")
+export const client: any = new GraphQLClient(apiUrl)
 const mutex = new Mutex()
 const authBaseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:8000/graphql",
+  baseUrl: apiUrl,
 })
 
 const graphqlBaseQuery = graphqlRequestBaseQuery({
@@ -18,7 +18,6 @@ const graphqlBaseQuery = graphqlRequestBaseQuery({
       "Authorization",
       `Bearer ${sessionStorage.getItem("accessJWT") as string}`
     )
-    headers.set("test", "thisisatest")
     return headers
   },
 })

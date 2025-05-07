@@ -7,7 +7,6 @@ import {
   ILikeCommentResponse,
   IUnlikeLikeCommentResponse,
 } from "../../types"
-import { postApi } from "./post"
 const url = rootApi + "api/v1/comment"
 
 export const commentApi = createApi({

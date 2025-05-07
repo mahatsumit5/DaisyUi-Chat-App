@@ -73,7 +73,7 @@ export const messageApi = createApi({
         `?id=${roomId}&&take=${take}&&skip=0&&platform=web`,
       onCacheEntryAdded: async (
         arg,
-        { cacheDataLoaded, cacheEntryRemoved, updateCachedData }
+        { cacheDataLoaded, cacheEntryRemoved }
       ) => {
         try {
           // wait for initial query to resolve before proceeding
