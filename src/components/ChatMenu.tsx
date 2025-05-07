@@ -20,7 +20,7 @@ function ChatMenu() {
     {
       skip: type !== "Messages" ? true : false,
       // pollingInterval: 2000,
-      refetchOnReconnect: true,
+      // refetchOnReconnect: true,
       // refetchOnMountOrArgChange: true,
     }
   )

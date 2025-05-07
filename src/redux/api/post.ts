@@ -219,5 +219,5 @@ export const postApi = createApi({
     }),
   }),
   refetchOnMountOrArgChange: false,
-  refetchOnReconnect: true,
+  // refetchOnReconnect: true,
 })
