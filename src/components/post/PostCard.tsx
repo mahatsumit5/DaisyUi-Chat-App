@@ -11,7 +11,7 @@ import ImageCarousel from "./ImageCarousel"
 import {
   useDeletePostMutation,
   useLikePostMutation,
-  useRemoveLikeMutation,
+  useUnlikePostMutation,
   useUpdatePostMutation,
 } from "../../redux/api"
 import CommentDialog from "./CommentDialog"
@@ -27,7 +27,7 @@ const PostCard = ({ post }: { post: IPost }) => {
   const { user } = useAppSelector(store => store.user)
 
   const [likePost] = useLikePostMutation()
-  const [removeLike] = useRemoveLikeMutation()
+  const [removeLike] = useUnlikePostMutation()
   const [updatePost] = useUpdatePostMutation()
   const [deletePost] = useDeletePostMutation()
 
@@ -56,7 +56,7 @@ const PostCard = ({ post }: { post: IPost }) => {
   }
 
   async function handleOnRemoveLike() {
-    await removeLike(post.id)
+    await removeLike({ postId: post.id })
   }
   async function handleUpdatePost(e: handlePostEvent) {
     if (e.key === "Enter") {

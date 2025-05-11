@@ -75,6 +75,7 @@ export const {
   useCreatePostMutation,
   useUpdatePostMutation,
   useLikePostMutation,
+  useUnlikePostMutation,
 } = postGraphqlApi
 
 export const { useGetAllChatRoomsQuery } = chatRoomGraphqlApi

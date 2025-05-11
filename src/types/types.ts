@@ -184,7 +184,7 @@ export type Mutation = {
   sendMessage?: Maybe<SendMessageResponse>;
   /** Send friend request to other user */
   sendRequest?: Maybe<SentRequestResponse>;
-  unlikePost: GetPostByUserIdResponse;
+  unlikePost: UnlikePostResponse;
   updatePost?: Maybe<UploadAPostResponse>;
   updateUser?: Maybe<UpdateUserResponse>;
   uploadPost: UploadAPostResponse;
@@ -413,6 +413,13 @@ export type SubscriptionNewMessageReceivedArgs = {
   yourUserId: Scalars['ID']['input'];
 };
 
+export type UnlikePostResponse = {
+  __typename?: 'UnlikePostResponse';
+  data?: Maybe<Scalars['String']['output']>;
+  message: Scalars['String']['output'];
+  status: Scalars['Boolean']['output'];
+};
+
 export type UpdateUserResponse = {
   __typename?: 'UpdateUserResponse';
   data?: Maybe<User>;
@@ -508,6 +515,13 @@ export type LikePostMutationVariables = Exact<{
 
 
 export type LikePostMutation = { __typename?: 'Mutation', likePost: { __typename?: 'GetLikedPostResponse', status: boolean, message: string, likedPost?: string | null } };
+
+export type UnlikePostMutationVariables = Exact<{
+  postId: Scalars['String']['input'];
+}>;
+
+
+export type UnlikePostMutation = { __typename?: 'Mutation', unlikePost: { __typename?: 'UnlikePostResponse', status: boolean, message: string, data?: string | null } };
 
 export type SendFriendRequestMutationVariables = Exact<{
   toId: Scalars['String']['input'];

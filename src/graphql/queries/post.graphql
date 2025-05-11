@@ -88,3 +88,10 @@ mutation LikePost($postId: String!) {
     likedPost
   }
 }
+mutation UnlikePost($postId: String!) {
+  unlikePost(postId: $postId) {
+    status
+    message
+    data
+  }
+}

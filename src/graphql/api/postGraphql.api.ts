@@ -7,6 +7,7 @@ const postGraphqlApi = generatedApi.enhanceEndpoints({
   addTagTypes: ["Posts"],
   endpoints: {
     GetAllPosts: {
+      providesTags: ["Posts"],
       onCacheEntryAdded: async (
         arg,
         { cacheDataLoaded, cacheEntryRemoved }
@@ -63,37 +64,92 @@ const postGraphqlApi = generatedApi.enhanceEndpoints({
       invalidatesTags: ["Posts"],
     },
     LikePost: {
-      invalidatesTags: ["Posts"],
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
           const { data } = await queryFulfilled
+          console.log(data)
+
           dispatch(
             postGraphqlApi.util.updateQueryData(
               "GetAllPosts",
               { args: { page: 1, take: 10 } },
               draft => {
                 if (draft.data?.posts != null) {
+                  const postTochange = draft.data.posts.find(
+                    post => post.id === data.likePost.likedPost
+                  )
                   return {
                     ...draft,
-                    posts: draft.data?.posts.map(post => {
-                      if (
-                        post.id === data.likePost.likedPost &&
-                        post._count != null
-                      ) {
-                        return {
-                          ...post,
-                          hasLiked: true,
-                          _count: {
-                            comments: post._count.comments,
-                            likes: post._count.likes + 1,
-                          },
+                    data: {
+                      ...draft.data,
+                      posts: draft.data?.posts.map(post => {
+                        if (
+                          post.id === postTochange?.id &&
+                          post._count != null
+                        ) {
+                          return {
+                            ...post,
+                            hasLiked: true,
+                            _count: {
+                              comments: post._count.comments,
+                              likes: post._count.likes + 1,
+                            },
+                          }
+                        } else {
+                          return post
                         }
-                      } else {
-                        return post
-                      }
-                    }),
+                      }),
+                    },
                   }
                 }
+                return draft
+              }
+            )
+          )
+        } catch (error) {
+          console.log(error)
+        }
+      },
+    },
+    UnlikePost: {
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          const { data } = await queryFulfilled
+
+          dispatch(
+            postGraphqlApi.util.updateQueryData(
+              "GetAllPosts",
+              { args: { page: 1, take: 10 } },
+              draft => {
+                if (draft.data?.posts != null) {
+                  const postTochange = draft.data.posts.find(
+                    post => post.id === data.unlikePost.data
+                  )
+                  return {
+                    ...draft,
+                    data: {
+                      ...draft.data,
+                      posts: draft.data?.posts.map(post => {
+                        if (
+                          post.id === postTochange?.id &&
+                          post._count != null
+                        ) {
+                          return {
+                            ...post,
+                            hasLiked: false,
+                            _count: {
+                              comments: post._count.comments,
+                              likes: post._count.likes - 1,
+                            },
+                          }
+                        } else {
+                          return post
+                        }
+                      }),
+                    },
+                  }
+                }
+                return draft
               }
             )
           )

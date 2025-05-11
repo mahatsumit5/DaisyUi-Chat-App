@@ -32,6 +32,13 @@ export type LikePostMutationVariables = Types.Exact<{
 
 export type LikePostMutation = { __typename?: 'Mutation', likePost: { __typename?: 'GetLikedPostResponse', status: boolean, message: string, likedPost?: string | null } };
 
+export type UnlikePostMutationVariables = Types.Exact<{
+  postId: Types.Scalars['String']['input'];
+}>;
+
+
+export type UnlikePostMutation = { __typename?: 'Mutation', unlikePost: { __typename?: 'UnlikePostResponse', status: boolean, message: string, data?: string | null } };
+
 
 export const GetAllPostsDocument = `
     query GetAllPosts($args: GetAllPostArgs) {
@@ -124,6 +131,15 @@ export const LikePostDocument = `
   }
 }
     `;
+export const UnlikePostDocument = `
+    mutation UnlikePost($postId: String!) {
+  unlikePost(postId: $postId) {
+    status
+    message
+    data
+  }
+}
+    `;
 
 const injectedRtkApi = baseApiWithGraphql.injectEndpoints({
   endpoints: (build) => ({
@@ -139,9 +155,12 @@ const injectedRtkApi = baseApiWithGraphql.injectEndpoints({
     LikePost: build.mutation<LikePostMutation, LikePostMutationVariables>({
       query: (variables) => ({ document: LikePostDocument, variables })
     }),
+    UnlikePost: build.mutation<UnlikePostMutation, UnlikePostMutationVariables>({
+      query: (variables) => ({ document: UnlikePostDocument, variables })
+    }),
   }),
 });
 
 export { injectedRtkApi as api };
-export const { useGetAllPostsQuery, useLazyGetAllPostsQuery, useCreatePostMutation, useUpdatePostMutation, useLikePostMutation } = injectedRtkApi;
+export const { useGetAllPostsQuery, useLazyGetAllPostsQuery, useCreatePostMutation, useUpdatePostMutation, useLikePostMutation, useUnlikePostMutation } = injectedRtkApi;
 
