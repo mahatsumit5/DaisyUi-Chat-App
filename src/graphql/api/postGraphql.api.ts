@@ -2,6 +2,7 @@ import {
   setTotalNumberOfPage,
   Type,
 } from "../../redux/reducer/pagination.slice"
+import { notification } from "../../utils/notification"
 import { api as generatedApi } from "../queries/post.generated"
 const postGraphqlApi = generatedApi.enhanceEndpoints({
   addTagTypes: ["Posts"],
@@ -67,7 +68,6 @@ const postGraphqlApi = generatedApi.enhanceEndpoints({
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
           const { data } = await queryFulfilled
-          console.log(data)
 
           dispatch(
             postGraphqlApi.util.updateQueryData(
@@ -106,6 +106,7 @@ const postGraphqlApi = generatedApi.enhanceEndpoints({
               }
             )
           )
+          notification.play()
         } catch (error) {
           console.log(error)
         }

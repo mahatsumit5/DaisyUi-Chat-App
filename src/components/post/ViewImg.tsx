@@ -5,11 +5,9 @@ import { IPost } from "../../types"
 import { IoIosClose } from "react-icons/io"
 import { closeImgBox } from "../../redux/reducer/ViewImg.slice"
 import { AnimatePresence, motion } from "framer-motion"
-import { SlLike } from "react-icons/sl"
-import { FaRegComment } from "react-icons/fa6"
-import { CiShare2 } from "react-icons/ci"
+
 import CommentDialog from "./CommentDialog"
-import { toggleCommentDrawer } from "../../redux/reducer/comment.drawer"
+import Reaction from "./Reaction"
 
 const variants = {
   open: { opacity: 1, display: "flex" },
@@ -21,6 +19,7 @@ const ViewImg = () => {
   function handleClose() {
     dispatch(closeImgBox())
   }
+
   return isOpen && post != null ? (
     <AnimatePresence>
       <motion.div
@@ -51,26 +50,7 @@ const ViewImg = () => {
             <p className="font-sans text-xs ">{post.content}</p>
 
             {/* Interaction section */}
-            <div className="flex justify-between">
-              <button className="btn btn-primary btn-ghost btn-sm ">
-                <SlLike />
-                <span className="font-xs font-sans">Like</span>
-              </button>
-              <button
-                className="btn btn-primary btn-ghost btn-sm "
-                onClick={() => {
-                  dispatch(toggleCommentDrawer(post.id))
-                }}
-              >
-                <FaRegComment />
-                <span className="font-xs font-sans">Comment</span>
-              </button>
-              <button className="btn btn-primary btn-ghost btn-sm ">
-                <CiShare2 />
-                <span className="font-xs font-sans">Share</span>
-              </button>
-            </div>
-
+            <Reaction post={post} key={post.id} />
             {/* comment section */}
 
             <CommentDialog

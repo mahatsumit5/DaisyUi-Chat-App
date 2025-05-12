@@ -2,8 +2,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import { messageApiUrl } from "./serverUrl"
 import { IMessage, IMessageResponse } from "../../types"
 import { socket } from "../reducer/socket.slice"
-import notificatioDing from "../../assets/notification_ding.mp3"
-const notification = new Audio(notificatioDing)
+import { notification } from "../../utils/notification"
+
 type sendMessagePArams = {
   content: string | File
   roomId: string

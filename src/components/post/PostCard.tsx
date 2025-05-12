@@ -1,33 +1,23 @@
-import { FcLike } from "react-icons/fc"
 import { IPost } from "../../types"
-import { FaRegComment } from "react-icons/fa"
-import { IoIosHeartEmpty, IoMdMore, IoMdShareAlt } from "react-icons/io"
-import { useAppDispatch, useAppSelector } from "../../hooks/hook"
-import { toggleCommentDrawer } from "../../redux/reducer/comment.drawer"
+import { IoMdMore } from "react-icons/io"
+import { useAppSelector } from "../../hooks/hook"
 import { dateConverter, extractInitial } from "../../utils"
 import { MdDeleteOutline, MdOutlineEdit } from "react-icons/md"
 import React, { ChangeEvent, useEffect, useRef, useState } from "react"
 import ImageCarousel from "./ImageCarousel"
-import {
-  useDeletePostMutation,
-  useLikePostMutation,
-  useUnlikePostMutation,
-  useUpdatePostMutation,
-} from "../../redux/api"
+import { useDeletePostMutation, useUpdatePostMutation } from "../../redux/api"
 import CommentDialog from "./CommentDialog"
 import { motion, useInView } from "framer-motion"
 import { Avatar } from "../Avatar/Avatar"
+import Reaction from "./Reaction"
 
 const PostCard = ({ post }: { post: IPost }) => {
   const formObj = {
     title: post.title,
     content: post.content,
   }
-  const dispatch = useAppDispatch()
   const { user } = useAppSelector(store => store.user)
 
-  const [likePost] = useLikePostMutation()
-  const [removeLike] = useUnlikePostMutation()
   const [updatePost] = useUpdatePostMutation()
   const [deletePost] = useDeletePostMutation()
 
@@ -51,13 +41,6 @@ const PostCard = ({ post }: { post: IPost }) => {
     setForm({ ...form, [e.target.name]: e.target.value })
   }
 
-  async function handleOnLike() {
-    await likePost({ postId: post.id }).unwrap()
-  }
-
-  async function handleOnRemoveLike() {
-    await removeLike({ postId: post.id })
-  }
   async function handleUpdatePost(e: handlePostEvent) {
     if (e.key === "Enter") {
       e.preventDefault()
@@ -182,28 +165,7 @@ const PostCard = ({ post }: { post: IPost }) => {
         {post._count.likes} likes {post._count.comments} comments
       </p>
       {/* Reaction Buttons */}
-      <div className="flex gap-2">
-        {post.hasLiked ? (
-          <button className="btn btn-xs btn-ghost" onClick={handleOnRemoveLike}>
-            <FcLike size={20} />
-          </button>
-        ) : (
-          <button className="btn btn-xs btn-ghost" onClick={handleOnLike}>
-            <IoIosHeartEmpty size={20} />
-          </button>
-        )}
-        <button className="btn btn-xs btn-ghost">
-          <IoMdShareAlt size={20} />
-        </button>
-        <button
-          className="btn btn-xs btn-ghost"
-          onClick={() => {
-            dispatch(toggleCommentDrawer(post.id))
-          }}
-        >
-          <FaRegComment size={20} />
-        </button>
-      </div>
+      <Reaction post={post} key={post.id} />
 
       {/* Comment section */}
 
