@@ -135,8 +135,11 @@ const PostCard = ({ post }: { post: IPost }) => {
         )}
       </div>
       {/* Content */}
-      <div className=" min-h-20 flex flex-col gap-2">
-        <div className="flex flex-col gap-2" ref={ContainerRef}>
+      <div className=" min-h-20 flex flex-col gap-2 ">
+        <div
+          className="flex flex-col gap-2 overflow-hidden line-clamp-2"
+          ref={ContainerRef}
+        >
           <input
             className="text-lg font-semibold  disabled:cursor-text w-full focus:input focus:input-sm bg-base-100  "
             disabled={!editing}
@@ -147,7 +150,7 @@ const PostCard = ({ post }: { post: IPost }) => {
             onChange={handleInputChange}
           />
           <textarea
-            className="text-sm   w-full  resize-none  disabled:text-base-content focus:input focus:input-sm border-none bg-base-100  "
+            className="text-sm   w-full line-clamp-2 resize-none  disabled:text-base-content focus:input focus:input-sm border-none bg-base-100  "
             disabled={!editing}
             value={form.content}
             name="content"
