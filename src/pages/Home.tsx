@@ -14,8 +14,7 @@ import { Link } from "react-router-dom"
 import { IPost, IUser } from "../types"
 import { Order } from "../types/types"
 import { setCurrentPage, Type } from "../redux/reducer/pagination.slice"
-import ViewImg from "../components/post/ViewImg"
-
+import useInfiniteScroll from "../hooks/useInfiniteScroll.hook"
 const Home = () => {
   const [position, setPostion] = useState((window.innerWidth - 1280) / 2)
   const dispatch = useAppDispatch()
@@ -23,16 +22,29 @@ const Home = () => {
 
   const { query } = useAppSelector(store => store.search)
 
+  // const {
+  //   isError,
+  //   isFetching: fetchingPost,
+  //   data: posts,
+  // } = useGetAllPostsQuery(
+  //   { args: { page: post.currentPage, take: 10 } },
+  //   {
+  //     refetchOnMountOrArgChange: true,
+  //     refetchOnReconnect: true,
+  //   }
+  // )
+
   const {
+    data: posts,
     isError,
     isFetching: fetchingPost,
-    data: posts,
-  } = useGetAllPostsQuery(
-    { args: { page: post.currentPage, take: 10 } },
+  } = useInfiniteScroll(
+    post.currentPage,
+    useGetAllPostsQuery,
     {
-      refetchOnMountOrArgChange: true,
-      refetchOnReconnect: true,
-    }
+      args: { page: post.currentPage, take: 10 },
+    },
+    { refetchOnMountOrArgChange: true, refetchOnReconnect: true }
   )
   const {
     isLoading,
