@@ -4,8 +4,8 @@ import { closeDialog } from "../../redux/reducer/dialog.slice"
 import { motion, AnimatePresence } from "framer-motion"
 import { useNavigate } from "react-router-dom"
 const variants = {
-  open: { opacity: 1, scale: 1 },
-  closed: { opacity: 0, scale: 0 },
+  open: { opacity: 1, scale: 1, display: "flex" },
+  closed: { opacity: 0, scale: 0, display: "hidden" },
 }
 const Dialog = () => {
   const dispatch = useAppDispatch()
@@ -13,7 +13,7 @@ const Dialog = () => {
   return (
     <AnimatePresence>
       <motion.div
-        className="h-screen absolute w-screen bg-black/55 flex justify-center items-center transition-all"
+        className=" fixed top-0 h-screen  w-screen bg-black/55 flex justify-center items-center transition-all"
         animate={open ? "open" : "closed"}
         variants={variants}
       >

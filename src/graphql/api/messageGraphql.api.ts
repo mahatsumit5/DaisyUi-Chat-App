@@ -6,15 +6,23 @@ export const messageGraphqlApi = generatedApi.enhanceEndpoints({
     SendMessage: {
       onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         try {
-          await queryFulfilled
+          const { data } = await queryFulfilled
+          console.log(data.sendMessage?.data)
           dispatch(
-            messageGraphqlApi.endpoints.GetMessages.initiate({
-              input: {
-                roomId: arg.roomId,
-                skip: 0,
-                take: 20,
-              },
-            })
+            messageGraphqlApi.util.updateQueryData(
+              "GetMessages",
+              { input: { roomId: arg.roomId, skip: 0, take: 10 } },
+              draft => ({
+                ...draft,
+                getMessagesByRoomId: {
+                  ...draft.getMessagesByRoomId!,
+                  _count: draft.getMessagesByRoomId!._count,
+                  data: draft.getMessagesByRoomId!.data.concat(
+                    data.sendMessage?.data!
+                  ),
+                },
+              })
+            )
           )
         } catch (error) {
           console.log(error)

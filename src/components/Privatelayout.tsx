@@ -3,36 +3,58 @@ import { Navigate, useLocation } from "react-router-dom"
 import Sidebar from "./Sidebar"
 import NavBar from "./NavBar/NavBar"
 import React from "react"
-import { toggleDialog } from "../redux/reducer/dialog.slice"
 import useSubscriptionHook from "../hooks/useSubscription.hook"
 import {
   LIST_OF_ONLINE_USERS,
   SUBS_TO_YOUR_MESSAGE,
 } from "../graphql/subscriptions/newMessageReceived"
 import { setOnlineUsers } from "../redux/reducer/AllUsers.slice"
-import { User } from "../types/types"
+import { Message, User } from "../types/types"
+import { notification } from "../utils/notification"
+import { messageGraphqlApi } from "../graphql/api/messageGraphql.api"
 
 function Privatelayout({ children }: { children: React.ReactNode }) {
   const location = useLocation()
   const dispatch = useAppDispatch()
+
   useSubscriptionHook(SUBS_TO_YOUR_MESSAGE, {
     variables: {
       yourUserId: JSON.parse(sessionStorage.getItem("userId") as string),
     },
-    onData: () => {
+    onData: data => {
+      const newMessge: Message = data.data.data.newMessageReceived
+      // dispatch(
+      //   toggleDialog({
+      //     content: "You  have a new message",
+      //     heading: "New Message",
+      //     type: "request",
+      //   })
+      // )
+      console.log(newMessge.chatRoomId)
+      notification.play()
       dispatch(
-        toggleDialog({
-          content: "You  have a new message",
-          heading: "New Message",
-          type: "request",
-        })
+        messageGraphqlApi.util.updateQueryData(
+          "GetMessages",
+          { input: { roomId: newMessge.chatRoomId, skip: 0, take: 10 } },
+          draft => ({
+            __typename: draft.__typename,
+            getMessagesByRoomId: {
+              status: true,
+              message: "Messages",
+              data: draft.getMessagesByRoomId!.data.concat(newMessge),
+              _count: draft.getMessagesByRoomId?._count! + 1,
+            },
+          })
+        )
       )
+    },
+    onError(error) {
+      console.log("error", error)
     },
   })
 
   useSubscriptionHook(LIST_OF_ONLINE_USERS, {
     onData(options) {
-      console.log(options.data.data.onlineUsers)
       dispatch(
         setOnlineUsers(
           options.data.data.onlineUsers.map((user: User) => user.id)

@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/hook"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { IPost, IUser } from "../types"
-import { Order } from "../types/types"
+import { GetAllPostArgs, InputMaybe, Order } from "../types/types"
 import { setCurrentPage, Type } from "../redux/reducer/pagination.slice"
 import useInfiniteScroll from "../hooks/useInfiniteScroll.hook"
 const Home = () => {
@@ -38,7 +38,7 @@ const Home = () => {
     data: posts,
     isError,
     isFetching: fetchingPost,
-  } = useInfiniteScroll(
+  } = useInfiniteScroll<InputMaybe<GetAllPostArgs>>(
     post.currentPage,
     useGetAllPostsQuery,
     {
@@ -59,12 +59,16 @@ const Home = () => {
     },
   })
 
+  // const {
+  //   isError: friendError,
+  //   isLoading: friendLoading,
+  //   data: friends,
+  // } = useGetListOfFriendsQuery()
   const {
-    isError: friendError,
-    isLoading: friendLoading,
     data: friends,
-  } = useGetListOfFriendsQuery()
-
+    isError: friendError,
+    isFetching: friendLoading,
+  } = useInfiniteScroll<{ [key: string]: never }>(2, useGetListOfFriendsQuery)
   useEffect(() => {
     const handlOnResize = () => {
       const newPosition = (window.innerWidth - 1280) / 2

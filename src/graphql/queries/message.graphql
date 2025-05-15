@@ -20,11 +20,14 @@ mutation SendMessage(
 
       chatRoomId
       author {
+        id
         email
         fName
         lName
         isActive
         profile
+        bio
+        coverPicture
       }
       authorId
       groupChatId

@@ -3,7 +3,8 @@ import { useAppSelector } from "../../hooks/hook"
 import LoaderCard from "./LoaderCard"
 import FriendCard from "./FriendCard"
 import Pagination from "../pagination/Pagination"
-import { Order, User } from "../../types/types"
+import { AllUser, InputMaybe, Order, User } from "../../types/types"
+import useInfiniteScroll from "../../hooks/useInfiniteScroll.hook"
 
 function AllPeoples() {
   const numberOfContentPerPage = 8
@@ -26,6 +27,18 @@ function AllPeoples() {
       // pollingInterval: 2000, refetch every 2 seconds
     }
   )
+  // const {
+  //   data,
+  //   isError: error,
+  //   isFetching,
+  // } = useInfiniteScroll<InputMaybe<AllUser>>(1, useGetAllUsersQuery, {
+  //   params: {
+  //     order: Order.Asc,
+  //     page: users.currentPage,
+  //     take: 5,
+  //     search: query,
+  //   },
+  // })
 
   return (
     <>

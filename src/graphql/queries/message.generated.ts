@@ -9,7 +9,7 @@ export type SendMessageMutationVariables = Types.Exact<{
 }>;
 
 
-export type SendMessageMutation = { __typename?: 'Mutation', sendMessage?: { __typename?: 'SendMessageResponse', status: boolean, message: string, data?: { __typename?: 'Message', id: string, content: string, createdAt: string, isSeen: boolean, chatRoomId: string, authorId: string, groupChatId?: string | null, author: { __typename?: 'User', email: string, fName: string, lName: string, isActive: boolean, profile?: string | null } } | null } | null };
+export type SendMessageMutation = { __typename?: 'Mutation', sendMessage?: { __typename?: 'SendMessageResponse', status: boolean, message: string, data?: { __typename?: 'Message', id: string, content: string, createdAt: string, isSeen: boolean, chatRoomId: string, authorId: string, groupChatId?: string | null, author: { __typename?: 'User', id: string, email: string, fName: string, lName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null } } | null } | null };
 
 export type GetMessagesQueryVariables = Types.Exact<{
   input?: Types.InputMaybe<Types.MessageByRoomIdParams>;
@@ -36,11 +36,14 @@ export const SendMessageDocument = `
       isSeen
       chatRoomId
       author {
+        id
         email
         fName
         lName
         isActive
         profile
+        bio
+        coverPicture
       }
       authorId
       groupChatId
