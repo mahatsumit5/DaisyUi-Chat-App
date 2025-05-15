@@ -4,17 +4,18 @@ import { motion } from "framer-motion"
 import { toggleCommentDrawer } from "../../redux/reducer/comment.drawer"
 import { IoCloseCircleSharp } from "react-icons/io5"
 import {
+  useCreateCommentMutation,
   useGetCommentsQuery,
   useLikeCommentMutation,
-  usePostCommentMutation,
   useUnlikeCommentMutation,
 } from "../../redux/api"
-import { IComment, IUser } from "../../types"
+import { IComment } from "../../types"
 import { dateConverter, extractInitial } from "../../utils"
 import { LuHeart } from "react-icons/lu"
 import { Avatar } from "../Avatar/Avatar"
 import CommentDropdown from "./CommentDropdown"
 import { RiHeartFill } from "react-icons/ri"
+import { User } from "../../types/types"
 const variants = {
   open: { opacity: 1, height: "auto", display: "block" },
   closed: { opacity: 0, height: 0, display: "hidden" },
@@ -23,10 +24,10 @@ const CommentDialog = ({
   postId,
   author,
 }: {
-  author: IUser
+  author: User
   postId: string
 }) => {
-  const [postComment] = usePostCommentMutation()
+  const [postComment] = useCreateCommentMutation()
   const [likeComment] = useLikeCommentMutation()
   const [unlikeComment] = useUnlikeCommentMutation()
 
@@ -35,10 +36,10 @@ const CommentDialog = ({
   const { isOpen, postId: id } = useAppSelector(store => store.comment)
   const { user } = useAppSelector(store => store.user)
 
-  const { data: comments } = useGetCommentsQuery(postId, {
-    skip: !isOpen,
-  })
-
+  const { data: comments } = useGetCommentsQuery(
+    { postId: id },
+    { skip: !isOpen }
+  )
   const inputRef = useRef<HTMLInputElement>(null)
   const formRef = useRef<HTMLFormElement>(null)
 
@@ -96,9 +97,9 @@ const CommentDialog = ({
       </div>
       {/* content */}
 
-      {comments?.length ? (
+      {comments?.getComments.data.length ? (
         <div className="py-4  flex-1 flex flex-col gap-4">
-          {comments.map(comment => (
+          {comments.getComments.data.map(comment => (
             <div key={comment.id} className="flex flex-col gap-2 ">
               {/* Comment header profile name time */}
               <div className="flex gap-2 items-center justify-between">

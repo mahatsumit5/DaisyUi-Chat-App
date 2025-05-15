@@ -1,0 +1,114 @@
+query GetComments($postId: String!) {
+  getComments(postId: $postId) {
+    status
+    message
+    count
+    data {
+      id
+      content
+      postId
+      authorId
+      createdAt
+      updatedAt
+      author {
+        id
+        email
+        fName
+        lName
+        isActive
+        profile
+        bio
+        coverPicture
+      }
+      likes {
+        commentId
+        userId
+        user {
+          id
+          email
+          fName
+          lName
+          isActive
+          profile
+          bio
+          coverPicture
+        }
+      }
+      replies {
+        reply {
+          id
+          content
+          postId
+          authorId
+          createdAt
+          updatedAt
+        }
+        replyId
+      }
+    }
+  }
+}
+
+mutation DeleteComment($id: String!) {
+  deleteComment(id: $id) {
+    status
+    message
+    data {
+      id
+      content
+      postId
+      authorId
+      createdAt
+      updatedAt
+    }
+  }
+}
+mutation CreateComment($content: String!, $postId: String!, $userId: String!) {
+  createComment(content: $content, postId: $postId, userId: $userId) {
+    status
+    message
+    data {
+      id
+      content
+      postId
+      author {
+        id
+        email
+        fName
+        lName
+        isActive
+        profile
+        bio
+        coverPicture
+      }
+      authorId
+      likes {
+        commentId
+        userId
+        user {
+          id
+          email
+          fName
+          lName
+          isActive
+          profile
+          bio
+          coverPicture
+        }
+      }
+      createdAt
+      updatedAt
+      replies {
+        reply {
+          id
+          content
+          postId
+          authorId
+          createdAt
+          updatedAt
+        }
+        replyId
+      }
+    }
+  }
+}

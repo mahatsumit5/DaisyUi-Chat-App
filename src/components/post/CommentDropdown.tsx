@@ -1,19 +1,18 @@
 import React from "react"
 import { FiMoreVertical } from "react-icons/fi"
-import { IComment } from "../../types"
 import { useDeleteCommentMutation } from "../../redux/api"
 import LoadingButton from "../loading/LoadingButton"
+import { Comment as C } from "../../types/types"
 
 const CommentDropdown: React.FC<{
-  Comment: IComment
-  handleOnEdit: (comment: IComment) => void
+  Comment: C
+  handleOnEdit: (c) => void
 }> = ({ Comment, handleOnEdit }) => {
   const [deleteComment, { isLoading }] = useDeleteCommentMutation()
 
   async function handleDeleteComment() {
     await deleteComment({
-      commentId: Comment.id,
-      postId: Comment.postId,
+      id: Comment.id,
     }).unwrap()
   }
   return (
@@ -32,7 +31,7 @@ const CommentDropdown: React.FC<{
               handleOnEdit(Comment)
             }}
           >
-            Edit{" "}
+            Edit
           </button>
         </li>
         <li>

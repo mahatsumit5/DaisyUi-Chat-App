@@ -12,6 +12,7 @@ import { setOnlineUsers } from "../redux/reducer/AllUsers.slice"
 import { Message, User } from "../types/types"
 import { notification } from "../utils/notification"
 import { messageGraphqlApi } from "../graphql/api/messageGraphql.api"
+import { chatRoomGraphqlApi } from "../graphql/api/chatRoomGraphql.api"
 
 function Privatelayout({ children }: { children: React.ReactNode }) {
   const location = useLocation()
@@ -30,7 +31,7 @@ function Privatelayout({ children }: { children: React.ReactNode }) {
       //     type: "request",
       //   })
       // )
-      console.log(newMessge.chatRoomId)
+      console.log(newMessge)
       notification.play()
       dispatch(
         messageGraphqlApi.util.updateQueryData(
@@ -47,6 +48,8 @@ function Privatelayout({ children }: { children: React.ReactNode }) {
           })
         )
       )
+
+      // dispatch(chatRoomGraphqlApi.util.invalidateTags(["ChatRoom"]))
     },
     onError(error) {
       console.log("error", error)
