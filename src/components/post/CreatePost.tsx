@@ -32,7 +32,9 @@ const CreatePost = () => {
   }
   async function handleCreatePost(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    console.log(images)
     const data = await uploadImage({ images }).unwrap()
+    console.log(data)
     await createPost({
       body: {
         ...form,
