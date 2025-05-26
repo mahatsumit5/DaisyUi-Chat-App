@@ -5,7 +5,7 @@ import { GraphQLClient } from "graphql-request" // Import type definitions from 
 import { Mutex } from "async-mutex"
 const apiUrl = import.meta.env.VITE_ROOTSERVER
 const HEADER_TYPE_APPLICATION_FORM = "application/x-www-form-urlencoded"
-export const client: any = new GraphQLClient(apiUrl)
+export const client: any = new GraphQLClient(`${apiUrl}/graphql`)
 const mutex = new Mutex()
 const authBaseQuery = fetchBaseQuery({
   baseUrl: apiUrl,

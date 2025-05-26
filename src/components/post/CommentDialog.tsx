@@ -9,13 +9,12 @@ import {
   useLikeCommentMutation,
   useUnlikeCommentMutation,
 } from "../../redux/api"
-import { IComment } from "../../types"
 import { dateConverter, extractInitial } from "../../utils"
 import { LuHeart } from "react-icons/lu"
 import { Avatar } from "../Avatar/Avatar"
 import CommentDropdown from "./CommentDropdown"
 import { RiHeartFill } from "react-icons/ri"
-import { User } from "../../types/types"
+import { PostComment, User } from "../../types/types"
 const variants = {
   open: { opacity: 1, height: "auto", display: "block" },
   closed: { opacity: 0, height: 0, display: "hidden" },
@@ -69,12 +68,12 @@ const CommentDialog = ({
     }
   }
 
-  const handleOnEdit = (comment: IComment) => {
-    console.log(comment)
+  const handleOnEdit = (comment: PostComment) => {
     inputRef.current?.focus()
     if (inputRef.current?.value) {
       inputRef.current.value = comment.content
     }
+    return comment
   }
   return postId ? (
     <motion.div
@@ -147,7 +146,7 @@ const CommentDialog = ({
                   )}
                   {comment.authorId === user?.id && (
                     <CommentDropdown
-                      Comment={comment}
+                      Comment={comment as PostComment}
                       handleOnEdit={handleOnEdit}
                     />
                   )}

@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/hook"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { IPost, IUser } from "../types"
-import { GetAllPostArgs, InputMaybe, Order } from "../types/types"
+import { Order } from "../types/types"
 import { setCurrentPage, Type } from "../redux/reducer/pagination.slice"
 import useInfiniteScroll from "../hooks/useInfiniteScroll.hook"
 const Home = () => {
@@ -34,18 +34,30 @@ const Home = () => {
   //   }
   // )
 
+  // const {
+  //   data: posts,
+  //   isError,
+  //   isFetching: fetchingPost,
+  // } = useInfiniteScroll<InputMaybe<GetAllPostArgs>>(
+  //   post.currentPage,
+  //   useGetAllPostsQuery,
+  //   {
+  //     args: { page: post.currentPage, take: 10 },
+  //   },
+  //   { refetchOnMountOrArgChange: true, refetchOnReconnect: true }
+  //   )
+
   const {
     data: posts,
     isError,
     isFetching: fetchingPost,
-  } = useInfiniteScroll<InputMaybe<GetAllPostArgs>>(
-    post.currentPage,
-    useGetAllPostsQuery,
-    {
-      args: { page: post.currentPage, take: 10 },
+  } = useGetAllPostsQuery({
+    args: {
+      page: post.currentPage,
+      take: 10,
     },
-    { refetchOnMountOrArgChange: true, refetchOnReconnect: true }
-  )
+  })
+
   const {
     isLoading,
     isError: usersError,
@@ -59,16 +71,16 @@ const Home = () => {
     },
   })
 
-  // const {
-  //   isError: friendError,
-  //   isLoading: friendLoading,
-  //   data: friends,
-  // } = useGetListOfFriendsQuery()
   const {
-    data: friends,
     isError: friendError,
-    isFetching: friendLoading,
-  } = useInfiniteScroll<{ [key: string]: never }>(2, useGetListOfFriendsQuery)
+    isLoading: friendLoading,
+    data: friends,
+  } = useGetListOfFriendsQuery()
+  // const {
+  //   data: friends,
+  //   isError: friendError,
+  //   isFetching: friendLoading,
+  // } = useInfiniteScroll<{ [key: string]: never }>(2, useGetListOfFriendsQuery)
   useEffect(() => {
     const handlOnResize = () => {
       const newPosition = (window.innerWidth - 1280) / 2

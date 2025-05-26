@@ -6,14 +6,14 @@ export type GetCommentsQueryVariables = Types.Exact<{
 }>;
 
 
-export type GetCommentsQuery = { __typename?: 'Query', getComments: { __typename?: 'GetCommentResponse', status: boolean, message: string, count?: number | null, data: Array<{ __typename?: 'Comment', id: string, content: string, postId: string, authorId: string, createdAt: string, updatedAt: string, author: { __typename?: 'User', id: string, email: string, fName: string, lName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null }, likes: Array<{ __typename?: 'CommentLikes', commentId: string, userId: string, user: { __typename?: 'User', id: string, email: string, fName: string, lName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null } }>, replies: Array<{ __typename?: 'CommentReply', replyId: string, reply: { __typename?: 'Comment', id: string, content: string, postId: string, authorId: string, createdAt: string, updatedAt: string } }> }> } };
+export type GetCommentsQuery = { __typename?: 'Query', getComments: { __typename?: 'GetCommentResponse', status: boolean, message: string, count?: number | null, data: Array<{ __typename?: 'PostComment', id: string, content: string, postId: string, authorId: string, createdAt: string, updatedAt: string, author: { __typename?: 'User', id: string, email: string, fName: string, lName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null }, likes: Array<{ __typename?: 'CommentLikes', commentId: string, userId: string, user: { __typename?: 'User', id: string, email: string, fName: string, lName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null } }>, replies: Array<{ __typename?: 'CommentReply', replyId: string, reply: { __typename?: 'PostComment', id: string, content: string, postId: string, authorId: string, createdAt: string, updatedAt: string } }> }> } };
 
 export type DeleteCommentMutationVariables = Types.Exact<{
   id: Types.Scalars['String']['input'];
 }>;
 
 
-export type DeleteCommentMutation = { __typename?: 'Mutation', deleteComment: { __typename?: 'DeleteCommentResponse', status: boolean, message: string, data?: { __typename?: 'Comment', id: string, content: string, postId: string, authorId: string, createdAt: string, updatedAt: string } | null } };
+export type DeleteCommentMutation = { __typename?: 'Mutation', deleteComment: { __typename?: 'DeleteCommentResponse', status: boolean, message: string, data?: { __typename?: 'PostComment', id: string, content: string, postId: string, authorId: string, createdAt: string, updatedAt: string } | null } };
 
 export type CreateCommentMutationVariables = Types.Exact<{
   content: Types.Scalars['String']['input'];
@@ -22,7 +22,7 @@ export type CreateCommentMutationVariables = Types.Exact<{
 }>;
 
 
-export type CreateCommentMutation = { __typename?: 'Mutation', createComment: { __typename?: 'PostCommentResponse', status: boolean, message: string, data?: { __typename?: 'Comment', id: string, content: string, postId: string, authorId: string, createdAt: string, updatedAt: string, author: { __typename?: 'User', id: string, email: string, fName: string, lName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null }, likes: Array<{ __typename?: 'CommentLikes', commentId: string, userId: string, user: { __typename?: 'User', id: string, email: string, fName: string, lName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null } }>, replies: Array<{ __typename?: 'CommentReply', replyId: string, reply: { __typename?: 'Comment', id: string, content: string, postId: string, authorId: string, createdAt: string, updatedAt: string } }> } | null } };
+export type CreateCommentMutation = { __typename?: 'Mutation', createComment: { __typename?: 'PostCommentResponse', status: boolean, message: string, data?: { __typename?: 'PostComment', id: string, content: string, postId: string, authorId: string, createdAt: string, updatedAt: string, author: { __typename?: 'User', id: string, email: string, fName: string, lName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null }, likes: Array<{ __typename?: 'CommentLikes', commentId: string, userId: string, user: { __typename?: 'User', id: string, email: string, fName: string, lName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null } }>, replies: Array<{ __typename?: 'CommentReply', replyId: string, reply: { __typename?: 'PostComment', id: string, content: string, postId: string, authorId: string, createdAt: string, updatedAt: string } }> } | null } };
 
 
 export const GetCommentsDocument = `

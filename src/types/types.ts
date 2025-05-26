@@ -37,19 +37,6 @@ export type ChatRoom = {
   userId: Scalars['String']['output'];
 };
 
-export type Comment = {
-  __typename?: 'Comment';
-  author: User;
-  authorId: Scalars['String']['output'];
-  content: Scalars['String']['output'];
-  createdAt: Scalars['String']['output'];
-  id: Scalars['ID']['output'];
-  likes: Array<CommentLikes>;
-  postId: Scalars['String']['output'];
-  replies: Array<CommentReply>;
-  updatedAt: Scalars['String']['output'];
-};
-
 export type CommentLikes = {
   __typename?: 'CommentLikes';
   commentId: Scalars['String']['output'];
@@ -59,7 +46,7 @@ export type CommentLikes = {
 
 export type CommentReply = {
   __typename?: 'CommentReply';
-  reply: Comment;
+  reply: PostComment;
   replyId: Scalars['String']['output'];
 };
 
@@ -72,13 +59,13 @@ export type CreateChatRoomResponse = {
 
 export type DeleteCommentResponse = {
   __typename?: 'DeleteCommentResponse';
-  data?: Maybe<Comment>;
+  data?: Maybe<PostComment>;
   message: Scalars['String']['output'];
   status: Scalars['Boolean']['output'];
 };
 
-export type File = {
-  __typename?: 'File';
+export type FileType = {
+  __typename?: 'FileType';
   encoding: Scalars['String']['output'];
   fileName: Scalars['String']['output'];
   mimeType: Scalars['String']['output'];
@@ -132,7 +119,7 @@ export type GetChatRoomResponse = {
 export type GetCommentResponse = {
   __typename?: 'GetCommentResponse';
   count?: Maybe<Scalars['Int']['output']>;
-  data: Array<Comment>;
+  data: Array<PostComment>;
   message: Scalars['String']['output'];
   status: Scalars['Boolean']['output'];
 };
@@ -202,7 +189,7 @@ export type Mutation = {
   sendRequest?: Maybe<SentRequestResponse>;
   unlikeComment: Scalars['Boolean']['output'];
   unlikePost: UnlikePostResponse;
-  updateComment: Comment;
+  updateComment: PostComment;
   updatePost?: Maybe<UploadAPostResponse>;
   updateUser?: Maybe<UpdateUserResponse>;
   uploadPost: UploadAPostResponse;
@@ -327,9 +314,22 @@ export type Post = {
   updatedAt: Scalars['String']['output'];
 };
 
+export type PostComment = {
+  __typename?: 'PostComment';
+  author: User;
+  authorId: Scalars['String']['output'];
+  content: Scalars['String']['output'];
+  createdAt: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  likes: Array<CommentLikes>;
+  postId: Scalars['String']['output'];
+  replies: Array<CommentReply>;
+  updatedAt: Scalars['String']['output'];
+};
+
 export type PostCommentResponse = {
   __typename?: 'PostCommentResponse';
-  data?: Maybe<Comment>;
+  data?: Maybe<PostComment>;
   message: Scalars['String']['output'];
   status: Scalars['Boolean']['output'];
 };
@@ -358,7 +358,7 @@ export type Query = {
   getAllChatRooms: GetChatRoomResponse;
   getAllPosts?: Maybe<GetAllPostResponse>;
   getChatRoomById: ChatRoom;
-  getComment: Comment;
+  getComment: PostComment;
   getComments: GetCommentResponse;
   /** Get all incoming request */
   getFriendRequest?: Maybe<FriendRequestResponse>;
@@ -538,14 +538,14 @@ export type GetCommentsQueryVariables = Exact<{
 }>;
 
 
-export type GetCommentsQuery = { __typename?: 'Query', getComments: { __typename?: 'GetCommentResponse', status: boolean, message: string, count?: number | null, data: Array<{ __typename?: 'Comment', id: string, content: string, postId: string, authorId: string, createdAt: string, updatedAt: string, author: { __typename?: 'User', id: string, email: string, fName: string, lName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null }, likes: Array<{ __typename?: 'CommentLikes', commentId: string, userId: string, user: { __typename?: 'User', id: string, email: string, fName: string, lName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null } }>, replies: Array<{ __typename?: 'CommentReply', replyId: string, reply: { __typename?: 'Comment', id: string, content: string, postId: string, authorId: string, createdAt: string, updatedAt: string } }> }> } };
+export type GetCommentsQuery = { __typename?: 'Query', getComments: { __typename?: 'GetCommentResponse', status: boolean, message: string, count?: number | null, data: Array<{ __typename?: 'PostComment', id: string, content: string, postId: string, authorId: string, createdAt: string, updatedAt: string, author: { __typename?: 'User', id: string, email: string, fName: string, lName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null }, likes: Array<{ __typename?: 'CommentLikes', commentId: string, userId: string, user: { __typename?: 'User', id: string, email: string, fName: string, lName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null } }>, replies: Array<{ __typename?: 'CommentReply', replyId: string, reply: { __typename?: 'PostComment', id: string, content: string, postId: string, authorId: string, createdAt: string, updatedAt: string } }> }> } };
 
 export type DeleteCommentMutationVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
 
 
-export type DeleteCommentMutation = { __typename?: 'Mutation', deleteComment: { __typename?: 'DeleteCommentResponse', status: boolean, message: string, data?: { __typename?: 'Comment', id: string, content: string, postId: string, authorId: string, createdAt: string, updatedAt: string } | null } };
+export type DeleteCommentMutation = { __typename?: 'Mutation', deleteComment: { __typename?: 'DeleteCommentResponse', status: boolean, message: string, data?: { __typename?: 'PostComment', id: string, content: string, postId: string, authorId: string, createdAt: string, updatedAt: string } | null } };
 
 export type CreateCommentMutationVariables = Exact<{
   content: Scalars['String']['input'];
@@ -554,7 +554,7 @@ export type CreateCommentMutationVariables = Exact<{
 }>;
 
 
-export type CreateCommentMutation = { __typename?: 'Mutation', createComment: { __typename?: 'PostCommentResponse', status: boolean, message: string, data?: { __typename?: 'Comment', id: string, content: string, postId: string, authorId: string, createdAt: string, updatedAt: string, author: { __typename?: 'User', id: string, email: string, fName: string, lName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null }, likes: Array<{ __typename?: 'CommentLikes', commentId: string, userId: string, user: { __typename?: 'User', id: string, email: string, fName: string, lName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null } }>, replies: Array<{ __typename?: 'CommentReply', replyId: string, reply: { __typename?: 'Comment', id: string, content: string, postId: string, authorId: string, createdAt: string, updatedAt: string } }> } | null } };
+export type CreateCommentMutation = { __typename?: 'Mutation', createComment: { __typename?: 'PostCommentResponse', status: boolean, message: string, data?: { __typename?: 'PostComment', id: string, content: string, postId: string, authorId: string, createdAt: string, updatedAt: string, author: { __typename?: 'User', id: string, email: string, fName: string, lName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null }, likes: Array<{ __typename?: 'CommentLikes', commentId: string, userId: string, user: { __typename?: 'User', id: string, email: string, fName: string, lName: string, isActive: boolean, profile?: string | null, bio?: string | null, coverPicture?: string | null } }>, replies: Array<{ __typename?: 'CommentReply', replyId: string, reply: { __typename?: 'PostComment', id: string, content: string, postId: string, authorId: string, createdAt: string, updatedAt: string } }> } | null } };
 
 export type SendMessageMutationVariables = Exact<{
   content: Scalars['String']['input'];
