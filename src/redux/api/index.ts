@@ -39,7 +39,6 @@ export const {
   useLogoutUserMutation,
 
   useGetLoggedInUserQuery,
-  useSignUpUserMutation,
   useGetNewAccessJWTMutation,
   useChangePasswordMutation,
   useUploadImageMutation,
@@ -54,7 +53,7 @@ export const {
   useUploadFileMutation,
 } = postApi
 
-export const { useLoginMutation } = userEnhancedApi
+export const { useLoginMutation, useSignUpUserMutation } = userEnhancedApi
 export const {
   useLoggedInUserQuery,
   useLogoutMutation,

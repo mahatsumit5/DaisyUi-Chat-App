@@ -11,7 +11,7 @@ export function SignUp() {
     fName: "",
     email: "",
     password: "",
-    ConfirmPassword: "",
+    confirmPassword: "",
     lName: "",
   })
   function onChange(e: FormEvent<HTMLInputElement>) {
@@ -20,10 +20,12 @@ export function SignUp() {
   }
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
-    const { ConfirmPassword, ...rest } = form
-    if (ConfirmPassword !== rest.password) {
+    console.log(form)
+    const { confirmPassword, ...rest } = form
+    if (confirmPassword != rest.password) {
       window.alert("Password do not match")
     }
+    console.log("passwordd", rest.password)
     const { status } = await signup(rest).unwrap()
     status && navigate("/")
   }
@@ -80,7 +82,7 @@ export function SignUp() {
               type="text"
               className="rounded-lg w-full bg-primary/70 p-2 text-primary-content placeholder:text-primary-content"
               placeholder="Confirm Password"
-              name="ConfirmPassword"
+              name="confirmPassword"
               onChange={onChange}
             />
             <button className="btn btn-secondary btn-md " type="submit">
