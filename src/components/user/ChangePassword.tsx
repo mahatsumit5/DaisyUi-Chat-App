@@ -2,7 +2,7 @@ import { FormEvent, useState } from "react"
 import { IoLockClosed } from "react-icons/io5"
 import { useAppDispatch } from "../../hooks/hook"
 import { toggleDialog } from "../../redux/reducer/dialog.slice"
-import LoadingButton from "../loading/LoadingButton"
+import LoadingButton from "../loadingButton/LoadingButton"
 import { useUpdateUserMutation } from "../../redux/api"
 
 const ChangePassword = () => {
@@ -75,13 +75,17 @@ const ChangePassword = () => {
             />
           </label>
         </div>
-        <button
-          className="btn w-full btn-sm btn-primary disabled:bg-primary-"
-          type="submit"
-          disabled={!passwords.newPassword}
-        >
-          {isLoading ? <LoadingButton /> : "Save"}
-        </button>
+
+        <LoadingButton
+          type={"submit"}
+          handleOnClick={() => {}}
+          isLoading={isLoading}
+          loadingText="Please wait..."
+          className="btn w-full btn-sm btn-primary  text-base flex justify-center"
+          displayText="Save"
+          key={"UpdatePassword"}
+          disabled={!passwords.newPassword || isLoading}
+        />
       </form>
     </div>
   )

@@ -6,8 +6,8 @@ import { useAppSelector } from "../hooks/hook"
 import { useLoginMutation } from "../redux/api"
 import { users } from "../dummy_data"
 import icon from "../assets/images/icon.png"
-import { LoadingButton } from "../components"
 import { useAuth0 } from "@auth0/auth0-react"
+import LoadingButton from "../components/loadingButton/LoadingButton"
 
 const randomUserLogin = users.map(item => {
   return { email: item.email, password: item.password }
@@ -113,13 +113,16 @@ export function SignIn() {
           Forgot Password?
         </a>
 
-        <button
+        <LoadingButton
+          type={"submit"}
+          handleOnClick={() => {}}
+          isLoading={isLoading}
+          loadingText="Please wait..."
           className="bg-primary text-primary-content  py-2 px-4 rounded-lg hover:bg-primary/75 font-bold flex items-center justify-center disabled:cursor-not-allowed disabled:bg-primary/50"
-          type="submit"
-          disabled={!form.email || !form.password}
-        >
-          {isLoading ? <LoadingButton /> : "Login"}
-        </button>
+          displayText="Login"
+          key={"Login"}
+          disabled={isLoading}
+        />
         {isError && <p>Something went wrong</p>}
       </form>
       <span className=" font-bold text-xl md:text-4xl">New here?</span>

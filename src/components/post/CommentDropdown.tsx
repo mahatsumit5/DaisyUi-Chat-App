@@ -1,7 +1,7 @@
 import React from "react"
 import { FiMoreVertical } from "react-icons/fi"
 import { useDeleteCommentMutation } from "../../redux/api"
-import LoadingButton from "../loading/LoadingButton"
+import LoadingButton from "../loadingButton/LoadingButton"
 import { PostComment } from "../../types/types"
 
 const CommentDropdown = ({
@@ -38,13 +38,25 @@ const CommentDropdown = ({
           </button>
         </li>
         <li>
-          <button
+          {/* <button
             className="btn btn-sm"
             disabled={isLoading}
             onClick={handleDeleteComment}
           >
             {isLoading ? <LoadingButton /> : "Delete"}
-          </button>
+          </button> */}
+          <LoadingButton
+            type={"button"}
+            handleOnClick={() => {
+              handleDeleteComment()
+            }}
+            isLoading={isLoading}
+            loadingText="Please wait..."
+            className="btn-square btn-primary w-28 text-base flex justify-center"
+            displayText="Upload"
+            key={"UploadPost"}
+            disabled={isLoading}
+          />
         </li>
       </ul>
     </div>

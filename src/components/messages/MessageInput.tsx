@@ -2,7 +2,7 @@ import { PiTelegramLogoFill } from "react-icons/pi"
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import { useAppDispatch, useAppSelector } from "../../hooks/hook"
 import { CiImageOn } from "react-icons/ci"
-import LoadingButton from "../loading/LoadingButton"
+import LoadingButton from "../loadingButton/LoadingButton"
 import useMessageHook from "../../hooks/useMessage.hook"
 import { RxCross1 } from "react-icons/rx"
 import { motion } from "framer-motion"
@@ -89,19 +89,17 @@ function MessageInput({
             {String.fromCodePoint(0x1f60a)}
           </button>
           <div className="flex-1 text-end">
-            <button
-              className="btn btn-primary btn-square btn-sm  text-primary-content btn-outline disabled:btn-disabled"
+            <LoadingButton
+              type={"submit"}
+              handleOnClick={() => {}}
+              isLoading={isLoading}
+              loadingText="Please wait..."
+              className="btn-square btn-primary w-28 text-base flex justify-center text-wrap"
+              displayText="Send"
+              key={"SendMessage"}
               disabled={isLoading || (!message && !file)}
-              type="submit"
-            >
-              {isLoading ? (
-                <LoadingButton />
-              ) : (
-                <>
-                  <PiTelegramLogoFill className="" size={16} />
-                </>
-              )}
-            </button>
+              displayJSX={<PiTelegramLogoFill className="" size={16} />}
+            />
           </div>
         </div>
 

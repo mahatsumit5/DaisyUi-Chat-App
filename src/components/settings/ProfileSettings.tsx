@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react"
 import { useUpdateUserMutation, useUploadFileMutation } from "../../redux/api"
-import LoadingButton from "../loading/LoadingButton"
+import LoadingButton from "../loadingButton/LoadingButton"
 import { IoIosAddCircle } from "react-icons/io"
 import { useAppSelector } from "../../hooks/hook"
 import ChangePassword from "../user/ChangePassword"
@@ -60,7 +60,7 @@ const ProfileSettings = () => {
           </label>
 
           <div className="w-full">
-            <button
+            {/* <button
               className="btn btn-md btn-primary w-full"
               onClick={handleUpload}
               disabled={!file}
@@ -72,7 +72,17 @@ const ProfileSettings = () => {
               ) : (
                 <>Upload</>
               )}
-            </button>
+            </button> */}
+            <LoadingButton
+              type={"button"}
+              handleOnClick={handleUpload}
+              isLoading={isLoading}
+              loadingText="Please wait..."
+              className="btn-sm btn-primary w-full text-base flex justify-center"
+              displayText="Upload"
+              key={"UpdateProfile"}
+              disabled={isLoading}
+            />
           </div>
         </div>
       </div>
