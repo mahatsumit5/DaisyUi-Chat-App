@@ -16,6 +16,7 @@ import { setQueryType } from "../../redux/reducer/search.slice"
 import { Avatar } from "../Avatar/Avatar"
 import { extractInitial } from "../../utils"
 import { User } from "../../types/types"
+import LoadingButton from "../loadingButton/LoadingButton"
 
 type keys = "peoples" | "friends" | "request" | "SentRequest"
 
@@ -86,28 +87,34 @@ const Friends = ({ user }: { user: IChatRoom }) => {
 }
 
 const AllPeoples = ({ user }: { user: IChatRoom }) => {
-  const [sendFriendRequest] = useSendFriendRequestMutation()
+  const [sendFriendRequest, { isLoading }] = useSendFriendRequestMutation()
   function handleAddFriend(id: string) {
     sendFriendRequest({ toId: id }).unwrap()
   }
 
   return (
     <div className="flex justify-end md:justify-center w-full">
-      <button
-        className="  btn btn-sm  btn-primary"
-        onClick={() => {
+      <LoadingButton
+        className="btn btn-sm btn-primary items-center"
+        handleOnClick={() => {
           handleAddFriend(user.id)
         }}
-      >
-        Add <IoIosPersonAdd size={15} className="text-primary-content" />
-      </button>
+        isLoading={isLoading}
+        loadingText="Adding..."
+        displayJSX={
+          <IoIosPersonAdd size={15} className="text-primary-content" />
+        }
+        displayText="Add"
+        key={"People"}
+      />
     </div>
   )
 }
 
 const FriendReq = ({ user }: { user: IUser }) => {
-  const [acceptFriendReq] = useAcceptFriendRequestMutation()
-  const [deleteSentRequest] = useDeleteSentRequestMutation()
+  const [acceptFriendReq, { isLoading }] = useAcceptFriendRequestMutation()
+  const [deleteSentRequest, { isLoading: loading }] =
+    useDeleteSentRequestMutation()
   const loggedInUser = useAppSelector(store => store.user)
   async function acceptReqHandler(from: string) {
     await acceptFriendReq({
@@ -117,17 +124,21 @@ const FriendReq = ({ user }: { user: IUser }) => {
   }
   return (
     <div className="flex  justify-end md:justify-center w-full gap-2">
-      <button
-        className="btn btn-sm btn-circle btn-success"
-        onClick={() => {
+      <LoadingButton
+        className=" btn-circle btn-success"
+        handleOnClick={() => {
           acceptReqHandler(user.id)
         }}
-      >
-        <TiTick size={30} />
-      </button>
-      <button
-        className="btn btn-sm btn-circle btn-error  items-center "
-        onClick={() => {
+        isLoading={isLoading}
+        loadingText=""
+        displayJSX={<TiTick size={25} />}
+        displayText=""
+        key={"People"}
+      />
+
+      <LoadingButton
+        className=" btn-circle btn-error "
+        handleOnClick={() => {
           deleteSentRequest({
             fromId: user.id,
             toId: loggedInUser.user?.id as string,
@@ -135,14 +146,17 @@ const FriendReq = ({ user }: { user: IUser }) => {
             type: "received",
           })
         }}
-      >
-        <TiDelete size={30} className="text-white" />
-      </button>
+        isLoading={loading}
+        loadingText=""
+        displayJSX={<TiDelete size={25} className="text-white" />}
+        displayText=""
+        key={"People"}
+      />
     </div>
   )
 }
 const SentRequest = ({ user }: { user: User }) => {
-  const [deleteSentRequest] = useDeleteFriendReqMutation()
+  const [deleteSentRequest, { isLoading }] = useDeleteFriendReqMutation()
   const loggedInUser = useAppSelector(store => store.user)
 
   async function handleCancelReq(to: string) {
@@ -153,14 +167,17 @@ const SentRequest = ({ user }: { user: User }) => {
   }
   return (
     <div className="flex w-full justify-end md:justify-center">
-      <button
-        className="btn text-error-content btn-error btn-sm"
-        onClick={() => {
+      <LoadingButton
+        className=" text-error-content btn-error items-center"
+        handleOnClick={() => {
           handleCancelReq(user.id)
         }}
-      >
-        Cancel <AiFillDelete size={15} className="text-error-content" />
-      </button>
+        isLoading={isLoading}
+        loadingText="Please wait..."
+        displayJSX={<AiFillDelete size={15} className="text-error-content" />}
+        displayText="Delete"
+        key={"People"}
+      />
     </div>
   )
 }

@@ -12,7 +12,6 @@ import { setOnlineUsers } from "../redux/reducer/AllUsers.slice"
 import { Message, User } from "../types/types"
 import { notification } from "../utils/notification"
 import { messageGraphqlApi } from "../graphql/api/messageGraphql.api"
-import { chatRoomGraphqlApi } from "../graphql/api/chatRoomGraphql.api"
 
 function Privatelayout({ children }: { children: React.ReactNode }) {
   const location = useLocation()

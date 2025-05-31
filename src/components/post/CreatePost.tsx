@@ -4,11 +4,11 @@ import { ChangeEvent, FormEvent, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { FcAddImage, FcImageFile } from "react-icons/fc"
 import { useCreatePostMutation, useUploadFileMutation } from "../../redux/api"
-import LoadingButton from "../loading/LoadingButton"
 import { MdOutlineCreate } from "react-icons/md"
 import { TiDelete } from "react-icons/ti"
 import { Avatar } from "../Avatar/Avatar"
 import { extractInitial } from "../../utils"
+import LoadingButton from "../loadingButton/LoadingButton"
 
 const CreatePost = () => {
   const [uploadImage, { isLoading: isUploadingImages }] =
@@ -36,7 +36,6 @@ const CreatePost = () => {
     if (images.length) {
       data = await uploadImage({ images }).unwrap()
     }
-    console.log(data)
     await createPost({
       body: {
         ...form,
@@ -124,15 +123,27 @@ const CreatePost = () => {
           <FcAddImage size={35} />
         </label>
 
-        <button
+        {/* <button
           className="btn btn-square btn-primary w-28 text-lg"
           type="submit"
           disabled={
             !form.title || isUploadingImages || isLoading || !form.content
           }
         >
-          {isLoading || isUploadingImages ? <LoadingButton /> : "Post"}
-        </button>
+          {isLoading || isUploadingImages ? <></> : "Post"}
+        </button> */}
+        <LoadingButton
+          type={"submit"}
+          handleOnClick={() => {}}
+          isLoading={isLoading || isUploadingImages}
+          loadingText="Please wait..."
+          className="btn-square btn-primary w-28 text-base flex justify-center"
+          displayText="Upload"
+          key={"UploadPost"}
+          disabled={
+            !form.title || isUploadingImages || isLoading || !form.content
+          }
+        />
       </div>
 
       {/* Selected Images */}
