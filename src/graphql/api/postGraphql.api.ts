@@ -33,9 +33,7 @@ const postGraphqlApi = generatedApi.enhanceEndpoints({
           )
         }
       },
-      serializeQueryArgs: ({ endpointName }) => {
-        return endpointName
-      },
+
       merge: (cacheData, incomingData) => {
         // console.log("this is cache data", cacheData)
         // console.log("this is incoming data", incomingData)
@@ -60,6 +58,14 @@ const postGraphqlApi = generatedApi.enhanceEndpoints({
     },
     CreatePost: {
       invalidatesTags: ["Posts"],
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          await queryFulfilled
+          dispatch(postGraphqlApi.util.invalidateTags(["Posts"]))
+        } catch (error) {
+          console.log(error)
+        }
+      },
     },
     UpdatePost: {
       invalidatesTags: ["Posts"],

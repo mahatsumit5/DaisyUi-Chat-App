@@ -7,12 +7,14 @@ import { useLoginMutation } from "../redux/api"
 import { users } from "../dummy_data"
 import icon from "../assets/images/icon.png"
 import { LoadingButton } from "../components"
+import { useAuth0 } from "@auth0/auth0-react"
 
 const randomUserLogin = users.map(item => {
   return { email: item.email, password: item.password }
 })
 
 export function SignIn() {
+  const { loginWithRedirect } = useAuth0()
   const [passwordVisibility, setPasswordVisibility] = useState<
     "text" | "password"
   >("password")

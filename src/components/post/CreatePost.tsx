@@ -31,9 +31,11 @@ const CreatePost = () => {
     setImages(images.filter(item => item.name !== file.name))
   }
   async function handleCreatePost(e: FormEvent<HTMLFormElement>) {
+    let data: Array<string> = []
     e.preventDefault()
-    console.log(images)
-    const data = await uploadImage({ images }).unwrap()
+    if (images.length) {
+      data = await uploadImage({ images }).unwrap()
+    }
     console.log(data)
     await createPost({
       body: {
@@ -125,7 +127,9 @@ const CreatePost = () => {
         <button
           className="btn btn-square btn-primary w-28 text-lg"
           type="submit"
-          disabled={!form.title || isUploadingImages}
+          disabled={
+            !form.title || isUploadingImages || isLoading || !form.content
+          }
         >
           {isLoading || isUploadingImages ? <LoadingButton /> : "Post"}
         </button>
