@@ -24,7 +24,7 @@ const LoadingButton: React.FC<{
       className={`  btn  btn-sm ${className} `}
       onClick={handleOnClick}
       type={type}
-      disabled={isLoading || disabled}
+      disabled={disabled}
     >
       {isLoading ? (
         <>

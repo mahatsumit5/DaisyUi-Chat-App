@@ -15,6 +15,8 @@ import { Avatar } from "../Avatar/Avatar"
 import CommentDropdown from "./CommentDropdown"
 import { RiHeartFill } from "react-icons/ri"
 import { PostComment, User } from "../../types/types"
+import LoadingButton from "../loadingButton/LoadingButton"
+import CommentLoadingSkeleton from "../loading/CommentLoadingSkeleton"
 const variants = {
   open: { opacity: 1, height: "auto", display: "block" },
   closed: { opacity: 0, height: 0, display: "hidden" },
@@ -26,7 +28,7 @@ const CommentDialog = ({
   author: User
   postId: string
 }) => {
-  const [postComment] = useCreateCommentMutation()
+  const [postComment, { isLoading }] = useCreateCommentMutation()
   const [likeComment] = useLikeCommentMutation()
   const [unlikeComment] = useUnlikeCommentMutation()
 
@@ -35,7 +37,7 @@ const CommentDialog = ({
   const { isOpen, postId: id } = useAppSelector(store => store.comment)
   const { user } = useAppSelector(store => store.user)
 
-  const { data: comments } = useGetCommentsQuery(
+  const { data: comments, isFetching } = useGetCommentsQuery(
     { postId: id },
     { skip: !isOpen }
   )
@@ -95,84 +97,98 @@ const CommentDialog = ({
         </button>
       </div>
       {/* content */}
-
-      {comments?.getComments.data.length ? (
+      {isFetching ? (
         <div className="py-4  flex-1 flex flex-col gap-4">
-          {comments.getComments.data.map(comment => (
-            <div key={comment.id} className="flex flex-col gap-2 ">
-              {/* Comment header profile name time */}
-              <div className="flex gap-2 items-center justify-between">
-                {/* avatar */}
-                <Avatar
-                  initial={extractInitial(
-                    comment.author.fName,
-                    comment.author.lName
-                  )}
-                  url={comment.author.profile as string}
-                  classname="w-10"
-                />
-
-                <span>
-                  {/* name */}
-                  <p className="text-sm font-bold">
-                    {comment.author.fName} {comment.author.lName}
-                  </p>
-                  {/* time */}
-                  <p className="flex-1 text-xs">
-                    {dateConverter(comment.updatedAt)}
-                  </p>
-                </span>
-
-                {/*like update delete */}
-                <div className="flex gap-2 flex-1 justify-end">
-                  {comment.likes.find(({ userId }) => userId === user?.id) ? (
-                    <button
-                      className="btn btn-xs btn-circle"
-                      onClick={() => {
-                        handleLikeComment(comment.id, "unlike")
-                      }}
-                    >
-                      <RiHeartFill className="text-error" />
-                    </button>
-                  ) : (
-                    <button
-                      className="btn btn-xs btn-circle"
-                      onClick={() => {
-                        handleLikeComment(comment.id, "like")
-                      }}
-                    >
-                      <LuHeart />
-                    </button>
-                  )}
-                  {comment.authorId === user?.id && (
-                    <CommentDropdown
-                      Comment={comment as PostComment}
-                      handleOnEdit={handleOnEdit}
-                    />
-                  )}
-                </div>
-              </div>
-
-              {/* Content */}
-              <div className="ml-12 flex justify-between ">
-                <p className="text-sm">{comment.content}</p>
-                <p className="text-xs">{comment.likes.length} likes</p>
-              </div>
-              {/* Reply button */}
-              <div className="ml-8 flex justify-start">
-                <button className="btn btn-sm btn-link">Reply</button>
-              </div>
-            </div>
-          ))}
+          {Array(3)
+            .fill("")
+            .map(() => (
+              <CommentLoadingSkeleton />
+            ))}
         </div>
       ) : (
-        <div className="flex-1 flex items-center justify-center flex-col gap-3 h-40">
-          <p className="text-md font-semibold font-sans">No comments yet</p>
-          <p className="text-sm font-sans text-base-content">
-            Start a conversation
-          </p>
-        </div>
+        <>
+          {comments?.getComments.data.length ? (
+            <div className="py-4  flex-1 flex flex-col gap-4">
+              {comments.getComments.data.map(comment => (
+                <div key={comment.id} className="flex flex-col gap-2 ">
+                  {/* Comment header profile name time */}
+                  <div className="flex gap-2 items-center justify-between">
+                    {/* avatar */}
+                    <Avatar
+                      initial={extractInitial(
+                        comment.author.fName,
+                        comment.author.lName
+                      )}
+                      url={comment.author.profile as string}
+                      classname="w-10"
+                    />
+
+                    <span>
+                      {/* name */}
+                      <p className="text-sm font-bold">
+                        {comment.author.fName} {comment.author.lName}
+                      </p>
+                      {/* time */}
+                      <p className="flex-1 text-xs">
+                        {dateConverter(comment.updatedAt)}
+                      </p>
+                    </span>
+
+                    {/*like update delete */}
+                    <div className="flex gap-2 flex-1 justify-end">
+                      {comment.likes.find(
+                        ({ userId }) => userId === user?.id
+                      ) ? (
+                        <button
+                          className="btn btn-xs btn-circle"
+                          onClick={() => {
+                            handleLikeComment(comment.id, "unlike")
+                          }}
+                        >
+                          <RiHeartFill className="text-error" />
+                        </button>
+                      ) : (
+                        <button
+                          className="btn btn-xs btn-circle"
+                          onClick={() => {
+                            handleLikeComment(comment.id, "like")
+                          }}
+                        >
+                          <LuHeart />
+                        </button>
+                      )}
+                      {comment.authorId === user?.id && (
+                        <CommentDropdown
+                          Comment={comment as PostComment}
+                          handleOnEdit={handleOnEdit}
+                        />
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="ml-12 flex justify-between ">
+                    <p className="text-sm">{comment.content}</p>
+                    <p className="text-xs">{comment.likes.length} likes</p>
+                  </div>
+                  {/* Reply button */}
+                  <div className="ml-8 flex justify-start">
+                    <button className="btn btn-sm btn-link">Reply</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="flex-1 flex items-center justify-center flex-col gap-3 h-40">
+              <p className="text-md font-semibold font-sans">No comments yet</p>
+              <p className="text-sm font-sans text-base-content">
+                Start a conversation
+              </p>
+            </div>
+          )}
+        </>
       )}
+
       {/* Input Field */}
       <form
         className="flex gap-2 items-center"
@@ -191,7 +207,15 @@ const CommentDialog = ({
           name="comments"
           ref={inputRef}
         />
-        <button></button>
+        <LoadingButton
+          type={"submit"}
+          handleOnClick={() => {}}
+          isLoading={isLoading}
+          loadingText="Posting..."
+          className="btn-success btn-sm text-white text-xs"
+          displayText="Comment"
+          key={"UploadPost"}
+        />
       </form>
     </motion.div>
   ) : null

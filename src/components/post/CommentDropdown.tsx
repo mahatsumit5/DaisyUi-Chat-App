@@ -29,7 +29,7 @@ const CommentDropdown = ({
       >
         <li>
           <button
-            className="btn btn-sm"
+            className="btn btn-sm "
             onClick={() => {
               handleOnEdit(Comment)
             }}
@@ -51,9 +51,9 @@ const CommentDropdown = ({
               handleDeleteComment()
             }}
             isLoading={isLoading}
-            loadingText="Please wait..."
-            className="btn-square btn-primary w-28 text-base flex justify-center"
-            displayText="Upload"
+            loadingText="Deleting..."
+            className="btn-error"
+            displayText="Delete"
             key={"UploadPost"}
             disabled={isLoading}
           />
